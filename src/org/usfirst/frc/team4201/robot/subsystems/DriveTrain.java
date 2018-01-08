@@ -8,30 +8,33 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.commands.SplitArcadeDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class DriveTrain extends Subsystem {
 	
-	BaseMotorController[] driveMotors = {
-		new TalonSRX(RobotMap.driveTrainLeftFront),
-		new TalonSRX(RobotMap.driveTrainLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
-		new TalonSRX(RobotMap.driveTrainRightFront),
-		new TalonSRX(RobotMap.driveTrainRightRear)	// VictorSPX(RobotMap.driveTrainRightRear)
+	WPI_TalonSRX[] driveMotors = {
+		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
+		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
+		new WPI_TalonSRX(RobotMap.driveTrainRightFront),
+		new WPI_TalonSRX(RobotMap.driveTrainRightRear)	// VictorSPX(RobotMap.driveTrainRightRear)
 	};
 	
 	//RobotDrive robotDrive = new RobotDrive(driveMotors[0], driveMotors[1], driveMotors[2], driveMotors[3]);
-	
+	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0], driveMotors[2]);
 	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
 	
 	public DriveTrain(){
@@ -53,8 +56,8 @@ public class DriveTrain extends Subsystem {
 		}
 		
 		// Invert Left Motors
-		driveMotors[0].setInverted(true);
-		driveMotors[1].setInverted(true);
+		//driveMotors[0].setInverted(true);
+		//driveMotors[1].setInverted(true);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -63,26 +66,25 @@ public class DriveTrain extends Subsystem {
 		double leftPWM = throttle + angularPower;
 		double rightPWM = throttle - angularPower;
 		
-		if(leftPWM > 1.0){
-			rightPWM -= (leftPWM - 1.0);
-			leftPWM = 1;
-		} else if (leftPWM < -1.0){
-			rightPWM -= (leftPWM + 1);
-			leftPWM = -1.0;
-		} else if(rightPWM > 1.0){
+		if(rightPWM > 1.0){
 			leftPWM -= (rightPWM - 1.0);
-			rightPWM = 1;
-		} else if (rightPWM < -1.0){
-			leftPWM -= (rightPWM + 1);
-			rightPWM = -1.0;
-		}
+			rightPWM = 1.0;
+        } else if(rightPWM < -1.0){
+        	leftPWM += (-rightPWM - 1.0);
+        	rightPWM = -1.0;
+        } else if(leftPWM > 1.0){
+        	rightPWM -= (leftPWM - 1.0);
+        	leftPWM = 1.0;
+        } else if(leftPWM < -1.0){
+        	rightPWM += (-leftPWM - 1.0);
+        	leftPWM = -1.0;
+        }
 		
-		driveMotors[0].set(ControlMode.PercentOutput, leftPWM);
-		driveMotors[2].set(ControlMode.PercentOutput, rightPWM);
+		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new SplitArcadeDrive());
 	}
 }
