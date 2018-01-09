@@ -17,16 +17,19 @@ import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class DriveTrain extends Subsystem {
 	
-	WPI_TalonSRX[] driveMotors = {
+	BaseMotorController[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
 		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
 		new WPI_TalonSRX(RobotMap.driveTrainRightFront),
@@ -34,8 +37,11 @@ public class DriveTrain extends Subsystem {
 	};
 	
 	//RobotDrive robotDrive = new RobotDrive(driveMotors[0], driveMotors[1], driveMotors[2], driveMotors[3]);
-	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0], driveMotors[2]);
+	DifferentialDrive robotDrive = new DifferentialDrive((WPI_TalonSRX)driveMotors[0], (WPI_TalonSRX)driveMotors[2]);
+	
 	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
+	
+	public ADXRS450_Gyro spartanGyro;
 	
 	public DriveTrain(){
 		super("Drive Train");
@@ -58,6 +64,8 @@ public class DriveTrain extends Subsystem {
 		// Invert Left Motors
 		//driveMotors[0].setInverted(true);
 		//driveMotors[1].setInverted(true);
+		
+		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -81,6 +89,15 @@ public class DriveTrain extends Subsystem {
         }
 		
 		robotDrive.tankDrive(leftPWM, rightPWM);
+	}
+	
+	public void updateSmartDashboard(){
+		SmartDashboard.putNumber("Front Left Current", driveMotors[0].getOutputCurrent());
+		SmartDashboard.putNumber("Rear Left Current", driveMotors[1].getOutputCurrent());
+		SmartDashboard.putNumber("Front Right Current", driveMotors[2].getOutputCurrent());
+		SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
+
+		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 	}
 	
 	public void initDefaultCommand() {
