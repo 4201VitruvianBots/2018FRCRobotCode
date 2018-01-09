@@ -35,17 +35,16 @@ public class RobotMap {
 	public static final int PCMOne = 11;
 		public static final int driveTrainShifterForward = 0;
 		public static final int driveTrainShifterReverse = 1;
-		public static final int intakeDeployRight = 2;
-		public static final int intakeDeployLeft = 3;
+		public static final int intakeDeployLeft = 2;
+		public static final int intakeDeployRight = 3;
 	
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;
 	public static final int driveTrainLeftRear = 21;
 	public static final int driveTrainRightFront = 22;
 	public static final int driveTrainRightRear = 23;
-	
-	public static final int intakeRight = 24;
-	public static final int intakeLeft = 25;
+	public static final int intakeLeft = 24;
+	public static final int intakeRight = 25;
 	
 	// USB ADDRESSES
 	public static final int leftJoystick = 0;

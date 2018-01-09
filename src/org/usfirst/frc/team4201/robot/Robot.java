@@ -37,7 +37,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		intake = new Intake();
 		oi = new OI();
 		m_chooser.addDefault("Default Auto", new SplitArcadeDrive());
 		// chooser.addObject("My Auto", new MyAutoCommand());
