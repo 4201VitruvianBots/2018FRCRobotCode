@@ -14,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -27,7 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends Subsystem { 
 	
 	BaseMotorController[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
@@ -97,6 +96,10 @@ public class DriveTrain extends Subsystem {
 	
 	public void toggleQuickTurn(boolean QuickTurn) {
 		QuickTurn = !QuickTurn;
+	}
+	
+	public void setTankDrive(double leftSpeed, double rightSpeed){
+		robotDrive.tankDrive(leftSpeed, rightSpeed);
 	}
 	
 	public void updateSmartDashboard(){
