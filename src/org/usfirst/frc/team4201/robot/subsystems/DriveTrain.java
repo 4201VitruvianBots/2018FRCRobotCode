@@ -19,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -29,7 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends Subsystem { 
 	
-	BaseMotorController[] driveMotors = {
+	public BaseMotorController[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
 		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
 		new WPI_TalonSRX(RobotMap.driveTrainRightFront),
@@ -98,6 +99,18 @@ public class DriveTrain extends Subsystem {
 	
 	public void setTankDrive(double leftSpeed, double rightSpeed){
 		robotDrive.tankDrive(leftSpeed, rightSpeed);
+	}
+	
+	public void setDriveShiftHigh(){
+		driveTrainShifters.set(Value.kForward);
+	}
+	
+	public void setDriveShiftLow(){
+		driveTrainShifters.set(Value.kReverse);
+	}
+	
+	public boolean getDriveShiftStatus(){
+		return driveTrainShifters.get() == Value.kForward ? true : false;
 	}
 	
 	public void updateSmartDashboard(){

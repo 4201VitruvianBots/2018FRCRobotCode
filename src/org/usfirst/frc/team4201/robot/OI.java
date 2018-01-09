@@ -48,19 +48,19 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	public Joystick leftJoystick, rightJoystick;
-    public Button[] leftButtons = new Button[7];
-    public Button[] rightButtons = new Button[7];
+	public Joystick leftJoystick, rightJoystick, xBoxController;
+	public Button[] leftButtons = new Button[7];
+	public Button[] rightButtons = new Button[7];
 	public boolean isQuickTurn = true;
 
 	public OI(){
 		leftJoystick = new Joystick(RobotMap.leftJoystick);
 		rightJoystick = new Joystick(RobotMap.rightJoystick);
-		
-        for(int i = 0; i < leftButtons.length; i++)
-            leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
-        for(int i = 0; i < rightButtons.length; i++)
-            rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
+	
+		for(int i = 0; i < leftButtons.length; i++)
+			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
+		for(int i = 0; i < rightButtons.length; i++)
+			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
         
         leftButtons[0].whenPressed(new DeployIntakePistons());
         leftButtons[1].whileHeld(new enableIntakeMotors());

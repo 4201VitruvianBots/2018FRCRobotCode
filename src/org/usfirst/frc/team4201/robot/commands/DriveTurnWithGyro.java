@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,13 +12,13 @@ public class DriveTurnWithGyro extends PIDCommand{
     static double kD = 0;           	// Start with D = P * 10
     static double period = 0.01;
     
-    double throttle, setpoint, getAngle;
+    double throttle, setpoint;
     Timer stopwatch;
     boolean lock = false;
     
     public DriveTurnWithGyro(double speed, double angle){
-        super("DriveTurnWithGyroPID", kP, kI, kD, period);
-        getPIDController().setContinuous(true);
+        super("DriveTurnWithGyro", kP, kI, kD, period);
+        getPIDController().setContinuous();
         getPIDController().setAbsoluteTolerance(0.1);
         getPIDController().setOutputRange(-1, 1); // Is this okay, or does this need to be an angle to match gyro output?
         
@@ -28,14 +29,13 @@ public class DriveTurnWithGyro extends PIDCommand{
     @Override
     protected double returnPIDInput() {
         // TODO Auto-generated method stub
-    	getAngle = Robot.driveTrain.spartanGyro.getAngle();
-        return getAngle;
+    	return Robot.driveTrain.spartanGyro.getAngle();
     }
     
     @Override
     protected void usePIDOutput(double output) {
         // TODO Auto-generated method stub
-        SmartDashboard.putNumber("PID Output", output); // is this an angle value, or a percentage? Output may need to be negative
+        DriverStation.reportError("Using Output: " + output, false);
         Robot.driveTrain.setDriveOutput(throttle, output);
     }
     
@@ -49,37 +49,49 @@ public class DriveTurnWithGyro extends PIDCommand{
         kP = SmartDashboard.getNumber("kP", kP);
         kI = SmartDashboard.getNumber("kI", kI);
         kD = SmartDashboard.getNumber("kD", kD);
-        
+                
+        Robot.driveTrain.spartanGyro.reset();
         stopwatch = new Timer();
-        getPIDController().enable();
+
         getPIDController().setSetpoint(setpoint);
+        getPIDController().setEnabled(true);
+        DriverStation.reportError("Initialized", false);
+        
     }
-    
+   
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    }
-    @Override
-    protected boolean isFinished() {
+    	SmartDashboard.putNumber("PID Output", getPIDController().get());
+    	SmartDashboard.putNumber("Delta Setpoint", getPIDController().getDeltaSetpoint());
+    	SmartDashboard.putNumber("Setpoint", getPIDController().getSetpoint());
+    	SmartDashboard.putBoolean("On Target", getPIDController().onTarget());
+    	SmartDashboard.putBoolean("Enabled", getPIDController().isEnabled());
+
     	SmartDashboard.putNumber("Stopwatch", stopwatch.get());
     	SmartDashboard.putBoolean("Lock Value: ", lock);
     	
-    	if(Math.abs(setpoint - getAngle) < 0.1 && !lock) { // When you are in range && you are not locked
+        DriverStation.reportError("Updating Dashboard", false);
+    }
+    
+    
+    @Override
+    protected boolean isFinished() {
+    	if(getPIDController().onTarget() && !lock) { // When you are in range && you are not locked
     		stopwatch.start();
     		lock = true;
-    	} else if(Math.abs(setpoint - getAngle) >= 0.1 && lock){ // When you are outside of range && you are locked
+    	} else if(!getPIDController().onTarget() && lock){ // When you are outside of range && you are locked
     		stopwatch.stop();
     		stopwatch.reset();
     		lock = false;
     	}
     	
-    	boolean finished = stopwatch.get() > 1; 
-    	SmartDashboard.putBoolean("Finished Turn", finished);
-    	return finished;
+    	return stopwatch.get() > 1;  	
     }
     
     // Called once after isFinished returns true
     protected void end() {
         Robot.driveTrain.setDriveOutput(0, 0);
+        DriverStation.reportError("Routine Ended", false);
     }
     
     // Called when another command which requires one or more of the same
