@@ -7,8 +7,16 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import org.usfirst.frc.team4201.robot.commands.DeployIntakePistons;
+import org.usfirst.frc.team4201.robot.commands.RetractIntakePistons;
+import org.usfirst.frc.team4201.robot.commands.ReverseIntakeMotors;
+import org.usfirst.frc.team4201.robot.commands.ToggleQuickTurn;
+import org.usfirst.frc.team4201.robot.commands.enableIntakeMotors;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -44,10 +52,26 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	public Joystick leftJoystick, rightJoystick;
+    public Button[] leftButtons = new Button[7];
+    public Button[] rightButtons = new Button[7];
+	public boolean isQuickTurn = true;
 
 	public OI(){
 		leftJoystick = new Joystick(0);
 		rightJoystick = new Joystick(1);
+		
+        for(int i = 0; i < leftButtons.length; i++)
+            leftButtons[1] = new JoystickButton(leftJoystick, (i + 1));
+        for(int i = 0; i < rightButtons.length; i++)
+            rightButtons[1] = new JoystickButton(rightJoystick, (i + 1));
+        
+        leftButtons[0].whenPressed(new DeployIntakePistons());
+        leftButtons[1].whileHeld(new enableIntakeMotors());
+        
+        rightButtons[0].whenPressed(new RetractIntakePistons());
+        rightButtons[1].whileHeld(new ReverseIntakeMotors());
+		rightButtons[3].whenPressed(new ToggleQuickTurn());
+
 	}
 	
 	public double getLeftY(){
@@ -64,5 +88,7 @@ public class OI {
 	
 	public double getRightX(){
 		return rightJoystick.getX();
+		
 	}
+
 }

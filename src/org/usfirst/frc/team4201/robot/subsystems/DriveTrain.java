@@ -91,6 +91,14 @@ public class DriveTrain extends Subsystem {
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
 	
+	public void cheesyDrive(double xSpeed, double zRotation, boolean QuickTurn) {
+		robotDrive.curvatureDrive(xSpeed, zRotation, QuickTurn);
+	}
+	
+	public void toggleQuickTurn(boolean QuickTurn) {
+		QuickTurn = !QuickTurn;
+	}
+	
 	public void updateSmartDashboard(){
 		SmartDashboard.putNumber("Front Left Current", driveMotors[0].getOutputCurrent());
 		SmartDashboard.putNumber("Rear Left Current", driveMotors[1].getOutputCurrent());
