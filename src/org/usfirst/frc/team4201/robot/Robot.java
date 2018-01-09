@@ -30,6 +30,9 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 
 	Command m_autonomousCommand;
+	Command teleOpDrive;
+	SendableChooser<Command> autoModes = new SendableChooser<>();
+	SendableChooser<Command> driveMode = new SendableChooser<>();
 	SendableChooser<Command> autoModeChooser = new SendableChooser<>();
 
 	/**
@@ -42,6 +45,11 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addDefault("Default Auto", new AutoDriveStraightThenTurn());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
+		
+		driveMode.addDefault("Cheesy Drive", new CheesyDrive());
+		driveMode.addObject("Tank Drive", new TankDrive());
+		driveMode.addObject("Split Arcade", new SplitArcadeDrive());
+		SmartDashboard.putData("Drive Type", driveMode);
 	}
 
 	/**
