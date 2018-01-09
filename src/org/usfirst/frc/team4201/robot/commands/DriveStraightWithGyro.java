@@ -31,7 +31,7 @@ public class DriveStraightWithGyro extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double angle = Robot.driveTrain.spartanGyro.getAngle();
-    	Robot.driveTrain.setDriveOutput(speed, angle*kP);	//check sign to make sure it continues to drive straight
+    	Robot.driveTrain.setDriveOutput(speed, -angle*kP);	//check sign to make sure it continues to drive straight
     }
 
     // Make this return true when this Command no longer needs to run execute()

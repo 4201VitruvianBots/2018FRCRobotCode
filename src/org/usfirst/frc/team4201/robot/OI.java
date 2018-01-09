@@ -51,7 +51,7 @@ public class OI {
 	button.whenReleased(new ExampleCommand());
 	 */
 	
-	public Joystick leftJoystick, rightJoystick;
+	public Joystick leftJoystick, rightJoystick, xBoxController;
 	public Button[] leftButtons = new Button[7];
 	public Button[] rightButtons = new Button[7];
 
@@ -60,9 +60,9 @@ public class OI {
 		rightJoystick = new Joystick(1);
 		
 		for(int i = 0; i < leftButtons.length; i++)
-			leftButtons[1] = new JoystickButton(leftJoystick, (i + 1));
+			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
 		for(int i = 0; i < rightButtons.length; i++)
-			rightButtons[1] = new JoystickButton(rightJoystick, (i + 1));
+			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
 		
 		leftButtons[0].whenPressed(new DeployIntakePistons());
 		leftButtons[1].whileHeld(new enableIntakeMotors());
