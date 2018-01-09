@@ -13,8 +13,6 @@ import org.usfirst.frc.team4201.robot.commands.SplitArcadeDrive;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -55,7 +53,7 @@ public class DriveTrain extends Subsystem {
 		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
 		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
-		for(int i = 0; i < 4; i++){
+		for(int i = 0; i < driveMotors.length; i++){
 			driveMotors[i].configPeakOutputForward(1, 0);
 			driveMotors[i].configPeakOutputReverse(-1, 0);
 			driveMotors[i].setNeutralMode(NeutralMode.Coast);

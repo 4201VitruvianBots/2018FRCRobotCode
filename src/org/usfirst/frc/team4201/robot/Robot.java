@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4201.robot.subsystems.Intake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +26,7 @@ import org.usfirst.frc.team4201.robot.subsystems.DriveTrain;
  */
 public class Robot extends TimedRobot {
 	public static final DriveTrain driveTrain = new DriveTrain();
+	public static Intake intake;
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -36,6 +38,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		intake = new Intake();
 		oi = new OI();
 		autoModeChooser.addDefault("Default Auto", new AutoDriveStraightThenTurn());
 		// chooser.addObject("My Auto", new MyAutoCommand());
