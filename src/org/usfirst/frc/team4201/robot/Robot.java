@@ -25,8 +25,8 @@ import org.usfirst.frc.team4201.robot.subsystems.Intake;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final DriveTrain driveTrain = new DriveTrain();
-	public static Intake intake;
+	public static DriveTrain driveTrain = new DriveTrain();
+	public static Intake intake = new Intake();
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -105,12 +105,16 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		teleOpDrive = driveMode.getSelected();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
+		}
+		if (teleOpDrive != null) {
+			teleOpDrive.start();
 		}
 	}
 

@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4201.robot.subsystems;
 
+import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.commands.SplitArcadeDrive;
 
@@ -94,9 +95,6 @@ public class DriveTrain extends Subsystem {
 		robotDrive.curvatureDrive(xSpeed, zRotation, QuickTurn);
 	}
 	
-	public void toggleQuickTurn(boolean QuickTurn) {
-		QuickTurn = !QuickTurn;
-	}
 	
 	public void setTankDrive(double leftSpeed, double rightSpeed){
 		robotDrive.tankDrive(leftSpeed, rightSpeed);
@@ -109,6 +107,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
 
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
+		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 	}
 	
 	public void initDefaultCommand() {

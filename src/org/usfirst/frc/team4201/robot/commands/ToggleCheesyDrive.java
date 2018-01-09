@@ -3,17 +3,18 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ToggleQuickTurn extends Command {
-	public ToggleQuickTurn() {
+public class ToggleCheesyDrive extends Command{
+	public ToggleCheesyDrive() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.driveTrain.toggleQuickTurn(Robot.oi.isQuickTurn);
+		Robot.oi.isQuickTurn = !Robot.oi.isQuickTurn;
+		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,5 +37,6 @@ public class ToggleQuickTurn extends Command {
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
+		end();
 	}
 }
