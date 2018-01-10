@@ -48,26 +48,40 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	public Joystick leftJoystick, rightJoystick;
+	public Joystick leftJoystick, rightJoystick, xBoxController;
     public Button[] leftButtons = new Button[7];
     public Button[] rightButtons = new Button[7];
+	public Button[] xBoxButtons = new Button[9];
 	public boolean isQuickTurn = true;
 
 	public OI(){
-		leftJoystick = new Joystick(RobotMap.leftJoystick);
-		rightJoystick = new Joystick(RobotMap.rightJoystick);
+		leftJoystick = new Joystick(0);
+		rightJoystick = new Joystick(1);
+		xBoxController = new Joystick(2);
 		
-        for(int i = 0; i < leftButtons.length; i++)
-            leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
-        for(int i = 0; i < rightButtons.length; i++)
-            rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
-        
-        leftButtons[0].whenPressed(new DeployIntakePistons());
-        leftButtons[1].whileHeld(new enableIntakeMotors());
-        
-        rightButtons[0].whenPressed(new RetractIntakePistons());
-        rightButtons[1].whileHeld(new ReverseIntakeMotors());
+		for(int i = 0; i < leftButtons.length; i++)
+			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
+		for(int i = 0; i < rightButtons.length; i++)
+			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
+		for(int i = 0; i < xBoxButtons.length; i++)
+			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
+
+		leftButtons[0].whenPressed(new ToggleConveyorUptake()); // Flywheel + Conveyor
+		leftButtons[3].whenPressed(new SetDriveHighGear());		
+		leftButtons[5].whenPressed(new SetDriveLowGear());		
+		leftButtons[4].whenPressed(new ToggleDriveShift());		// [5]
+		
+		rightButtons[0].whenPressed(new ToggleAutoDriveShift());
+		rightButtons[1].whenPressed(new ToggleHopperWall());		
+		rightButtons[2].whenPressed(new IntakeUp());
 		rightButtons[3].whenPressed(new ToggleCheesyDrive());
+		rightButtons[4].whenPressed(new IntakeDown());	
+
+		xBoxButtons[0].whenPressed(new IntakeDown());	
+		xBoxButtons[1].whenPressed(new IntakeUp());		
+		xBoxButtons[2].whenPressed(new ToggleFlywheel(8320)); // Uptake + Flywheel
+		xBoxButtons[3].whenPressed(new MotorTest(5)); //1: Flywheel, 10: Conveyor, 4: Uptake, 5 : Flywheel + Uptake
+		xBoxButtons[5].whenPressed(new ToggleBallIntake());
 	}
 	
 	public double getLeftY(){
@@ -84,6 +98,5 @@ public class OI {
 	
 	public double getRightX(){
 		return rightJoystick.getX();
-		
 	}
 }

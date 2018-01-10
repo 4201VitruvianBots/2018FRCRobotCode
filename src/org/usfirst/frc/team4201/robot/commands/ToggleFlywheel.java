@@ -7,11 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class EnableIntakeMotors extends Command {
-
-    public EnableIntakeMotors() {
+public class ToggleFlywheel extends Command {
+	double RPM;
+	
+    public ToggleFlywheel(double RPM) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.groundGearIntake);
+        requires(Robot.shooter);
+        this.RPM = RPM;
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +22,10 @@ public class EnableIntakeMotors extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.groundGearIntake.activateGearIntakeMotors();
+    	if(!Robot.shooter.getFlywheelEnable())
+    		Robot.shooter.setFlywheelOutput(RPM);
+    	else
+    		Robot.shooter.disableFlywheel();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,5 +40,6 @@ public class EnableIntakeMotors extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.shooter.disableFlywheel();
     }
 }

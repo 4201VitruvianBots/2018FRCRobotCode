@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class EnableIntakeMotors extends Command {
+public class DisableIntakeMotors extends Command {
 
-    public EnableIntakeMotors() {
+    public DisableIntakeMotors() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.groundGearIntake);
     }
@@ -20,7 +20,7 @@ public class EnableIntakeMotors extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.groundGearIntake.activateGearIntakeMotors();
+    	Robot.groundGearIntake.deactivateGearIntakeMotors();
     }
 
     // Make this return true when this Command no longer needs to run execute()

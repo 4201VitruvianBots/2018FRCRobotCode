@@ -13,9 +13,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import javax.swing.text.Utilities;
+
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team4201.robot.subsystems.Intake;
+import org.usfirst.frc.team4201.robot.subsystems.GroundGearIntake;
+import org.usfirst.frc.team4201.robot.subsystems.Hopper;
+import org.usfirst.frc.team4201.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,7 +30,10 @@ import org.usfirst.frc.team4201.robot.subsystems.Intake;
  */
 public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
-	public static Intake intake = new Intake();
+	public static GroundGearIntake groundGearIntake = new GroundGearIntake();
+	public static Hopper hopper = new Hopper();
+	public static Shooter shooter = new Shooter();
+	public static Utilities utilities = new Utilities();
 	public static OI oi;
 
 	Command m_autonomousCommand;

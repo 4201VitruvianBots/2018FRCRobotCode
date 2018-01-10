@@ -1,21 +1,22 @@
 package org.usfirst.frc.team4201.robot.commands;
 
-import org.usfirst.frc.team4201.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DeployIntakePistons extends Command {
-	public DeployIntakePistons() {
+import org.usfirst.frc.team4201.robot.Robot;
+
+/**
+ *
+ */
+public class OpenGearClamps extends Command {
+	public OpenGearClamps() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.intake);
+		requires(Robot.groundGearIntake);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if (Robot.intake.getIntakePistonStatus() != true) {
-			Robot.intake.deployIntakePistons();
-		}
+		Robot.groundGearIntake.openGearClamp();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

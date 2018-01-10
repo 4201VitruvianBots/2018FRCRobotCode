@@ -27,28 +27,36 @@ public class RobotMap {
 	 *  +20-24(26): DriveTrain Motors
 	 */
 	
+	public static boolean manualShiftOverride = true;
+	public static boolean cheesyDriveBrakeMode = true;
 	
-	// Electrical Modules
-	public static final int PDP = 0;
-	public static final int VRMOne = 1;
+	public static final int driveTrainMotorLeftFront = 8;
+	public static final int driveTrainMotorLeftRear = 9;
+	public static final int driveTrainMotorRightFront = 6;
+	public static final int driveTrainMotorRightRear = 7;
 	
-	// Pneumatic Modules & their devices
-	public static final int PCMOne = 11;
-		public static final int driveTrainShifterForward = 0;
-		public static final int driveTrainShifterReverse = 1;
-		public static final int intakeDeployLeft = 2;
-		public static final int intakeDeployRight = 3;
+	public static final int gearIntakeMotor = 0;
+	public static final int ballIntakeMotor = 11;	
 	
-	// Motor Controllers
-	public static final int driveTrainLeftFront = 20;
-	public static final int driveTrainLeftRear = 21;
-	public static final int driveTrainRightFront = 22;
-	public static final int driveTrainRightRear = 23;
-	public static final int intakeLeft = 24;
-	public static final int intakeRight = 25;
+	public static final int conveyorMotor = 10;
+	public static final int shooterUptake = 4;	// Master to CANTalon 4?
 	
-	// USB ADDRESSES
-	public static final int leftJoystick = 0;
-	public static final int rightJoystick = 1;
-	public static final int xBoxController = 2;
+	public static final int flywheelMaster = 5; // This is controlling the uptake
+	public static final int flywheelSlave = 1; // Following CANTalon 1
+	
+	
+	public static final int PCMOne = 21;
+	
+	// Double Solenoids (?)
+	public static final int driveTrainShifterForward = 1;
+	public static final int driveTrainShifterReverse = 0;
+	
+	public static final int gearClampPistionForward = 4;
+	public static final int gearClampPistionReverse = 5;
+	
+	public static final int gearIntakePistonForward = 3;
+	public static final int gearIntakePistonReverse = 2;
+	
+	public static final int hopperWallForward = 7;
+	public static final int hopperWallReverse = 6;
 }

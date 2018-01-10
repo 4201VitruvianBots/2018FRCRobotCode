@@ -20,6 +20,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,10 +31,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain extends Subsystem { 
 	
 	BaseMotorController[] driveMotors = {
-		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
-		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
-		new WPI_TalonSRX(RobotMap.driveTrainRightFront),
-		new WPI_TalonSRX(RobotMap.driveTrainRightRear)	// VictorSPX(RobotMap.driveTrainRightRear)
+		new WPI_TalonSRX(RobotMap.driveTrainMotorLeftFront),
+		new WPI_TalonSRX(RobotMap.driveTrainMotorLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
+		new WPI_TalonSRX(RobotMap.driveTrainMotorRightFront),
+		new WPI_TalonSRX(RobotMap.driveTrainMotorRightRear)	// VictorSPX(RobotMap.driveTrainRightRear)
 	};
 	
 	//RobotDrive robotDrive = new RobotDrive(driveMotors[0], driveMotors[1], driveMotors[2], driveMotors[3]);
@@ -69,6 +70,18 @@ public class DriveTrain extends Subsystem {
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+	
+	public void setHighGear() {
+		driveTrainShifters.set(Value.kForward);
+	}
+	
+	public void setLowGear() {
+		driveTrainShifters.set(Value.kReverse);
+	}
+	
+	public Value getShiftStatus() {
+		return driveTrainShifters.get();
+	}
 	
 	public void setDriveOutput(double throttle, double angularPower){
 		double leftPWM = throttle + angularPower;

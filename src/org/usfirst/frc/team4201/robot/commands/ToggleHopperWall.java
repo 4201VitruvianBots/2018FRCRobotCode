@@ -1,21 +1,26 @@
 package org.usfirst.frc.team4201.robot.commands;
 
-import org.usfirst.frc.team4201.robot.Robot;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RetractIntakePistons extends Command{
-	public RetractIntakePistons() {
+import org.usfirst.frc.team4201.robot.Robot;
+
+/**
+ *
+ */
+public class ToggleHopperWall extends Command {
+	public ToggleHopperWall() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.intake);
+		requires(Robot.hopper);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if (Robot.intake.getIntakePistonStatus()) {
-			Robot.intake.retractIntakePistons();
-		}
+		if(Robot.hopper.getHopperStatus() != Value.kForward)
+			Robot.hopper.hopperExtend();
+		else
+			Robot.hopper.hopperRetract();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -38,6 +43,5 @@ public class RetractIntakePistons extends Command{
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
-		end();
 	}
 }
