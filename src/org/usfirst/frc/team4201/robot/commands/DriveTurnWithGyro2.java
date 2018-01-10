@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
@@ -17,6 +18,8 @@ public class DriveTurnWithGyro2 extends Command {
     static double kI = 0.001;           // Start with I = P / 100
     static double kD = 0;           	// Start with D = P * 10
     static double period = 0.01;
+    PIDOutputInterface driveTrainOutput;
+    
     
     double throttle, setpoint;
     Timer stopwatch;
@@ -25,7 +28,7 @@ public class DriveTurnWithGyro2 extends Command {
     public DriveTurnWithGyro2(double speed, double angle) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
-        pidControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, null, period);
+        pidControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTrainOutput, period);
     	pidControl.setName("DriveTurnWithGyro");
     	pidControl.setContinuous();
     	pidControl.setAbsoluteTolerance(0.1);
@@ -57,7 +60,7 @@ public class DriveTurnWithGyro2 extends Command {
 
         DriverStation.reportError("Updating Dashboard", false);
         
-        Robot.driveTrain.setDriveOutput(throttle, pidControl.get());
+        Robot.driveTrain.setDriveOutput(throttle, driveTrainOutput.getPIDOutput());
     }
 
     // Make this return true when this Command no longer needs to run execute()
