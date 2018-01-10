@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4201.robot.subsystems.Flipper;
 import org.usfirst.frc.team4201.robot.subsystems.Intake;
 
 /**
@@ -27,6 +28,7 @@ import org.usfirst.frc.team4201.robot.subsystems.Intake;
 public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Intake intake = new Intake();
+	public static Flipper flipper = new Flipper();
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -128,6 +130,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		
 		driveTrain.updateSmartDashboard();
+		flipper.updateSmartDashboard();
 	}
 
 	/**

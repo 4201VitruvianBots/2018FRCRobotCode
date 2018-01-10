@@ -28,9 +28,10 @@ public class DriveTurnWithGyro2 extends Command {
     public DriveTurnWithGyro2(double speed, double angle) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
+        driveTrainOutput = new PIDOutputInterface();
         pidControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTrainOutput, period);
     	pidControl.setName("DriveTurnWithGyro");
-    	pidControl.setContinuous();
+    	pidControl.setContinuous(false);
     	pidControl.setAbsoluteTolerance(0.1);
     	pidControl.setOutputRange(-1, 1);
     	
@@ -40,11 +41,12 @@ public class DriveTurnWithGyro2 extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	pidControl.disable();
     	Robot.driveTrain.spartanGyro.reset();
         stopwatch = new Timer();
     	
     	pidControl.setSetpoint(setpoint);
-    	pidControl.setEnabled(true);
+    	pidControl.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -54,12 +56,12 @@ public class DriveTurnWithGyro2 extends Command {
     	SmartDashboard.putNumber("Setpoint", pidControl.getSetpoint());
     	SmartDashboard.putBoolean("On Target", pidControl.onTarget());
     	SmartDashboard.putBoolean("Enabled", pidControl.isEnabled());
+    	SmartDashboard.putNumber("PIDOutput Value", driveTrainOutput.getPIDOutput());
 
     	SmartDashboard.putNumber("Stopwatch", stopwatch.get());
     	SmartDashboard.putBoolean("Lock Value: ", lock);
-
-        DriverStation.reportError("Updating Dashboard", false);
         
+    	DriverStation.reportError("PIDOutput Value: " + driveTrainOutput.getPIDOutput(), false);
         Robot.driveTrain.setDriveOutput(throttle, driveTrainOutput.getPIDOutput());
     }
 

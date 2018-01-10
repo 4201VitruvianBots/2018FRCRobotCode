@@ -40,8 +40,10 @@ public class RobotMap {
 	public static final int PCMOne = 11;
 		public static final int driveTrainShifterForward = 0;
 		public static final int driveTrainShifterReverse = 1;
-		public static final int intakeDeployLeft = 2;
-		public static final int intakeDeployRight = 3;
+		public static final int intakeDeployRight = 2;
+		public static final int intakeDeployLeft = 3;
+		public static final int flipperForward = 4;
+		public static final int flipperReverse = 5;
 	
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;
