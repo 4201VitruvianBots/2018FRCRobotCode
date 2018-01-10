@@ -10,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Intake extends Subsystem {
 	
@@ -68,5 +67,4 @@ public class Intake extends Subsystem {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

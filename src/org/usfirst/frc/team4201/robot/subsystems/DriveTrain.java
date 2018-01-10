@@ -121,6 +121,7 @@ public class DriveTrain extends Subsystem {
 
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
+		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
 	}
 	
 	public void initDefaultCommand() {

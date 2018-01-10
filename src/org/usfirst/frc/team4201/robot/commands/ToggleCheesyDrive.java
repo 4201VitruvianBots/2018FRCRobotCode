@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ToggleCheesyDrive extends Command{
 	public ToggleCheesyDrive() {
 		// Use requires() here to declare subsystem dependencies
+		requires(Robot.intake);
 	}
 
 	// Called just before this Command runs the first time
