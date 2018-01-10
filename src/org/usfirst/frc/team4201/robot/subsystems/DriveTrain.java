@@ -92,6 +92,10 @@ public class DriveTrain extends Subsystem {
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
 	
+	public void PIDDrive(double leftOutput, double rightOutput){
+		
+	}
+	
 	public void cheesyDrive(double xSpeed, double zRotation, boolean QuickTurn) {
 		robotDrive.curvatureDrive(xSpeed, zRotation, QuickTurn);
 	}

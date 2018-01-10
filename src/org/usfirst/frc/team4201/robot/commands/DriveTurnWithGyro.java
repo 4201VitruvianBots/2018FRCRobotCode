@@ -21,6 +21,7 @@ public class DriveTurnWithGyro extends PIDCommand{
         getPIDController().setContinuous();
         getPIDController().setAbsoluteTolerance(0.1);
         getPIDController().setOutputRange(-1, 1); // Is this okay, or does this need to be an angle to match gyro output?
+        //getPIDController().setF(f);
         
         this.throttle = speed;
         this.setpoint = angle;
@@ -91,7 +92,6 @@ public class DriveTurnWithGyro extends PIDCommand{
     // Called once after isFinished returns true
     protected void end() {
         Robot.driveTrain.setDriveOutput(0, 0);
-        DriverStation.reportError("Routine Ended", false);
     }
     
     // Called when another command which requires one or more of the same
