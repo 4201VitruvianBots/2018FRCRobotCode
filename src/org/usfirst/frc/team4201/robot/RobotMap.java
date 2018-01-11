@@ -31,19 +31,21 @@ public class RobotMap {
 	 *  +20-24(26): DriveTrain Motors
 	 */
 	
-	
+	public static boolean testBoolean = false;
 	// Electrical Modules
 	public static final int PDP = 0;
 	public static final int VRMOne = 1;
 	
 	// Pneumatic Modules & their devices
 	public static final int PCMOne = 11;
-		public static final int driveTrainShifterForward = 0;
-		public static final int driveTrainShifterReverse = 1;
-		public static final int intakeDeployRight = 2;
-		public static final int intakeDeployLeft = 3;
-		public static final int flipperForward = 4;
-		public static final int flipperReverse = 5;
+		public static final int testShifters1a = 0;
+		public static final int testShifters1b = 1;
+		
+		public static final int testShifters2a = 4;
+		public static final int testShifters2b = 5;
+		
+		public static final int testShifters3a = 6;
+		public static final int testShifters3b = 7;
 	
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;

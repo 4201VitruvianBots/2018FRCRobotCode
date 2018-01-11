@@ -40,7 +40,7 @@ public class DriveTrain extends Subsystem {
 	//RobotDrive robotDrive = new RobotDrive(driveMotors[0], driveMotors[1], driveMotors[2], driveMotors[3]);
 	DifferentialDrive robotDrive = new DifferentialDrive((WPI_TalonSRX)driveMotors[0], (WPI_TalonSRX)driveMotors[2]);
 	
-	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
+	//DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
 	
 	public ADXRS450_Gyro spartanGyro;
 	
@@ -106,16 +106,16 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setDriveShiftHigh(){
-		driveTrainShifters.set(Value.kForward);
+		//driveTrainShifters.set(Value.kForward);
 	}
 	
 	public void setDriveShiftLow(){
-		driveTrainShifters.set(Value.kReverse);
+		//driveTrainShifters.set(Value.kReverse);
 	}
 	
-	public boolean getDriveShiftStatus(){
-		return driveTrainShifters.get() == Value.kForward ? true : false;
-	}
+	//public boolean getDriveShiftStatus(){
+		//return driveTrainShifters.get() == Value.kForward ? true : false;
+	//}
 	
 	public void updateSmartDashboard(){
 		SmartDashboard.putNumber("Front Left Current", driveMotors[0].getOutputCurrent());
@@ -125,7 +125,7 @@ public class DriveTrain extends Subsystem {
 
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
-		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
+		//SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
 	}
 	
 	public void initDefaultCommand() {
