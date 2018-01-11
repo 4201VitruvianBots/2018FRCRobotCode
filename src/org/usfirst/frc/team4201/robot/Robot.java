@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
-import org.usfirst.frc.team4201.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4201.robot.subsystems.Test;
 
 /**
@@ -25,7 +24,6 @@ import org.usfirst.frc.team4201.robot.subsystems.Test;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static DriveTrain driveTrain = new DriveTrain();
 	public static Test test = new Test();
 	public static OI oi;
 
@@ -102,7 +100,6 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 
-		driveTrain.updateSmartDashboard();
 	}
 
 	@Override
@@ -127,8 +124,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-		driveTrain.updateSmartDashboard();
-		flipper.updateSmartDashboard();
 	}
 
 	/**

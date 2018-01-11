@@ -41,11 +41,11 @@ public class RobotMap {
 		public static final int testShifters1a = 0;
 		public static final int testShifters1b = 1;
 		
-		public static final int testShifters2a = 4;
-		public static final int testShifters2b = 5;
+		public static final int testShifters2a = 2;
+		public static final int testShifters2b = 3;
 		
-		public static final int testShifters3a = 6;
-		public static final int testShifters3b = 7;
+		public static final int testShifters3a = 4;
+		public static final int testShifters3b = 5;
 	
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;
