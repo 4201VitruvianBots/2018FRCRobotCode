@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,6 +44,8 @@ public class DriveTrain extends Subsystem {
 	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
 	
 	public ADXRS450_Gyro spartanGyro;
+	
+	public Encoder enc = new Encoder(10, 11, false, Encoder.EncodingType.k1X);
 	
 	public DriveTrain(){
 		super("Drive Train");
@@ -70,6 +73,10 @@ public class DriveTrain extends Subsystem {
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+	
+	public double getEncoderCount() {	
+		return enc.get();
+	}
 	
 	public void setHighGear() {
 		driveTrainShifters.set(Value.kForward);
@@ -118,7 +125,8 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Rear Left Current", driveMotors[1].getOutputCurrent());
 		SmartDashboard.putNumber("Front Right Current", driveMotors[2].getOutputCurrent());
 		SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
-
+		
+		SmartDashboard.putNumber("Encoder Count", getEncoderCount());
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 	}

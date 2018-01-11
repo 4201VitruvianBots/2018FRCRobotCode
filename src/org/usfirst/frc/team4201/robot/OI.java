@@ -65,7 +65,7 @@ public class OI {
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
 		for(int i = 0; i < xBoxButtons.length; i++)
 			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
-
+		/*
 		leftButtons[0].whenPressed(new ToggleConveyorUptake()); // Flywheel + Conveyor
 		leftButtons[3].whenPressed(new SetDriveHighGear());		
 		leftButtons[5].whenPressed(new SetDriveLowGear());		 
@@ -82,6 +82,7 @@ public class OI {
 		xBoxButtons[2].whenPressed(new ToggleFlywheel(8320)); // Uptake + Flywheel
 		//xBoxButtons[3].whenPressed(new MotorTest(5)); //1: Flywheel, 10: Conveyor, 4: Uptake, 5 : Flywheel + Uptake
 		xBoxButtons[5].whenPressed(new ToggleBallIntake());
+		*/
 	}
 	
 	public double getLeftY(){
