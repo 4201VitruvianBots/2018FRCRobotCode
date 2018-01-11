@@ -26,6 +26,7 @@ public class ToggleFlywheel extends Command {
     		Robot.shooter.setFlywheelOutput(RPM);
     	else
     		Robot.shooter.disableFlywheel();
+    		Robot.shooter.setFlywheelOutput(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -133,6 +133,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		
 		driveTrain.updateSmartDashboard();
+		shooter.updateSmartDashboard();
 	}
 
 	/**

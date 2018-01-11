@@ -68,7 +68,7 @@ public class OI {
 
 		leftButtons[0].whenPressed(new ToggleConveyorUptake()); // Flywheel + Conveyor
 		leftButtons[3].whenPressed(new SetDriveHighGear());		
-		leftButtons[5].whenPressed(new SetDriveLowGear());		
+		leftButtons[5].whenPressed(new SetDriveLowGear());		 
 		leftButtons[4].whenPressed(new ToggleDriveShift());		// [5]
 		
 		rightButtons[0].whenPressed(new ToggleAutoDriveShift());
@@ -80,12 +80,12 @@ public class OI {
 		xBoxButtons[0].whenPressed(new IntakeDown());	
 		xBoxButtons[1].whenPressed(new IntakeUp());		
 		xBoxButtons[2].whenPressed(new ToggleFlywheel(8320)); // Uptake + Flywheel
-		xBoxButtons[3].whenPressed(new MotorTest(5)); //1: Flywheel, 10: Conveyor, 4: Uptake, 5 : Flywheel + Uptake
+		//xBoxButtons[3].whenPressed(new MotorTest(5)); //1: Flywheel, 10: Conveyor, 4: Uptake, 5 : Flywheel + Uptake
 		xBoxButtons[5].whenPressed(new ToggleBallIntake());
 	}
 	
 	public double getLeftY(){
-		return -leftJoystick.getY();
+		return leftJoystick.getY();
 	}
 	
 	public double getLeftX(){
@@ -93,7 +93,7 @@ public class OI {
 	}
 	
 	public double getRightY(){
-		return -rightJoystick.getY();
+		return rightJoystick.getY();
 	}
 	
 	public double getRightX(){

@@ -67,7 +67,7 @@ public class Shooter extends Subsystem {
 		uptake.set(ControlMode.PercentOutput, 0);
 	}
 	public double getConveyorOutput(){
-		return conveyor.get();
+		return conveyor.getMotorOutputVoltage();
 	}
 	
 	public void setFlywheelOutput(double RPM){
@@ -84,7 +84,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public boolean getFlywheelEnable(){
-		return shooter[0].isAlive();
+		return shooter[0].get() != 0 ? true : false;
 		//return shooter[0].isSafetyEnabled();
 	}
 	
@@ -98,6 +98,8 @@ public class Shooter extends Subsystem {
 	
 	public void updateSmartDashboard(){
 		SmartDashboard.putNumber("Flywheel Output", getFlywheelOutput());
+		SmartDashboard.putNumber("Conveyor Output", getConveyorOutput());
+		SmartDashboard.putNumber("Flywheel Status", shooter[0].get());
 	}
 	
     public void initDefaultCommand() {
