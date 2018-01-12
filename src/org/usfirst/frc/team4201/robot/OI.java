@@ -69,7 +69,7 @@ public class OI {
         rightButtons[1].whileHeld(new ReverseIntakeMotors());
 		rightButtons[3].whenPressed(new ToggleCheesyDrive());
 		rightButtons[4].whenPressed(new ToggleDriveShifters());
-		rightButtons[5].whenPressed(new ToggleFlipper());
+		//rightButtons[5].whenPressed(new ToggleFlipper());
 	}
 	
 	public double getLeftY(){

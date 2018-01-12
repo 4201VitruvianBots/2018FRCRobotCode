@@ -44,6 +44,11 @@ public class RobotMap {
 		public static final int intakeDeployLeft = 3;
 		public static final int flipperForward = 4;
 		public static final int flipperReverse = 5;
+		public static final int leftSidePanel = 6;
+		public static final int rightSidePanel = 7;
+		
+	// PWM
+	public static final int encoderTwo = 0;
 	
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;
