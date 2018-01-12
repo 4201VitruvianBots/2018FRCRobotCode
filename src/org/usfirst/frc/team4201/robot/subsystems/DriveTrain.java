@@ -81,8 +81,12 @@ public class DriveTrain extends Subsystem {
 		return enc.get();
 	}
 	
-	public double getDriveDistance(){
+	public double getDriveDistance() {
 		return enc.getDistance();
+	}
+	
+	public void resetEncoder() {
+		enc.reset();
 	}
 	
 	public void setDriveOutput(double throttle, double angularPower){

@@ -24,15 +24,10 @@ public class DriveStraightWithGyroAndEncoders extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.spartanGyro.reset();
-    	ResetDistanceDriven();
+    	Robot.driveTrain.resetEncoder();
     }
 
-    private void ResetDistanceDriven() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	// Called repeatedly when this Command is scheduled to run
+    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double angle = Robot.driveTrain.spartanGyro.getAngle();
     	Robot.driveTrain.setDriveOutput(speed, -angle*kP);	//check sign to make sure it continues to drive straight
