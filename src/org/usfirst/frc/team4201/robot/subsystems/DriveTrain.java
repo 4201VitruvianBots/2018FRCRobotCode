@@ -123,6 +123,10 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Front Right Current", driveMotors[2].getOutputCurrent());
 		SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
 
+
+		SmartDashboard.putNumber("Left Encoder", driveMotors[0].getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
+		
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());

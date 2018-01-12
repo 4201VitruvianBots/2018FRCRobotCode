@@ -28,12 +28,13 @@ public class DriveStraightFusion extends Command {
     public DriveStraightFusion(double distance) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
+        /*
         throttleControl = new PIDController(kP, kI, kD, Robot.driveTrain.encoders, PIDThrottle, period);
         throttleControl.setName("DriveStraightDistance");
         throttleControl.setContinuous();
         throttleControl.setAbsoluteTolerance(0.1);
         throttleControl.setOutputRange(-1, 1);
-    	
+    	*/
         turnControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, PIDTurn, period);
         turnControl.setName("DriveStraightCorrection");
         turnControl.setContinuous();
@@ -56,6 +57,7 @@ public class DriveStraightFusion extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	/*
     	SmartDashboard.putNumber("PID Output", pidControl.get());
     	SmartDashboard.putNumber("Delta Setpoint", pidControl.getDeltaSetpoint());
     	SmartDashboard.putNumber("Setpoint", pidControl.getSetpoint());
@@ -64,9 +66,8 @@ public class DriveStraightFusion extends Command {
 
     	SmartDashboard.putNumber("Stopwatch", stopwatch.get());
     	SmartDashboard.putBoolean("Lock Value: ", lock);
-
-        DriverStation.reportError("Updating Dashboard", false);
-        
+		*/
+    	
         Robot.driveTrain.setDriveOutput(PIDThrottle.getPIDOutput(), PIDTurn.getPIDOutput());
     }
 
