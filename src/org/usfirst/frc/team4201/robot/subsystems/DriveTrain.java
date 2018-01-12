@@ -71,12 +71,18 @@ public class DriveTrain extends Subsystem {
 		//driveMotors[1].setInverted(true);
 		
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+		
+		enc.setDistancePerPulse(RobotMap.kDistance);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	
 	public double getEncoderValue() {
 		return enc.get();
+	}
+	
+	public double getDriveDistance(){
+		return enc.getDistance();
 	}
 	
 	public void setDriveOutput(double throttle, double angularPower){
@@ -135,6 +141,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
 		
 		SmartDashboard.putNumber("Encoder Count", getEncoderValue());
+		SmartDashboard.putNumber("Distance Driven", getDriveDistance());
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());

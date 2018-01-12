@@ -58,4 +58,7 @@ public class RobotMap {
 	public static final int intakeLeft = 24;
 	public static final int intakeRight = 25;
 	
+	// Constant Integers
+	public static final int kDistance = 2;
+	
 }
