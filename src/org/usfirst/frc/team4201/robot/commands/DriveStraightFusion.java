@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveStraightFusion extends Command {
+public class DriveStraightFusion {
+	/*
 	PIDController throttleControl, turnControl;
 	static double kP = 0.1;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
     static double kI = 0.001;           // Start with I = P / 100
@@ -94,4 +95,5 @@ public class DriveStraightFusion extends Command {
     protected void interrupted() {
     	this.end();
     }
+    */
 }
