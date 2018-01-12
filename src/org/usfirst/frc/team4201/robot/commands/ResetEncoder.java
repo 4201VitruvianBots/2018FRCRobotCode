@@ -4,8 +4,8 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ResetDistanceDriven extends Command{
-	public ResetDistanceDriven() {
+public class ResetEncoder extends Command{
+	public ResetEncoder() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
 	}
