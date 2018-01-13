@@ -46,7 +46,8 @@ public class DriveTrain extends Subsystem {
 	
 	public ADXRS450_Gyro spartanGyro;
 	
-	public Encoder enc = new Encoder(10, 11, false, EncodingType.k2X);
+	public Encoder leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, false, EncodingType.k2X);
+	public Encoder rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB, false, EncodingType.k2X);
 	
 	public DriveTrain(){
 		super("Drive Train");
@@ -71,12 +72,32 @@ public class DriveTrain extends Subsystem {
 		//driveMotors[1].setInverted(true);
 		
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+		
+		leftEncoder.setDistancePerPulse(RobotMap.kDistance);
+		rightEncoder.setDistancePerPulse(RobotMap.kDistance);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	
-	public double getEncoderValue() {
-		return enc.get();
+	public double getLeftEncoderValue() {
+		return leftEncoder.get();
+	}
+	
+	public double getRightEncoderValue() {
+		return leftEncoder.get();
+	}
+	
+	public double getLeftEncoderDistance() {
+		return leftEncoder.getDistance();
+	}
+	
+	public double getRightEncoderDistance() {
+		return leftEncoder.getDistance();
+	}
+	
+	public void resetEncoders() {
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 	
 	public void setDriveOutput(double throttle, double angularPower){
@@ -134,7 +155,10 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Left Encoder", driveMotors[0].getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
 		
-		SmartDashboard.putNumber("Encoder Count", getEncoderValue());
+		SmartDashboard.putNumber("Left Encoder Count", getLeftEncoderValue());
+		SmartDashboard.putNumber("Right Encoder Count", getRightEncoderValue());
+		SmartDashboard.putNumber("Left Encoder Distance", getLeftEncoderDistance());
+		SmartDashboard.putNumber("Right Encoder Distance", getRightEncoderDistance());
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());

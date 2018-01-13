@@ -19,6 +19,12 @@ public class RobotMap {
 	public static final int rightJoystick = 1;
 	public static final int xBoxController = 2;
 	
+	// Sensors
+	public static final int leftEncoderA = 10;
+	public static final int leftEncoderB = 11;
+	public static final int rightEncoderA = 12;
+	public static final int rightEncoderB = 13;
+	
 	/*	ADDRESS VALUES
 	 *  
 	 *  CAN ADDRESSES
@@ -40,15 +46,19 @@ public class RobotMap {
 	public static final int PCMOne = 11;
 		public static final int driveTrainShifterForward = 0;
 		public static final int driveTrainShifterReverse = 1;
-		public static final int intakeDeployRight = 2;
-		public static final int intakeDeployLeft = 3;
-		public static final int flipperForward = 4;
-		public static final int flipperReverse = 5;
-		public static final int leftSidePanel = 6;
-		public static final int rightSidePanel = 7;
+		public static final int elevatorForward = 2;
+		public static final int elevatorReverse = 3;
+		public static final int intakeForward = 4;
+		public static final int intakeReverse = 5;
 		
-	// PWM
-	public static final int encoderTwo = 0;
+	public static final int PCMTwo = 12;
+		public static final int stabalizerReleaseForward = 0;
+		public static final int stabalizerReleaseReverse = 1;
+		public static final int stabalizerGrabForward = 2;
+		public static final int stabalizerGrabReverse = 3;
+		public static final int stabalizerEngageForward = 4;
+		public static final int stabalizerEngageReverse = 5;
+		
 	
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;
@@ -57,5 +67,11 @@ public class RobotMap {
 	public static final int driveTrainRightRear = 23;
 	public static final int intakeLeft = 24;
 	public static final int intakeRight = 25;
+	public static final int elevatorOne = 26;
+	public static final int elevatorTwo = 27;
+	public static final int fourBar = 29;
+	
+	// Constant Integers
+	public static final int kDistance = 2;
 	
 }
