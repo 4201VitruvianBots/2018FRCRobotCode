@@ -74,4 +74,7 @@ public class RobotMap {
 	public static final int elevatorB = 27;
 	public static final int fourBar = 29;
 	
+	
+	public static final int red = 0;
+	public static final int blue = 1;
 }

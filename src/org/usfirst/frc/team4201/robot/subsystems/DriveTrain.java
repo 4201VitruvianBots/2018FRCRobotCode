@@ -57,7 +57,9 @@ public class DriveTrain extends Subsystem {
 		driveMotors[3].set(ControlMode.Follower, driveMotors[2].getDeviceID());
 
 		// Set Motor Controller Feedback Device
-		driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+		driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		//int absPosition = driveMotors[0].getSelectedSensorPosition(0);
+		//driveMotors[0].setSelectedSensorPosition(absPosition, 0, 0);
 		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
 		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
@@ -92,10 +94,7 @@ public class DriveTrain extends Subsystem {
 		averageEncoderCounts = averageEncoderCounts/2;
 		return averageEncoderCounts;
 	}
-	
-	public double distanceDrivenInEncoderCounts(double distanceInInches) {
-		return distanceInInches*28;
-	}
+
 	
 	public void resetEncoders() {
 		leftEncoder.reset();
@@ -159,11 +158,12 @@ public class DriveTrain extends Subsystem {
 		
 		SmartDashboard.putNumber("Left Encoder Count", getLeftEncoderValue());
 		SmartDashboard.putNumber("Right Encoder Count", getRightEncoderValue());
-		SmartDashboard.putNumber("Left Encoder Distance", getLeftEncoderDistance());
-		SmartDashboard.putNumber("Right Encoder Distance", getRightEncoderDistance());
+		SmartDashboard.putNumber("Average Encoder Count", getAverageEncoderValue());
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
+		
+		SmartDashboard.putNumber("Test Enc", driveMotors[0].getSelectedSensorPosition(0));
 	}
 	
 	public void initDefaultCommand() {

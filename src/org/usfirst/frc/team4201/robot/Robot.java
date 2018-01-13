@@ -26,7 +26,7 @@ import org.usfirst.frc.team4201.robot.subsystems.*;
 public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Intake intake = new Intake();
-	public static Sensors sensors = new Sensors();
+	//public static Sensors sensors = new Sensors();
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -103,7 +103,6 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 
 		driveTrain.updateSmartDashboard();
-		sensors.updateSmartDashboard();
 	}
 
 	@Override
@@ -128,7 +127,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-		sensors.updateSmartDashboard();
+		//sensors.updateSmartDashboard();
 		driveTrain.updateSmartDashboard();
 		//flipper.updateSmartDashboard();
 	}

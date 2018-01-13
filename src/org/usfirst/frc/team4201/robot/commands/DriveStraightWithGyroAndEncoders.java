@@ -21,7 +21,7 @@ public class DriveStraightWithGyroAndEncoders extends Command {
         
         
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.spartanGyro.reset();
@@ -36,7 +36,7 @@ public class DriveStraightWithGyroAndEncoders extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (goalDistance == Robot.driveTrain.distanceDrivenInEncoderCounts(Robot.driveTrain.getAverageEncoderValue())) {
+        if (goalDistance == Robot.driveTrain.getAverageEncoderValue()) {
         	return true;
         }
         else {
