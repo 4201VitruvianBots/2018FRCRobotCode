@@ -13,6 +13,9 @@ package org.usfirst.frc.team4201.robot;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
+//There are 28 encoder counts in an inch. 10 ft = 3365 encoder counts (S4T)
+
 public class RobotMap {
 	// USB ADDRESSES
 	public static final int leftJoystick = 0;

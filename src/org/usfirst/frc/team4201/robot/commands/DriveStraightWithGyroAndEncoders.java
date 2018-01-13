@@ -35,7 +35,7 @@ public class DriveStraightWithGyroAndEncoders extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (goalDistance == Robot.driveTrain.getLeftEncoderDistance()/2 + Robot.driveTrain.getRightEncoderDistance()/2) {
+        if (goalDistance == Robot.driveTrain.getLeftEncoderValue()*14 + Robot.driveTrain.getRightEncoderValue()*14) {
         	return true;
         }
         else {
