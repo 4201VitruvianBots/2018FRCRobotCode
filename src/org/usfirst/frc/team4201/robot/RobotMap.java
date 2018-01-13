@@ -67,8 +67,8 @@ public class RobotMap {
 	public static final int driveTrainRightRear = 23;
 	public static final int intakeLeft = 24;
 	public static final int intakeRight = 25;
-	public static final int elevatorOne = 26;
-	public static final int elevatorTwo = 27;
+	public static final int elevatorA = 26;
+	public static final int elevatorB = 27;
 	public static final int fourBar = 29;
 	
 	// Constant Integers
