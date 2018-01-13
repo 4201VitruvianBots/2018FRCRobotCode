@@ -3,10 +3,9 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ToggleCheesyDrive extends Command{
-	public ToggleCheesyDrive() {
+public class ResetEncoders extends Command{
+	public ResetEncoders() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
 	}
@@ -14,8 +13,7 @@ public class ToggleCheesyDrive extends Command{
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.oi.isQuickTurn = !Robot.oi.isQuickTurn;
-		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
+		Robot.driveTrain.resetEncoders();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

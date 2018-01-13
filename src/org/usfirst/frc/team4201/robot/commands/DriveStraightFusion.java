@@ -67,7 +67,6 @@ public class DriveStraightFusion {
 
     	SmartDashboard.putNumber("Stopwatch", stopwatch.get());
     	SmartDashboard.putBoolean("Lock Value: ", lock);
-		
     	
         Robot.driveTrain.setDriveOutput(PIDThrottle.getPIDOutput(), PIDTurn.getPIDOutput());
     }
