@@ -19,6 +19,12 @@ public class RobotMap {
 	public static final int rightJoystick = 1;
 	public static final int xBoxController = 2;
 	
+	// Sensors
+	public static final int leftEncoderA = 10;
+	public static final int leftEncoderB = 11;
+	public static final int rightEncoderA = 12;
+	public static final int rightEncoderB = 13;
+	
 	/*	ADDRESS VALUES
 	 *  
 	 *  CAN ADDRESSES
@@ -53,9 +59,6 @@ public class RobotMap {
 		public static final int stabalizerEngageForward = 4;
 		public static final int stabalizerEngageReverse = 5;
 		
-	// Encoders
-	public static final int encoderLeft = 0;
-	public static final int encoderRight = 1;
 	
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;

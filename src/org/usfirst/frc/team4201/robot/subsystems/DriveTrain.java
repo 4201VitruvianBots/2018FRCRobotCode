@@ -46,8 +46,8 @@ public class DriveTrain extends Subsystem {
 	
 	public ADXRS450_Gyro spartanGyro;
 	
-	public Encoder leftEncoder = new Encoder(10, 11, false, EncodingType.k2X);
-	public Encoder rightEncoder = new Encoder(10, 11, false, EncodingType.k2X);
+	public Encoder leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, false, EncodingType.k2X);
+	public Encoder rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB, false, EncodingType.k2X);
 	
 	public DriveTrain(){
 		super("Drive Train");
@@ -83,12 +83,21 @@ public class DriveTrain extends Subsystem {
 		return leftEncoder.get();
 	}
 	
+	public double getRightEncoderValue() {
+		return leftEncoder.get();
+	}
+	
 	public double getLeftEncoderDistance() {
 		return leftEncoder.getDistance();
 	}
 	
-	public void resetEncoder() {
+	public double getRightEncoderDistance() {
+		return leftEncoder.getDistance();
+	}
+	
+	public void resetEncoders() {
 		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 	
 	public void setDriveOutput(double throttle, double angularPower){
@@ -147,7 +156,9 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
 		
 		SmartDashboard.putNumber("Left Encoder Count", getLeftEncoderValue());
-		SmartDashboard.putNumber("Distance Driven", getLeftEncoderDistance());
+		SmartDashboard.putNumber("Right Encoder Count", getRightEncoderValue());
+		SmartDashboard.putNumber("Left Encoder Distance", getLeftEncoderDistance());
+		SmartDashboard.putNumber("Right Encoder Distance", getRightEncoderDistance());
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
