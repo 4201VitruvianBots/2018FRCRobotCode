@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -35,7 +36,7 @@ public class DriveStraightWithGyroAndEncoders extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (goalDistance*2 == Robot.driveTrain.getLeftEncoderValue()*28 + Robot.driveTrain.getRightEncoderValue()*28) {
+        if (goalDistance == Robot.driveTrain.distanceDrivenInEncoderCounts(Robot.driveTrain.getAverageEncoderValue())) {
         	return true;
         }
         else {

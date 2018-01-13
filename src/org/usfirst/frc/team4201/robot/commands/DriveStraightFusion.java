@@ -12,17 +12,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveStraightFusion {
-	/*
-	PIDController throttleControl, turnControl;
+public class DriveStraightFusion extends Command{
+	
+	PIDController throttleControlLeft, throttleControlRight, turnControl;
 	static double kP = 0.1;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
     static double kI = 0.001;           // Start with I = P / 100
     static double kD = 0;           	// Start with D = P * 10
     static double period = 0.01;
-    PIDOutputInterface PIDThrottle, PIDTurn;
+    PIDOutputInterface PIDThrottleLeft, PIDThrottleRight, PIDTurn;
     
     
-    double throttle, setpoint;
+    double throttleLeft, throttleRight, setpoint;
     Timer stopwatch;
     boolean lock = false;
 	
@@ -30,11 +30,17 @@ public class DriveStraightFusion {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
         
-        throttleControl = new PIDController(kP, kI, kD, Robot.driveTrain.encoders, PIDThrottle, period);
-        throttleControl.setName("DriveStraightDistance");
-        throttleControl.setContinuous();
-        throttleControl.setAbsoluteTolerance(0.1);
-        throttleControl.setOutputRange(-1, 1);
+        throttleControlLeft = new PIDController(kP, kI, kD, Robot.driveTrain.rightEncoder, PIDThrottleLeft, period);
+        throttleControlLeft.setName("DriveStraightDistanceLeft");
+        throttleControlLeft.setContinuous();
+        throttleControlLeft.setAbsoluteTolerance(0.1);
+        throttleControlLeft.setOutputRange(-1, 1);
+        
+        throttleControlRight = new PIDController(kP, kI, kD, Robot.driveTrain.leftEncoder, PIDThrottleLeft, period);
+        throttleControlRight.setName("DriveStraightDistanceLeft");
+        throttleControlRight.setContinuous();
+        throttleControlRight.setAbsoluteTolerance(0.1);
+        throttleControlRight.setOutputRange(-1, 1);
     	
         turnControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, PIDTurn, period);
         turnControl.setName("DriveStraightCorrection");
@@ -50,33 +56,36 @@ public class DriveStraightFusion {
     	Robot.driveTrain.spartanGyro.reset();
         stopwatch = new Timer();
     	
-        throttleControl.setSetpoint(setpoint);
-        throttleControl.setEnabled(true);
+        throttleControlLeft.setSetpoint(setpoint);
+        throttleControlLeft.setEnabled(true);
+        throttleControlRight.setSetpoint(setpoint);
+        throttleControlRight.setEnabled(true);
         turnControl.setSetpoint(0);
         turnControl.setEnabled(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	/*
     	SmartDashboard.putNumber("PID Output", pidControl.get());
     	SmartDashboard.putNumber("Delta Setpoint", pidControl.getDeltaSetpoint());
     	SmartDashboard.putNumber("Setpoint", pidControl.getSetpoint());
     	SmartDashboard.putBoolean("On Target", pidControl.onTarget());
     	SmartDashboard.putBoolean("Enabled", pidControl.isEnabled());
-
+		*/
     	SmartDashboard.putNumber("Stopwatch", stopwatch.get());
     	SmartDashboard.putBoolean("Lock Value: ", lock);
     	
-        Robot.driveTrain.setDriveOutput(PIDThrottle.getPIDOutput(), PIDTurn.getPIDOutput());
+        Robot.driveTrain.setDriveOutput(PIDThrottleLeft.getPIDOutput()/2 + PIDThrottleRight.getPIDOutput()/2, PIDTurn.getPIDOutput());
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(throttleControl.onTarget() && turnControl.onTarget() && !lock) { // When you are in range && you are not locked
+    	if(throttleControlLeft.onTarget() && throttleControlRight.onTarget() && turnControl.onTarget() && !lock) { // When you are in range && you are not locked
     		stopwatch.start();
     		lock = true;
-    	} else if((!throttleControl.onTarget() || !turnControl.onTarget()) && lock){ // When you are outside of range && you are locked
+    	} else if((!throttleControlLeft.onTarget() || !throttleControlRight.onTarget() || !turnControl.onTarget()) && lock){ // When you are outside of range && you are locked
     		stopwatch.stop();
     		stopwatch.reset();
     		lock = false;
@@ -95,5 +104,4 @@ public class DriveStraightFusion {
     protected void interrupted() {
     	this.end();
     }
-    */
 }

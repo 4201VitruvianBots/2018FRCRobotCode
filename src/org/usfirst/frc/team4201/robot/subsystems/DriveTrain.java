@@ -73,8 +73,6 @@ public class DriveTrain extends Subsystem {
 		
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 		
-		leftEncoder.setDistancePerPulse(RobotMap.kDistance);
-		rightEncoder.setDistancePerPulse(RobotMap.kDistance);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -87,12 +85,16 @@ public class DriveTrain extends Subsystem {
 		return leftEncoder.get();
 	}
 	
-	public double getLeftEncoderDistance() {
-		return leftEncoder.getDistance();
+	public double getAverageEncoderValue() {
+		double leftEncoder = getLeftEncoderValue();
+		double rightEncoder = getRightEncoderValue();
+		double averageEncoderCounts = leftEncoder + rightEncoder;
+		averageEncoderCounts = averageEncoderCounts/2;
+		return averageEncoderCounts;
 	}
 	
-	public double getRightEncoderDistance() {
-		return leftEncoder.getDistance();
+	public double distanceDrivenInEncoderCounts(double distanceInInches) {
+		return distanceInInches*28;
 	}
 	
 	public void resetEncoders() {

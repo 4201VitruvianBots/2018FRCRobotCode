@@ -74,7 +74,4 @@ public class RobotMap {
 	public static final int elevatorB = 27;
 	public static final int fourBar = 29;
 	
-	// Constant Integers
-	public static final int kDistance = 2;
-	
 }
