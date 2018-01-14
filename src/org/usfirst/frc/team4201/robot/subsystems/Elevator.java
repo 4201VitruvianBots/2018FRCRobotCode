@@ -2,6 +2,8 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -16,10 +18,29 @@ public class Elevator extends Subsystem {
 	
 	public Elevator() {
 		super("Elevator");
+		
+		elevatorMotors[1].set(ControlMode.Follower, elevatorMotors[0].getDeviceID());
+		
+		for(int i = 0; i < 2; i++){
+			elevatorMotors[i].configPeakOutputForward(1, 0);
+			elevatorMotors[i].configPeakOutputReverse(-1, 0);
+			elevatorMotors[i].setNeutralMode(NeutralMode.Coast);
+		}
+		
+		elevatorMotors[0].setInverted(true);
+		
 	}
 	
 	public void elevatorUp() {
-			
+		elevatorMotors[0].set(ControlMode.PercentOutput, 1);
+	}
+	
+	public void elevatorDown() {
+		elevatorMotors[0].set(ControlMode.PercentOutput, -1);
+	}
+	
+	public void elevatorStop() {
+		elevatorMotors[0].set(ControlMode.PercentOutput, 0);
 	}
 	
 	
