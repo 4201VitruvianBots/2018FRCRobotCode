@@ -55,8 +55,12 @@ public class DriveTrain extends Subsystem {
 		driveMotors[3].set(ControlMode.Follower, driveMotors[2].getDeviceID());
 
 		// Set Motor Controller Feedback Device
-		driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
-		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+		driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		int absA = driveMotors[0].getSelectedSensorPosition(0);
+		driveMotors[0].setSelectedSensorPosition(absA, 0, 0);
+		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		int absB = driveMotors[0].getSelectedSensorPosition(0);
+		driveMotors[2].setSelectedSensorPosition(absB, 0, 0);
 		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
 		for(int i = 0; i < 4; i++){
@@ -126,8 +130,11 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Front Right Current", driveMotors[2].getOutputCurrent());
 		SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
 		
-		SmartDashboard.putNumber("Encoder Count", getEncoderCount());
+		SmartDashboard.putNumber("DT Left Enc", driveMotors[0].getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("DT Right Enc", driveMotors[2].getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
+		SmartDashboard.putNumber("Encoder Count", getEncoderCount());
+		
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 	}
 	

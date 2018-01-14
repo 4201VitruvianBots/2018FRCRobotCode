@@ -27,6 +27,10 @@ import org.usfirst.frc.team4201.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
+	public static Hopper hopper = new Hopper();
+	public static GroundGearIntake groundGearIntake = new GroundGearIntake();
+	public static Shooter shooter = new Shooter();
+	public static Sensors sensors = new Sensors();
 	public static Utilities utilities = new Utilities();
 	public static OI oi;
 

@@ -14,6 +14,10 @@ package org.usfirst.frc.team4201.robot;
  * floating around.
  */
 public class RobotMap {
+	// USB Devices
+	public static final int leftJoystick = 0;
+	public static final int rightJoystick = 1;
+	public static final int xBoxController = 2;
 	
 	/*	ADDRESS VALUES
 	 *  
