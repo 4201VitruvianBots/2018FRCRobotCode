@@ -8,9 +8,9 @@ public class RightRobotToLeftSwitch extends CommandGroup{
 	public RightRobotToLeftSwitch() {
 		 addSequential(new DriveStraightWithGyroAndEncoders(5838, 1));
 		 addSequential(new DriveTurnWithGyro2(0,-90)); 
-		 addSequential(new DriveStraightWithGyroAndEncoders(3480.68, 1));
+		 addSequential(new DriveStraightWithGyroAndEncoders(12093, 1));
 		 addSequential(new DriveTurnWithGyro2(0, -90));
-		 addSequential(new DriveStraightWithGyroAndEncoders(1792, 1));
+		 addSequential(new DriveStraightWithGyroAndEncoders(3712, 1));
 		 //Drop of Block
 	}
 }
