@@ -11,7 +11,6 @@ package org.usfirst.frc.team4201.robot;
 import org.usfirst.frc.team4201.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -70,7 +69,6 @@ public class OI {
         rightButtons[1].whileHeld(new ReverseIntakeMotors());
 		rightButtons[3].whenPressed(new ToggleCheesyDrive());
 		rightButtons[4].whenPressed(new ToggleDriveShifters());
-		//rightButtons[5].whenPressed(new ToggleFlipper());
 	}
 	
 	public double getLeftY(){
