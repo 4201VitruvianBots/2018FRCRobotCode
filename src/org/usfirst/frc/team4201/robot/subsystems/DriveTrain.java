@@ -58,9 +58,8 @@ public class DriveTrain extends Subsystem {
 
 		// Set Motor Controller Feedback Device
 		driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		//int absPosition = driveMotors[0].getSelectedSensorPosition(0);
-		//driveMotors[0].setSelectedSensorPosition(absPosition, 0, 0);
-		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+		driveMotors[0].setSensorPhase(true);
+		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
 		for(int i = 0; i < 4; i++){
@@ -84,7 +83,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getRightEncoderValue() {
-		return leftEncoder.get();
+		return rightEncoder.get();
 	}
 	
 	public double getAverageEncoderValue() {
@@ -99,6 +98,12 @@ public class DriveTrain extends Subsystem {
 	public void resetEncoders() {
 		leftEncoder.reset();
 		rightEncoder.reset();
+		
+		//driveMotors[0].setSelectedSensorPosition(driveMotors[0].getSelectedSensorPosition(0), 0, 0);
+		//driveMotors[2].setSelectedSensorPosition(driveMotors[2].getSelectedSensorPosition(0), 0, 0);
+		driveMotors[0].setSelectedSensorPosition(0, 0, 0);
+		driveMotors[2].setSelectedSensorPosition(0, 0, 0);
+	
 	}
 	
 	public void setDriveOutput(double throttle, double angularPower){
@@ -123,7 +128,27 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void PIDDrive(double leftOutput, double rightOutput){
+		double leftPWM = leftOutput;
+		double rightPWM = rightOutput;
 		
+		/*
+		if(rightPWM > 1.0){
+			leftPWM -= (rightPWM - 1.0);
+			rightPWM = 1.0;
+        } else if(rightPWM < -1.0){
+        	leftPWM += (-rightPWM - 1.0);
+        	rightPWM = -1.0;
+        } else if(leftPWM > 1.0){
+        	rightPWM -= (leftPWM - 1.0);
+        	leftPWM = 1.0;
+        } else if(leftPWM < -1.0){
+        	rightPWM += (-leftPWM - 1.0);
+        	leftPWM = -1.0;
+        }
+		*/
+		//robotDrive.tankDrive(leftPWM, rightPWM);
+		driveMotors[0].set(ControlMode.PercentOutput, leftPWM);
+		driveMotors[2].set(ControlMode.PercentOutput, rightPWM);
 	}
 	
 	public void cheesyDrive(double xSpeed, double zRotation, boolean QuickTurn) {
@@ -162,8 +187,6 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
-		
-		SmartDashboard.putNumber("Test Enc", driveMotors[0].getSelectedSensorPosition(0));
 	}
 	
 	public void initDefaultCommand() {

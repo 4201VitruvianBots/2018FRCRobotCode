@@ -14,7 +14,9 @@ package org.usfirst.frc.team4201.robot;
  * floating around.
  */
 
-//There are 28 encoder counts in an inch. 10 ft = 3365 encoder counts (S4T)
+
+
+//There are 58 encoder counts in an inch. 10 ft = 6971 encoder counts (S4T-360-250)
 
 public class RobotMap {
 	// USB ADDRESSES

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 import org.usfirst.frc.team4201.robot.subsystems.*;
 
 /**
@@ -42,7 +43,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		autoModeChooser.addDefault("Default Auto", new AutoDriveStraightThenTurn());
+		autoModeChooser.addDefault("Default Auto", new DriveStraight());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		
@@ -118,6 +119,7 @@ public class Robot extends TimedRobot {
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
 		}
+		driveTrain.resetEncoders();
 	}
 
 	/**
