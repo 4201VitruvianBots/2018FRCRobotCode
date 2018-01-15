@@ -92,6 +92,9 @@ public class Robot extends TimedRobot {
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
+		
+		// Sets drive train motors to brake.
+		driveTrain.setMotorsToBrake();
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
@@ -116,6 +119,10 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		
+		//Sets drive train motors to coast.
+		driveTrain.setMotorsToCoast();
+		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
