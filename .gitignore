@@ -1,4 +1,4 @@
 bin/
-src/org/usfirst/frc/team4201/robot/commands/DriveTurnWithGyro2.java
 build/
+build/jars/
 dist/FRCUserProgram.jar

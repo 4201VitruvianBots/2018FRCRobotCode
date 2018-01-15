@@ -63,7 +63,7 @@ public class OI {
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
         
         
-        rightButtons[0].whenPressed(new ToggleShifterExtend());
+        leftButtons[0].whenPressed(new ToggleShifterExtend());
 	}
 	
 	public double getLeftY(){
