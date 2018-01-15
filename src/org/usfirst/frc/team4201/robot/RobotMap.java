@@ -14,7 +14,7 @@ package org.usfirst.frc.team4201.robot;
  * floating around.
  */
 
-//5ft = 6971
+//5ft = 6971.  29 encoder counts in an inch.
 
 
 //There are 58 encoder counts in an inch. 10 ft = 6971 encoder counts (S4T-360-250)
@@ -58,8 +58,6 @@ public class RobotMap {
 		public static final int intakeReverse = 5;
 		public static final int leftArmForward = 6;
 		public static final int leftArmReverse = 7;
-		public static final int rightArmForward = 8;
-		public static final int rightArmReverse = 9;
 		
 	public static final int PCMTwo = 12;
 		public static final int stabalizerReleaseForward = 0;
@@ -68,6 +66,8 @@ public class RobotMap {
 		public static final int stabalizerGrabReverse = 3;
 		public static final int stabalizerEngageForward = 4;
 		public static final int stabalizerEngageReverse = 5;
+		public static final int rightArmForward = 6;
+		public static final int rightArmReverse = 7;
 		
 	
 	// Motor Controllers

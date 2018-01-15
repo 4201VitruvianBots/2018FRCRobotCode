@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Arm extends Subsystem{
 	
 	DoubleSolenoid leftArm = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.leftArmForward, RobotMap.leftArmReverse);
-	DoubleSolenoid rightArm = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.rightArmForward, RobotMap.rightArmReverse);
+	DoubleSolenoid rightArm = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.rightArmForward, RobotMap.rightArmReverse);
 	
 	public Arm() {
 		super("Arm");
