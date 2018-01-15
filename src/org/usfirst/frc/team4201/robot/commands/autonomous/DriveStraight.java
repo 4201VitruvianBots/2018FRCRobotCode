@@ -7,6 +7,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class DriveStraight extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public DriveStraight() {
-		 addSequential(new DriveStraightFusion(6960));
+		 addSequential(new DriveStraightFusion(6971));
 	}
 }

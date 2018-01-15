@@ -147,8 +147,7 @@ public class DriveTrain extends Subsystem {
         }
 		*/
 		//robotDrive.tankDrive(leftPWM, rightPWM);
-		driveMotors[0].set(ControlMode.PercentOutput, leftPWM);
-		driveMotors[2].set(ControlMode.PercentOutput, rightPWM);
+		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
 	
 	public void cheesyDrive(double xSpeed, double zRotation, boolean QuickTurn) {

@@ -40,18 +40,18 @@ public class DriveStraightFusion extends Command{
         
         throttleControlLeft = new PIDController(kP, kI, kD, leftDriveEncoder, PIDThrottleLeft, period);
         throttleControlLeft.setName("DriveStraightDistanceRight");
-        throttleControlLeft.setAbsoluteTolerance(10);
+        throttleControlLeft.setAbsoluteTolerance(100);
         throttleControlLeft.setOutputRange(-0.5, 0.5);
         
         throttleControlRight = new PIDController(kP, kI, kD, rightDriveEncoder, PIDThrottleRight, period);
         throttleControlRight.setName("DriveStraightDistanceRight");
-        throttleControlRight.setAbsoluteTolerance(10);
+        throttleControlRight.setAbsoluteTolerance(100);
         throttleControlRight.setOutputRange(-0.5, 0.5);
     	
         turnControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, PIDTurn, period);
         turnControl.setName("DriveStraightCorrection");
-        turnControl.setAbsoluteTolerance(0.1);
-        turnControl.setOutputRange(-0.25, 0.25);
+        turnControl.setAbsoluteTolerance(2);
+        turnControl.setOutputRange(-2, 2);
         
         this.setpoint = distance;
     }
@@ -91,8 +91,8 @@ public class DriveStraightFusion extends Command{
     	//SmartDashboard.putNumber("Turn PIDS Output", PIDTurn.getPIDOutput());
     	//SmartDashboard.putBoolean("Lock Value: ", lock);
     	
-    	Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
-        //Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput() + PIDTurn.getPIDOutput(), PIDThrottleRight.getPIDOutput() - PIDTurn.getPIDOutput());
+    	//Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
+        Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput() + PIDTurn.getPIDOutput(), PIDThrottleRight.getPIDOutput() - PIDTurn.getPIDOutput());
     }
 
     // Make this return true when this Command no longer needs to run execute()

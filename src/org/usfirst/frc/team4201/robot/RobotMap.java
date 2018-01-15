@@ -14,6 +14,7 @@ package org.usfirst.frc.team4201.robot;
  * floating around.
  */
 
+//5ft = 6971
 
 
 //There are 58 encoder counts in an inch. 10 ft = 6971 encoder counts (S4T-360-250)
