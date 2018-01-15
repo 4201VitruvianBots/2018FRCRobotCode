@@ -55,6 +55,10 @@ public class RobotMap {
 		public static final int elevatorReverse = 3;
 		public static final int intakeForward = 4;
 		public static final int intakeReverse = 5;
+		public static final int leftArmForward = 6;
+		public static final int leftArmReverse = 7;
+		public static final int rightArmForward = 8;
+		public static final int rightArmReverse = 9;
 		
 	public static final int PCMTwo = 12;
 		public static final int stabalizerReleaseForward = 0;
@@ -74,7 +78,7 @@ public class RobotMap {
 	public static final int intakeRight = 25;
 	public static final int elevatorA = 26;
 	public static final int elevatorB = 27;
-	public static final int fourBar = 29;
+	public static final int fourBar = 28;
 	
 	
 	public static final int red = 0;
