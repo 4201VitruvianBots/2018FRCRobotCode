@@ -115,6 +115,7 @@ public class Robot extends TimedRobot {
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
 		}
+		test.updateSmartDashboard();
 	}
 
 	/**

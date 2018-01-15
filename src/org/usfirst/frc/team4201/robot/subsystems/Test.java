@@ -17,22 +17,24 @@ DoubleSolenoid testShifters3 = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.test
 		
 	}
 	
-	public void Extend() {
+	public void extend() {
 		testShifters1.set(Value.kForward);
 		testShifters2.set(Value.kForward);
 		testShifters3.set(Value.kForward);
-		RobotMap.testBoolean = true;
 	}
 	
-	public void Retract() {
+	public void retract() {
 		testShifters1.set(Value.kReverse);
 		testShifters2.set(Value.kReverse);
 		testShifters3.set(Value.kReverse);
-		RobotMap.testBoolean = false;
 	}
 	
+	public boolean getShifterStatus(){
+		return testShifters1.get() == Value.kForward ? true : false;
+	}
 	
 	public void updateSmartDashboard() {
+		SmartDashboard.putBoolean("Shifter Status", getShifterStatus());
 	}
 	
     public void initDefaultCommand() {

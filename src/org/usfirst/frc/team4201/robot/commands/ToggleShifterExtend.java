@@ -6,25 +6,23 @@ import org.usfirst.frc.team4201.robot.RobotMap;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Extend extends Command {
+public class ToggleShifterExtend extends Command {
 	
-	public Extend() {
+	public ToggleShifterExtend() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.test);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if(Robot.test.getShifterStatus())
+    		Robot.test.retract();
+    	else
+    		Robot.test.extend();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-		if(RobotMap.testBoolean) {
-    		Robot.test.Extend();
-    	}
-    	else {
-    		Robot.test.Retract();
-    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
