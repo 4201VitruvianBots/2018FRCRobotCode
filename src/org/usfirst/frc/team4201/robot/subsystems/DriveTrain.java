@@ -106,6 +106,16 @@ public class DriveTrain extends Subsystem {
 	
 	}
 	
+	public void setMotorsToCoast(){
+		driveMotors[0].setNeutralMode(NeutralMode.Coast);
+		driveMotors[1].setNeutralMode(NeutralMode.Coast);
+	}
+	
+	public void setMotorsToBrake(){
+		driveMotors[0].setNeutralMode(NeutralMode.Brake);
+		driveMotors[1].setNeutralMode(NeutralMode.Brake);
+	}
+	
 	public void setDriveOutput(double throttle, double angularPower){
 		double leftPWM = throttle + angularPower;
 		double rightPWM = throttle - angularPower;
