@@ -19,28 +19,36 @@ public class Elevator extends Subsystem {
 	public Elevator() {
 		super("Elevator");
 		
-		elevatorMotors[1].set(ControlMode.Follower, elevatorMotors[0].getDeviceID());
-		
 		for(int i = 0; i < 2; i++){
 			elevatorMotors[i].configPeakOutputForward(1, 0);
 			elevatorMotors[i].configPeakOutputReverse(-1, 0);
-			elevatorMotors[i].setNeutralMode(NeutralMode.Coast);
+			elevatorMotors[i].setNeutralMode(NeutralMode.Brake);
 		}
-		
-		elevatorMotors[0].setInverted(true);
 		
 	}
 	
-	public void elevatorUp() {
+	public void elevatorAUp() {
 		elevatorMotors[0].set(ControlMode.PercentOutput, 1);
 	}
 	
-	public void elevatorDown() {
+	public void elevatorADown() {
 		elevatorMotors[0].set(ControlMode.PercentOutput, -1);
 	}
 	
-	public void elevatorStop() {
+	public void elevatorAStop() {
 		elevatorMotors[0].set(ControlMode.PercentOutput, 0);
+	}
+	
+	public void elevatorBUp() {
+		elevatorMotors[1].set(ControlMode.PercentOutput, 1);
+	}
+	
+	public void elevatorBDown() {
+		elevatorMotors[1].set(ControlMode.PercentOutput, -1);
+	}
+	
+	public void elevatorBStop() {
+		elevatorMotors[1].set(ControlMode.PercentOutput, 0);
 	}
 	
 	
