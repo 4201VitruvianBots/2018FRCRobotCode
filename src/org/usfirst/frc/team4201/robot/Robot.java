@@ -45,7 +45,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		autoModeChooser.addDefault("Default Auto", new DriveStraight());
+		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
+		autoModeChooser.addObject("Turn", new Turn());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		

@@ -51,7 +51,7 @@ public class DriveStraightFusion extends Command{
         turnControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, PIDTurn, period);
         turnControl.setName("DriveStraightCorrection");
         turnControl.setAbsoluteTolerance(2);
-        turnControl.setOutputRange(-2, 2);
+        turnControl.setOutputRange(-0.2, -0.2);
         
         this.setpoint = distance;
     }
