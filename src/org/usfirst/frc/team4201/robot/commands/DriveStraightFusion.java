@@ -41,12 +41,12 @@ public class DriveStraightFusion extends Command{
         throttleControlLeft = new PIDController(kP, kI, kD, leftDriveEncoder, PIDThrottleLeft, period);
         throttleControlLeft.setName("DriveStraightDistanceRight");
         throttleControlLeft.setAbsoluteTolerance(100);
-        throttleControlLeft.setOutputRange(-0.5, 0.5);
+        throttleControlLeft.setOutputRange(-0.8, 0.8);
         
         throttleControlRight = new PIDController(kP, kI, kD, rightDriveEncoder, PIDThrottleRight, period);
         throttleControlRight.setName("DriveStraightDistanceRight");
         throttleControlRight.setAbsoluteTolerance(100);
-        throttleControlRight.setOutputRange(-0.5, 0.5);
+        throttleControlRight.setOutputRange(-0.8, 0.8);
     	
         turnControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, PIDTurn, period);
         turnControl.setName("DriveStraightCorrection");
