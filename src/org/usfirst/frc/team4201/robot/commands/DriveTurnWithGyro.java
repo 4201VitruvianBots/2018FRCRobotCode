@@ -30,7 +30,7 @@ public class DriveTurnWithGyro extends Command {
         requires(Robot.driveTrain);
         driveTurnPIDOutput = new PIDOutputInterface();
         driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
-    	driveGyroPIDController.setName("TurnWithGyro");
+    	driveGyroPIDController.setName("Drive Gyro PID");
     	driveGyroPIDController.setSubsystem("Drive Train");
     	driveGyroPIDController.setAbsoluteTolerance(1);
     	driveGyroPIDController.setOutputRange(-0.75, 0.75);
