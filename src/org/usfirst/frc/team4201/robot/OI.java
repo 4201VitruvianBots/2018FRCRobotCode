@@ -70,7 +70,7 @@ public class OI {
         
         rightButtons[0].whenPressed(new RetractIntakePistons());
         rightButtons[1].whileHeld(new ReverseIntakeMotors());
-		rightButtons[3].whenPressed(new ToggleCheesyDrive());
+		rightButtons[3].whenPressed(new ToggleCheesyDriveQuickTurn());
 		rightButtons[4].whenPressed(new ToggleDriveShifters());
 		//rightButtons[5].whenPressed(new ToggleFlipper());
 	}

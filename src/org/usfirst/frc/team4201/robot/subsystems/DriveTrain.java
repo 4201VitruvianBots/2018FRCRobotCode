@@ -9,7 +9,7 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.commands.SplitArcadeDrive;
+import org.usfirst.frc.team4201.robot.commands.SetSplitArcadeDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -74,6 +74,9 @@ public class DriveTrain extends Subsystem {
 		
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 		
+		// Initialize PID Controllers
+		
+		
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -107,13 +110,13 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setMotorsToCoast(){
-		driveMotors[0].setNeutralMode(NeutralMode.Coast);
-		driveMotors[1].setNeutralMode(NeutralMode.Coast);
+		for(int i = 0; i < driveMotors.length; i++)
+			driveMotors[i].setNeutralMode(NeutralMode.Coast);
 	}
 	
 	public void setMotorsToBrake(){
-		driveMotors[0].setNeutralMode(NeutralMode.Brake);
-		driveMotors[1].setNeutralMode(NeutralMode.Brake);
+		for(int i = 0; i < driveMotors.length; i++)
+			driveMotors[i].setNeutralMode(NeutralMode.Brake);
 	}
 	
 	public void setDriveOutput(double throttle, double angularPower){
@@ -200,6 +203,6 @@ public class DriveTrain extends Subsystem {
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new SplitArcadeDrive());
+		setDefaultCommand(new SetSplitArcadeDrive());
 	}
 }

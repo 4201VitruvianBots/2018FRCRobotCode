@@ -7,6 +7,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Turn extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public Turn() {
-		 addSequential(new TurnWithGyro(90));
+		 addSequential(new DriveTurnWithGyro(90));
 	}
 }

@@ -14,14 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveStraightFusion extends Command{
-	
-	PIDController throttleControlLeft, throttleControlRight, turnControl;
+	PIDController leftMotorPIDController, rightMotorPIDController, driveGyroPIDController;
 	double kP = 0.03;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
     double kI = 0;           		// Start with I = P / 100
     double kD = 0;           		// Start with D = P * 10
     double period = 0.01;
     CTREPIDSource leftDriveEncoder, rightDriveEncoder;
-    PIDOutputInterface PIDThrottleLeft, PIDThrottleRight, PIDTurn;
+    PIDOutputInterface leftMotorPIDOutput, rightMotorPIDOutput, driveTurnPIDOutput;
     
     
     double throttleLeft, throttleRight, setpoint;
@@ -34,24 +33,27 @@ public class DriveStraightFusion extends Command{
         
         leftDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[0]);
         rightDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[2]);
-        PIDThrottleLeft = new PIDOutputInterface();
-        PIDThrottleRight = new PIDOutputInterface();
-        PIDTurn = new PIDOutputInterface();
+        leftMotorPIDOutput = new PIDOutputInterface();
+        rightMotorPIDOutput = new PIDOutputInterface();
+        driveTurnPIDOutput = new PIDOutputInterface();
         
-        throttleControlLeft = new PIDController(kP, kI, kD, leftDriveEncoder, PIDThrottleLeft, period);
-        throttleControlLeft.setName("DriveStraightDistanceRight");
-        throttleControlLeft.setAbsoluteTolerance(100);
-        throttleControlLeft.setOutputRange(-0.8, 0.8);
+        leftMotorPIDController = new PIDController(kP, kI, kD, leftDriveEncoder, leftMotorPIDOutput, period);
+        leftMotorPIDController.setName("Left Motor PID");
+        leftMotorPIDController.setSubsystem("Drive Train");
+        leftMotorPIDController.setAbsoluteTolerance(100);
+        leftMotorPIDController.setOutputRange(-0.8, 0.8);
         
-        throttleControlRight = new PIDController(kP, kI, kD, rightDriveEncoder, PIDThrottleRight, period);
-        throttleControlRight.setName("DriveStraightDistanceRight");
-        throttleControlRight.setAbsoluteTolerance(100);
-        throttleControlRight.setOutputRange(-0.8, 0.8);
+        rightMotorPIDController = new PIDController(kP, kI, kD, rightDriveEncoder, rightMotorPIDOutput, period);
+        rightMotorPIDController.setName("Right Motor PID");
+        rightMotorPIDController.setSubsystem("Drive Train");
+        rightMotorPIDController.setAbsoluteTolerance(100);
+        rightMotorPIDController.setOutputRange(-0.8, 0.8);
     	
-        turnControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, PIDTurn, period);
-        turnControl.setName("DriveStraightCorrection");
-        turnControl.setAbsoluteTolerance(2);
-        turnControl.setOutputRange(-0.2, -0.2);
+        driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
+        driveGyroPIDController.setName("Drive Gyro PID");
+    	driveGyroPIDController.setSubsystem("Drive Train");
+        driveGyroPIDController.setAbsoluteTolerance(2);
+        driveGyroPIDController.setOutputRange(-0.2, -0.2);
         
         this.setpoint = distance;
     }
@@ -62,13 +64,13 @@ public class DriveStraightFusion extends Command{
     	Robot.driveTrain.resetEncoders();
         stopwatch = new Timer();
     	
-        throttleControlLeft.setSetpoint(setpoint);
-        throttleControlRight.setSetpoint(setpoint);
-        turnControl.setSetpoint(0);
+        leftMotorPIDController.setSetpoint(setpoint);
+        rightMotorPIDController.setSetpoint(setpoint);
+        driveGyroPIDController.setSetpoint(0);
         
-        throttleControlLeft.setEnabled(true);
-        throttleControlRight.setEnabled(true);
-        turnControl.setEnabled(true);
+        leftMotorPIDController.setEnabled(true);
+        rightMotorPIDController.setEnabled(true);
+        driveGyroPIDController.setEnabled(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -80,27 +82,27 @@ public class DriveStraightFusion extends Command{
     	SmartDashboard.putBoolean("On Target", pidControl.onTarget());
     	SmartDashboard.putBoolean("Enabled", pidControl.isEnabled());
 		*/
-    	SmartDashboard.putNumber("Left PID Setpoint", throttleControlLeft.getSetpoint());
-    	SmartDashboard.putNumber("Right PID Setpoint", throttleControlRight.getSetpoint());
-    	SmartDashboard.putNumber("Turn PID Setpoint", turnControl.getSetpoint());
-    	SmartDashboard.putNumber("Left PID Output", throttleControlLeft.get());
-    	SmartDashboard.putNumber("Right PID Output", throttleControlRight.get());
-    	SmartDashboard.putNumber("Turn PID Output", turnControl.get());
+    	SmartDashboard.putNumber("Left PID Setpoint", leftMotorPIDController.getSetpoint());
+    	SmartDashboard.putNumber("Right PID Setpoint", rightMotorPIDController.getSetpoint());
+    	SmartDashboard.putNumber("Turn PID Setpoint", driveGyroPIDController.getSetpoint());
+    	SmartDashboard.putNumber("Left PID Output", leftMotorPIDController.get());
+    	SmartDashboard.putNumber("Right PID Output", rightMotorPIDController.get());
+    	SmartDashboard.putNumber("Turn PID Output", driveGyroPIDController.get());
     	//SmartDashboard.putNumber("Left PIDS Output", PIDThrottleLeft.getPIDOutput());
     	//SmartDashboard.putNumber("Right PIDS Output", PIDThrottleRight.getPIDOutput());
     	//SmartDashboard.putNumber("Turn PIDS Output", PIDTurn.getPIDOutput());
     	//SmartDashboard.putBoolean("Lock Value: ", lock);
     	
     	//Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
-        Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput() + PIDTurn.getPIDOutput(), PIDThrottleRight.getPIDOutput() - PIDTurn.getPIDOutput());
+        Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput() + driveTurnPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput() - driveTurnPIDOutput.getPIDOutput());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(throttleControlLeft.onTarget() && throttleControlRight.onTarget() && turnControl.onTarget() && !lock) { // When you are in range && you are not locked
+    	if(leftMotorPIDController.onTarget() && rightMotorPIDController.onTarget() && driveGyroPIDController.onTarget() && !lock) { // When you are in range && you are not locked
     		stopwatch.start();
     		lock = true;
-    	} else if((!throttleControlLeft.onTarget() || !throttleControlRight.onTarget() || !turnControl.onTarget()) && lock){ // When you are outside of range && you are locked
+    	} else if((!leftMotorPIDController.onTarget() || !rightMotorPIDController.onTarget() || !driveGyroPIDController.onTarget()) && lock){ // When you are outside of range && you are locked
     		stopwatch.stop();
     		stopwatch.reset();
     		lock = false;
