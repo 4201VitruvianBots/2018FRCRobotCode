@@ -6,13 +6,13 @@ import org.usfirst.frc.team4201.robot.commands.*;
 public class RightRobotToLeftScale extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public RightRobotToLeftScale() {
-		 addSequential(new DriveStraightWithGyroAndEncoders(24186, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(21611.98, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(12412, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(673.96, 1));
+		 addSequential(new DriveStraightFusion(24186));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(21611.98));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(12412));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(673.96));
 		 //Drop off Block
 	}
 }

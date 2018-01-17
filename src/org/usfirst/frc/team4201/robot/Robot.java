@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -45,8 +46,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
+		
+		Robot.driveTrain.initializeLiveWindow();
+		
 		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
 		autoModeChooser.addObject("Turn", new Turn());
+		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		
@@ -95,6 +100,7 @@ public class Robot extends TimedRobot {
 		
 		// Sets drive train motors to brake.
 		driveTrain.setMotorsToBrake();
+		driveTrain.resetEncoders();
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
@@ -150,4 +156,5 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	}
+	
 }

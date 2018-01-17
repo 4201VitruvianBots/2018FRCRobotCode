@@ -7,26 +7,26 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftRobotToLeftSwitchAndRightScale extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public LeftRobotToLeftSwitchAndRightScale() {
-		 addSequential(new DriveStraightWithGyroAndEncoders(16762, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(2761.96, 1));
+		 addSequential(new DriveStraightFusion(16762));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(2761.96));
 		 //Drop off Block
-		 addSequential(new DriveStraightWithGyroAndEncoders(-2761.96, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(4524, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(5777.96, 1));
-		 addSequential(new TurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(-2761.96));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(4524));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(5777.96));
+		 addSequential(new DriveTurnWithGyro(90));  
 		 //Start Intake
-		 addSequential(new DriveStraightWithGyroAndEncoders(1972, 1));
+		 addSequential(new DriveStraightFusion(1972));
 		 //Stop Intake
-		 addSequential(new DriveStraightWithGyroAndEncoders(-1972, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(15834, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(18792, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(673.96, 1));
+		 addSequential(new DriveStraightFusion(-1972));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(15834));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(18792));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(673.96));
 		 //Drop off Block
 	}
 }

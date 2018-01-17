@@ -53,7 +53,7 @@ public class DriveStraightFusion extends Command{
         driveGyroPIDController.setName("Drive Gyro PID");
     	driveGyroPIDController.setSubsystem("Drive Train");
         driveGyroPIDController.setAbsoluteTolerance(2);
-        driveGyroPIDController.setOutputRange(-0.2, -0.2);
+        driveGyroPIDController.setOutputRange(-0.2, 0.2);
         
         this.setpoint = distance;
     }
@@ -62,6 +62,7 @@ public class DriveStraightFusion extends Command{
     protected void initialize() {
     	Robot.driveTrain.spartanGyro.reset();
     	Robot.driveTrain.resetEncoders();
+    	new ResetEncoders();
         stopwatch = new Timer();
     	
         leftMotorPIDController.setSetpoint(setpoint);
@@ -95,6 +96,7 @@ public class DriveStraightFusion extends Command{
     	
     	//Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
         Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput() + driveTurnPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput() - driveTurnPIDOutput.getPIDOutput());
+    	//Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput());
     }
 
     // Make this return true when this Command no longer needs to run execute()

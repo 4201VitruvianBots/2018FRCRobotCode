@@ -7,30 +7,30 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class RightRobotToLeftSwitchAndeLeftScale extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public RightRobotToLeftSwitchAndeLeftScale() {
-		 addSequential(new DriveStraightWithGyroAndEncoders(24186, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(21611.96, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(12412, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(673.96, 1));
+		 addSequential(new DriveStraightFusion(24186));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(21611.96));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(12412));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(673.96));
 		 //Drop off Block
-		 addSequential(new DriveStraightWithGyroAndEncoders(-673.96, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(12412, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(5777.96, 1));
-		 addSequential(new TurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(-673.96));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(12412));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(5777.96));
+		 addSequential(new DriveTurnWithGyro(90));  
 		 //Start Intake
-		 addSequential(new DriveStraightWithGyroAndEncoders(1972, 1));
+		 addSequential(new DriveStraightFusion(1972));
 		 //Stop Intake
-		 addSequential(new DriveStraightWithGyroAndEncoders(-1972, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(12412, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(4524, 1));
-		 addSequential(new TurnWithGyro(-90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(2761.96, 1));
+		 addSequential(new DriveStraightFusion(-1972));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(12412));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(4524));
+		 addSequential(new DriveTurnWithGyro(-90));  
+		 addSequential(new DriveStraightFusion(2761.96));
 		 //Drop off Block
 	}
 }

@@ -9,7 +9,8 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.commands.SetSplitArcadeDrive;
+import org.usfirst.frc.team4201.robot.interfaces.CTREPIDSource;
+import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -21,16 +22,28 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class DriveTrain extends Subsystem { 
+public class DriveTrain extends Subsystem {
+	PIDController leftMotorPIDController, rightMotorPIDController, driveGyroPIDController;
+	double kP = 0.03;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
+    double kI = 0;           		// Start with I = P / 100
+    double kD = 0;           		// Start with D = P * 10
+    double period = 0.01;
+    CTREPIDSource leftDriveEncoder, rightDriveEncoder;
+    PIDOutputInterface leftMotorPIDOutput, rightMotorPIDOutput, driveTurnPIDOutput;
+    
+    double throttleLeft, throttleRight, setpoint;
+	
 	
 	public BaseMotorController[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
@@ -73,9 +86,9 @@ public class DriveTrain extends Subsystem {
 		//driveMotors[1].setInverted(true);
 		
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
-		
+		spartanGyro.setName("Gyro");
+		spartanGyro.setSubsystem("Drive Train");
 		// Initialize PID Controllers
-		
 		
 	}
 	// Put methods for controlling this subsystem
@@ -144,7 +157,7 @@ public class DriveTrain extends Subsystem {
 		double leftPWM = leftOutput;
 		double rightPWM = rightOutput;
 		
-		/*
+		
 		if(rightPWM > 1.0){
 			leftPWM -= (rightPWM - 1.0);
 			rightPWM = 1.0;
@@ -158,7 +171,7 @@ public class DriveTrain extends Subsystem {
         	rightPWM += (-leftPWM - 1.0);
         	leftPWM = -1.0;
         }
-		*/
+		
 		//robotDrive.tankDrive(leftPWM, rightPWM);
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
@@ -170,6 +183,10 @@ public class DriveTrain extends Subsystem {
 	
 	public void setTankDrive(double leftSpeed, double rightSpeed){
 		robotDrive.tankDrive(leftSpeed, rightSpeed);
+	}
+	
+	public void setArcadeDrive(double speed, double turn) {
+		robotDrive.arcadeDrive(speed, turn);
 	}
 	
 	public void setDriveShiftHigh(){
@@ -201,8 +218,40 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
 	}
 	
+	public void initializeLiveWindow() {
+        leftDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[0]);
+        rightDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[2]);
+		leftMotorPIDOutput = new PIDOutputInterface();
+        rightMotorPIDOutput = new PIDOutputInterface();
+        driveTurnPIDOutput = new PIDOutputInterface();
+        
+        leftMotorPIDController = new PIDController(kP, kI, kD, leftDriveEncoder, leftMotorPIDOutput, period);
+        leftMotorPIDController.setName("Left Motor PID");
+        leftMotorPIDController.setSubsystem("Drive Train");
+        leftMotorPIDController.setAbsoluteTolerance(100);
+        leftMotorPIDController.setOutputRange(-0.8, 0.8);
+        
+        rightMotorPIDController = new PIDController(kP, kI, kD, rightDriveEncoder, rightMotorPIDOutput, period);
+        rightMotorPIDController.setName("Right Motor PID");
+        rightMotorPIDController.setSubsystem("Drive Train");
+        rightMotorPIDController.setAbsoluteTolerance(100);
+        rightMotorPIDController.setOutputRange(-0.8, 0.8);
+    	
+        driveGyroPIDController = new PIDController(kP, kI, kD, spartanGyro, driveTurnPIDOutput, period);
+        driveGyroPIDController.setName("Drive Gyro PID");
+    	driveGyroPIDController.setSubsystem("Drive Train");
+        driveGyroPIDController.setAbsoluteTolerance(2);
+        driveGyroPIDController.setOutputRange(-0.2, 0.2);
+        
+        LiveWindow.add(leftMotorPIDController);
+        LiveWindow.add(rightMotorPIDController);
+        LiveWindow.add(driveGyroPIDController);
+        LiveWindow.addSensor("Drive Train", "Left Encoder", (WPI_TalonSRX)driveMotors[0]);
+        LiveWindow.addSensor("Drive Train", "Right Encoder", (WPI_TalonSRX)driveMotors[2]);
+        LiveWindow.addSensor("Drive Train", "Gyro", spartanGyro);
+	}
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new SetSplitArcadeDrive());
 	}
 }

@@ -6,13 +6,13 @@ import org.usfirst.frc.team4201.robot.commands.*;
 public class LeftRobotToRightSwitch extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public LeftRobotToRightSwitch() {
-		 addSequential(new DriveStraightWithGyroAndEncoders(24186, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(14419.96, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(7424, 1));
-		 addSequential(new TurnWithGyro(90));  
-		 addSequential(new DriveStraightWithGyroAndEncoders(2761.96, 1));
+		 addSequential(new DriveStraightFusion(24186));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(14419.96));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(7424));
+		 addSequential(new DriveTurnWithGyro(90));  
+		 addSequential(new DriveStraightFusion(2761.96));
 		 //Drop off Block
 	}
 }
