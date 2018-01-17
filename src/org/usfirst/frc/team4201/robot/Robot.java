@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -30,7 +31,7 @@ public class Robot extends TimedRobot {
 	public static Hopper hopper = new Hopper();
 	public static GroundGearIntake groundGearIntake = new GroundGearIntake();
 	public static Shooter shooter = new Shooter();
-	public static Sensors sensors = new Sensors();
+	//public static Sensors sensors = new Sensors();
 	public static Utilities utilities = new Utilities();
 	public static OI oi;
 
@@ -55,6 +56,9 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Tank Drive", new TankDrive());
 		driveMode.addObject("Split Arcade", new SplitArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
+		
+		CameraServer.getInstance().startAutomaticCapture(0);
+		CameraServer.getInstance().startAutomaticCapture(1);
 	}
 
 	/**
