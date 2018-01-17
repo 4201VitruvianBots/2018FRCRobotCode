@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterRobotToLeftSwitch extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public CenterRobotToLeftSwitch() {
-		 addSequential(new DriveStraightFusion(1392));
+		 addSequential(new DriveStraightFusion(5392));
 		 addSequential(new DriveTurnWithGyro(-45)); 
 		 addSequential(new DriveStraightFusion(9768));
 		 addSequential(new DriveTurnWithGyro(45)); 
-		 addSequential(new DriveStraightFusion(8120));
+		 addSequential(new DriveStraightFusion(4120));
 		 //Drop off Block
 	}
 }
