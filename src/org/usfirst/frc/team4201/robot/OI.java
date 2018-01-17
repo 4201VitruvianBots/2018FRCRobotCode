@@ -62,14 +62,14 @@ public class OI {
 		for(int i = 0; i < rightButtons.length; i++)
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
         
-        leftButtons[0].whenPressed(new DeployIntakePistons());
-        leftButtons[1].whileHeld(new EnableIntakeMotors());
+        leftButtons[1].whenPressed(new DeployIntakePistons());
+        leftButtons[0].whileHeld(new EnableIntakeMotors());
         leftButtons[2].whenPressed(new ResetEncoders());
         leftButtons[3].toggleWhenPressed(new ToggleMotorTest());
         leftButtons[4].whenPressed(new ToggleArm());
         
-        rightButtons[0].whenPressed(new RetractIntakePistons());
-        rightButtons[1].whileHeld(new ReverseIntakeMotors());
+        rightButtons[1].whenPressed(new RetractIntakePistons());
+        rightButtons[0].whileHeld(new ReverseIntakeMotors());
 		rightButtons[3].whenPressed(new ToggleCheesyDrive());
 		rightButtons[4].whenPressed(new ToggleDriveShifters());
 		//rightButtons[5].whenPressed(new ToggleFlipper());

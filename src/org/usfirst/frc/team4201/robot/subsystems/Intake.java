@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Intake extends Subsystem {
 	
@@ -17,7 +18,7 @@ public class Intake extends Subsystem {
 		new WPI_TalonSRX(RobotMap.intakeLeft),	// TO maintain consistancy, left should always go before right
 		new WPI_TalonSRX(RobotMap.intakeRight)
 	};
-	
+	DifferentialDrive armDrive = new DifferentialDrive((WPI_TalonSRX)intakeMotors[0], (WPI_TalonSRX)intakeMotors[1]);
 	//DifferentialDrive robotDrive = new DifferentialDrive(intakeMotors[0], intakeMotors[1]);
 	DoubleSolenoid intakeDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward, RobotMap.intakeReverse);
 	
@@ -25,7 +26,7 @@ public class Intake extends Subsystem {
 		super("Intake");
 		
 		// Set right motor to follow left motor
-		intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
+		//intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
 		
 		// Set Motor Controller Feedback Device
 		intakeMotors[0].configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
@@ -37,13 +38,11 @@ public class Intake extends Subsystem {
 			intakeMotors[i].configPeakOutputReverse(-1, 0);
 			intakeMotors[i].setNeutralMode(NeutralMode.Brake);	// Brake is probably preferred for this game, due to the 1 cube control limit
 		}
-		
 		//Invert right motor. This will still work if the motor is following another motor
-		intakeMotors[1].setInverted(true);
 	}
 	
-	public void setIntakeMotorOutput(double intakeSpeed){
-		intakeMotors[0].set(ControlMode.PercentOutput, intakeSpeed);
+	public void setIntakeMotorOutput(double intakeLeftSpeed, double intakeRightSpeed){
+		armDrive.tankDrive(intakeLeftSpeed, intakeRightSpeed);
 	}
 	
 	public boolean getIntakePistonStatus() {
