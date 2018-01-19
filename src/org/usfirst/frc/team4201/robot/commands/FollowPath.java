@@ -43,6 +43,7 @@ public class FollowPath extends Command {
 	        TrajectoryPoint right = new TrajectoryPoint();
 	        
 	        // Need to look into more stuff after this. not sure if I need to convert PathFinder -> Talon units, or just use PathFinder units by themselves
+	        // PathFinder points seem more accurate than Talon units
 	        //left.profileSlotSelect = 0;
 	        //left.headingDeg = Pathfinder.r2d(leftPoint.heading);	// What unit is heading in?
 	        //left.position = leftPoint.position;
