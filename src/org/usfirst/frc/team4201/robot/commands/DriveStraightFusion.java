@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
 import org.usfirst.frc.team4201.robot.interfaces.CTREPIDSource;
 
@@ -16,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraightFusion extends Command{
 	PIDController leftMotorPIDController, rightMotorPIDController, driveGyroPIDController;
 	double kP = 0.03;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
-    double kI = 0.0003;           		// Start with I = P / 100  (speeds you up when you have an error for a period of time)
-    double kD = 0.3;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
+    double kI = 0.001;           		// Start with I = P / 100  (speeds you up when you have an error for a period of time)
+    double kD = 0.5;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
     double period = 0.01;
     CTREPIDSource leftDriveEncoder, rightDriveEncoder;
     PIDOutputInterface leftMotorPIDOutput, rightMotorPIDOutput, driveTurnPIDOutput;
@@ -64,6 +65,7 @@ public class DriveStraightFusion extends Command{
     	Robot.driveTrain.resetEncoders();
     	new ResetEncoders();
         stopwatch = new Timer();
+        RobotMap.isTurning = false;
     	
         leftMotorPIDController.setSetpoint(setpoint);
         rightMotorPIDController.setSetpoint(setpoint);
@@ -92,7 +94,7 @@ public class DriveStraightFusion extends Command{
     	//SmartDashboard.putNumber("Left PIDS Output", PIDThrottleLeft.getPIDOutput());
     	//SmartDashboard.putNumber("Right PIDS Output", PIDThrottleRight.getPIDOutput());
     	//SmartDashboard.putNumber("Turn PIDS Output", PIDTurn.getPIDOutput());
-    	//SmartDashboard.putBoolean("Lock Value: ", lock);
+    	SmartDashboard.putBoolean("Lock Value: ", lock);
     	
     	//Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
         Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput() + driveTurnPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput() - driveTurnPIDOutput.getPIDOutput());
