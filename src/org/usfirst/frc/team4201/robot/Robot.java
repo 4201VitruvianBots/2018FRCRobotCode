@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
 		autoModeChooser.addObject("Turn", new Turn());
 		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
+		autoModeChooser.addObject("RightRobotToRightScale", new RightRobotToRightScale());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		
@@ -114,6 +115,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+    	SmartDashboard.putBoolean("Turning", RobotMap.isTurning);
 
 		driveTrain.updateSmartDashboard();
 	}
