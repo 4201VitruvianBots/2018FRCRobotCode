@@ -246,9 +246,9 @@ public class DriveTrain extends Subsystem {
         LiveWindow.add(leftMotorPIDController);
         LiveWindow.add(rightMotorPIDController);
         LiveWindow.add(driveGyroPIDController);
-        LiveWindow.addSensor("Drive Train", "Left Encoder", (WPI_TalonSRX)driveMotors[0]);
-        LiveWindow.addSensor("Drive Train", "Right Encoder", (WPI_TalonSRX)driveMotors[2]);
-        LiveWindow.addSensor("Drive Train", "Gyro", spartanGyro);
+        //LiveWindow.addChild("Drive Train", (WPI_TalonSRX)driveMotors[0]);
+        //LiveWindow.addChild("Drive Train", (WPI_TalonSRX)driveMotors[2]);
+        //LiveWindow.addChild("Drive Train", spartanGyro);
 	}
 	
 	public void initDefaultCommand() {
