@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 		
 		Robot.driveTrain.initializeLiveWindow();
 		
-		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
+		autoModeChooser.addDefault("PathFinder", new PathFinder());
 		autoModeChooser.addObject("Turn", new Turn());
 		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
 		// chooser.addObject("My Auto", new MyAutoCommand());

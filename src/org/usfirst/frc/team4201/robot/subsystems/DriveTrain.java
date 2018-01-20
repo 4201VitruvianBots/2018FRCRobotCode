@@ -176,6 +176,11 @@ public class DriveTrain extends Subsystem {
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
 	
+	public void setDrivePosition(double leftPos, double rightPos){
+		driveMotors[0].set(ControlMode.Position, leftPos);
+		driveMotors[2].set(ControlMode.Position, rightPos);
+	}
+	
 	public void cheesyDrive(double xSpeed, double zRotation, boolean QuickTurn) {
 		robotDrive.curvatureDrive(xSpeed, zRotation, QuickTurn);
 	}
