@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTurnWithGyro extends Command {
 	PIDController driveGyroPIDController;
-	static double kP = 0.1;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
-    static double kI = 0.003;           // Start with I = P / 100
+	static double kP = 0.01;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
+    static double kI = 0.1;           // Start with I = P / 100
     static double kD = 1;           	// Start with D = P * 10
     static double period = 0.01;
     PIDOutputInterface driveTurnPIDOutput;
@@ -28,13 +28,24 @@ public class DriveTurnWithGyro extends Command {
 	
     public DriveTurnWithGyro(double angle) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.driveTrain);
+        requires(Robot.driveTrain); 
+        
+        if(!SmartDashboard.containsKey("kP"))
+        	SmartDashboard.putNumber("kP", kP);
+        if(!SmartDashboard.containsKey("kI"))
+        	SmartDashboard.putNumber("kI", kI);
+        if(!SmartDashboard.containsKey("kD"))
+        	SmartDashboard.putNumber("kD", kD);
+        
+        kP = SmartDashboard.getNumber("kP", kP);
+        kI = SmartDashboard.getNumber("kI", kI);
+        kD = SmartDashboard.getNumber("kD", kD);
         driveTurnPIDOutput = new PIDOutputInterface();
         driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
     	driveGyroPIDController.setName("Drive Gyro PID");
     	driveGyroPIDController.setSubsystem("Drive Train");
     	driveGyroPIDController.setAbsoluteTolerance(1);
-    	driveGyroPIDController.setOutputRange(-0.75, 0.75);
+    	driveGyroPIDController.setOutputRange(-1, 1);
         this.setpoint = angle;
     }
 

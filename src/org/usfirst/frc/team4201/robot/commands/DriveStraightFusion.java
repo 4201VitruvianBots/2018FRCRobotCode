@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraightFusion extends Command{
 	PIDController leftMotorPIDController, rightMotorPIDController, driveGyroPIDController;
 	double kP = 0.03;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
-    double kI = 0.001;           		// Start with I = P / 100  (speeds you up when you have an error for a period of time)
+    double kI = 0.002;           		// Start with I = P / 100  (speeds you up when you have an error for a period of time)
     double kD = 0.5;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
     double period = 0.01;
     CTREPIDSource leftDriveEncoder, rightDriveEncoder;
@@ -31,6 +31,17 @@ public class DriveStraightFusion extends Command{
     public DriveStraightFusion(double distance) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
+        
+        if(!SmartDashboard.containsKey("kP"))
+        	SmartDashboard.putNumber("kP", kP);
+        if(!SmartDashboard.containsKey("kI"))
+        	SmartDashboard.putNumber("kI", kI);
+        if(!SmartDashboard.containsKey("kD"))
+        	SmartDashboard.putNumber("kD", kD);
+        
+        kP = SmartDashboard.getNumber("kP", kP);
+        kI = SmartDashboard.getNumber("kI", kI);
+        kD = SmartDashboard.getNumber("kD", kD);
         
         leftDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[0]);
         rightDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[2]);
