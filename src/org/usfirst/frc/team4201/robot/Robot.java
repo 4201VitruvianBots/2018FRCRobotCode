@@ -7,7 +7,11 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -57,8 +61,13 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Split Arcade", new SplitArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
 		
-		CameraServer.getInstance().startAutomaticCapture(0);
-		CameraServer.getInstance().startAutomaticCapture(1);
+		UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+		SmartDashboard.putString("Cam 1", cam1.enumerateProperties().toString());
+		
+		UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+		cam2.setPixelFormat(PixelFormat.kYUYV);
+		cam2.setResolution(160, 120);
+		cam2.setFPS(60);
 	}
 
 	/**

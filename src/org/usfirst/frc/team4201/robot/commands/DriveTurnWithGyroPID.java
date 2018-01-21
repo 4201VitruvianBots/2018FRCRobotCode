@@ -17,7 +17,7 @@ public class DriveTurnWithGyroPID extends PIDCommand{
     
     public DriveTurnWithGyroPID(double speed, double angle){
         super("DriveTurnWithGyroPID", kP, kI, kD, period);
-        getPIDController().setContinuous(true);
+        //getPIDController().setContinuous(true);
         getPIDController().setAbsoluteTolerance(0.1);
         getPIDController().setOutputRange(-1, 1); // Is this okay, or does this need to be an angle to match gyro output?
         
