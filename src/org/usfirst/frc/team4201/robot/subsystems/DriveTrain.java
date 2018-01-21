@@ -59,8 +59,7 @@ public class DriveTrain extends Subsystem {
 	
 	public ADXRS450_Gyro spartanGyro;
 	
-	public Encoder leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, false, EncodingType.k2X);
-	public Encoder rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB, false, EncodingType.k2X);
+	public Encoder testEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, false, EncodingType.k2X);
 	
 	public DriveTrain(){
 		super("Drive Train");
@@ -94,26 +93,14 @@ public class DriveTrain extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	
-	public double getLeftEncoderValue() {
-		return leftEncoder.get();
+	public int  getTestEncoderCount() {
+		return testEncoder.get();
 	}
 	
-	public double getRightEncoderValue() {
-		return rightEncoder.get();
-	}
-	
-	public double getAverageEncoderValue() {
-		double leftEncoder = getLeftEncoderValue();
-		double rightEncoder = getRightEncoderValue();
-		double averageEncoderCounts = leftEncoder + rightEncoder;
-		averageEncoderCounts = averageEncoderCounts/2;
-		return averageEncoderCounts;
-	}
 
 	
 	public void resetEncoders() {
-		leftEncoder.reset();
-		rightEncoder.reset();
+		testEncoder.reset();
 		
 		//driveMotors[0].setSelectedSensorPosition(driveMotors[0].getSelectedSensorPosition(0), 0, 0);
 		//driveMotors[2].setSelectedSensorPosition(driveMotors[2].getSelectedSensorPosition(0), 0, 0);
@@ -176,6 +163,11 @@ public class DriveTrain extends Subsystem {
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
 	
+	public void setDirectDriveOutput(double leftOut, double rightOut){
+		driveMotors[0].set(ControlMode.PercentOutput, leftOut);
+		driveMotors[2].set(ControlMode.PercentOutput, rightOut);
+	}
+	
 	public void setDrivePosition(double leftPos, double rightPos){
 		driveMotors[0].set(ControlMode.Position, leftPos);
 		driveMotors[2].set(ControlMode.Position, rightPos);
@@ -215,9 +207,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Left Encoder", driveMotors[0].getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
 		
-		SmartDashboard.putNumber("Left Encoder Count", getLeftEncoderValue());
-		SmartDashboard.putNumber("Right Encoder Count", getRightEncoderValue());
-		SmartDashboard.putNumber("Average Encoder Count", getAverageEncoderValue());
+		SmartDashboard.putNumber("Test Encoder Count", getTestEncoderCount());
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
