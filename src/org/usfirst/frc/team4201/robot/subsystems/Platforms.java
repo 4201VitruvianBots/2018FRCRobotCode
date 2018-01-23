@@ -9,8 +9,7 @@ public class Platforms extends Subsystem{
 	
 	
 	
-	public Platforms(){
-		
+	public Platforms(){		
 	}
 	
 	public void deploySidePanels() {

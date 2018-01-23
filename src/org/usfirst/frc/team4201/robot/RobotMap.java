@@ -48,24 +48,24 @@ public class RobotMap {
 	
 	// Pneumatic Modules & their devices
 	public static final int PCMOne = 11;
-		public static final int driveTrainShifterForward = 0;
-		public static final int driveTrainShifterReverse = 1;
-		public static final int elevatorForward = 2;
-		public static final int elevatorReverse = 3;
-		public static final int intakeForward = 4;
-		public static final int intakeReverse = 5;
-		public static final int leftArmForward = 6;
-		public static final int leftArmReverse = 7;
+		public static final int driveTrainShifterLeft = 0;
+		public static final int driveTrainShifterRight = 1;
+		public static final int elevatorOne = 2;
+		public static final int elevatorTwo = 3;
+		public static final int intakeOne = 4;
+		public static final int intakeTwo = 5;
+		public static final int leftArmOne = 6;
+		public static final int leftArmTwo = 7;
 		
 	public static final int PCMTwo = 12;
-		public static final int stabalizerReleaseForward = 0;
-		public static final int stabalizerReleaseReverse = 1;
-		public static final int stabalizerGrabForward = 2;
-		public static final int stabalizerGrabReverse = 3;
-		public static final int stabalizerEngageForward = 4;
-		public static final int stabalizerEngageReverse = 5;
-		public static final int rightArmForward = 6;
-		public static final int rightArmReverse = 7;
+		public static final int stabalizerReleaseLeft = 0;
+		public static final int stabalizerReleaseRight = 1;
+		public static final int stabalizerGrabLeft = 2;
+		public static final int stabalizerGrabRight = 3;
+		public static final int stabalizerEngageLeft = 4;
+		public static final int stabalizerEngageRight = 5;
+		public static final int rightArmOne = 6;
+		public static final int rightArmTwo = 7;
 		
 	
 	// Motor Controllers

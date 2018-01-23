@@ -19,7 +19,7 @@ public class Intake extends Subsystem {
 	};
 	
 	//DifferentialDrive robotDrive = new DifferentialDrive(intakeMotors[0], intakeMotors[1]);
-	DoubleSolenoid intakeDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward, RobotMap.intakeReverse);
+	DoubleSolenoid intakeDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeOne, RobotMap.intakeTwo);
 	
 	public Intake() {
 		super("Intake");
