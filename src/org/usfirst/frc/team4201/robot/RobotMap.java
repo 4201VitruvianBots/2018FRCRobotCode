@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import jaci.pathfinder.Trajectory;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -18,6 +20,8 @@ package org.usfirst.frc.team4201.robot;
 
 
 public class RobotMap {
+	public static Trajectory path; 
+	
 	// USB ADDRESSES
 	public static final int leftJoystick = 0;
 	public static final int rightJoystick = 1;

@@ -29,6 +29,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
@@ -164,8 +167,9 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setDirectDriveOutput(double leftOut, double rightOut){
-		driveMotors[0].set(ControlMode.PercentOutput, leftOut);
-		driveMotors[2].set(ControlMode.PercentOutput, rightOut);
+		robotDrive.tankDrive(leftOut, rightOut);
+		//driveMotors[0].set(ControlMode.PercentOutput, leftOut);
+		//driveMotors[2].set(ControlMode.PercentOutput, rightOut);
 	}
 	
 	public void setDrivePosition(double leftPos, double rightPos){
