@@ -4,8 +4,8 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ReverseIntakeMotors extends Command {
-	public ReverseIntakeMotors() {
+public class IntakeMotorsLeftReverse extends Command {
+	public IntakeMotorsLeftReverse() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.intake);
 	}
@@ -18,7 +18,7 @@ public class ReverseIntakeMotors extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.intake.setIntakeMotorOutput(-0.75,-0.75);
+		Robot.intake.setIntakeMotorOutput(0.75,-0.75);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -40,4 +40,3 @@ public class ReverseIntakeMotors extends Command {
 		end();
 	}
 }
-

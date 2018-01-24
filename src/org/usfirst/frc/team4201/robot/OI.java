@@ -10,8 +10,10 @@ package org.usfirst.frc.team4201.robot;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -64,15 +66,21 @@ public class OI {
         
         leftButtons[1].whenPressed(new DeployIntakePistons());
         leftButtons[0].whileHeld(new EnableIntakeMotors());
-        leftButtons[2].whenPressed(new ResetEncoders());
-        leftButtons[3].toggleWhenPressed(new ToggleMotorTest());
-        leftButtons[4].whenPressed(new ToggleArm());
+        leftButtons[3].whileHeld(new IntakeMotorsLeftReverse());
+        //leftButtons[2].whenPressed(new ResetEncoders());
+        //leftButtons[4].whenPressed(new ToggleArm());
         
         rightButtons[1].whenPressed(new RetractIntakePistons());
         rightButtons[0].whileHeld(new ReverseIntakeMotors());
-		rightButtons[3].whenPressed(new ToggleCheesyDrive());
+        rightButtons[2].whileHeld(new IntakeMotorsLeftReverse());
+        rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
+		rightButtons[5].whenPressed(new ToggleCheesyDrive());
 		rightButtons[4].whenPressed(new ToggleDriveShifters());
 		//rightButtons[5].whenPressed(new ToggleFlipper());
+
+        if(DriverStation.getInstance().isTest()) {
+        	leftButtons[3].toggleWhenPressed(new ToggleMotorTest());
+        }
 	}
 	
 	public double getLeftY(){

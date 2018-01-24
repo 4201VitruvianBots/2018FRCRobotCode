@@ -71,12 +71,15 @@ public class RobotMap {
 		
 	
 	// Motor Controllers
-	public static final int driveTrainLeftFront = 24;
-	public static final int driveTrainLeftRear = 25;
+	public static final int driveTrainLeftFront = 0;
+	public static final int driveTrainLeftRear = 1;
 	public static final int driveTrainRightFront = 22;
 	public static final int driveTrainRightRear = 23;
 	public static final int intakeLeft = 20;
 	public static final int intakeRight = 21;
+	// If intake needs more motors.
+	//public static final int intakeLeftTwo =;
+	//public static final int intakeRightTwo =;
 	public static final int elevatorA = 26;
 	public static final int elevatorB = 27;
 	public static final int fourBar = 28;
