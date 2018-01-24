@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
 		driveMode.addDefault("Cheesy Drive", new SetCheesyDrive());
 		driveMode.addObject("Tank Drive", new SetTankDrive());
 		driveMode.addObject("Split Arcade", new SetSplitArcadeDrive());
+
 		SmartDashboard.putData("Drive Type", driveMode);
 	}
 
