@@ -19,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
@@ -61,6 +63,7 @@ public class DriveTrain extends Subsystem {
 	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
 	
 	public ADXRS450_Gyro spartanGyro;
+	public Accelerometer roboRIOAccel;
 	
 	public Encoder testEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, false, EncodingType.k2X);
 	
@@ -80,7 +83,6 @@ public class DriveTrain extends Subsystem {
 		for(int i = 0; i < 4; i++){
 			driveMotors[i].configPeakOutputForward(1, 0);
 			driveMotors[i].configPeakOutputReverse(-1, 0);
-			driveMotors[i].setNeutralMode(NeutralMode.Coast);
 		}
 		
 		// Invert Left Motors
@@ -90,6 +92,7 @@ public class DriveTrain extends Subsystem {
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 		spartanGyro.setName("Gyro");
 		spartanGyro.setSubsystem("Drive Train");
+		roboRIOAccel = new BuiltInAccelerometer();
 		// Initialize PID Controllers
 		
 	}
@@ -203,16 +206,28 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void updateSmartDashboard(){
-		SmartDashboard.putNumber("Front Left Current", driveMotors[0].getOutputCurrent());
-		SmartDashboard.putNumber("Rear Left Current", driveMotors[1].getOutputCurrent());
-		SmartDashboard.putNumber("Front Right Current", driveMotors[2].getOutputCurrent());
-		SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
+		SmartDashboard.putNumber("Front Left Voltage", driveMotors[0].getMotorOutputVoltage());
+		SmartDashboard.putNumber("Rear Left Voltage", driveMotors[1].getMotorOutputVoltage());
+		SmartDashboard.putNumber("Front Right Voltage", driveMotors[2].getMotorOutputVoltage());
+		SmartDashboard.putNumber("Rear Right Voltage", driveMotors[3].getMotorOutputVoltage());
+		
+		//SmartDashboard.putNumber("Front Left Current", driveMotors[0].getOutputCurrent());
+		//SmartDashboard.putNumber("Rear Left Current", driveMotors[1].getOutputCurrent());
+		//SmartDashboard.putNumber("Front Right Current", driveMotors[2].getOutputCurrent());
+		//SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
 
-		SmartDashboard.putNumber("Left Encoder", driveMotors[0].getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Left Encoder Pos", driveMotors[0].getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder Pos", driveMotors[2].getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Left Encoder Rate", driveMotors[0].getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Encoder Rate", driveMotors[2].getSelectedSensorVelocity(0));
 		
 		SmartDashboard.putNumber("Test Encoder Count", getTestEncoderCount());
+		
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
+		SmartDashboard.putNumber("Accel X", roboRIOAccel.getX());
+		SmartDashboard.putNumber("Accel Y", roboRIOAccel.getY());
+		SmartDashboard.putNumber("Accel Z", roboRIOAccel.getZ());
+				
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
 	}

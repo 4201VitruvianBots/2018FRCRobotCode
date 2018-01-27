@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addDefault("PathFinder", new PathFinder());
 		autoModeChooser.addObject("Turn", new Turn());
 		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		//autoModeChooser.addDefault("Full Power Straight", new DriveStraightFullPower(5));
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		
 		driveMode.addDefault("Cheesy Drive", new SetCheesyDrive());
@@ -147,7 +147,7 @@ public class Robot extends TimedRobot {
 		
 		//sensors.updateSmartDashboard();
 		driveTrain.updateSmartDashboard();
-		//flipper.updateSmartDashboard();
+		elevator.updateSmartDashboard();
 	}
 
 	/**
