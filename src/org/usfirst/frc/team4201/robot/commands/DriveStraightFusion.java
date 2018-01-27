@@ -48,17 +48,17 @@ public class DriveStraightFusion extends Command{
         throttleControlRight.setAbsoluteTolerance(10);
         throttleControlRight.setOutputRange(-0.5, 0.5);
     	
-        turnControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, PIDTurn, period);
-        turnControl.setName("DriveStraightCorrection");
-        turnControl.setAbsoluteTolerance(0.1);
-        turnControl.setOutputRange(-0.25, 0.25);
+        //turnControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, PIDTurn, period);
+        //turnControl.setName("DriveStraightCorrection");
+        //turnControl.setAbsoluteTolerance(0.1);
+        //turnControl.setOutputRange(-0.25, 0.25);
         
         this.setpoint = distance;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.spartanGyro.reset();
+    	//Robot.driveTrain.spartanGyro.reset();
     	Robot.driveTrain.resetEncoders();
         stopwatch = new Timer();
     	

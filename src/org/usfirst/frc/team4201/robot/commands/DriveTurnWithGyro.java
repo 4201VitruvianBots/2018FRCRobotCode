@@ -30,7 +30,8 @@ public class DriveTurnWithGyro extends PIDCommand{
     @Override
     protected double returnPIDInput() {
         // TODO Auto-generated method stub
-    	return Robot.driveTrain.spartanGyro.getAngle();
+    	//return Robot.driveTrain.spartanGyro.getAngle();
+    	return 0.0;
     }
     
     @Override
@@ -51,7 +52,7 @@ public class DriveTurnWithGyro extends PIDCommand{
         kI = SmartDashboard.getNumber("kI", kI);
         kD = SmartDashboard.getNumber("kD", kD);
                 
-        Robot.driveTrain.spartanGyro.reset();
+        //Robot.driveTrain.spartanGyro.reset();
         stopwatch = new Timer();
 
         getPIDController().setSetpoint(setpoint);

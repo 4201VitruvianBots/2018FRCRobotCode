@@ -42,9 +42,9 @@ public class DriveTrain extends Subsystem {
 	//RobotDrive robotDrive = new RobotDrive(driveMotors[0], driveMotors[1], driveMotors[2], driveMotors[3]);
 	DifferentialDrive robotDrive = new DifferentialDrive((WPI_TalonSRX)driveMotors[0], (WPI_TalonSRX)driveMotors[2]);
 	
-	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
+	//DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap./*driveTrainShifterForward*/fourBarForward, RobotMap./*driveTrainShifterReverse*/fourBarReverse);
 	
-	public ADXRS450_Gyro spartanGyro;
+	//public ADXRS450_Gyro spartanGyro;
 	
 	public Encoder leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, false, EncodingType.k2X);
 	public Encoder rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB, false, EncodingType.k2X);
@@ -72,7 +72,7 @@ public class DriveTrain extends Subsystem {
 		//driveMotors[0].setInverted(true);
 		//driveMotors[1].setInverted(true);
 		
-		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+		//spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 		
 	}
 	// Put methods for controlling this subsystem
@@ -161,15 +161,18 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setDriveShiftHigh(){
-		driveTrainShifters.set(Value.kForward);
+		//driveTrainShifters.set(Value.kForward);
+		Robot.fourBar.fourBarUp();
 	}
 	
 	public void setDriveShiftLow(){
-		driveTrainShifters.set(Value.kReverse);
+		//driveTrainShifters.set(Value.kReverse);
+		Robot.fourBar.fourBarDown();
 	}
 	
 	public boolean getDriveShiftStatus(){
-		return driveTrainShifters.get() == Value.kForward ? true : false;
+		//return driveTrainShifters.get() == Value.kForward ? true : false;
+		return false;
 	}
 	
 	public void updateSmartDashboard(){
@@ -184,7 +187,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Left Encoder Count", getLeftEncoderValue());
 		SmartDashboard.putNumber("Right Encoder Count", getRightEncoderValue());
 		SmartDashboard.putNumber("Average Encoder Count", getAverageEncoderValue());
-		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
+		//SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
 	}

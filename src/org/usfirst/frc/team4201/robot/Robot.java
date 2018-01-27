@@ -27,6 +27,7 @@ import org.usfirst.frc.team4201.robot.subsystems.*;
 public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Intake intake = new Intake();
+	public static FourBar fourBar = new FourBar();
 	//public static Sensors sensors = new Sensors();
 	public static OI oi;
 

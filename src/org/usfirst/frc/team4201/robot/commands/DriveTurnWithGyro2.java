@@ -29,7 +29,7 @@ public class DriveTurnWithGyro2 extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
         driveTrainOutput = new PIDOutputInterface();
-        pidControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTrainOutput, period);
+        //pidControl = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTrainOutput, period);
     	pidControl.setName("DriveTurnWithGyro");
     	pidControl.setContinuous(false);
     	pidControl.setAbsoluteTolerance(0.1);
@@ -42,7 +42,7 @@ public class DriveTurnWithGyro2 extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	pidControl.disable();
-    	Robot.driveTrain.spartanGyro.reset();
+    	//Robot.driveTrain.spartanGyro.reset();
         stopwatch = new Timer();
     	
     	pidControl.setSetpoint(setpoint);
