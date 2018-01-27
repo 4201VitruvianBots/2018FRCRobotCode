@@ -13,10 +13,10 @@ public class ToggleArm extends Command{
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if(Robot.arm.getArmStatus())
-			new ArmDown();
-		else
-			new ArmUp();
+		//if(Robot.arm.getArmStatus())
+		//	new ArmDown();
+		//else
+		//	new ArmUp();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

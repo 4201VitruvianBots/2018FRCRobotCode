@@ -81,6 +81,9 @@ public class RobotMap {
 	public static final int elevatorA = 26;
 	public static final int elevatorB = 27;
 	public static final int fourBar = 28;
+	public static final int armOne = 29;
+	public static final int armTwo = 30;
+	public static final int wrist = 31;
 	
 	
 	public static final int red = 0;

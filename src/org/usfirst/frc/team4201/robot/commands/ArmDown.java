@@ -13,9 +13,11 @@ public class ArmDown extends Command{
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if (Robot.arm.getArmStatus()) {
+		/*if (Robot.arm.getArmStatus()) {
 			Robot.arm.retractArm();
 		}
+		*/
+		Robot.arm.armDown();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -32,6 +34,7 @@ public class ArmDown extends Command{
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		Robot.arm.armStop();
 	}
 
 	// Called when another command which requires one or more of the same

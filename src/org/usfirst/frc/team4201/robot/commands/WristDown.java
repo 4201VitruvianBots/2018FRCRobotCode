@@ -4,8 +4,8 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ArmUp extends Command{
-	public ArmUp() {
+public class WristDown extends Command{
+	public WristDown() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.arm);
 	}
@@ -13,12 +13,11 @@ public class ArmUp extends Command{
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		/*if (!Robot.arm.getArmStatus()) {
-			Robot.arm.deployArm();
+		/*if (Robot.arm.getArmStatus()) {
+			Robot.arm.retractArm();
 		}
 		*/
-		Robot.arm.armUp();
-		
+		Robot.arm.wristDown();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -35,7 +34,7 @@ public class ArmUp extends Command{
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.arm.armStop();
+		Robot.arm.wristStop();
 	}
 
 	// Called when another command which requires one or more of the same

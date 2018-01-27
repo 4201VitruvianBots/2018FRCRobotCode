@@ -63,19 +63,19 @@ public class OI {
 			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
 		for(int i = 0; i < rightButtons.length; i++)
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
-        
-        leftButtons[1].whenPressed(new DeployIntakePistons());
-        leftButtons[0].whileHeld(new EnableIntakeMotors());
-        leftButtons[3].whileHeld(new IntakeMotorsLeftReverse());
+
+        leftButtons[0].whileHeld(new ToggleDriveShifters());
+        leftButtons[2].whileHeld(new WristDown());
+        leftButtons[4].whileHeld(new WristUp());
         //leftButtons[2].whenPressed(new ResetEncoders());
         //leftButtons[4].whenPressed(new ToggleArm());
-        
-        rightButtons[1].whenPressed(new RetractIntakePistons());
-        rightButtons[0].whileHeld(new ReverseIntakeMotors());
-        rightButtons[2].whileHeld(new IntakeMotorsLeftReverse());
-        rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
-		rightButtons[4].whenPressed(new ToggleDriveShifters());		
-		// Where my cheesy drive toggle? rightButtons[5].whenPressed(new ToggleCheesyDrive());
+
+       // rightButtons[0].whileHeld(new ReverseIntakeMotors());
+        //rightButtons[1].whenPressed(new RetractIntakePistons());
+        rightButtons[3].whileHeld(new ArmDown());
+        //rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
+        rightButtons[5].whileHeld(new ArmUp());		
+		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
 
 
         if(DriverStation.getInstance().isTest()) {
