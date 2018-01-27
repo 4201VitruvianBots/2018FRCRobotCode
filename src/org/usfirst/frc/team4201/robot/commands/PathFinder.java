@@ -20,10 +20,18 @@ public class PathFinder extends Command{
 	TankModifier modifier;
 	EncoderFollower left, right;
 	boolean end = false;
+	Waypoint[] points;
 	
-    public PathFinder() {
+    public PathFinder(Waypoint path) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
+        // this.points = path; Real
+        
+        this.points = new Waypoint[] {		// Temp
+			new Waypoint(0, 0, 0),                 
+			new Waypoint(2, -2, Pathfinder.d2r(-45)),          
+			new Waypoint(4, -4, 0),
+		};
     }
     
     
@@ -35,11 +43,7 @@ public class PathFinder extends Command{
 		SmartDashboard.putString("PathFinder Status" , "Initializing...");
 		// +/- X is forward/backwards, +/- Y is left/right, +/- angle is left/right (unlike gyro, which is +/- right/left).
 		// Keep all units in terms of yards for consistency, unless otherwise stated.
-		Waypoint[] points = new Waypoint[] {		// Create a spline path 
-			new Waypoint(0, 0, 0),                 
-			new Waypoint(2, -2, Pathfinder.d2r(-45)),          
-			new Waypoint(4, -4, 0),
-		};
+		
 
 		// Create the Trajectory Configuration
 		//
