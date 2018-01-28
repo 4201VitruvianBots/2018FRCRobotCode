@@ -21,6 +21,7 @@ public class LeftRobotToLeftSwitchAndLeftScale extends CommandGroup{
 		 addSequential(new DriveStraightFusion(1972));
 		 //Stop Intake
 		 addSequential(new DriveStraightFusion(-1972));
+		 
 		 addSequential(new DriveTurnWithGyro(90));  
 		 addSequential(new DriveStraightFusion(5777.96));
 		 addSequential(new DriveTurnWithGyro(90));  

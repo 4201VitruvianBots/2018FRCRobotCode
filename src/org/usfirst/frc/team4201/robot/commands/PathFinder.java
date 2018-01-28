@@ -27,10 +27,20 @@ public class PathFinder extends Command{
 	EncoderFollower left, right;
 	boolean end = false;
 	Timer stopwatch;
+	Waypoint[] points;
 	
-    public PathFinder() {
+    public PathFinder(Waypoint path) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
+        // this.points = path; Real
+        
+        // +/- X is forward/backwards, +/- Y is left/right, +/- angle is left/right (unlike gyro, which is +/- right/left).
+     	// Keep all units in terms of yards for consistency, unless otherwise stated.
+        this.points = new Waypoint[] {		// Temp
+			new Waypoint(0, 0, 0),                 
+			//new Waypoint(2, -2, Pathfinder.d2r(-45)),          
+			new Waypoint(3, 0, 0),
+		};
     }
     
     
@@ -40,20 +50,14 @@ public class PathFinder extends Command{
 		Robot.driveTrain.spartanGyro.reset();
 	
 		SmartDashboard.putString("PathFinder Status" , "Initializing...");
-		// +/- X is forward/backwards, +/- Y is right/left. Keep all units in terms of yards.
-		Waypoint[] points = new Waypoint[] {        
-			new Waypoint(0, 0, 0),                  // Waypoint @ x=0, y=0,   exit angle=0 radians
-			//new Waypoint(2, -2, Pathfinder.d2r(-45)),                  
-			new Waypoint(3, 0, 0),
-		};
-
+		
 		// Create the Trajectory Configuration
 		//
 		// Arguments:
-		// Fit Method:          HERMITE_CUBIC or HERMITE_QUINTIC
+		// Fit Method:          HERMITE_CUBIC or HERMITE_QUINTIC	// Keep it Cubic
 		// Sample Count:        SAMPLES_HIGH (100 000)
 		//    		            SAMPLES_LOW  (10 000)
-		//    		            SAMPLES_FAST (1 000)
+		//    		            SAMPLES_FAST (1 000)				// Use Fast only if calculating from roboRIO
 		// Time Step:           0.05 Seconds
 		// Max Velocity:        1.7 m/s
 		// Max Acceleration:    2.0 m/s/s
@@ -66,30 +70,32 @@ public class PathFinder extends Command{
 		trajectory = Pathfinder.generate(points, config);
 		
 		try {
-			 /*
-		    Path extractionPath = Files.createTempFile("trajectory", ".csv");
-		    Files.copy(Robot.class.getResourceAsStream("/com/team4201/myfile.csv"), extractionPath);
-		    trajectory = Pathfinder.readFromCSV(extractionPath.toFile());
-		  	*/
-			 //File myfile = new File("/home/lvuser/myfile.csv");
-			 //trajectory = Pathfinder.readFromCSV(myfile);
-			 
-		  } catch (Exception e) {
-		    // Handle it how you want
-			  DriverStation.reportError("Error: Couldn't read csv", false);
-		  } 
+		 /*
+	    Path extractionPath = Files.createTempFile("trajectory", ".csv");
+	    Files.copy(Robot.class.getResourceAsStream("/com/team4201/myfile.csv"), extractionPath);
+	    trajectory = Pathfinder.readFromCSV(extractionPath.toFile());
+	  	*/
+		 //File myfile = new File("/home/lvuser/myfile.csv");
+		 //trajectory = Pathfinder.readFromCSV(myfile);
+		 
+		} catch (Exception e) {
+	    // Handle it how you want
+		  DriverStation.reportError("Error: Couldn't read csv", false);
+		} 
 		
 		
 		SmartDashboard.putString("PathFinder Status" , "Trajectory Generated!");
 		
-		// The distance between the left and right sides of the wheelbase is 0.6m
-		// Create the Modifier Object
+		// Modify the trajectory from a single line from the center of the bot to two lines for both sides of the drive train.
+		// Wheelbase = Distance between left/right side of wheels
 		modifier = new TankModifier(trajectory).modify(0.9111);
 		
+		// Configure encoder classes to follow the trajectories
     	left = new EncoderFollower(modifier.getLeftTrajectory());
 		right = new EncoderFollower(modifier.getRightTrajectory());
     	
 		SmartDashboard.putString("PathFinder Status" , "Enabling...");
+		
 		left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 1440, 0.1016);	// 360 enc ticks per rev * 4x quad enc ?
 		right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 1440, 0.1016);	// 0.1016 4 inches in meters - undershoot
 																											// 0.1111 4 inches in years  - 5 in overshoot
@@ -103,20 +109,27 @@ public class PathFinder extends Command{
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	SmartDashboard.putString("PathFinder Status" , "Running...");
+    	
+    	// Calculate the current motor outputs based on the trajectory values + encoder positions
 		double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
 		double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("PathFinder L" , l);
 		SmartDashboard.putNumber("PathFinder R" , r);
 		SmartDashboard.putNumber("PathFinder H" , Pathfinder.r2d(left.getHeading()));
 		
+		// Adjust a turn value based on the gyro's heading + the trajectory's heading. Note that we only sue the left's ehading, but left/right would be teh same since they're following the same path, but sepearetd by wheelbase distance.
 		double turn = 0.8 * (-1.0/80.0) * Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()) + Robot.driveTrain.spartanGyro.getAngle());
 		//double turn = 0;
 		SmartDashboard.putNumber("PathFinder T" , turn);
 		SmartDashboard.putNumber("PathFinder L output" , l + turn);
 		SmartDashboard.putNumber("PathFinder R output" , r - turn);
 		
+		
+		// Set the output to the motors
 		Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
 		
+		
+		// Continue sending output values until the path has been completely followed.
 		if(left.isFinished() && right.isFinished())
 			end = true;
     }
