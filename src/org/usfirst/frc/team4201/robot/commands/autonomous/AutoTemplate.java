@@ -5,6 +5,7 @@ import org.usfirst.frc.team4201.robot.commands.*;
 
 public class AutoTemplate extends CommandGroup{
 	public AutoTemplate() {
+		addSequential(new Delay());
 		 addSequential(new DriveTurnWithGyro(90)); 
 	}
 }

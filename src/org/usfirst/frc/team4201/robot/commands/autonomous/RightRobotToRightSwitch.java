@@ -6,6 +6,7 @@ import org.usfirst.frc.team4201.robot.commands.*;
 public class RightRobotToRightSwitch extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public RightRobotToRightSwitch() {
+		 addSequential(new Delay());
 		 addSequential(new DriveStraightFusion(24186));
 		 addSequential(new DriveTurnWithGyro(-90));  
 		 addSequential(new DriveStraightFusion(14419.96));

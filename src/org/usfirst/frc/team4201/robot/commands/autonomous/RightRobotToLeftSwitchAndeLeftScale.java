@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class RightRobotToLeftSwitchAndeLeftScale extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public RightRobotToLeftSwitchAndeLeftScale() {
+		 addSequential(new Delay());
 		 addSequential(new DriveStraightFusion(24186));
 		 addSequential(new DriveTurnWithGyro(-90));  
 		 addSequential(new DriveStraightFusion(21611.96));

@@ -6,6 +6,7 @@ import org.usfirst.frc.team4201.robot.commands.*;
 public class RightRobotToLeftScale extends CommandGroup{
 	//all measurements are in encoder counts.  See RobotMap for conversion rate.
 	public RightRobotToLeftScale() {
+		 addSequential(new Delay());
 		 addSequential(new DriveStraightFusion(24186));
 		 addSequential(new DriveTurnWithGyro(-90));  
 		 addSequential(new DriveStraightFusion(21611.98));
