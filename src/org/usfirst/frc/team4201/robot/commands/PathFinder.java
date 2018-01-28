@@ -62,7 +62,7 @@ public class PathFinder extends Command{
 		// Max Velocity:        1.7 m/s
 		// Max Acceleration:    2.0 m/s/s
 		// Max Jerk:            60.0 m/s/s/s
-		this.max_vel = 360;
+		this.max_vel = 400;
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.005, max_vel, 280, (800 * 1.09361));
 
 		// Generate the trajectory
