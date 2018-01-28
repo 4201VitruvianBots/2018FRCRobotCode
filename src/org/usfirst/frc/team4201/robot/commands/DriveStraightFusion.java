@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveStraightFusion extends Command{
 	PIDController leftMotorPIDController, rightMotorPIDController, driveGyroPIDController;
-	double kP = 0.08;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
+	double kP = 0.01;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
     double kI = 0.002;           	// Start with I = P / 100  (speeds you up when you have an error for a period of time)
-    double kD = 0.5;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
+    double kD = 0.1;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
     double period = 0.01;
     CTREPIDSource leftDriveEncoder, rightDriveEncoder;
     PIDOutputInterface leftMotorPIDOutput, rightMotorPIDOutput, driveTurnPIDOutput;
@@ -106,6 +106,9 @@ public class DriveStraightFusion extends Command{
     	//SmartDashboard.putNumber("Right PIDS Output", PIDThrottleRight.getPIDOutput());
     	//SmartDashboard.putNumber("Turn PIDS Output", PIDTurn.getPIDOutput());
     	SmartDashboard.putBoolean("Lock Value: ", lock);
+    	SmartDashboard.putBoolean("Left Motor Value: ", leftMotorPIDController.onTarget());
+    	SmartDashboard.putBoolean("Right Motor Value: ", rightMotorPIDController.onTarget());
+    	SmartDashboard.putBoolean("Gyro Value: ", driveGyroPIDController.onTarget());
     	
     	//Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
         Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput() + driveTurnPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput() - driveTurnPIDOutput.getPIDOutput());
@@ -129,6 +132,7 @@ public class DriveStraightFusion extends Command{
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.setDriveOutput(0, 0);
+    	new ResetEncoders();
     }
 
     // Called when another command which requires one or more of the same

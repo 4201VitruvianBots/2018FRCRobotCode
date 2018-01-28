@@ -68,7 +68,8 @@ public class OI {
         leftButtons[0].whileHeld(new EnableIntakeMotors());
         leftButtons[3].whileHeld(new IntakeMotorsLeftReverse());
         //leftButtons[2].whenPressed(new ResetEncoders());
-        //leftButtons[4].whenPressed(new ToggleArm());
+        leftButtons[4].whenPressed(new ArmUp());
+        leftButtons[5].whenPressed(new ArmDown());
         
         rightButtons[1].whenPressed(new RetractIntakePistons());
         rightButtons[0].whileHeld(new ReverseIntakeMotors());

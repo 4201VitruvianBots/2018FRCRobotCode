@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
 		autoModeChooser.addObject("Turn", new Turn());
 		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
+		autoModeChooser.addObject("CenterRobotToRightSwitch", new CenterRobotToRightSwitch());
 		autoModeChooser.addObject("RightRobotToRightScale", new RightRobotToRightScale());
 		autoModeChooser.addObject("Turn", new AutoTemplate());
 		// chooser.addObject("My Auto", new MyAutoCommand());
