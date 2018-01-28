@@ -13,7 +13,7 @@ public class FourBarUp extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if (Robot.fourBar.getFourBarStatus() == false) {
+		if (Robot.fourBar.getFourBarStatus() != true) {
 			Robot.fourBar.fourBarUp();
 		}
 	}
