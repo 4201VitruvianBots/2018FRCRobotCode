@@ -9,6 +9,8 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.commands.SetSplitArcade;
+import org.usfirst.frc.team4201.robot.commands.SetSplitArcadeDrive;
 import org.usfirst.frc.team4201.robot.interfaces.CTREPIDSource;
 import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
 
@@ -253,5 +255,6 @@ public class DriveTrain extends Subsystem {
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
+		setDefaultCommand(new SetSplitArcadeDrive());
 	}
 }

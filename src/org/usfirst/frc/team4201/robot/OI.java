@@ -11,6 +11,7 @@ package org.usfirst.frc.team4201.robot;
 import org.usfirst.frc.team4201.robot.commands.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.RobotController;
@@ -53,17 +54,22 @@ public class OI {
 	public Joystick leftJoystick, rightJoystick, xBoxController;
 	public Button[] leftButtons = new Button[7];
 	public Button[] rightButtons = new Button[7];
+	public Button[] xBoxButtons = new Button[12];
 	public boolean isQuickTurn = true;
 
 	public OI(){
 		leftJoystick = new Joystick(RobotMap.leftJoystick);
 		rightJoystick = new Joystick(RobotMap.rightJoystick);
-	
+		xBoxController = new Joystick(RobotMap.xBoxController);
+		
 		for(int i = 0; i < leftButtons.length; i++)
 			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
 		for(int i = 0; i < rightButtons.length; i++)
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
-
+		for(int i = 0; i < xBoxButtons.length; i++)
+			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
+		
+		
         leftButtons[0].whileHeld(new ToggleDriveShifters());
         leftButtons[2].whileHeld(new WristDown());
         leftButtons[4].whileHeld(new WristUp());
@@ -77,7 +83,15 @@ public class OI {
         rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
 
-
+        // Reserved xBox Controller Buttons. See SetArmPosition Command.
+        // xBoxButtons[1].whenPressed(command);						// A Button: Set Position Feed
+        // xBoxButtons[2].whenPressed(command);						// B Button: Set Position Angled
+        // xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
+         xBoxButtons[4].whileHeld(new SetArmSetpoint(1));			// Left Button: Adjust arm up
+         xBoxButtons[6].whileHeld(new SetArmSetpoint(-1));			// Left Trigger: Adjust arm down
+         xBoxButtons[5].whileHeld(new SetWristSetpoint(1));			// Right Button: Adjust wrist up
+         xBoxButtons[7].whileHeld(new SetWristSetpoint(-1));		// Right Trigger: Adjust wrist down
+        
         if(DriverStation.getInstance().isTest()) {
         	leftButtons[3].toggleWhenPressed(new ToggleMotorTest());
         }
@@ -97,6 +111,22 @@ public class OI {
 	
 	public double getRightX(){
 		return rightJoystick.getX();
-		
+	}
+	
+	public void enableXBoxLeftRumble() {
+		xBoxController.setRumble(RumbleType.kLeftRumble, 0.5);
+	}
+	
+	public void disableXBoxLeftRumble() {
+		xBoxController.setRumble(RumbleType.kLeftRumble, 0);
+	}
+	
+	public void enableXBoxRightRumble() {
+		xBoxController.setRumble(RumbleType.kRightRumble, 0.5);
+	}
+	
+	public void disableXBoxRightRumble() {
+		xBoxController.setRumble(RumbleType.kRightRumble, 0);
 	}
 }
+
