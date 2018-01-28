@@ -150,8 +150,9 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		
 		//sensors.updateSmartDashboard();
-		driveTrain.updateSmartDashboard();
+		//driveTrain.updateSmartDashboard();
 		//flipper.updateSmartDashboard();
+		arm.updateSmartDashboard();
 	}
 
 	/**

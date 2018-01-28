@@ -18,16 +18,23 @@ package org.usfirst.frc.team4201.robot;
 
 
 public class RobotMap {
+	// Global Variables
+	public static int armState = 0;
+	
 	// USB ADDRESSES
 	public static final int leftJoystick = 0;
 	public static final int rightJoystick = 1;
 	public static final int xBoxController = 2;
 	
-	// Sensors
+	// DIO Sensors
 	public static final int leftEncoderA = 10;
 	public static final int leftEncoderB = 11;
 	public static final int rightEncoderA = 12;
 	public static final int rightEncoderB = 13;
+	
+	// Analog Sensors
+	public static final int armPot = 0;
+	public static final int wristPot = 1;
 	
 	/*	ADDRESS VALUES
 	 *  
@@ -81,9 +88,9 @@ public class RobotMap {
 	public static final int elevatorA = 26;
 	public static final int elevatorB = 27;
 	public static final int fourBar = 28;
-	public static final int armOne = 29;
-	public static final int armTwo = 30;
-	public static final int wrist = 31;
+	public static final int armLeftMotor = 30;
+	public static final int armRightMotor = 31;
+	public static final int wristMotor = 32;
 	
 	
 	public static final int red = 0;
