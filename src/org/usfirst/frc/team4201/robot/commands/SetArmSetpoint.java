@@ -17,7 +17,14 @@ public class SetArmSetpoint extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.arm.setArmSetpoint(inc);
+    	// Keep a running count of how many times this command has been declared
+    	Robot.arm.armCommandCount++;
+    	// Check if new setpoint deosn't violate limits before setting
+		if(Robot.arm.armPIDController.getSetpoint() + inc < Robot.arm.armForwardAbsoluteLimit && 
+		   Robot.arm.armPIDController.getSetpoint() + inc > Robot.arm.armReverseAbsoluteLimit)
+			Robot.arm.setArmSetpoint(inc);
+		else
+			Robot.oi.enableXboxLeftRumbleTimed();
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -3,21 +3,32 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class SetWristSetpoint extends Command {
+	
 	double inc;
     public SetWristSetpoint(double increment) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.arm);
         this.inc = increment;
+        
+        setInterruptible(true);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.arm.setWristSetpoint(inc);
+    	// Keep a running count of how many times this command has been declared
+    	Robot.arm.wristCommandCount++;
+    	// Check if new setpoint deosn't violate limits before setting
+		if(Robot.arm.wristPIDController.getSetpoint() + inc < Robot.arm.wristForwardAbsoluteLimit  + Robot.arm.wristForwardSoftLimit && 
+		   Robot.arm.wristPIDController.getSetpoint() + inc > Robot.arm.wristReverseAbsoluteLimit)
+			Robot.arm.setWristSetpoint(inc);
+		else
+	        Robot.oi.enableXboxRightRumbleTimed();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,6 +42,7 @@ public class SetWristSetpoint extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+		Robot.oi.disableXBoxRightRumble();
     }
 
     // Called when another command which requires one or more of the same

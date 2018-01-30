@@ -9,14 +9,17 @@
 package org.usfirst.frc.team4201.robot;
 
 import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.interfaces.XBoxTrigger;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -51,10 +54,15 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
+	int leftTrigger = 2;
+	int rightTrigger = 3;
+	
 	public Joystick leftJoystick, rightJoystick, xBoxController;
 	public Button[] leftButtons = new Button[7];
 	public Button[] rightButtons = new Button[7];
-	public Button[] xBoxButtons = new Button[12];
+	public Button[] xBoxButtons = new Button[10];
+	public Button xBoxLeftTrigger;
+	public Button xBoxRightTrigger;
 	public boolean isQuickTurn = true;
 
 	public OI(){
@@ -68,29 +76,32 @@ public class OI {
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
 		for(int i = 0; i < xBoxButtons.length; i++)
 			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
+		xBoxLeftTrigger = new XBoxTrigger(xBoxController, leftTrigger);
+		xBoxRightTrigger = new XBoxTrigger(xBoxController, rightTrigger);
 		
 		
         leftButtons[0].whileHeld(new ToggleDriveShifters());
-        leftButtons[2].whileHeld(new WristDown());
-        leftButtons[4].whileHeld(new WristUp());
+        //leftButtons[2].whileHeld(new WristDown());
+        //leftButtons[4].whileHeld(new WristUp());
         //leftButtons[2].whenPressed(new ResetEncoders());
         //leftButtons[4].whenPressed(new ToggleArm());
 
        // rightButtons[0].whileHeld(new ReverseIntakeMotors());
         //rightButtons[1].whenPressed(new RetractIntakePistons());
-        rightButtons[3].whileHeld(new ArmDown());
+        //rightButtons[3].whileHeld(new ArmDown());
         //rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
-        rightButtons[5].whileHeld(new ArmUp());		
+        //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
-
+        
+        
         // Reserved xBox Controller Buttons. See SetArmPosition Command.
-        // xBoxButtons[1].whenPressed(command);						// A Button: Set Position Feed
-        // xBoxButtons[2].whenPressed(command);						// B Button: Set Position Angled
-        // xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
-         xBoxButtons[4].whileHeld(new SetArmSetpoint(1));			// Left Button: Adjust arm up
-         xBoxButtons[6].whileHeld(new SetArmSetpoint(-1));			// Left Trigger: Adjust arm down
-         xBoxButtons[5].whileHeld(new SetWristSetpoint(1));			// Right Button: Adjust wrist up
-         xBoxButtons[7].whileHeld(new SetWristSetpoint(-1));		// Right Trigger: Adjust wrist down
+        //xBoxButtons[1].whenPressed(command);						// A Button: Set Position Feed
+        //xBoxButtons[2].whenPressed(command);						// B Button: Set Position Angled
+        //xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
+        xBoxButtons[4].whileHeld(new SetArmSetpoint(1));			// Left Button: Adjust arm up
+        xBoxLeftTrigger.whileHeld(new SetArmSetpoint(-1));			// Left Trigger: Adjust arm down
+        xBoxButtons[5].whileActive(new SetWristSetpoint(1));			// Right Button: Adjust wrist up
+        xBoxRightTrigger.whileActive(new SetWristSetpoint(-1));		// Right Trigger: Adjust wrist down
         
         if(DriverStation.getInstance().isTest()) {
         	leftButtons[3].toggleWhenPressed(new ToggleMotorTest());
@@ -113,6 +124,14 @@ public class OI {
 		return rightJoystick.getX();
 	}
 	
+	public double getXBoxLeftTrigger(){
+		return xBoxController.getRawAxis(leftTrigger);
+	}
+	
+	public double getXBoxRightTrigger(){
+		return xBoxController.getRawAxis(rightTrigger);
+	}
+	
 	public void enableXBoxLeftRumble() {
 		xBoxController.setRumble(RumbleType.kLeftRumble, 0.5);
 	}
@@ -127,6 +146,26 @@ public class OI {
 	
 	public void disableXBoxRightRumble() {
 		xBoxController.setRumble(RumbleType.kRightRumble, 0);
+	}
+	
+	public void enableXboxLeftRumbleTimed(){
+		Timer stopwatch = new Timer();
+		enableXBoxLeftRumble();
+		stopwatch.start();
+		while(stopwatch.get() < 0.5){
+			
+		}
+		disableXBoxLeftRumble();
+	}
+	
+	public void enableXboxRightRumbleTimed(){
+		Timer stopwatch = new Timer();
+		enableXBoxRightRumble();
+		stopwatch.start();
+		while(stopwatch.get() < 0.5){
+			
+		}
+		disableXBoxRightRumble();
 	}
 }
 

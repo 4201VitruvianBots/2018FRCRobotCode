@@ -19,7 +19,7 @@ public class SetArmWristPosition extends Command{
 	@Override
 	protected void execute() {
 		// This operates on a similar principle to setting a drive mode, but more complex.
-		Robot.arm.updateArmState();
+		Robot.arm.updateArmWristPositions();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

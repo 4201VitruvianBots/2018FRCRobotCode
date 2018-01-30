@@ -2,12 +2,11 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.commands.SetArmSetpoint;
 import org.usfirst.frc.team4201.robot.commands.SetArmWristPosition;
-import org.usfirst.frc.team4201.robot.commands.SetSplitArcadeDrive;
+import org.usfirst.frc.team4201.robot.commands.SetWristSetpoint;
+import org.usfirst.frc.team4201.robot.interfaces.AnalogPotentiometerSource;
 import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
-import org.usfirst.frc330.Robot;
-import org.usfirst.frc330.constants.ArmPos;
-import org.usfirst.frc330.constants.HandConst;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -19,57 +18,82 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class JointedArm extends Subsystem{
+
 	
-	public BaseMotorController[] armAndWristMotors = {
+	public BaseMotorController[] armMotors = {
 		new WPI_TalonSRX(RobotMap.armLeftMotor),
-		new WPI_TalonSRX(RobotMap.armRightMotor),
-		new WPI_TalonSRX(RobotMap.wristMotor),
+		new WPI_TalonSRX(RobotMap.armRightMotor)
 	};
+	
+	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 	
 	public AnalogInput armPot = new AnalogInput(RobotMap.armPot);
 	public AnalogInput wristPot = new AnalogInput(RobotMap.wristPot);
 	
-	PIDController armPIDController, wristPIDController;
+	public PIDController armPIDController, wristPIDController;
+	AnalogPotentiometerSource armSource, wristSource;
 	PIDOutputInterface armPIDOutput, wristPIDOutput;
 	
 	double armSetpoint, wristSetpoint;
 	
+	public int armCommandCount = 0, wristCommandCount = 0;
+	
+	
 	// Absoulte Limits are physical limits, soft limits are used to constrain intake to extension limit
-	double wristForwardAbsoluteLimit, wristReverseAbsoluteLimit, armForwardAbsoluteLimit, armReverseAbsoluteLimit;
-	double wristForwardSoftLimit;
+	public double wristForwardAbsoluteLimit = -65, 
+				  wristReverseAbsoluteLimit = -177, 
+				  armForwardAbsoluteLimit = -42, 
+				  armReverseAbsoluteLimit = -155;
+	public double wristForwardSoftLimit;
 	
 	//DoubleSolenoid leftArm = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.leftArmOne, RobotMap.leftArmTwo);
 	//DoubleSolenoid rightArm = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.rightArmOne, RobotMap.rightArmTwo);
 	
 	public JointedArm() {
 		super("Arm");
+		armSource = new AnalogPotentiometerSource(armPot, 0);
+		wristSource = new AnalogPotentiometerSource(wristPot, 1);
+		armPIDOutput = new PIDOutputInterface();
+		wristPIDOutput = new PIDOutputInterface();
 		
 		// 330 values
-		armPIDController = new PIDController(0.06, 0, 0, armPot, armPIDOutput, 0.01);
+		armPIDController = new PIDController(0.06, 0, 0, armSource, armPIDOutput, 0.01);
 		armPIDController.setAbsoluteTolerance(0.5);
-		//armPIDController.setOutputRange(armReverseAbsoluteLimit, armForwardAbsoluteLimit);
+		armPIDController.setOutputRange(-1, 1);
+		//armPIDController.setInputRange(armReverseAbsoluteLimit, armForwardAbsoluteLimit);
 		
-		wristPIDController = new PIDController(0.045, 0, 0, wristPot, wristPIDOutput, 0.01);
+		wristPIDController = new PIDController(0.045, 0, 0, wristSource, wristPIDOutput, 0.01);
 		wristPIDController.setAbsoluteTolerance(0.5);
-		//wristPIDController.setOutputRange(wristForwardAbsoluteLimit, wristReverseAbsoluteLimit);
+		wristPIDController.setOutputRange(-1, 1);
+		//wristPIDController.setInputRange(wristReverseAbsoluteLimit, wristForwardAbsoluteLimit);
 		
-		for(int i = 0; i < 2; i++){
-			armAndWristMotors[i].configPeakOutputForward(1, 0);
-			armAndWristMotors[i].configPeakOutputReverse(-1, 0);
-			armAndWristMotors[i].setNeutralMode(NeutralMode.Brake);
+		for(int i = 0; i < armMotors.length; i++){
+			armMotors[i].configPeakOutputForward(1, 0);
+			armMotors[i].configPeakOutputReverse(-1, 0);
+			armMotors[i].setNeutralMode(NeutralMode.Coast);
 		}
+		
+		armMotors[1].set(ControlMode.Follower, armMotors[0].getDeviceID());
+		wristMotor.configPeakOutputForward(1, 0);    
+		wristMotor.configPeakOutputReverse(-1, 0);   
+		wristMotor.setNeutralMode(NeutralMode.Brake);	
+	}
+	
+	public void initalizeSetpoints(){
 		armPIDController.setSetpoint(getArmAngle());
 		wristPIDController.setSetpoint(getWristAngle());
+		armSetpoint = armPIDController.getSetpoint();
+		wristSetpoint = wristPIDController.getSetpoint();
 		armPIDController.enable();
 		wristPIDController.enable();
 	}
 	
-	public double getArmAngle()
-    {
+	public double getArmAngle() {
 		double angleFromMast;
 		//double sensorRange = getArmVertical() - getArmFrontLimit();		
     	double sensorRange = 3 - 1;		// What are these constants?
@@ -83,7 +107,7 @@ public class JointedArm extends Subsystem{
 	    //return angleFromHorizon;
     }
 	
-	public double getAngleFromArm(){
+	public double getAngleFromArm() {
     	// Using defaults
 		//double sensorRange = getHandRearLimit() - getHandFrontLimit();
     	double sensorRange = 5 - 0;
@@ -94,45 +118,46 @@ public class JointedArm extends Subsystem{
     	return angleFromArm;
 	}
 	
-	public double getWristAngle()
-    {
+	public double getWristAngle() {
 		return -(180 - getAngleFromArm() - getArmAngle() - 3.5);
     }
 	
 	public void setArmSetpoint(double number) {
-		armPIDController.setSetpoint(armPIDController.getSetpoint() + number);
-	}
-	public void setWristSetpoint(double number) {
-		wristPIDController.setSetpoint(wristPIDController.getSetpoint() + number);
+		armSetpoint += number;
+		// Uncomment for absolute wrist position
+		//wristSetpoint += armSetpoint + number;
 	}
 	
-	public void updateArmState(){
-		// This will be called periodically during TeleOp to determine arm/wrist limits
+	public void setWristSetpoint(double number) {
+		wristSetpoint += number;
+	}
+	
+	public void updateArmSetpoint() {
+		armPIDController.setSetpoint(armSetpoint);
+		armMotors[0].set(ControlMode.PercentOutput, armPIDOutput.getPIDOutput());
+		// Uncomment for absolute wrist position
+		//wristPIDController.setSetpoint(wristPIDController.getSetpoint() - number);
+	}
+	
+	public void updateWristSetpoint() {
+		wristPIDController.setSetpoint(wristSetpoint);
+		wristMotor.set(ControlMode.PercentOutput, wristPIDOutput.getPIDOutput());
+	}
+	
+	public void updateArmWristPositions() {
+		// This will be called periodically during TeleOp.
+		// This function limits wrist positions based on arm position
 		
-		
-		if(getArmAngle() > 45 || getArmAngle() < (180 - 45) )
-			RobotMap.armState = 1;
-		else
-			RobotMap.armState = 0;
-		
-		
-		// Limit wrist movement based on arm angle
-		switch(RobotMap.armState){
-			case 0:
-				wristForwardSoftLimit = 0;
-				break;
-			case 1:
-				// Some complex trig function to adjust the forward soft limit. May need try/catch to avoid a div/0 error
-				// Math.cos(((43.5 - (Math.sin(50 * Math.PI/ 180) * 43)) / 12) * Math.PI/ 180)
-				//wristForwardSoftLimit = 
-				wristPIDController.setOutputRange(wristForwardAbsoluteLimit, wristReverseAbsoluteLimit);
-				break;
+		// Set wrist limits
+		if(getArmAngle() > 45 || getArmAngle() < (180 - 45) ) {
+			//wristForwardSoftLimit = array[Math.ceil(getArmAngle() - 45)];
 		}
 		
+		// Set wrist to a set angle
 		// if the wrist is not limited, move to intake position, otherwise rumble to tell operator that movement is invalid
 		if(RobotMap.armState == 0 && Robot.oi.xBoxButtons[1].get()) {
-			// wristSetpoint = 
-			wristPIDController.setSetpoint(wristSetpoint);
+			// wristSetpoint = -armSetpoint 
+			//setWristSetpoint(wristSetpoint);
 		} else if(Robot.oi.xBoxButtons[2].get())
 			while(Robot.oi.xBoxButtons[1].get()) {
 				Robot.oi.enableXBoxLeftRumble();
@@ -140,61 +165,54 @@ public class JointedArm extends Subsystem{
 		}
 		
 		// if the wrist is not limited, move to intake position, otherwise rumble to tell operator that movement is invalid
+		/*
 		if(RobotMap.armState == 0 && Robot.oi.xBoxButtons[2].get()) { // Need another qualifier
-			// wristSetpoint = 
-			wristPIDController.setSetpoint(wristSetpoint);
+			// wristSetpoint = -armSetpoint + offset1 
+			setWristSetpoint(wristSetpoint);
 		} else if(Robot.oi.xBoxButtons[2].get())
 			while(Robot.oi.xBoxButtons[2].get()) {
 				Robot.oi.enableXBoxLeftRumble();
 			Robot.oi.disableXBoxLeftRumble();
 		}
 		
-		// adjust wrist angle from right trigger/button
-		if(Robot.oi.xBoxButtons[5].get() && wristSetpoint + 1 < (wristForwardSoftLimit + wristForwardAbsoluteLimit)) {
-			wristSetpoint += 1;
-			wristPIDController.setSetpoint(wristSetpoint);
-		} else if(Robot.oi.xBoxButtons[5].get()) {
-			while(Robot.oi.xBoxButtons[5].get())
+		// if the wrist is not limited, move to intake position, otherwise rumble to tell operator that movement is invalid
+		if(RobotMap.armState == 0 && Robot.oi.xBoxButtons[3].get()) { // Need another qualifier
+			// wristSetpoint = armSetpoint + offset2
+			if(wristSetpoint > wristForwardSoftLimit)
+			setWristSetpoint(wristSetpoint);
+		} else if(Robot.oi.xBoxButtons[3].get())
+			while(Robot.oi.xBoxButtons[3].get()) {
 				Robot.oi.enableXBoxLeftRumble();
 			Robot.oi.disableXBoxLeftRumble();
 		}
-		if(Robot.oi.xBoxButtons[5].get() && wristSetpoint - 1 > wristReverseAbsoluteLimit) {
-			wristSetpoint -= 1;
-			wristPIDController.setSetpoint(wristSetpoint);
-		} else if(Robot.oi.xBoxButtons[7].get()) {
-			while(Robot.oi.xBoxButtons[7].get())
-				Robot.oi.enableXBoxLeftRumble();
-			Robot.oi.disableXBoxLeftRumble();
-		}
-			
-		// adjust arm angle from left trigger/button
-		if(Robot.oi.xBoxButtons[4].get() && armSetpoint + 1 < armForwardAbsoluteLimit) {
-			armSetpoint += 1;
-			armPIDController.setSetpoint(armSetpoint);
-		} else if(Robot.oi.xBoxButtons[4].get()) {
-			while(Robot.oi.xBoxButtons[4].get())
-				Robot.oi.enableXBoxRightRumble();
-			Robot.oi.disableXBoxRightRumble();
-		}
-		if(Robot.oi.xBoxButtons[6].get() && armSetpoint - 1 > armReverseAbsoluteLimit) {
-			armSetpoint -= 1;
-			armPIDController.setI(armSetpoint);
-		} else if(Robot.oi.xBoxButtons[6].get()) {
-			while(Robot.oi.xBoxButtons[6].get())
-				Robot.oi.enableXBoxRightRumble();
-			Robot.oi.disableXBoxRightRumble();
-		}
+		*/
+		
+		// Commands declared here to avoid issues
+		// Only start a new command if the queue isn't overloaded
+		//Robot.oi.xBoxButtons[4].whileHeld(new SetArmSetpoint(1));			// Left Button: Adjust arm up
+        //Robot.oi.xBoxLeftTrigger.whileHeld(new SetArmSetpoint(-1));			// Left Trigger: Adjust arm down
+        //Robot.oi.xBoxButtons[5].whileHeld(new SetWristSetpoint(1));			// Right Button: Adjust wrist up
+        //Robot.oi.xBoxRightTrigger.whileHeld(new SetWristSetpoint(-1));		// Right Trigger: Adjust wrist down
+		
+		// Called periodically in this loop to maintain its position
+		updateWristSetpoint();
+		updateArmSetpoint();
 	}
 	
 	public void updateSmartDashboard(){
 		SmartDashboard.putNumber("Arm Angle", getArmAngle());
-		SmartDashboard.putNumber("Wrist Pot", getWristAngle());
+		SmartDashboard.putNumber("Arm Pot", armPot.getAverageVoltage());
+		SmartDashboard.putNumber("Wrist Angle", getWristAngle());
+		SmartDashboard.putNumber("Wrist Pot", wristPot.getAverageVoltage());
+		SmartDashboard.putNumber("Wrist Setpoint", wristPIDController.getSetpoint());
+		SmartDashboard.putNumber("Wrist Command Count", wristCommandCount);
+		
 	}
 
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		//setDefaultCommand(new SetArmWristPosition());
+		setDefaultCommand(new SetArmWristPosition());
 	}
 	
 }

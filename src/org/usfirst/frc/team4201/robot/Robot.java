@@ -71,12 +71,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		arm.updateSmartDashboard();
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		teleOpDrive = driveMode.getSelected();
+		Robot.oi.enableXBoxLeftRumble();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -140,6 +140,7 @@ public class Robot extends TimedRobot {
 			teleOpDrive.start();
 		}
 		driveTrain.resetEncoders();
+		arm.initalizeSetpoints();
 	}
 
 	/**
@@ -152,6 +153,7 @@ public class Robot extends TimedRobot {
 		//sensors.updateSmartDashboard();
 		//driveTrain.updateSmartDashboard();
 		//flipper.updateSmartDashboard();
+		arm.updateArmWristPositions();
 		arm.updateSmartDashboard();
 	}
 
@@ -160,6 +162,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		arm.updateSmartDashboard();
 	}
 	
 }
