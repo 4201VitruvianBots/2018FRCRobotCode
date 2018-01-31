@@ -10,22 +10,22 @@ public class AutoPaths {
 			new Waypoint(0, 0, 0),
 			new Waypoint(8, 0, 0),
 	};
-	
-	public static Waypoint[] centerRobotToLeftSwitch = new Waypoint[] {		// Create a spline path 
-		new Waypoint(0, 0, 0),                 
-		new Waypoint(1, 1, Pathfinder.d2r(45)),          
-		new Waypoint(3, 2, 0),
+
+	public static Waypoint[] centerRobotToLeftSwitch = new Waypoint[] {		// Create a spline path
+		new Waypoint(0, 0, 0),
+		new Waypoint(1, 1, Pathfinder.d2r(45)),
+		new Waypoint(3.1, 2, 0),
 	};  //Drop off cube
-	
-	public static Waypoint[] centerRobotToRightSwitch = new Waypoint[] {		// Create a spline path 
-			new Waypoint(0, 0, 0),                 
-			new Waypoint(1, -1, Pathfinder.d2r(-45)),          
+
+	public static Waypoint[] centerRobotToRightSwitch = new Waypoint[] {		// Create a spline path
+			new Waypoint(0, 0, 0),
+			new Waypoint(1, -1, Pathfinder.d2r(-45)),
 			new Waypoint(3.1, -1.35, 0),
 	};  //Drop off cube
 
-	public static Waypoint[] leftRobotToLeftSwitch = new Waypoint[] {		// Create a spline path 
-		new Waypoint(0, 0, 0),                 
-		new Waypoint(4, 1/3, Pathfinder.d2r(45)),          
+	public static Waypoint[] leftRobotToLeftSwitch = new Waypoint[] {		// Create a spline path
+		new Waypoint(0, 0, 0),
+		new Waypoint(4, 1/3, Pathfinder.d2r(45)),
 		new Waypoint(4, 2/3, Pathfinder.d2r(90)),
 	};  //Drop off cube. If going to left scale then use LeftSwitchToLeftCube.
 	
@@ -49,6 +49,17 @@ public class AutoPaths {
 			new Waypoint(-4.5, 1.5, Pathfinder.d2r(-225)),
 			new Waypoint(-4.765, 1.2226, Pathfinder.d2r(-270)),
 		}; 	//Drop off cube
+	
+	public static Waypoint[] leftCubeToRightScale = new Waypoint[] {
+			new Waypoint(0, 0, 0),                 
+			new Waypoint(-8/36, 0.2, Pathfinder.d2r(45)),    
+			new Waypoint(-17/36, 0.5, Pathfinder.d2r(90)),
+			new Waypoint(-17/36, -3, Pathfinder.d2r(90)),
+			new Waypoint(-1, -5, Pathfinder.d2r(135)),
+			new Waypoint(-3.5, -5, Pathfinder.d2r(180)),
+			new Waypoint(-4, 130.69/36, Pathfinder.d2r(225)),
+			//136.5-5.81=130.69
+	};
 
 	public static Waypoint[] leftRobotToLeftScale = new Waypoint[] {		// Create a spline path 
 		new Waypoint(0, 0, 0),                 
