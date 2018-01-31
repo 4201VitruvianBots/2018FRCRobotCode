@@ -87,5 +87,5 @@ public class RobotMap {
 	public static final int blue = 1;
 	
 	public static boolean isTurning = false;
-	public static double delay = 0;
+	public static double delay = 10;
 }

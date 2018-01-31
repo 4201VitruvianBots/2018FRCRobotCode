@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveStraightFusion extends Command{
 	PIDController leftMotorPIDController, rightMotorPIDController, driveGyroPIDController;
-	double kP = 0.01;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
+	double kP = 0.2;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
     double kI = 0.002;           	// Start with I = P / 100  (speeds you up when you have an error for a period of time)
-    double kD = 0.1;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
+    double kD = 2;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
     double period = 0.01;
     CTREPIDSource leftDriveEncoder, rightDriveEncoder;
     PIDOutputInterface leftMotorPIDOutput, rightMotorPIDOutput, driveTurnPIDOutput;
@@ -53,13 +53,13 @@ public class DriveStraightFusion extends Command{
         leftMotorPIDController.setName("Left Motor PID");
         leftMotorPIDController.setSubsystem("Drive Train");
         leftMotorPIDController.setAbsoluteTolerance(100);
-        leftMotorPIDController.setOutputRange(-0.5, 0.5);
+        leftMotorPIDController.setOutputRange(-0.8, 0.8);
         
         rightMotorPIDController = new PIDController(kP, kI, kD, rightDriveEncoder, rightMotorPIDOutput, period);
         rightMotorPIDController.setName("Right Motor PID");
         rightMotorPIDController.setSubsystem("Drive Train");
         rightMotorPIDController.setAbsoluteTolerance(100);
-        rightMotorPIDController.setOutputRange(-0.5, 0.5);
+        rightMotorPIDController.setOutputRange(-0.8, 0.8);
     	
         driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
         driveGyroPIDController.setName("Drive Gyro PID");

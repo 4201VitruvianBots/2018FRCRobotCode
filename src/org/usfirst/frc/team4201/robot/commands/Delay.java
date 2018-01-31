@@ -27,7 +27,7 @@ public class Delay extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("Delay", RobotMap.delay);
+    	SmartDashboard.putNumber("Delay", time);
     }
 
     // Make this return true when this Command no longer needs to run execute()
