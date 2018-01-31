@@ -29,18 +29,23 @@ public class PathFinder extends Command{
 	Timer stopwatch;
 	Waypoint[] points;
 	
-    public PathFinder(Waypoint path) {
+	
+	
+	boolean lock = false;
+	
+    public PathFinder(Waypoint[] path) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
-        // this.points = path; Real
+        this.points = path; 
         
         // +/- X is forward/backwards, +/- Y is left/right, +/- angle is left/right (unlike gyro, which is +/- right/left).
      	// Keep all units in terms of yards for consistency, unless otherwise stated.
-        this.points = new Waypoint[] {		// Temp
+        /*this.points = new Waypoint[] {		// Temp
 			new Waypoint(0, 0, 0),                 
 			//new Waypoint(2, -2, Pathfinder.d2r(-45)),          
 			new Waypoint(3, 0, 0),
-		};
+			
+		};*/
     }
     
     
@@ -48,6 +53,7 @@ public class PathFinder extends Command{
     protected void initialize() {
 		Robot.driveTrain.resetEncoders();
 		Robot.driveTrain.spartanGyro.reset();
+		Robot.driveTrain.setMotorsToBrake();
 	
 		SmartDashboard.putString("PathFinder Status" , "Initializing...");
 		
@@ -62,11 +68,11 @@ public class PathFinder extends Command{
 		// Max Velocity:        1.7 m/s
 		// Max Acceleration:    2.0 m/s/s
 		// Max Jerk:            60.0 m/s/s/s
-		this.max_vel = 400;
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.005, max_vel, 280, (800 * 1.09361));
+		this.max_vel = 450;
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.005, max_vel, 200, (800 * 1.09361));
 
 		// Generate the trajectory
-		SmartDashboard.putString("PathFinder Status" , "Generating Trajectory...");
+		SmartDashboard.putString("PathFinder Status" , "Generating Trajectory..."); 
 		trajectory = Pathfinder.generate(points, config);
 		
 		try {
@@ -96,19 +102,25 @@ public class PathFinder extends Command{
     	
 		SmartDashboard.putString("PathFinder Status" , "Enabling...");
 		
-		left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 1440, 0.1016);	// 360 enc ticks per rev * 4x quad enc ?
-		right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 1440, 0.1016);	// 0.1016 4 inches in meters - undershoot
+		left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 1440, 0.1050);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 1440, 0.1050);	// 0.1016 4 inches in meters - undershoot
 																											// 0.1111 4 inches in years  - 5 in overshoot
 																											// 0.125 undershoot - overshoot
-		left.configurePIDVA(1.0, 0.0, 0.0, 1 / max_vel, 0);
-		right.configurePIDVA(1.0, 0.0, 0.0, 1 / max_vel, 0);    
+		left.configurePIDVA(2.0, 0.02, 0.05, 1 / max_vel, 0);
+		right.configurePIDVA(2.0, 0.02, 0.03, 1 / max_vel, 0);    
+
 		stopwatch = new Timer();
-		stopwatch.start();
+		lock = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     	SmartDashboard.putString("PathFinder Status" , "Running...");
+    	if(!lock) {
+    		stopwatch.start();
+    		lock = true;
+    	}
     	
     	// Calculate the current motor outputs based on the trajectory values + encoder positions
 		double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
@@ -123,6 +135,9 @@ public class PathFinder extends Command{
 		SmartDashboard.putNumber("PathFinder T" , turn);
 		SmartDashboard.putNumber("PathFinder L output" , l + turn);
 		SmartDashboard.putNumber("PathFinder R output" , r - turn);
+		
+		SmartDashboard.putNumber("Timer", stopwatch.get());
+		SmartDashboard.putNumber("Speed", Robot.driveTrain.getTestEncoderSpeed());
 		
 		
 		// Set the output to the motors

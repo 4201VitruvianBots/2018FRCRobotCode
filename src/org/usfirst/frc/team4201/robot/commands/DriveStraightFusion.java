@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveStraightFusion extends Command{
 	PIDController leftMotorPIDController, rightMotorPIDController, driveGyroPIDController;
-	double kP = 0.03;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
-    double kI = 0.0003;           		// Start with I = P / 100  (speeds you up when you have an error for a period of time)
-    double kD = 0.3;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
+	double kP = 0.1;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
+    double kI = 0.005;           		// Start with I = P / 100  (speeds you up when you have an error for a period of time)
+    double kD = 1;         		// Start with D = P * 10.  (slows you down as you get closer to the target)
     double period = 0.01;
     CTREPIDSource leftDriveEncoder, rightDriveEncoder;
     PIDOutputInterface leftMotorPIDOutput, rightMotorPIDOutput, driveTurnPIDOutput;
@@ -93,6 +93,9 @@ public class DriveStraightFusion extends Command{
     	//SmartDashboard.putNumber("Right PIDS Output", PIDThrottleRight.getPIDOutput());
     	//SmartDashboard.putNumber("Turn PIDS Output", PIDTurn.getPIDOutput());
     	//SmartDashboard.putBoolean("Lock Value: ", lock);
+    	SmartDashboard.putBoolean("Left Motor Target", leftMotorPIDController.onTarget());
+    	SmartDashboard.putBoolean("Right Motor Target", rightMotorPIDController.onTarget());
+    	SmartDashboard.putBoolean("Gyro Target", driveGyroPIDController.onTarget());
     	
     	//Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
         Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput() + driveTurnPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput() - driveTurnPIDOutput.getPIDOutput());

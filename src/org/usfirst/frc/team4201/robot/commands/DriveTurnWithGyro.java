@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTurnWithGyro extends Command {
 	PIDController driveGyroPIDController;
 	static double kP = 0.1;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
-    static double kI = 0.001;           // Start with I = P / 100
-    static double kD = 0;           	// Start with D = P * 10
+    static double kI = 0.002;           // Start with I = P / 100
+    static double kD = 0.3;           	// Start with D = P * 10
     static double period = 0.01;
     PIDOutputInterface driveTurnPIDOutput;
     

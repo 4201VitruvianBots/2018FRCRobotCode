@@ -49,9 +49,10 @@ public class Robot extends TimedRobot {
 		
 		Robot.driveTrain.initializeLiveWindow();
 		
-		autoModeChooser.addDefault("PathFinder", new PathFinder());
+		autoModeChooser.addDefault("PathFinder", new PathFinderCommandGroup());
 		autoModeChooser.addObject("Turn", new Turn());
 		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
+		autoModeChooser.addObject("CenterRobotToRightSwitch", new CenterRobotToRightSwitch());
 		//autoModeChooser.addDefault("Full Power Straight", new DriveStraightFullPower(5));
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		

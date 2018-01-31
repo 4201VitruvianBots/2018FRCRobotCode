@@ -103,6 +103,10 @@ public class DriveTrain extends Subsystem {
 		return testEncoder.get();
 	}
 	
+	public double getTestEncoderSpeed() {
+		return testEncoder.getRate();
+	}
+	
 
 	
 	public void resetEncoders() {
@@ -121,6 +125,10 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setMotorsToBrake(){
+		driveMotors[0].setNeutralMode(NeutralMode.Brake);
+		driveMotors[1].setNeutralMode(NeutralMode.Brake);
+		driveMotors[2].setNeutralMode(NeutralMode.Brake);
+		driveMotors[3].setNeutralMode(NeutralMode.Brake);
 		for(int i = 0; i < driveMotors.length; i++)
 			driveMotors[i].setNeutralMode(NeutralMode.Brake);
 	}
