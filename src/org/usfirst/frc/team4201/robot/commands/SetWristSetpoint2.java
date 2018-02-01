@@ -6,32 +6,30 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**	This command must be an InstantCommand because of how we're using it.
+/**
  *
  */
-public class SetWristSetpoint extends InstantCommand {
+public class SetWristSetpoint2 extends InstantCommand {
 	
-	double setpoint;
-    public SetWristSetpoint(double setpoint) {
+	double inc;
+    public SetWristSetpoint2(double increment) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.wrist);
-        this.setpoint = setpoint;
+        requires(Robot.arm);
+        this.inc = increment;
         
         setInterruptible(true);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	// Keep a running count of how many times this command has been declared
+    	Robot.arm.wristCommandCount++;
     	// Check if new setpoint deosn't violate limits before setting
-    	if(Robot.wrist.getSetpoint() + setpoint < Robot.wrist.angleUpperLimit &&
-		   Robot.wrist.getSetpoint() + setpoint > Robot.wrist.angleLowerLimit)
-			Robot.wrist.setSetpoint(setpoint);
-		else {
-			// Get nearest setpoint and use that instead
-			
-			// Haptic feedback for operator
+		if(Robot.arm.wristPIDController.getSetpoint() + inc < Robot.arm.wristForwardAbsoluteLimit  + Robot.arm.wristForwardSoftLimit && 
+		   Robot.arm.wristPIDController.getSetpoint() + inc > Robot.arm.wristReverseAbsoluteLimit)
+			Robot.arm.setWristSetpoint(inc);
+		else
 	        Robot.oi.enableXBoxRightRumbleTimed();
-		}
     }
 
     // Make this return true when this Command no longer needs to run execute()

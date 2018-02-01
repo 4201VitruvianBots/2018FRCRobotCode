@@ -19,7 +19,7 @@ package org.usfirst.frc.team4201.robot;
 
 public class RobotMap {
 	// Global Variables
-	public static int armState = 0;
+	public static boolean isTurning = false;
 	
 	// USB ADDRESSES
 	public static final int leftJoystick = 0;
@@ -33,8 +33,9 @@ public class RobotMap {
 	public static final int rightEncoderB = 13;
 	
 	// Analog Sensors
-	public static final int armPot = 0;
-	public static final int wristPot = 1;
+	public static final int wristPot = 0;
+	public static final int armPot = 1;
+	public static final int elevatorLinearPot = 2;
 	
 	/*	ADDRESS VALUES
 	 *  
@@ -76,25 +77,15 @@ public class RobotMap {
 		
 	
 	// Motor Controllers
-	public static final int driveTrainLeftFront = 0;
-	public static final int driveTrainLeftRear = 1;
+	public static final int driveTrainLeftFront = 20;
+	public static final int driveTrainLeftRear = 21;
 	public static final int driveTrainRightFront = 22;
 	public static final int driveTrainRightRear = 23;
-	public static final int intakeLeft = 20;
-	public static final int intakeRight = 21;
-	// If intake needs more motors.
-	//public static final int intakeLeftTwo =;
-	//public static final int intakeRightTwo =;
-	public static final int elevatorA = 26;
-	public static final int elevatorB = 27;
-	public static final int fourBar = 28;
-	public static final int armLeftMotor = 30;
-	public static final int armRightMotor = 31;
-	public static final int wristMotor = 32;
+	public static final int elevatorA = 24;
+	public static final int elevatorB = 25;
+	public static final int intakeLeft = 26;
+	public static final int intakeRight = 27;
+	public static final int armMotor = 28;
+	public static final int wristMotor = 30;
 	
-	
-	public static final int red = 0;
-	public static final int blue = 1;
-	
-	public static boolean isTurning = false;
 }

@@ -86,23 +86,23 @@ public class OI {
         //leftButtons[2].whenPressed(new ResetEncoders());
         //leftButtons[4].whenPressed(new ToggleArm());
 
-       // rightButtons[0].whileHeld(new ReverseIntakeMotors());
+        //rightButtons[0].whileHeld(new ReverseIntakeMotors());
         //rightButtons[1].whenPressed(new RetractIntakePistons());
         //rightButtons[3].whileHeld(new ArmDown());
         //rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
         //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
-        
-        // Reserved xBox Controller Buttons. See SetArmPosition Command.
-        //xBoxButtons[1].whenPressed(command);						// A Button: Set Position Feed
-        //xBoxButtons[2].whenPressed(command);						// B Button: Set Position Angled
+        xBoxButtons[1].whileHeld(new SetWristSetpoint(0));			// A Button: Set Position Feed
+        xBoxButtons[2].whenPressed(new SetWristSetpoint(45));		// B Button: Set Position Angled
         //xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
         xBoxButtons[4].whileHeld(new SetArmSetpoint(1));			// Left Button: Adjust arm up
         xBoxLeftTrigger.whileHeld(new SetArmSetpoint(-1));			// Left Trigger: Adjust arm down
-        xBoxButtons[5].whileActive(new SetWristSetpoint(1));			// Right Button: Adjust wrist up
-        xBoxRightTrigger.whileActive(new SetWristSetpoint(-1));		// Right Trigger: Adjust wrist down
+        xBoxButtons[5].whileHeld(new SetWristDeltaSetpoint(1));		// Right Button: Adjust wrist up
+        xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-1));	// Right Trigger: Adjust wrist down
         
+        
+        // Test Mode Button Commands. WARNING: EXTREMELY DANGEROUS
         if(DriverStation.getInstance().isTest()) {
         	leftButtons[3].toggleWhenPressed(new ToggleMotorTest());
         }
@@ -133,7 +133,7 @@ public class OI {
 	}
 	
 	public void enableXBoxLeftRumble() {
-		xBoxController.setRumble(RumbleType.kLeftRumble, 0.4);
+		xBoxController.setRumble(RumbleType.kLeftRumble, 0.8);
 	}
 	
 	public void disableXBoxLeftRumble() {
@@ -141,7 +141,7 @@ public class OI {
 	}
 	
 	public void enableXBoxRightRumble() {
-		xBoxController.setRumble(RumbleType.kRightRumble, 0.4);
+		xBoxController.setRumble(RumbleType.kRightRumble, 0.8);
 	}
 	
 	public void disableXBoxRightRumble() {

@@ -41,7 +41,6 @@ public class JointedArm extends Subsystem{
 	
 	double armSetpoint, wristSetpoint;
 	
-	public int armCommandCount = 0, wristCommandCount = 0;
 	
 	
 	
