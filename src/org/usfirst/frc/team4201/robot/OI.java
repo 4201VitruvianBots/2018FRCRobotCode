@@ -133,7 +133,7 @@ public class OI {
 	}
 	
 	public void enableXBoxLeftRumble() {
-		xBoxController.setRumble(RumbleType.kLeftRumble, 0.5);
+		xBoxController.setRumble(RumbleType.kLeftRumble, 0.4);
 	}
 	
 	public void disableXBoxLeftRumble() {
@@ -141,28 +141,28 @@ public class OI {
 	}
 	
 	public void enableXBoxRightRumble() {
-		xBoxController.setRumble(RumbleType.kRightRumble, 0.5);
+		xBoxController.setRumble(RumbleType.kRightRumble, 0.4);
 	}
 	
 	public void disableXBoxRightRumble() {
 		xBoxController.setRumble(RumbleType.kRightRumble, 0);
 	}
 	
-	public void enableXboxLeftRumbleTimed(){
+	public void enableXBoxLeftRumbleTimed(){
 		Timer stopwatch = new Timer();
 		enableXBoxLeftRumble();
 		stopwatch.start();
-		while(stopwatch.get() < 0.5){
+		while(stopwatch.get() < 0.05){
 			
 		}
 		disableXBoxLeftRumble();
 	}
 	
-	public void enableXboxRightRumbleTimed(){
+	public void enableXBoxRightRumbleTimed(){
 		Timer stopwatch = new Timer();
 		enableXBoxRightRumble();
 		stopwatch.start();
-		while(stopwatch.get() < 0.5){
+		while(stopwatch.get() < 0.05){
 			
 		}
 		disableXBoxRightRumble();

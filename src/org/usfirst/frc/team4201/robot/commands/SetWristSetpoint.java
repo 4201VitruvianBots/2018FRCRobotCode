@@ -3,12 +3,13 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class SetWristSetpoint extends Command {
+public class SetWristSetpoint extends InstantCommand {
 	
 	double inc;
     public SetWristSetpoint(double increment) {
@@ -28,11 +29,7 @@ public class SetWristSetpoint extends Command {
 		   Robot.arm.wristPIDController.getSetpoint() + inc > Robot.arm.wristReverseAbsoluteLimit)
 			Robot.arm.setWristSetpoint(inc);
 		else
-	        Robot.oi.enableXboxRightRumbleTimed();
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+	        Robot.oi.enableXBoxRightRumbleTimed();
     }
 
     // Make this return true when this Command no longer needs to run execute()
