@@ -1,17 +1,101 @@
 package org.usfirst.frc.team4201.robot;
 
 public class WristLimitTable {
-	double wristLimits[] = new double[90];
+	// This is a table for the wrist limits based on the Arm's current angle.
+	// Array index 0 starts when Arm Angle is -42 (From the horizon)
+	// Formula for how we calculated the limits is:
+	// (int)Math.ceil(Math.acos((maxHorizontalLength-armLength*sin(getArmAngle()))/intakeLength);	// We round up to the nearest whole angle to be safe
+	// Where:
+	// maxHorziontalLength = 43.5;	// Length from the front of the elevator to the forward extension limit, in inches
+	// armLength = 41;				
+	// intakeLength = 13;
 	
-	public void initializeTable(){
-		// Create a look-up table (LUT) to set up the wrist limits to avoid on-board calculations.
-		// First half of table is calculated and manually entered.
-		// Second half mirrors first half values
-		//wristLimits[0] = ;
-		
-		
-		for(int i = 0; i < wristLimits.length / 2; i++){
-			wristLimits[89 - i] = wristLimits[i];
-		}
-	}
+	public static int wristLimits[] = {
+		16, 
+		22, 
+		27, 
+		32, 
+		35, 
+		38, 
+		41, 
+		44, 
+		47, 
+		49, 
+		51, 
+		53, 
+		55, 
+		57, 
+		59, 
+		61, 
+		62, 
+		64, 
+		65, 
+		67, 
+		68, 
+		69, 
+		70, 
+		71, 
+		73, 
+		74, 
+		74, 
+		75, 
+		76, 
+		77, 
+		78, 
+		78, 
+		79, 
+		79, 
+		80, 
+		80, 
+		81, 
+		81, 
+		81, 
+		81, 
+		82, 
+		82, 
+		82, 
+		82, 
+		82, 
+		81, 
+		81, 
+		81, 
+		81, 
+		80, 
+		80, 
+		79, 
+		79, 
+		78, 
+		78, 
+		77, 
+		76, 
+		75, 
+		74, 
+		74, 
+		73, 
+		71, 
+		70, 
+		69, 
+		68, 
+		67, 
+		65, 
+		64, 
+		62, 
+		61, 
+		59, 
+		57, 
+		55, 
+		53, 
+		51, 
+		49, 
+		47, 
+		44, 
+		41, 
+		38, 
+		35, 
+		32, 
+		27, 
+		22, 
+		16
+
+	};
 }
