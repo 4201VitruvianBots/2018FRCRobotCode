@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -160,6 +161,9 @@ public class PathFinder extends Command{
     	Robot.driveTrain.setDriveOutput(0, 0);
     	stopwatch.stop();
     	SmartDashboard.putNumber("Path Time", stopwatch.get());
+    	RobotMap.waypointX = points[points.length - 1].x;
+    	RobotMap.waypointY = points[points.length - 1].y;
+    	RobotMap.waypointAngle = points[points.length - 1].angle;
     }
 
     // Called when another command which requires one or more of the same

@@ -88,4 +88,7 @@ public class RobotMap {
 	public static final int blue = 1;
 	
     public static double delay = 10;
+    public static double waypointX = 0;
+    public static double waypointY = 0;
+    public static double waypointAngle = 0;
 }
