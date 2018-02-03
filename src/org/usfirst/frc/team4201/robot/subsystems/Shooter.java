@@ -32,7 +32,7 @@ public class Shooter extends Subsystem {
 		//uptake.changeControlMode(TalonControlMode.PercentVbus);
 		//shooter[0].changeControlMode(TalonControlMode.Speed);
 		// Set Motor Controller Feedback Device
-		shooter[0].configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+		shooter[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		
 		shooter[0].setSensorPhase(true);
 		shooter[0].config_kP(0, 0.4, 0);
@@ -71,7 +71,6 @@ public class Shooter extends Subsystem {
 	}
 	
 	public void setFlywheelOutput(double RPM){
-		//return shooter[0].setSafetyEnabled(enabled);
 		shooter[0].set(ControlMode.Velocity, RPM);
 	}
 	
@@ -85,11 +84,6 @@ public class Shooter extends Subsystem {
 	
 	public boolean getFlywheelEnable(){
 		return shooter[0].get() != 0 ? true : false;
-		//return shooter[0].isSafetyEnabled();
-	}
-	
-	public void initTestMotor(int CANTalon){
-		testMotor = new WPI_TalonSRX(CANTalon);
 	}
 	
 	public void setTestMotorOutput(double value){
