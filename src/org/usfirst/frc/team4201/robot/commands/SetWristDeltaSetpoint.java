@@ -22,9 +22,9 @@ public class SetWristDeltaSetpoint extends InstantCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	SmartDashboard.putNumber("Wrist Setpoint", Robot.wrist.getSetpoint() + inc);
     	// Check if new setpoint deosn't violate limits before setting
-		if(Robot.wrist.getSetpoint() + inc < Robot.wrist.angleUpperLimit &&
-		   Robot.wrist.getSetpoint() + inc > Robot.wrist.angleLowerLimit)
+		if(Robot.wrist.checkWristLimit(Robot.wrist.getSetpoint() + inc))
 			Robot.wrist.setSetpointRelative(inc);
 		else
 	        Robot.oi.enableXBoxRightRumbleTimed();

@@ -56,7 +56,7 @@ public class AnalogPotentiometerSource implements PIDSource{
     }
 	
 	public double getWristAngle() {
-		return -(180 - Robot.arm.getAngleFromArm() - Robot.arm.getArmAngle() - 3.5);
+		return -(180 - Robot.arm.getAngle() - 3.5);
     }
 
 	

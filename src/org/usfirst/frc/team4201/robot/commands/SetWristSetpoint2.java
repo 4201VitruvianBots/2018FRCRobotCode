@@ -23,6 +23,7 @@ public class SetWristSetpoint2 extends InstantCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Keep a running count of how many times this command has been declared
+    	/*
     	Robot.arm.wristCommandCount++;
     	// Check if new setpoint deosn't violate limits before setting
 		if(Robot.arm.wristPIDController.getSetpoint() + inc < Robot.arm.wristForwardAbsoluteLimit  + Robot.arm.wristForwardSoftLimit && 
@@ -30,6 +31,7 @@ public class SetWristSetpoint2 extends InstantCommand {
 			Robot.arm.setWristSetpoint(inc);
 		else
 	        Robot.oi.enableXBoxRightRumbleTimed();
+	        */
     }
 
     // Make this return true when this Command no longer needs to run execute()

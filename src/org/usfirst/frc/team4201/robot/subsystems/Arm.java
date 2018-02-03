@@ -18,13 +18,14 @@ public class Arm extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 	
-	public double angleUpperLimit = 180;
-	public double angleLowerLimit = 49;
-	static double angleOffset = 0;
+	public double angleUpperLimit = 90;
+	public double angleLowerLimit = -41;
+	static double angleOffset = -80;
 	static double voltageUpperLimit = 3;
 	static double voltageLowerLimit = 1;
 	
 	public WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
+	public WPI_TalonSRX armMotor2 = new WPI_TalonSRX(RobotMap.armMotor + 1); // Using test arm
 	
 	public AnalogInput armPot = new AnalogInput(RobotMap.armPot);
 	
@@ -34,9 +35,13 @@ public class Arm extends PIDSubsystem {
 		setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
-		armMotor.setNeutralMode(NeutralMode.Brake);
+		armMotor.setNeutralMode(NeutralMode.Coast);
 		armMotor.configPeakOutputForward(1, 0);
 		armMotor.configPeakOutputReverse(-1, 0);
+		armMotor2.setNeutralMode(NeutralMode.Coast);
+		armMotor2.configPeakOutputForward(1, 0);
+		armMotor2.configPeakOutputReverse(-1, 0);
+		armMotor2.set(ControlMode.Follower, armMotor.getDeviceID());
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
 		setSetpoint(getAngle());
@@ -56,7 +61,8 @@ public class Arm extends PIDSubsystem {
 	}
 	
 	public void updateSmartDashboard() {
-		SmartDashboard.putNumber("Wrist Angle", getAngle());
+		SmartDashboard.putNumber("Arm Angle", getAngle());
+		SmartDashboard.putNumber("Arm Avg. Voltagee", armPot.getAverageVoltage());
 	}
 	
 	@Override

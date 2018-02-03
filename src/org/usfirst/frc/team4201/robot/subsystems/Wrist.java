@@ -24,9 +24,9 @@ public class Wrist extends PIDSubsystem {
 	int armLimitLowerBound = -42;
 	int armLimitUpperBound = 138;
 	
-	public double angleUpperLimit = 285;
-	public double angleLowerLimit = 72;
-	static double angleOffset = 72;
+	public double angleUpperLimit = 80; 
+	public double angleLowerLimit = -133;
+	static double angleOffset = -143;
 	static double voltageUpperLimit = 5;
 	static double voltageLowerLimit = 0;
 	
@@ -41,7 +41,7 @@ public class Wrist extends PIDSubsystem {
 		setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
-		wristMotor.setNeutralMode(NeutralMode.Brake);
+		wristMotor.setNeutralMode(NeutralMode.Coast);
 		wristMotor.configPeakOutputForward(1, 0);
 		wristMotor.configPeakOutputReverse(-1, 0);
 		
@@ -65,7 +65,27 @@ public class Wrist extends PIDSubsystem {
 	
 	// Get the angle of the wrist based off of the angle of the arm
 	public double getRelativeAngle() {
-		return (wristPot.getAverageVoltage() * ((angleUpperLimit - angleLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) - Robot.arm.getAngle() + angleOffset;
+		return (wristPot.getAverageVoltage() * ((angleUpperLimit - angleLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + angleOffset + (180 + Robot.arm.getAngle());
+	}
+	
+	public boolean checkWristLimit(double value){
+		if(value > angleLowerLimit && value < angleUpperLimit){
+			/*
+			if(Robot.arm.getAngle() > armLimitLowerBound && Robot.arm.getAngle() < armLimitUpperBound){
+				int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimitLowerBound];
+				SmartDashboard.putNumber("Wrist Limit Angle", setpointLimit);
+				
+				if(Math.abs(Robot.arm.getAngle()) < setpointLimit)
+					return false;
+				else
+					return true;
+			}
+			else
+			*/
+				return true;
+		}
+		else
+			return false;
 	}
 	
 	public void updateWristAngle(){
@@ -97,11 +117,12 @@ public class Wrist extends PIDSubsystem {
 			}
 		}
 	}
-
 	
 	public void updateSmartDashboard() {
 		SmartDashboard.putNumber("Wrist Absolute Angle", getAbsoluteAngle());
 		SmartDashboard.putNumber("Wrist Relative Angle", getRelativeAngle());
+		SmartDashboard.putNumber("Wrist Setpoint", getSetpoint());
+		SmartDashboard.putNumber("Wrist Avg. Voltage", wristPot.getAverageVoltage());
 	}
 	
 	@Override
@@ -118,7 +139,7 @@ public class Wrist extends PIDSubsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		setDefaultCommand(new AdjustWristSetpoint());
+		//setDefaultCommand(new AdjustWristSetpoint());
 	}
 
 }

@@ -26,8 +26,7 @@ public class JointedArm extends Subsystem{
 
 	
 	public BaseMotorController[] armMotors = {
-		new WPI_TalonSRX(RobotMap.armLeftMotor),
-		new WPI_TalonSRX(RobotMap.armRightMotor)
+		new WPI_TalonSRX(RobotMap.armMotor),
 	};
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
@@ -166,7 +165,7 @@ public class JointedArm extends Subsystem{
 		
 		// Set wrist to a set angle
 		// if the wrist is not limited, move to intake position, otherwise rumble to tell operator that movement is invalid
-		if(RobotMap.armState == 0 && Robot.oi.xBoxButtons[1].get()) {
+		if(Robot.oi.xBoxButtons[1].get()) {
 			// wristSetpoint = -armSetpoint 
 			//setWristSetpoint(wristSetpoint);
 		} else if(Robot.oi.xBoxButtons[2].get())
@@ -216,7 +215,7 @@ public class JointedArm extends Subsystem{
 		SmartDashboard.putNumber("Wrist Angle", getWristAngle());
 		SmartDashboard.putNumber("Wrist Pot", wristPot.getAverageVoltage());
 		SmartDashboard.putNumber("Wrist Setpoint", wristPIDController.getSetpoint());
-		SmartDashboard.putNumber("Wrist Command Count", wristCommandCount);
+		//SmartDashboard.putNumber("Wrist Command Count", wristCommandCount);
 		
 		
 	}
