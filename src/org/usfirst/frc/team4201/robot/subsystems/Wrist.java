@@ -64,6 +64,10 @@ public class Wrist extends PIDSubsystem {
 		LiveWindow.addChild(this, this);
 	}
 	
+	public void setDirectOutput(double output){
+		wristMotor.set(ControlMode.PercentOutput, output);
+	}
+	
 	// Get the angle of the wrist
 	public double getAbsoluteAngle() {
 		return wristPot.get();

@@ -98,8 +98,8 @@ public class OI {
         //xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
         //xBoxButtons[4].whileHeld(new SetArmDeltaSetpoint(1));			// Left Button: Adjust arm up
         //xBoxLeftTrigger.whileHeld(new SetArmDeltaSetpoint(-1));			// Left Trigger: Adjust arm down
-        xBoxButtons[5].whileHeld(new SetWristDeltaSetpoint(1));		// Right Button: Adjust wrist up
-        xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-1));	// Right Trigger: Adjust wrist down
+        xBoxButtons[5].whileActive(new SetWristDeltaSetpoint(1));		// Right Button: Adjust wrist up
+        xBoxRightTrigger.whileActive(new SetWristDeltaSetpoint(-1));	// Right Trigger: Adjust wrist down
         
         
         // Test Mode Button Commands. WARNING: EXTREMELY DANGEROUS

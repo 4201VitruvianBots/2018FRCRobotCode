@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
 	public static Elevator elevator = new Elevator();
 	public static Arm arm = new Arm();
 	public static Wrist wrist = new Wrist();
-	//public static Sensors sensors = new Sensors();
+	public static Controls controls = new Controls();
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 
 	/**
@@ -126,6 +127,7 @@ public class Robot extends TimedRobot {
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 
 	@Override
@@ -160,6 +162,7 @@ public class Robot extends TimedRobot {
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 
 	/**
@@ -171,6 +174,7 @@ public class Robot extends TimedRobot {
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 	
 }
