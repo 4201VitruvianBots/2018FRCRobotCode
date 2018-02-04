@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Arm extends Subsystem{
 	
 	DoubleSolenoid leftArm = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.leftArmOne, RobotMap.leftArmTwo);
-	DoubleSolenoid rightArm = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.rightArmOne, RobotMap.rightArmTwo);
+	DoubleSolenoid rightArm = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.rightArmOne, RobotMap.rightArmTwo);
+	DoubleSolenoid thirdArm = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.elevatorOne, RobotMap.elevatorTwo);
 	
 	public Arm() {
 		super("Arm");
@@ -22,11 +23,13 @@ public class Arm extends Subsystem{
 	public void deployArm() {
 		leftArm.set(Value.kForward);
 		rightArm.set(Value.kForward);
+		thirdArm.set(Value.kForward);
 	} 
 	
 	public void retractArm() {
 		leftArm.set(Value.kReverse);
 		rightArm.set(Value.kReverse);
+		thirdArm.set(Value.kReverse);
 	}
 	
 	@Override

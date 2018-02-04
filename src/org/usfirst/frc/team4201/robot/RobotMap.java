@@ -48,14 +48,14 @@ public class RobotMap {
 	
 	// Pneumatic Modules & their devices
 	public static final int PCMOne = 11;
-		public static final int driveTrainShifterLeft = 6;
-		public static final int driveTrainShifterRight = 7;
-		public static final int elevatorOne = 2;
-		public static final int elevatorTwo = 3;
-		public static final int intakeOne = 4;
-		public static final int intakeTwo = 5;
-		public static final int leftArmOne = 0;
-		public static final int leftArmTwo = 1;
+		public static final int rightArmOne = 0;
+		public static final int rightArmTwo = 1;
+		public static final int elevatorOne = 4;
+		public static final int elevatorTwo = 5;
+		public static final int intakeOne = 2;
+		public static final int intakeTwo = 3;
+		public static final int leftArmOne = 6;
+		public static final int leftArmTwo = 7;
 		
 	public static final int PCMTwo = 12;
 		public static final int stabalizerReleaseLeft = 0;
@@ -64,8 +64,8 @@ public class RobotMap {
 		public static final int stabalizerGrabRight = 3;
 		public static final int stabalizerEngageLeft = 4;
 		public static final int stabalizerEngageRight = 5;
-		public static final int rightArmOne = 6;
-		public static final int rightArmTwo = 7;
+		public static final int driveTrainShifterLeft = 6;
+		public static final int driveTrainShifterRight = 7;
 		
 	
 	// Motor Controllers
