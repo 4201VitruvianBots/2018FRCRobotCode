@@ -53,7 +53,6 @@ public class AutoPaths {
 	};  //Drop off cube. If going to left scale then use LeftSwitchToLeftCube.
 	
 	public static Waypoint[] leftSwitchToLeftCube = new Waypoint[] {		// Create a spline path 
-		new Waypoint(0, 0, 90),                 
 		new Waypoint(0, -1.5, Pathfinder.d2r(90)),          
 		new Waypoint(0.5, -1, Pathfinder.d2r(45)),       
 		new Waypoint(13/12, -0.5, Pathfinder.d2r(90)),  

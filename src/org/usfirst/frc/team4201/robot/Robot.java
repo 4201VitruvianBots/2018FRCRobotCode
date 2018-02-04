@@ -48,6 +48,9 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		
 		Robot.driveTrain.initializeLiveWindow();
+
+		//PathFinderCommandGroup.setPaths();
+		//PathfinderGen.initializeTrajectories();
 		
 		autoModeChooser.addDefault("PathFinder", new PathFinderCommandGroup());
 		autoModeChooser.addObject("Turn", new Turn());
@@ -61,8 +64,6 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Split Arcade", new SetSplitArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
 		
-		PathFinderCommandGroup.setPaths();
-		PathfinderGen.initializeTrajectories();
 	}
 
 	/**
