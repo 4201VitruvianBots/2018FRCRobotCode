@@ -9,24 +9,22 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  *
  */
 public class SetArmSetpoint extends InstantCommand {
-	double inc;
+	double setpoint;
 	
-    public SetArmSetpoint(double increment) {
+    public SetArmSetpoint(double setpoint) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.arm);
-        this.inc = increment;
+        this.setpoint = setpoint;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	/*
     	// Check if new setpoint deosn't violate limits before setting
-		if(Robot.arm.armPIDController.getSetpoint() + inc < Robot.arm.armForwardAbsoluteLimit && 
-		   Robot.arm.armPIDController.getSetpoint() + inc > Robot.arm.armReverseAbsoluteLimit)
-			Robot.arm.setArmSetpoint(inc);
+		if(Robot.arm.checkLimits(setpoint))
+    		Robot.arm.setSetpoint(setpoint);
 		else
 			Robot.oi.enableXBoxLeftRumbleTimed();
-			*/
+
     }
 
     // Called repeatedly when this Command is scheduled to run

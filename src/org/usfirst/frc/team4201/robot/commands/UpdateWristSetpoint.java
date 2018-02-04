@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class UpdateWristSetpoint extends InstantCommand {
+public class UpdateWristSetpoint extends Command {
 	
 	
     public UpdateWristSetpoint() {
@@ -22,6 +22,12 @@ public class UpdateWristSetpoint extends InstantCommand {
     protected void initialize() {
     	//Robot.
     }
+    
+    @Override
+	protected void execute() {
+		Robot.wrist.updateWristAngle();
+	}
+    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;

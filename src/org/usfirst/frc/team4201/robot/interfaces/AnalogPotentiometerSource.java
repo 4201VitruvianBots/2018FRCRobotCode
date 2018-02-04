@@ -12,11 +12,20 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 public class AnalogPotentiometerSource implements PIDSource{
 	PIDSourceType type = PIDSourceType.kDisplacement;
 	AnalogInput analogInput;
-	int t;
+	double unitLowerLimit;
+	double unitUpperLimit;
+	double unitOffset;
+	double voltageUpperLimit;
+	double voltageLowerLimit;
 	
-	public AnalogPotentiometerSource(AnalogInput analogPotentiometer, int type) {
+	
+	public AnalogPotentiometerSource(AnalogInput analogPotentiometer, double unitLowerLimit, double unitUpperLimit, double unitOffset, double voltageLowerLimit, double voltageUpperLimit) {
 		this.analogInput = analogPotentiometer;
-		this.t = type;
+		this.unitUpperLimit = unitUpperLimit;
+		this.unitLowerLimit = unitLowerLimit;
+		this.unitOffset = unitOffset;
+		this.voltageUpperLimit = voltageUpperLimit;
+		this.voltageLowerLimit = voltageLowerLimit;
 	}
 	
 	@Override
@@ -33,10 +42,8 @@ public class AnalogPotentiometerSource implements PIDSource{
 
 	@Override
 	public double pidGet() {
-		if(t == 0)
-			return getArmAngle();
-		else if (t == 1)
-			return getWristAngle();
+		if(getPIDSourceType() == PIDSourceType.kDisplacement)
+			return (analogInput.getAverageVoltage() * ((unitUpperLimit - unitLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + unitOffset;
 		else
 			return 0;
 	}

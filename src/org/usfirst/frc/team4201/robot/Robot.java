@@ -29,7 +29,6 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Intake intake = new Intake();
 	public static Elevator elevator = new Elevator();
-	//public static JointedArm arm = new JointedArm();
 	public static Arm arm = new Arm();
 	public static Wrist wrist = new Wrist();
 	//public static Sensors sensors = new Sensors();
@@ -49,7 +48,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		Robot.driveTrain.initializeLiveWindow();
+		//Robot.driveTrain.initializeLiveWindow();
 		
 		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
 		autoModeChooser.addObject("Turn", new Turn());
@@ -78,8 +77,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		arm.updateSmartDashboard();
 		wrist.updateSmartDashboard();
+		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
 	}
 
 	/**
@@ -124,6 +124,8 @@ public class Robot extends TimedRobot {
 
 		driveTrain.updateSmartDashboard();
 		wrist.updateSmartDashboard();
+		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
 	}
 
 	@Override
@@ -154,12 +156,10 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-		//sensors.updateSmartDashboard();
 		//driveTrain.updateSmartDashboard();
-		//flipper.updateSmartDashboard();
-		//arm.updateArmWristPositions();
-		arm.updateSmartDashboard();
 		wrist.updateSmartDashboard();
+		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
 	}
 
 	/**
@@ -167,7 +167,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		//driveTrain.updateSmartDashboard();
+		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
 	}
 	
 }

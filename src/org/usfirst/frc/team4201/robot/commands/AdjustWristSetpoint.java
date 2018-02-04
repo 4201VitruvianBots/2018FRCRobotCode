@@ -28,8 +28,8 @@ public class AdjustWristSetpoint extends Command {
  		double yAxis = Robot.oi.xBoxController.getRawAxis(1);
  		
     	// Check if new setpoint deosn't violate limits before setting
-    	if(Robot.wrist.getSetpoint() + yAxis < Robot.wrist.angleUpperLimit &&
-		   Robot.wrist.getSetpoint() + yAxis > Robot.wrist.angleLowerLimit)
+    	if(Robot.wrist.PIDControl.getSetpoint() + yAxis < Robot.wrist.angleUpperLimit &&
+		   Robot.wrist.PIDControl.getSetpoint() + yAxis > Robot.wrist.angleLowerLimit)
 			Robot.wrist.setSetpointRelative(yAxis);
 		else {
 			// Get nearest setpoint and use that instead

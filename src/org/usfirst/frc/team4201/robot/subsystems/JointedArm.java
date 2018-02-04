@@ -57,11 +57,12 @@ public class JointedArm extends Subsystem{
 	
 	//DoubleSolenoid leftArm = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.leftArmOne, RobotMap.leftArmTwo);
 	//DoubleSolenoid rightArm = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.rightArmOne, RobotMap.rightArmTwo);
-	
+	/*
 	public JointedArm() {
 		super("Arm");
-		armSource = new AnalogPotentiometerSource(armPot, 0);
-		wristSource = new AnalogPotentiometerSource(wristPot, 1);
+		
+		//armSource = new AnalogPotentiometerSource(armPot, 0);
+		//wristSource = new AnalogPotentiometerSource(wristPot, 1);
 		armPIDOutput = new PIDOutputInterface();
 		wristPIDOutput = new PIDOutputInterface();
 		
@@ -195,7 +196,6 @@ public class JointedArm extends Subsystem{
 				Robot.oi.enableXBoxLeftRumble();
 			Robot.oi.disableXBoxLeftRumble();
 		}
-		*/
 		
 		// Commands declared here to avoid issues
 		// Only start a new command if the queue isn't overloaded
@@ -219,7 +219,7 @@ public class JointedArm extends Subsystem{
 		
 		
 	}
-
+	*/
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub

@@ -5,11 +5,9 @@ import org.usfirst.frc.team4201.robot.RobotMap;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Platforms extends Subsystem{
+public class Wings extends Subsystem{
 	
-	
-	
-	public Platforms(){		
+	public Wings(){		
 	}
 	
 	public void deploySidePanels() {
