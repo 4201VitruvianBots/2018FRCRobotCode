@@ -21,7 +21,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 /**
  *
  */
-public class PathFinder extends Command{
+public class PathFinderTrajectories extends Command{
 	double max_vel;
 	Trajectory trajectory;
 	TankModifier modifier;
@@ -34,63 +34,19 @@ public class PathFinder extends Command{
 	
 	boolean lock = false;
 	
-    public PathFinder(Waypoint[] path) {
+    public PathFinderTrajectories(Trajectory trajectory) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
-        this.points = path; 
-        
-        // +/- X is forward/backwards, +/- Y is left/right, +/- angle is left/right (unlike gyro, which is +/- right/left).
-     	// Keep all units in terms of yards for consistency, unless otherwise stated.
-        /*this.points = new Waypoint[] {		// Temp
-			new Waypoint(0, 0, 0),                 
-			//new Waypoint(2, -2, Pathfinder.d2r(-45)),          
-			new Waypoint(3, 0, 0),
-			
-		};*/
+        this.trajectory = trajectory; 
     }
     
     
     // Called just before this Command runs the first time
     protected void initialize() {
 		SmartDashboard.putString("PathFinder Status" , "Initializing...");
-		
-		// Create the Trajectory Configuration
-		//
-		// Arguments:
-		// Fit Method:          HERMITE_CUBIC or HERMITE_QUINTIC	// Keep it Cubic
-		// Sample Count:        SAMPLES_HIGH (100 000)
-		//    		            SAMPLES_LOW  (10 000)
-		//    		            SAMPLES_FAST (1 000)				// Use Fast only if calculating from roboRIO
-		// Time Step:           0.05 Seconds
-		// Max Velocity:        1.7 m/s
-		// Max Acceleration:    2.0 m/s/s
-		// Max Jerk:            60.0 m/s/s/s
-		this.max_vel = 450;
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.005, max_vel, 200, (800 * 1.09361));
 
-		// Generate the trajectory
-		SmartDashboard.putString("PathFinder Status" , "Generating Trajectory..."); 
-		trajectory = Pathfinder.generate(points, config);
+		this.max_vel = 450;
 		
-		try {
-		 /*
-	    Path extractionPath = Files.createTempFile("trajectory", ".csv");
-	    Files.copy(Robot.class.getResourceAsStream("/com/team4201/myfile.csv"), extractionPath);
-	    trajectory = Pathfinder.readFromCSV(extractionPath.toFile());
-	  	*/
-		 //File myfile = new File("/home/lvuser/myfile.csv");
-		 //trajectory = Pathfinder.readFromCSV(myfile);
-		 
-		} catch (Exception e) {
-	    // Handle it how you want
-		  DriverStation.reportError("Error: Couldn't read csv", false);
-		} 
-		
-		
-		SmartDashboard.putString("PathFinder Status" , "Trajectory Generated!");
-		
-		// Modify the trajectory from a single line from the center of the bot to two lines for both sides of the drive train.
-		// Wheelbase = Distance between left/right side of wheels
 		modifier = new TankModifier(trajectory).modify(0.9111);
 		
 		// Configure encoder classes to follow the trajectories

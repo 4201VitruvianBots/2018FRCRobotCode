@@ -60,6 +60,9 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Tank Drive", new SetTankDrive());
 		driveMode.addObject("Split Arcade", new SetSplitArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
+		
+		PathFinderCommandGroup.setPaths();
+		PathfinderGen.initializeTrajectories();
 	}
 
 	/**
