@@ -53,7 +53,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public double getBallIntakeOutput(){
-		return ballIntake.get();
+		return ballIntake.getMotorOutputPercent();
 	}
 	
 	public void conveyorUptakeOn(){
@@ -94,6 +94,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Flywheel Output", getFlywheelOutput());
 		SmartDashboard.putNumber("Conveyor Output", getConveyorOutput());
 		SmartDashboard.putNumber("Flywheel Status", shooter[0].get());
+		SmartDashboard.putNumber("Ball Inake", getBallIntakeOutput());
 	}
 	
     public void initDefaultCommand() {

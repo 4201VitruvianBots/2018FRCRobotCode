@@ -61,17 +61,24 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Split Arcade", new SplitArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
 		
-		UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-		SmartDashboard.putString("Cam 1", cam1.enumerateProperties().toString());
-		//cam1.setPixelFormat(PixelFormat.kYUYV);
-		cam1.setResolution(160, 120);
-		cam1.setFPS(60);
-		
-		UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
-		SmartDashboard.putString("Cam2", cam2.enumerateProperties().toString());
-		cam2.setPixelFormat(PixelFormat.kYUYV);
-		cam2.setResolution(640, 480);
-		cam2.setFPS(48);
+		try{
+			UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+			SmartDashboard.putString("Cam 1", cam1.enumerateProperties().toString());
+			//cam1.setPixelFormat(PixelFormat.kYUYV);
+			cam1.setResolution(160, 120);
+			cam1.setFPS(60);
+		} catch(Exception e){
+			
+		}
+		try{	
+			UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+			SmartDashboard.putString("Cam2", cam2.enumerateProperties().toString());
+			cam2.setPixelFormat(PixelFormat.kYUYV);
+			cam2.setResolution(640, 480);
+			cam2.setFPS(48);
+		} catch(Exception e){
+			
+		}
 	}
 
 	/**
@@ -148,6 +155,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		
 		driveTrain.updateSmartDashboard();
+		shooter.updateSmartDashboard();
 	}
 
 	/**

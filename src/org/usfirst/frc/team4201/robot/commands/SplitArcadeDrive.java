@@ -27,7 +27,7 @@ public class SplitArcadeDrive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.driveTrain.setDriveOutput(Robot.oi.getLeftY(), Robot.oi.getRightX());
+		Robot.driveTrain.setDriveOutput(Robot.oi.leftJoystick.getRawAxis(1), Robot.oi.getRightX());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
