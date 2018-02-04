@@ -103,7 +103,7 @@ public class Robot extends TimedRobot {
 		driveTrain.setMotorsToBrake();
 		driveTrain.resetEncoders();
 		
-		SmartDashboard.putString("Auto Status" , "Initializing");
+		//SmartDashboard.putString("Auto Status" , "Initializing");
 		
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {

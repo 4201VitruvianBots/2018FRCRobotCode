@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTurnWithGyro extends Command {
 	PIDController driveGyroPIDController;
 	static double kP = 0.1;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
-    static double kI = 0.002;           // Start with I = P / 100
-    static double kD = 0.3;           	// Start with D = P * 10
+    static double kI = 0.001;           // Start with I = P / 100
+    static double kD = 0.1;           	// Start with D = P * 10
     static double period = 0.01;
     PIDOutputInterface driveTurnPIDOutput;
     
@@ -34,13 +34,12 @@ public class DriveTurnWithGyro extends Command {
     	driveGyroPIDController.setSubsystem("Drive Train");
     	driveGyroPIDController.setAbsoluteTolerance(1);
     	driveGyroPIDController.setOutputRange(-0.75, 0.75);
-        this.setpoint = angle;
+        this.setpoint = angle + Robot.driveTrain.spartanGyro.getAngle();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	driveGyroPIDController.disable();
-    	Robot.driveTrain.spartanGyro.reset();
         stopwatch = new Timer();
     	
     	driveGyroPIDController.setSetpoint(setpoint);
@@ -58,27 +57,34 @@ public class DriveTurnWithGyro extends Command {
 
     	SmartDashboard.putNumber("Stopwatch", stopwatch.get());
     	SmartDashboard.putBoolean("Lock Value: ", lock);
-        
+
+    	SmartDashboard.putString("Gyro Turn Status", "Command Executing");
+    	
     	DriverStation.reportError("PIDOutput Value: " + driveTurnPIDOutput.getPIDOutput(), false);
         Robot.driveTrain.setTankDrive(driveTurnPIDOutput.getPIDOutput(), -driveTurnPIDOutput.getPIDOutput());
+        
+        if(driveGyroPIDController.onTarget() && !lock) { // When you are in range && you are not locked
+    		stopwatch.start();
+    		lock = true;
+    	} else if(!driveGyroPIDController.onTarget() && lock) { // When you are outside of range && you are locked
+    		stopwatch.stop();
+    		stopwatch.reset();
+    		lock = false;
+    	}	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(driveGyroPIDController.onTarget() && !lock) { // When you are in range && you are not locked
-    		stopwatch.start();
-    		lock = true;
-    	} else if(!driveGyroPIDController.onTarget() && lock){ // When you are outside of range && you are locked
-    		stopwatch.stop();
-    		stopwatch.reset();
-    		lock = false;
-    	}
-    	
-    	return stopwatch.get() > 1; 
+    	if(stopwatch.get() > 0.25)
+    		return true;
+    	else 
+    		return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	SmartDashboard.putString("Gyro Turn Status", "Command Exited");
+    	driveGyroPIDController.disable();
     	Robot.driveTrain.setDriveOutput(0, 0);
     }
 

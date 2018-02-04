@@ -10,12 +10,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Delay extends Command {
-    double timeout, time;
+    double time;
     Timer stopwatch;
     
-    public Delay() {
-        time = RobotMap.delay;
-        this.timeout = time;
+    public Delay(double timeout) {
+    	time = timeout;
         stopwatch = new Timer();
     }
 
@@ -31,7 +30,7 @@ public class Delay extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return stopwatch.get() > timeout;
+        return stopwatch.get() > time;
     }
 
     // Called once after isFinished returns true

@@ -52,8 +52,7 @@ public class PathFinder extends Command{
     
     // Called just before this Command runs the first time
     protected void initialize() {
-		Robot.driveTrain.resetEncoders();
-		Robot.driveTrain.spartanGyro.reset();
+		//Robot.driveTrain.resetEncoders();
 		Robot.driveTrain.setMotorsToBrake();
 	
 		SmartDashboard.putString("PathFinder Status" , "Initializing...");
@@ -108,7 +107,7 @@ public class PathFinder extends Command{
 																											// 0.1111 4 inches in years  - 5 in overshoot
 																											// 0.125 undershoot - overshoot
 		left.configurePIDVA(2.0, 0.02, 0.05, 1 / max_vel, 0);
-		right.configurePIDVA(2.0, 0.02, 0.03, 1 / max_vel, 0);    
+		right.configurePIDVA(2.0, 0.02, 0.05, 1 / max_vel, 0);    
 
 		stopwatch = new Timer();
 		lock = false;
