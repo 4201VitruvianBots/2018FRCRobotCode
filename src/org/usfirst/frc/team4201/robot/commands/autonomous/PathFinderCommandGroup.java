@@ -43,8 +43,9 @@ public class PathFinderCommandGroup extends CommandGroup{
 		AutoPaths.driveStraightTwo[1] = new Waypoint(0, 0.666666666666666667, Pathfinder.d2r(90));
 		addSequential(new PathFinder(AutoPaths.driveStraightTwo));
 		addSequential(new Delay(1));
-		AutoPaths.driveStraightTwo[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
-		AutoPaths.driveStraightTwo[1] = new Waypoint(0, -1.5, Pathfinder.d2r(90));
+		AutoPaths.driveStraightThree[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
+		AutoPaths.driveStraightThree[1] = new Waypoint(0, -1.4, Pathfinder.d2r(90));
+		addSequential(new PathFinder(AutoPaths.driveStraightThree));
 		
 		
 		// Use PathfinderTrajectories instead
