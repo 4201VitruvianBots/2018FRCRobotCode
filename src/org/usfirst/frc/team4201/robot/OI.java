@@ -81,10 +81,10 @@ public class OI {
 		
 		
         leftButtons[0].whileHeld(new ToggleDriveShifters());
-        //leftButtons[2].whileHeld(new WristDown());
-        //leftButtons[4].whileHeld(new WristUp());
-        //leftButtons[2].whenPressed(new ResetEncoders());
-        //leftButtons[4].whenPressed(new ToggleArm());
+        leftButtons[1].whenPressed(new ToggleLEDs(0));
+        leftButtons[2].whenPressed(new ToggleLEDs(1));
+        leftButtons[3].whenPressed(new ToggleLEDs(2));
+        leftButtons[4].whenPressed(new ToggleLEDs(3));
 
         //rightButtons[0].whileHeld(new ReverseIntakeMotors());
         //rightButtons[1].whenPressed(new RetractIntakePistons());

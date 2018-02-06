@@ -4,6 +4,7 @@ import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,6 +14,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Controls extends Subsystem{
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
+	DigitalOutput LEDS[] = {
+		new DigitalOutput(0),
+		new DigitalOutput(1),
+		new DigitalOutput(2),
+		new DigitalOutput(3),
+	};
 	int powerState;
 	public Controls(){
 		super("Controls");
@@ -44,6 +51,10 @@ public class Controls extends Subsystem{
 	}
 	
 	public void checkSensorHealth(){
+	}
+	
+	public void setRGBF(int channel) {
+		LEDS[channel].set(!LEDS[channel].get());
 	}
 
 	@Override
