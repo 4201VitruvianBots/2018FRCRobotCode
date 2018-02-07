@@ -19,7 +19,7 @@ package org.usfirst.frc.team4201.robot;
 
 public class RobotMap {
 	// Global Variables
-	public static int armState = 0;
+	public static boolean isTurning = false;
 	
 	// USB ADDRESSES
 	public static final int leftJoystick = 0;
@@ -33,8 +33,9 @@ public class RobotMap {
 	public static final int rightEncoderB = 13;
 	
 	// Analog Sensors
-	public static final int armPot = 0;
-	public static final int wristPot = 1;
+	public static final int wristPot = 0;
+	public static final int armPot = 1;
+	public static final int elevatorLinearPot = 2;
 	
 	/*	ADDRESS VALUES
 	 *  
@@ -84,10 +85,9 @@ public class RobotMap {
 	public static final int intakeRight = 27;
 	public static final int armMotor = 28;
 	public static final int wristMotor = 30;
+<<<<<<< HEAD
 	
+=======
+>>>>>>> dbc1e4abe08be7ef38a031e38e9283c537e18467
 	
-	public static final int red = 0;
-	public static final int blue = 1;
-	
-	public static boolean isTurning = false;
 }

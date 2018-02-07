@@ -2,35 +2,36 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**	This command must be an InstantCommand because of how we're using it.
+/**
  *
  */
-public class SetWristSetpoint extends InstantCommand {
+public class SetWristDeltaSetpoint extends InstantCommand {
 	
-	double setpoint;
-    public SetWristSetpoint(double setpoint) {
+	double inc;
+    public SetWristDeltaSetpoint(double increment) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.wrist);
-        this.setpoint = setpoint;
+        this.inc = increment;
         
         setInterruptible(true);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//SmartDashboard.putNumber("Wrist Setpoint", Robot.wrist.PIDControl.getSetpoint() + inc);
+    	
     	// Check if new setpoint deosn't violate limits before setting
-    	if(Robot.wrist.checkLimits(180 + Robot.arm.getAngle() + setpoint))
-			Robot.wrist.setSetpoint(180 + Robot.arm.getAngle() + setpoint);
-		else {
-			// Get nearest setpoint and use that instead
-			
-			// Haptic feedback for operator
+		if(Robot.wrist.checkLimits(Robot.wrist.getSetpoint() + inc))
+			Robot.wrist.setSetpoint(Robot.wrist.getSetpoint() + inc);
+		else
 	        Robot.oi.enableXBoxRightRumble();
-		}
+	        
     }
 
     // Make this return true when this Command no longer needs to run execute()

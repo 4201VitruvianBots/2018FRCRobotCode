@@ -3,34 +3,32 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class ElevatorADown extends Command{
-	public ElevatorADown() {
+public class ToggleLEDs extends InstantCommand{
+	int channel;
+	
+	public ToggleLEDs(int channel) {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.elevator);
+		requires(Robot.controls);
+		this.channel = channel;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-	}
-
-	// Called repeatedly when this Command is scheduled to run
-	@Override
-	protected void execute() {
-		Robot.elevator.elevatorADown();
+		Robot.controls.setRGBF(channel);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.elevator.elevatorAStop();
 	}
 
 	// Called when another command which requires one or more of the same

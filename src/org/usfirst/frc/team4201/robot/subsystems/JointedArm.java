@@ -26,8 +26,7 @@ public class JointedArm extends Subsystem{
 
 	
 	public BaseMotorController[] armMotors = {
-		new WPI_TalonSRX(RobotMap.armLeftMotor),
-		new WPI_TalonSRX(RobotMap.armRightMotor)
+		new WPI_TalonSRX(RobotMap.armMotor),
 	};
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
@@ -41,23 +40,29 @@ public class JointedArm extends Subsystem{
 	
 	double armSetpoint, wristSetpoint;
 	
-	public int armCommandCount = 0, wristCommandCount = 0;
+	
 	
 	
 	// Absoulte Limits are physical limits, soft limits are used to constrain intake to extension limit
-	public double wristForwardAbsoluteLimit = -65, 
-				  wristReverseAbsoluteLimit = -177, 
-				  armForwardAbsoluteLimit = -42, 
-				  armReverseAbsoluteLimit = -155;
+	public double wristForwardAbsoluteLimit = -65, 	//69,	//-65 
+				  wristReverseAbsoluteLimit = -135,	//-123, //-135
+				  armForwardAbsoluteLimit = -42,	//90, 	// -42
+				  armReverseAbsoluteLimit = -150;	// -40.8;	// -150
+	public double wristForwardVoltage = 4.52880813,
+				  wristReverseVoltage = 1.508788908,
+				  armForwardVoltage = 2.471923575,
+				  armReverseVoltage = 0.690917898;
+
 	public double wristForwardSoftLimit;
 	
 	//DoubleSolenoid leftArm = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.leftArmOne, RobotMap.leftArmTwo);
 	//DoubleSolenoid rightArm = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.rightArmOne, RobotMap.rightArmTwo);
-	
+	/*
 	public JointedArm() {
 		super("Arm");
-		armSource = new AnalogPotentiometerSource(armPot, 0);
-		wristSource = new AnalogPotentiometerSource(wristPot, 1);
+		
+		//armSource = new AnalogPotentiometerSource(armPot, 0);
+		//wristSource = new AnalogPotentiometerSource(wristPot, 1);
 		armPIDOutput = new PIDOutputInterface();
 		wristPIDOutput = new PIDOutputInterface();
 		
@@ -81,7 +86,7 @@ public class JointedArm extends Subsystem{
 		armMotors[1].set(ControlMode.Follower, armMotors[0].getDeviceID());
 		wristMotor.configPeakOutputForward(1, 0);    
 		wristMotor.configPeakOutputReverse(-1, 0);   
-		wristMotor.setNeutralMode(NeutralMode.Brake);	
+		wristMotor.setNeutralMode(NeutralMode.Coast);	
 	}
 	
 	public void initalizeSetpoints(){
@@ -94,6 +99,7 @@ public class JointedArm extends Subsystem{
 	}
 	
 	public double getArmAngle() {
+		
 		double angleFromMast;
 		//double sensorRange = getArmVertical() - getArmFrontLimit();		
     	double sensorRange = 3 - 1;		// What are these constants?
@@ -105,9 +111,12 @@ public class JointedArm extends Subsystem{
     	return angleFromMast;
 		//double angleFromHorizon = Robot.mast.getMastAngle() + angleFromMast;
 	    //return angleFromHorizon;
+	    
+		//return armPot.getAverageVoltage() * (armForwardAbsoluteLimit - armReverseAbsoluteLimit) / (armForwardVoltage - armReverseVoltage);
     }
 	
 	public double getAngleFromArm() {
+		
     	// Using defaults
 		//double sensorRange = getHandRearLimit() - getHandFrontLimit();
     	double sensorRange = 5 - 0;
@@ -116,10 +125,12 @@ public class JointedArm extends Subsystem{
     	
     	double angleFromArm = angleRange/sensorRange * (wristPot.getAverageVoltage()- 0) + 72;
     	return angleFromArm;
+    	
 	}
 	
 	public double getWristAngle() {
 		return -(180 - getAngleFromArm() - getArmAngle() - 3.5);
+		//return wristPot.getAverageVoltage() * (wristForwardAbsoluteLimit - wristReverseAbsoluteLimit) / (wristForwardVoltage - wristReverseVoltage);
     }
 	
 	public void setArmSetpoint(double number) {
@@ -155,7 +166,7 @@ public class JointedArm extends Subsystem{
 		
 		// Set wrist to a set angle
 		// if the wrist is not limited, move to intake position, otherwise rumble to tell operator that movement is invalid
-		if(RobotMap.armState == 0 && Robot.oi.xBoxButtons[1].get()) {
+		if(Robot.oi.xBoxButtons[1].get()) {
 			// wristSetpoint = -armSetpoint 
 			//setWristSetpoint(wristSetpoint);
 		} else if(Robot.oi.xBoxButtons[2].get())
@@ -185,7 +196,6 @@ public class JointedArm extends Subsystem{
 				Robot.oi.enableXBoxLeftRumble();
 			Robot.oi.disableXBoxLeftRumble();
 		}
-		*/
 		
 		// Commands declared here to avoid issues
 		// Only start a new command if the queue isn't overloaded
@@ -205,10 +215,11 @@ public class JointedArm extends Subsystem{
 		SmartDashboard.putNumber("Wrist Angle", getWristAngle());
 		SmartDashboard.putNumber("Wrist Pot", wristPot.getAverageVoltage());
 		SmartDashboard.putNumber("Wrist Setpoint", wristPIDController.getSetpoint());
-		SmartDashboard.putNumber("Wrist Command Count", wristCommandCount);
+		//SmartDashboard.putNumber("Wrist Command Count", wristCommandCount);
+		
 		
 	}
-
+	*/
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub

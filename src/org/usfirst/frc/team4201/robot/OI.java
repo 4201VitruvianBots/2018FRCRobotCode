@@ -81,28 +81,28 @@ public class OI {
 		
 		
         leftButtons[0].whileHeld(new ToggleDriveShifters());
-        //leftButtons[2].whileHeld(new WristDown());
-        //leftButtons[4].whileHeld(new WristUp());
-        //leftButtons[2].whenPressed(new ResetEncoders());
-        //leftButtons[4].whenPressed(new ToggleArm());
+        leftButtons[1].whenPressed(new ToggleLEDs(0));
+        leftButtons[2].whenPressed(new ToggleLEDs(1));
+        leftButtons[3].whenPressed(new ToggleLEDs(2));
+        leftButtons[4].whenPressed(new ToggleLEDs(3));
 
-       // rightButtons[0].whileHeld(new ReverseIntakeMotors());
+        //rightButtons[0].whileHeld(new ReverseIntakeMotors());
         //rightButtons[1].whenPressed(new RetractIntakePistons());
         //rightButtons[3].whileHeld(new ArmDown());
         //rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
         //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
-        
-        // Reserved xBox Controller Buttons. See SetArmPosition Command.
-        //xBoxButtons[1].whenPressed(command);						// A Button: Set Position Feed
-        //xBoxButtons[2].whenPressed(command);						// B Button: Set Position Angled
+        xBoxButtons[0].whileHeld(new SetWristSetpoint(0));			// A Button: Set Position Feed
+        xBoxButtons[1].whenPressed(new SetWristSetpoint(45));		// B Button: Set Position Angled
         //xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
-        xBoxButtons[4].whileHeld(new SetArmSetpoint(1));			// Left Button: Adjust arm up
-        xBoxLeftTrigger.whileHeld(new SetArmSetpoint(-1));			// Left Trigger: Adjust arm down
-        xBoxButtons[5].whileActive(new SetWristSetpoint(1));			// Right Button: Adjust wrist up
-        xBoxRightTrigger.whileActive(new SetWristSetpoint(-1));		// Right Trigger: Adjust wrist down
+        //xBoxButtons[4].whileHeld(new SetArmDeltaSetpoint(1));			// Left Button: Adjust arm up
+        //xBoxLeftTrigger.whileHeld(new SetArmDeltaSetpoint(-1));			// Left Trigger: Adjust arm down
+        xBoxButtons[5].whileActive(new SetWristDeltaSetpoint(1));		// Right Button: Adjust wrist up
+        xBoxRightTrigger.whileActive(new SetWristDeltaSetpoint(-1));	// Right Trigger: Adjust wrist down
         
+        
+        // Test Mode Button Commands. WARNING: EXTREMELY DANGEROUS
         if(DriverStation.getInstance().isTest()) {
         	leftButtons[3].toggleWhenPressed(new ToggleMotorTest());
         }
@@ -133,7 +133,7 @@ public class OI {
 	}
 	
 	public void enableXBoxLeftRumble() {
-		xBoxController.setRumble(RumbleType.kLeftRumble, 0.5);
+		xBoxController.setRumble(RumbleType.kLeftRumble, 0.8);
 	}
 	
 	public void disableXBoxLeftRumble() {
@@ -141,28 +141,28 @@ public class OI {
 	}
 	
 	public void enableXBoxRightRumble() {
-		xBoxController.setRumble(RumbleType.kRightRumble, 0.5);
+		xBoxController.setRumble(RumbleType.kRightRumble, 0.8);
 	}
 	
 	public void disableXBoxRightRumble() {
 		xBoxController.setRumble(RumbleType.kRightRumble, 0);
 	}
 	
-	public void enableXboxLeftRumbleTimed(){
+	public void enableXBoxLeftRumbleTimed(){
 		Timer stopwatch = new Timer();
 		enableXBoxLeftRumble();
 		stopwatch.start();
-		while(stopwatch.get() < 0.5){
+		while(stopwatch.get() < 0.05){
 			
 		}
 		disableXBoxLeftRumble();
 	}
 	
-	public void enableXboxRightRumbleTimed(){
+	public void enableXBoxRightRumbleTimed(){
 		Timer stopwatch = new Timer();
 		enableXBoxRightRumble();
 		stopwatch.start();
-		while(stopwatch.get() < 0.5){
+		while(stopwatch.get() < 0.05){
 			
 		}
 		disableXBoxRightRumble();

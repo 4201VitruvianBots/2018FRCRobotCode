@@ -29,9 +29,15 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Intake intake = new Intake();
 	public static Elevator elevator = new Elevator();
+<<<<<<< HEAD
 	public static Platforms platforms = new Platforms();
 	public static JointedArm arm = new JointedArm();
 	//public static Sensors sensors = new Sensors();
+=======
+	public static Arm arm = new Arm();
+	public static Wrist wrist = new Wrist();
+	public static Controls controls = new Controls();
+>>>>>>> dbc1e4abe08be7ef38a031e38e9283c537e18467
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -48,7 +54,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		Robot.driveTrain.initializeLiveWindow();
+		//Robot.driveTrain.initializeLiveWindow();
 		
 		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
 		autoModeChooser.addObject("Turn", new Turn());
@@ -77,7 +83,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 
 	/**
@@ -121,6 +130,10 @@ public class Robot extends TimedRobot {
     	SmartDashboard.putBoolean("Turning", RobotMap.isTurning);
 
 		driveTrain.updateSmartDashboard();
+		wrist.updateSmartDashboard();
+		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 
 	@Override
@@ -141,7 +154,7 @@ public class Robot extends TimedRobot {
 			teleOpDrive.start();
 		}
 		driveTrain.resetEncoders();
-		arm.initalizeSetpoints();
+		//arm.initalizeSetpoints();
 	}
 
 	/**
@@ -151,11 +164,11 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-		//sensors.updateSmartDashboard();
 		//driveTrain.updateSmartDashboard();
-		//flipper.updateSmartDashboard();
-		arm.updateArmWristPositions();
+		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 
 	/**
@@ -163,7 +176,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		//driveTrain.updateSmartDashboard();
+		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 	
 }

@@ -3,28 +3,28 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
  *
  */
-public class SetArmSetpoint extends Command {
-	double inc;
-    public SetArmSetpoint(double increment) {
+public class SetArmSetpoint extends InstantCommand {
+	double setpoint;
+	
+    public SetArmSetpoint(double setpoint) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.arm);
-        this.inc = increment;
+        this.setpoint = setpoint;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// Keep a running count of how many times this command has been declared
-    	Robot.arm.armCommandCount++;
     	// Check if new setpoint deosn't violate limits before setting
-		if(Robot.arm.armPIDController.getSetpoint() + inc < Robot.arm.armForwardAbsoluteLimit && 
-		   Robot.arm.armPIDController.getSetpoint() + inc > Robot.arm.armReverseAbsoluteLimit)
-			Robot.arm.setArmSetpoint(inc);
+		if(Robot.arm.checkLimits(setpoint))
+    		Robot.arm.setSetpoint(setpoint);
 		else
-			Robot.oi.enableXboxLeftRumbleTimed();
+			Robot.oi.enableXBoxLeftRumbleTimed();
+
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -38,6 +38,7 @@ public class SetArmSetpoint extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.oi.disableXBoxLeftRumble();
     }
 
     // Called when another command which requires one or more of the same

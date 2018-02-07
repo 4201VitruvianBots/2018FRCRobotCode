@@ -7,8 +7,9 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Platforms extends Subsystem{
+public class Wings extends Subsystem{
 	
+<<<<<<< HEAD:src/org/usfirst/frc/team4201/robot/subsystems/Platforms.java
 	DoubleSolenoid platformDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.WingUp, RobotMap.WingDown);
 	
 	public Platforms(){		
@@ -16,6 +17,9 @@ public class Platforms extends Subsystem{
 	}
 	public boolean getWingStatus() {
 		return platformDeploy.get() == Value.kForward ? true : false;
+=======
+	public Wings(){		
+>>>>>>> dbc1e4abe08be7ef38a031e38e9283c537e18467:src/org/usfirst/frc/team4201/robot/subsystems/Wings.java
 	}
 	
 	public void deployWings() {
