@@ -53,23 +53,17 @@ public class AutoPaths {
 	};  //Drop off cube. If going to left scale then use LeftSwitchToLeftCube.
 	
 	public static Waypoint[] leftSwitchToLeftCube = new Waypoint[] {		// Create a spline path 
-		new Waypoint(0, -1.5, Pathfinder.d2r(90)),          
-		new Waypoint(0.5, -1, Pathfinder.d2r(45)),       
-		new Waypoint(13/12, -0.5, Pathfinder.d2r(90)),  
-		new Waypoint(13/12, 0.722, Pathfinder.d2r(90)),
-		new Waypoint(13/12, 0.722, Pathfinder.d2r(0)),
-		new Waypoint(13/12, 0.722, Pathfinder.d2r(0)),
+		new Waypoint(0, 0, Pathfinder.d2r(90)),          
+		new Waypoint(-1, -1, Pathfinder.d2r(45)),       
+		new Waypoint(8, -1, Pathfinder.d2r(0)),  
+		new Waypoint(9, 0, Pathfinder.d2r(90)),
+		new Waypoint(8, -1, Pathfinder.d2r(180)),
 	};	 //Go forward and pick up cube. Then use LeftCubeToLeftScale	
 	
 	public static Waypoint[] leftCubeToLeftScale = new Waypoint[] {		// Create a spline path 
 		new Waypoint(0, 0, 180),                 
-		new Waypoint(0.2, -8/36, Pathfinder.d2r(225)),    
-		new Waypoint(0.5, -17/36, Pathfinder.d2r(270)),        
-		new Waypoint(-1.384, -17/36, Pathfinder.d2r(270)),       
-		new Waypoint(-2, -1, Pathfinder.d2r(315)),  
-		new Waypoint(-2, -2, Pathfinder.d2r(0)),
-		new Waypoint(-1.5, -4.5, Pathfinder.d2r(315)),
-		new Waypoint(-1.2226, -4.765, Pathfinder.d2r(90)), 
+		new Waypoint(-0.75, 2.5, Pathfinder.d2r(225)),    
+		new Waypoint(-1.5, 5, Pathfinder.d2r(180)),
 	}; 	//Drop off cube
 	
 	public static Waypoint[] leftCubeToRightScale = new Waypoint[] {
