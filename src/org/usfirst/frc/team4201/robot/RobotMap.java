@@ -61,36 +61,29 @@ public class RobotMap {
 		public static final int elevatorTwo = 3;
 		public static final int intakeOne = 4;
 		public static final int intakeTwo = 5;
-		public static final int leftArmOne = 6;
-		public static final int leftArmTwo = 7;
+		public static final int WingDown = 6;
+		public static final int WingUp = 7;
 		
 	public static final int PCMTwo = 12;
-		public static final int stabalizerReleaseLeft = 0;
-		public static final int stabalizerReleaseRight = 1;
-		public static final int stabalizerGrabLeft = 2;
-		public static final int stabalizerGrabRight = 3;
-		public static final int stabalizerEngageLeft = 4;
-		public static final int stabalizerEngageRight = 5;
+		public static final int stabalizerReleaseHorizontal = 0;
+		public static final int stabalizerReleaseVertical = 1;
+		public static final int stabalizerEngageHorizontal = 4;
+		public static final int stabalizerEngageVertical = 5;
 		public static final int rightArmOne = 6;
 		public static final int rightArmTwo = 7;
 		
 	
 	// Motor Controllers
-	public static final int driveTrainLeftFront = 0;
-	public static final int driveTrainLeftRear = 1;
+	public static final int driveTrainLeftFront = 20;
+	public static final int driveTrainLeftRear = 21;
 	public static final int driveTrainRightFront = 22;
 	public static final int driveTrainRightRear = 23;
-	public static final int intakeLeft = 20;
-	public static final int intakeRight = 21;
-	// If intake needs more motors.
-	//public static final int intakeLeftTwo =;
-	//public static final int intakeRightTwo =;
-	public static final int elevatorA = 26;
-	public static final int elevatorB = 27;
-	public static final int fourBar = 28;
-	public static final int armLeftMotor = 30;
-	public static final int armRightMotor = 31;
-	public static final int wristMotor = 32;
+	public static final int elevatorA = 24;
+	public static final int elevatorB = 25;
+	public static final int intakeLeft = 26;
+	public static final int intakeRight = 27;
+	public static final int armMotor = 28;
+	public static final int wristMotor = 30;
 	
 	
 	public static final int red = 0;
