@@ -7,13 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ToggleFlywheel extends Command {
-	double RPM;
-	
-    public ToggleFlywheel(double RPM) {
+public class ToggleConveyor extends Command {
+
+    public ToggleConveyor() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.shooter);
-        this.RPM = RPM;
     }
 
     // Called just before this Command runs the first time
@@ -22,11 +20,10 @@ public class ToggleFlywheel extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.shooter.getFlywheelEnable())
-    		Robot.shooter.setFlywheelOutput(RPM);
+    	if(Robot.shooter.getConveyorOutput() == 0)
+    		Robot.shooter.conveyorOn();
     	else
-    		Robot.shooter.disableFlywheel();
-    		Robot.shooter.setFlywheelOutput(0);
+    		Robot.shooter.conveyorOff();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -41,6 +38,5 @@ public class ToggleFlywheel extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooter.disableFlywheel();
     }
 }

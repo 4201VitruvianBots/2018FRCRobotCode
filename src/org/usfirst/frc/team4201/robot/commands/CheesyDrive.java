@@ -18,7 +18,7 @@ public class CheesyDrive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.driveTrain.cheesyDrive(Robot.oi.getLeftY(), Robot.oi.getRightX(), Robot.oi.isQuickTurn);
+		Robot.driveTrain.cheesyDrive(-Robot.oi.getLeftY(), Robot.oi.getRightX(), Robot.oi.isQuickTurn);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

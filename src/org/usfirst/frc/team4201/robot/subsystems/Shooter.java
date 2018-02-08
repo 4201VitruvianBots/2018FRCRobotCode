@@ -45,7 +45,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public void enableBallIntake(){
-		ballIntake.set(ControlMode.PercentOutput, 0.45);
+		ballIntake.set(ControlMode.PercentOutput, 0.9);
 	}
 	
 	public void disableBallIntake(){
@@ -56,13 +56,13 @@ public class Shooter extends Subsystem {
 		return ballIntake.getMotorOutputPercent();
 	}
 	
-	public void conveyorUptakeOn(){
-		conveyor.set(ControlMode.PercentOutput, 0.95);
+	public void conveyorOn(){
+		conveyor.set(ControlMode.PercentOutput, 0.75);
 		uptake.set(ControlMode.PercentOutput, 0.5);
 		
 	}
 	
-	public void conveyorUptakeOff(){
+	public void conveyorOff(){
 		conveyor.set(ControlMode.PercentOutput, 0);
 		uptake.set(ControlMode.PercentOutput, 0);
 	}
@@ -70,8 +70,21 @@ public class Shooter extends Subsystem {
 		return conveyor.getMotorOutputVoltage();
 	}
 	
+	public void uptakeOn(){
+		//conveyor.set(ControlMode.PercentOutput, 0.95);
+		uptake.set(ControlMode.PercentOutput, 0.75);
+	}
+	
+	public void uptakeOff(){
+		//conveyor.set(ControlMode.PercentOutput, 0);
+		uptake.set(ControlMode.PercentOutput, 0);
+	}
+	public double getUptakeOutput(){
+		return uptake.getMotorOutputVoltage();
+	}
+	
 	public void setFlywheelOutput(double RPM){
-		shooter[0].set(ControlMode.Velocity, RPM);
+		shooter[0].set(ControlMode.PercentOutput, -RPM);
 	}
 	
 	public void disableFlywheel(){

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -66,19 +67,19 @@ public class OI {
 		for(int i = 0; i < xBoxButtons.length; i++)
 			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
         
-		leftButtons[0].whenPressed(new ToggleConveyorUptake()); // Flywheel + Conveyor
+		leftButtons[0].whenPressed(new ToggleConveyor()); // Flywheel + Conveyor
 		leftButtons[3].whenPressed(new SetDriveHighGear());		
 		leftButtons[5].whenPressed(new SetDriveLowGear());		
 		leftButtons[4].whenPressed(new ToggleDriveShift());		// [5]
 		
-		rightButtons[0].whenPressed(new ToggleAutoDriveShift());
+		//rightButtons[0].whenPressed(new ToggleUptake());
 		rightButtons[1].whenPressed(new ToggleHopperWall());		
 		rightButtons[2].whenPressed(new IntakeUp());
 		rightButtons[4].whenPressed(new IntakeDown());	
 
 		xBoxButtons[0].whenPressed(new IntakeDown());	
 		xBoxButtons[1].whenPressed(new IntakeUp());		
-		xBoxButtons[2].whenPressed(new ToggleFlywheel(8320)); // Uptake + Flywheel
+		xBoxButtons[2].whileHeld(new FlywheelSetOutput(0.75)); // Uptake + Flywheel
 		//xBoxButtons[3].whenPressed(new MotorTest(5)); //1: Flywheel, 10: Conveyor, 4: Uptake, 5 : Flywheel + Uptake
 		xBoxButtons[5].whenPressed(new ToggleBallIntake());
 	}

@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ToggleConveyorUptake extends Command {
+public class ToggleUptake extends Command {
 
-    public ToggleConveyorUptake() {
+    public ToggleUptake() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.shooter);
     }
@@ -20,10 +20,10 @@ public class ToggleConveyorUptake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.shooter.getConveyorOutput() == 0)
-    		Robot.shooter.conveyorUptakeOn();
+    	if(Robot.shooter.getUptakeOutput() == 0)
+    		Robot.shooter.uptakeOn();
     	else
-    		Robot.shooter.conveyorUptakeOff();
+    		Robot.shooter.uptakeOff();
     }
 
     // Make this return true when this Command no longer needs to run execute()
