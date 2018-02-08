@@ -29,15 +29,10 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Intake intake = new Intake();
 	public static Elevator elevator = new Elevator();
-<<<<<<< HEAD
-	public static Platforms platforms = new Platforms();
-	public static JointedArm arm = new JointedArm();
-	//public static Sensors sensors = new Sensors();
-=======
+	public static Wings platforms = new Wings();
 	public static Arm arm = new Arm();
 	public static Wrist wrist = new Wrist();
 	public static Controls controls = new Controls();
->>>>>>> dbc1e4abe08be7ef38a031e38e9283c537e18467
 	public static OI oi;
 
 	Command m_autonomousCommand;

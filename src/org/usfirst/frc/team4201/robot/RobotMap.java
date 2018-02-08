@@ -85,9 +85,5 @@ public class RobotMap {
 	public static final int intakeRight = 27;
 	public static final int armMotor = 28;
 	public static final int wristMotor = 30;
-<<<<<<< HEAD
-	
-=======
->>>>>>> dbc1e4abe08be7ef38a031e38e9283c537e18467
 	
 }
