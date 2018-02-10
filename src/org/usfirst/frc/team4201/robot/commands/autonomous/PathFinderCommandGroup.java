@@ -6,6 +6,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 
 import org.usfirst.frc.team4201.robot.AutoPaths;
+import org.usfirst.frc.team4201.robot.PathfinderGen;
 import org.usfirst.frc.team4201.robot.commands.*;
 
 public class PathFinderCommandGroup extends CommandGroup{
@@ -31,21 +32,21 @@ public class PathFinderCommandGroup extends CommandGroup{
 		//addSequential(new PathFinder(paths[0]));
 		//addSequential(new DriveTurnWithGyro(-90));
 		//addSequential(new PathFinder(paths[1]));
-		addSequential(new PathFinderRead("sideStraight"));
-		/*
+		
 		AutoPaths.driveStraightOne[1] = new Waypoint(4.25, 0, 0);
 		addSequential(new Delay(1));
 		//addSequential(new PathFinder(AutoPaths.test));
-		addSequential(new PathFinderGen(AutoPaths.driveStraightOne));
+		addSequential(new PathFinder(AutoPaths.driveStraightOne));
 		addSequential(new DriveTurnWithGyro(-90));
 		//addSequential(new Delay(3));
 		AutoPaths.driveStraightTwo[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
 		AutoPaths.driveStraightTwo[1] = new Waypoint(0, 0.666666666666666667, Pathfinder.d2r(90));
-		addSequential(new PathFinderGen(AutoPaths.driveStraightTwo));
+		addSequential(new PathFinder(AutoPaths.driveStraightTwo));
 		addSequential(new Delay(1));
-		AutoPaths.driveStraightTwo[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
-		AutoPaths.driveStraightTwo[1] = new Waypoint(0, -1.5, Pathfinder.d2r(90));
-		*/
+		AutoPaths.driveStraightThree[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
+		AutoPaths.driveStraightThree[1] = new Waypoint(0, -1.4, Pathfinder.d2r(90));
+		addSequential(new PathFinder(AutoPaths.driveStraightThree));
+		
 		
 		// Use PathfinderTrajectories instead
 		//addSequential(new PathFinderTrajectories(PathfinderGen.trajectories[0]));
