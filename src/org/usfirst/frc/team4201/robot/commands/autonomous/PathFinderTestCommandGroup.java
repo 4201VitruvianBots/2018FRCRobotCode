@@ -9,7 +9,7 @@ import org.usfirst.frc.team4201.robot.AutoPaths;
 import org.usfirst.frc.team4201.robot.PathfinderGen;
 import org.usfirst.frc.team4201.robot.commands.*;
 
-public class PathFinderCommandGroup extends CommandGroup{
+public class PathFinderTestCommandGroup extends CommandGroup{
 	
 	public static Waypoint[][] paths = new Waypoint[2][];
 	
@@ -27,7 +27,7 @@ public class PathFinderCommandGroup extends CommandGroup{
 	}
 	
 	
-	public PathFinderCommandGroup() {
+	public PathFinderTestCommandGroup() {
 
 		//addSequential(new PathFinder(paths[0]));
 		//addSequential(new DriveTurnWithGyro(-90));

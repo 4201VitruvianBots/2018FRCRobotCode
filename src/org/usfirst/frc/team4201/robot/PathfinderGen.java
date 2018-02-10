@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4201.robot;
 
-import org.usfirst.frc.team4201.robot.commands.autonomous.PathFinderCommandGroup;
+import org.usfirst.frc.team4201.robot.commands.autonomous.PathFinderTestCommandGroup;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,7 +15,7 @@ public class PathfinderGen {
 	//
 	public static boolean initializeTrajectories() {
 		SmartDashboard.putBoolean("Path Ready", false);
-		paths = PathFinderCommandGroup.paths;
+		paths = PathFinderTestCommandGroup.paths;
 		max_vel = 450;
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.005, max_vel, 200, (800 * 1.09361));
 
