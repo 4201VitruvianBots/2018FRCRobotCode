@@ -21,8 +21,8 @@ import jaci.pathfinder.modifiers.TankModifier;
 /**
  *
  */
-public class PathFinder extends Command{
-	double max_vel;
+public class PathFinderRead extends Command{
+	double max_vel = 1.7 * 1.09361;
 	Trajectory trajectory;
 	TankModifier modifier;
 	EncoderFollower left, right;
@@ -30,62 +30,42 @@ public class PathFinder extends Command{
 	Timer stopwatch;
 	Waypoint[] points;
 	
+	String filename;
+	boolean first = false;
+	
 	
 	
 	boolean lock = false;
 	
-    public PathFinder(Waypoint[] path) {
+    public PathFinderRead(String filename, boolean first) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
-        this.points = path; 
-        
-        // +/- X is forward/backwards, +/- Y is left/right, +/- angle is left/right (unlike gyro, which is +/- right/left).
-     	// Keep all units in terms of yards for consistency, unless otherwise stated.
-        /*this.points = new Waypoint[] {		// Temp
-			new Waypoint(0, 0, 0),                 
-			//new Waypoint(2, -2, Pathfinder.d2r(-45)),          
-			new Waypoint(3, 0, 0),
-			
-		};*/
+        this.filename = filename;
+        this.first = first;
+
     }
-    
+
+    public PathFinderRead(String filename) {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.driveTrain);
+        this.filename = filename;
+    }
     
     // Called just before this Command runs the first time
     protected void initialize() {
 		SmartDashboard.putString("PathFinder Status" , "Initializing...");
-		
-		// Create the Trajectory Configuration
-		//
-		// Arguments:
-		// Fit Method:          HERMITE_CUBIC or HERMITE_QUINTIC	// Keep it Cubic
-		// Sample Count:        SAMPLES_HIGH (100 000)
-		//    		            SAMPLES_LOW  (10 000)
-		//    		            SAMPLES_FAST (1 000)				// Use Fast only if calculating from roboRIO
-		// Time Step:           0.05 Seconds
-		// Max Velocity:        1.7 m/s
-		// Max Acceleration:    2.0 m/s/s
-		// Max Jerk:            60.0 m/s/s/s
-		this.max_vel = 450;
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.005, max_vel, 200, (800 * 1.09361));
-
-		// Generate the trajectory
-		SmartDashboard.putString("PathFinder Status" , "Generating Trajectory..."); 
-		trajectory = Pathfinder.generate(points, config);
-		
 		try {
-		 /*
-	    Path extractionPath = Files.createTempFile("trajectory", ".csv");
-	    Files.copy(Robot.class.getResourceAsStream("/com/team4201/myfile.csv"), extractionPath);
-	    trajectory = Pathfinder.readFromCSV(extractionPath.toFile());
-	  	*/
-		 //File myfile = new File("/home/lvuser/myfile.csv");
-		 //trajectory = Pathfinder.readFromCSV(myfile);
+			//Path extractionPath = Files.createTempFile("trajectory", ".csv");
+			//Files.copy(Robot.class.getResourceAsStream("/com/team4201/myfile.csv"), extractionPath);
+			//trajectory = Pathfinder.readFromCSV(extractionPath.toFile());
+			
+			File myfile = new File("/media/sda1/Pathfinder/" + filename + ".csv");
+			trajectory = Pathfinder.readFromCSV(myfile);
 		 
 		} catch (Exception e) {
-	    // Handle it how you want
-		  DriverStation.reportError("Error: Couldn't read csv", false);
+			// Handle it how you want
+		  DriverStation.reportError("4201 Error: Couldn't read csv", false);
 		} 
-		
 		
 		SmartDashboard.putString("PathFinder Status" , "Trajectory Generated!");
 		
@@ -103,8 +83,8 @@ public class PathFinder extends Command{
 		right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 1440, 0.1050);	// 0.1016 4 inches in meters - undershoot
 																											// 0.1111 4 inches in years  - 5 in overshoot
 																											// 0.125 undershoot - overshoot
-		left.configurePIDVA(2.0, 0.02, 0.05, 1 / max_vel, 0);
-		right.configurePIDVA(2.0, 0.02, 0.05, 1 / max_vel, 0);    
+		left.configurePIDVA(1.0, 0.02, 0.05, 1 / max_vel, 0);
+		right.configurePIDVA(1.0, 0.02, 0.05, 1 / max_vel, 0);    
 
 		stopwatch = new Timer();
 		lock = false;
@@ -134,11 +114,11 @@ public class PathFinder extends Command{
 		SmartDashboard.putNumber("PathFinder R output" , r - turn);
 		
 		SmartDashboard.putNumber("Timer", stopwatch.get());
-		SmartDashboard.putNumber("Speed", Robot.driveTrain.getTestEncoderSpeed());
+		//SmartDashboard.putNumber("Speed", Robot.driveTrain.getTestEncoderSpeed());
 		
 		
 		// Set the output to the motors
-		Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
+		//Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
 		
 		
 		// Continue sending output values until the path has been completely followed.
@@ -157,9 +137,9 @@ public class PathFinder extends Command{
     	Robot.driveTrain.setDriveOutput(0, 0);
     	stopwatch.stop();
     	SmartDashboard.putNumber("Path Time", stopwatch.get());
-    	RobotMap.waypointX = points[points.length - 1].x;
-    	RobotMap.waypointY = points[points.length - 1].y;
-    	RobotMap.waypointAngle = points[points.length - 1].angle;
+    	//RobotMap.waypointX = points[points.length - 1].x;
+    	//RobotMap.waypointY = points[points.length - 1].y;
+    	//RobotMap.waypointAngle = points[points.length - 1].angle;
     }
 
     // Called when another command which requires one or more of the same

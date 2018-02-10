@@ -107,6 +107,10 @@ public class DriveTrain extends Subsystem {
 		return testEncoder.getRate();
 	}
 	
+	public double getGyroAngle() {
+		return spartanGyro.getAngle();
+	}
+	
 
 	
 	public void resetEncoders() {
