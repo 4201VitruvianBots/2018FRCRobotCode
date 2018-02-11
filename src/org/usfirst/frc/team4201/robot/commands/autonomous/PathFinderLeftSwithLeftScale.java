@@ -6,7 +6,6 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 
 import org.usfirst.frc.team4201.robot.AutoPaths;
-import org.usfirst.frc.team4201.robot.PathfinderGen;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.commands.*;
 
@@ -30,7 +29,7 @@ public class PathFinderLeftSwithLeftScale extends CommandGroup{
 	
 	public PathFinderLeftSwithLeftScale() {
 		RobotMap.primaryWaypoints[6].angle = -90;
-		addSequential(new PathFinder(AutoPaths.leftRobotToLeftSwitch));
+		//addSequential(new PathFinderRead(AutoPaths.leftRobotToLeftSwitch));
 
 	}
 }

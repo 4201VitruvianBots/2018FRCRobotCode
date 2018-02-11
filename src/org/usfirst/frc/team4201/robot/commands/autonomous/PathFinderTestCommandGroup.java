@@ -6,7 +6,6 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 
 import org.usfirst.frc.team4201.robot.AutoPaths;
-import org.usfirst.frc.team4201.robot.PathfinderGen;
 import org.usfirst.frc.team4201.robot.commands.*;
 
 public class PathFinderTestCommandGroup extends CommandGroup{
@@ -16,7 +15,7 @@ public class PathFinderTestCommandGroup extends CommandGroup{
 	public static void setPaths() {
 		// Set your paths here. Will be called in robotInit to pull them to be generated;
 		
-		paths[0] = new Waypoint[] {
+		paths[0] = new Waypoint[] {	
 			new Waypoint(0, 0, 0),	// Editing a waypoint like this may be the source of the weird paths.
 			new Waypoint(4.5, 0, 0)	// Editing a waypoint like this may be the source of the weird paths.	
 		};
@@ -32,7 +31,7 @@ public class PathFinderTestCommandGroup extends CommandGroup{
 		//addSequential(new PathFinder(paths[0]));
 		//addSequential(new DriveTurnWithGyro(-90));
 		//addSequential(new PathFinder(paths[1]));
-		
+		/*
 		AutoPaths.driveStraightOne[1] = new Waypoint(4.25, 0, 0);
 		addSequential(new Delay(1));
 		//addSequential(new PathFinder(AutoPaths.test));
@@ -46,11 +45,9 @@ public class PathFinderTestCommandGroup extends CommandGroup{
 		AutoPaths.driveStraightThree[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
 		AutoPaths.driveStraightThree[1] = new Waypoint(0, -1.4, Pathfinder.d2r(90));
 		addSequential(new PathFinder(AutoPaths.driveStraightThree));
+		*/
 		
-		
-		// Use PathfinderTrajectories instead
-		//addSequential(new PathFinderTrajectories(PathfinderGen.trajectories[0]));
-		//addSequential(new DriveTurnWithGyro(-90));
-		//addSequential(new PathFinderTrajectories(PathfinderGen.trajectories[1]));
+		// Use Pathfinder .csv files instead
+		addSequential(new PathFinderRead("straightCalibration", true));
 	}
 }
