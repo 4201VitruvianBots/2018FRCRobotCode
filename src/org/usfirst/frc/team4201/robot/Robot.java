@@ -52,8 +52,8 @@ public class Robot extends TimedRobot {
 		//PathFinderCommandGroup.setPaths();
 		//PathfinderGen.initializeTrajectories();
 		
-		autoModeChooser.addObject("PathFinder", new PathFinderTestCommandGroup());
-		autoModeChooser.addDefault("Turn", new Turn());
+		autoModeChooser.addDefault("PathFinder", new PathFinderTestCommandGroup());
+		autoModeChooser.addObject("Turn", new Turn());
 		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
 		autoModeChooser.addObject("CenterRobotToRightSwitch", new CenterRobotToRightSwitch());
 		//autoModeChooser.addDefault("Full Power Straight", new DriveStraightFullPower(5));

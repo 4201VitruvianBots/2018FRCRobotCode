@@ -22,7 +22,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  *
  */
 public class PathFinderRead extends Command{
-	double max_vel = 1.7 * 1.09361;
+	double max_vel = 3.4 * 1.09361;
 	Trajectory trajectory;
 	TankModifier modifier;
 	EncoderFollower left, right;
@@ -32,8 +32,6 @@ public class PathFinderRead extends Command{
 	
 	String filename;
 	boolean first = false;
-	
-	
 	
 	boolean lock = false;
 	
@@ -65,6 +63,12 @@ public class PathFinderRead extends Command{
 		} catch (Exception e) {
 			// Handle it how you want
 		  DriverStation.reportError("4201 Error: Couldn't read csv", false);
+		  if(first) {
+				File myfile = new File("/media/sda1/Pathfinder/driveSpline.csv");
+				trajectory = Pathfinder.readFromCSV(myfile);
+		  }
+		  else
+			  end();
 		} 
 		
 		SmartDashboard.putString("PathFinder Status" , "Trajectory Generated!");
@@ -79,12 +83,14 @@ public class PathFinderRead extends Command{
     	
 		SmartDashboard.putString("PathFinder Status" , "Enabling...");
 		
-		left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 1440, 0.1050);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 1440, 0.1050);	// 0.1016 4 inches in meters - undershoot
-																											// 0.1111 4 inches in years  - 5 in overshoot
+		left.configureEncoder(Robot.driveTrain.leftEncoder.get(), 360, 0.1111);
+		right.configureEncoder(Robot.driveTrain.rightEncoder.get(), 360, 0.1111);
+		//left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 180, 0.1050);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		//right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 180, 0.1050);	// 0.1016 4 inches in meters - undershoot
+																											// 0.1111 4 inches in yards  - 5 in overshoot
 																											// 0.125 undershoot - overshoot
-		left.configurePIDVA(1.0, 0.02, 0.05, 1 / max_vel, 0);
-		right.configurePIDVA(1.0, 0.02, 0.05, 1 / max_vel, 0);    
+		left.configurePIDVA(0.9, 0, 0, 1 / max_vel, 3.8 * 1.09361);
+		right.configurePIDVA(0.9, 0, 0, 1 / max_vel, 3.8 * 1.09361);   
 
 		stopwatch = new Timer();
 		lock = false;
@@ -100,8 +106,10 @@ public class PathFinderRead extends Command{
     	}
     	
     	// Calculate the current motor outputs based on the trajectory values + encoder positions
-		double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
-		double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+		double l = left.calculate(Robot.driveTrain.leftEncoder.get());
+		double r = right.calculate(Robot.driveTrain.rightEncoder.get());
+    	//double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
+		//double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("PathFinder L" , l);
 		SmartDashboard.putNumber("PathFinder R" , r);
 		SmartDashboard.putNumber("PathFinder H" , Pathfinder.r2d(left.getHeading()));
@@ -116,10 +124,8 @@ public class PathFinderRead extends Command{
 		SmartDashboard.putNumber("Timer", stopwatch.get());
 		//SmartDashboard.putNumber("Speed", Robot.driveTrain.getTestEncoderSpeed());
 		
-		
 		// Set the output to the motors
-		//Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
-		
+		Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
 		
 		// Continue sending output values until the path has been completely followed.
 		if(left.isFinished() && right.isFinished())
