@@ -30,10 +30,6 @@ public class Controls extends Subsystem{
 	public void updateSmartDashboard(){
 		SmartDashboard.putNumber("Total Current Draw", pdp.getTotalCurrent());
 		SmartDashboard.putBoolean("Brownout", RobotController.isBrownedOut());
-		int test2 = AnalogJNI.initializeAnalogInputPort(RobotMap.wristPot);
-		int test = AnalogJNI.initializeAnalogInputPort(RobotMap.wristPot);
-		SmartDashboard.putNumber("Wrist Pot Status", test);
-		SmartDashboard.putNumber("Wrist Pot Status2", test2);
 		
 	}
 	

@@ -128,7 +128,7 @@ public class Robot extends TimedRobot {
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
-		controls.updateSmartDashboard();
+		//controls.updateSmartDashboard();
 	}
 
 	@Override
@@ -159,11 +159,11 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-		//driveTrain.updateSmartDashboard();
+		driveTrain.updateSmartDashboard();
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
-		controls.updateSmartDashboard();
+		//controls.updateSmartDashboard();
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class Robot extends TimedRobot {
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
-		controls.updateSmartDashboard();
+		//controls.updateSmartDashboard();
 	}
 	
 }
