@@ -12,6 +12,7 @@ import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.commands.SetSplitArcadeDrive;
 import org.usfirst.frc.team4201.robot.interfaces.CTREPIDSource;
 import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -44,7 +45,6 @@ public class DriveTrain extends Subsystem {
     PIDOutputInterface leftMotorPIDOutput, rightMotorPIDOutput, driveTurnPIDOutput;
     
     double throttleLeft, throttleRight, setpoint;
-	
 	
 	public BaseMotorController[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
@@ -203,18 +203,24 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void updateSmartDashboard(){
-		SmartDashboard.putNumber("Front Left Current", driveMotors[0].getOutputCurrent());
-		SmartDashboard.putNumber("Rear Left Current", driveMotors[1].getOutputCurrent());
-		SmartDashboard.putNumber("Front Right Current", driveMotors[2].getOutputCurrent());
-		SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
-
-		SmartDashboard.putNumber("Left Encoder", driveMotors[0].getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
+		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putNumber("Drive Train", "Front Left Current", driveMotors[0].getOutputCurrent());
+		Shuffleboard.putNumber("Drive Train", "Rear Left Current", driveMotors[1].getOutputCurrent());
+		Shuffleboard.putNumber("Drive Train", "Front Right Current", driveMotors[2].getOutputCurrent());
+		Shuffleboard.putNumber("Drive Train", "Rear Right Current", driveMotors[3].getOutputCurrent());
+        
+		Shuffleboard.putNumber("Drive Train", "Left Encoder", driveMotors[0].getSelectedSensorPosition(0));
+		Shuffleboard.putNumber("Drive Train", "Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
 		
-		SmartDashboard.putNumber("Left Encoder Count", getLeftEncoderValue());
-		SmartDashboard.putNumber("Right Encoder Count", getRightEncoderValue());
-		SmartDashboard.putNumber("Average Encoder Count", getAverageEncoderValue());
-		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
+		Shuffleboard.putNumber("Drive Train", "Left Encoder Count", getLeftEncoderValue());
+		Shuffleboard.putNumber("Drive Train", "Right Encoder Count", getRightEncoderValue());
+		Shuffleboard.putNumber("Drive Train", "Average Encoder Count", getAverageEncoderValue());
+		Shuffleboard.putNumber("Drive Train", "Spartan Gyro", spartanGyro.getAngle());
+		
+		Shuffleboard.putBoolean("Drive Train", "Cheesy Quick Turn", Robot.oi.isQuickTurn);
+		Shuffleboard.putBoolean("Drive Train", "Drive Train Shift", getDriveShiftStatus());
+		
+		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
 	}

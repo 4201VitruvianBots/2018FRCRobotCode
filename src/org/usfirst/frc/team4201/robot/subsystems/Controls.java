@@ -14,23 +14,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Controls extends Subsystem{
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
-	/*
 	DigitalOutput LEDS[] = {
 		new DigitalOutput(0),
 		new DigitalOutput(1),
 		new DigitalOutput(2),
 		new DigitalOutput(3),
 	};
-	*/
+	
 	int powerState;
 	public Controls(){
 		super("Controls");
 	}
 	
 	public void updateSmartDashboard(){
+		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Total Current Draw", pdp.getTotalCurrent());
 		SmartDashboard.putBoolean("Brownout", RobotController.isBrownedOut());
-		
 	}
 	
 	public void updateCurrentState(){
@@ -52,13 +51,7 @@ public class Controls extends Subsystem{
 	}
 	
 	public void setRGBF(int channel) {
-		/*
-		if(!LEDS[channel].get())
-			LEDS[channel].enablePWM(.5);
-		else
-			LEDS[channel].disablePWM();
-		*/
-		//LEDS[channel].set(!LEDS[channel].get());
+		LEDS[channel].set(!LEDS[channel].get());
 	}
 
 	@Override

@@ -76,7 +76,12 @@ public class Arm extends PIDSubsystem {
 		Shuffleboard.putNumber("Arm", "Arm Angle", getAngle());
 		Shuffleboard.putNumber("Arm", "Arm Pot Test", armPot.get());
 		Shuffleboard.putNumber("Arm", "Arm Avg. Voltage", aP.getAverageVoltage());
-
+		
+		// For TripleThreat Testbed
+		Shuffleboard.putNumber("Triple Threat", "Arm Angle", getAngle());
+		Shuffleboard.putNumber("Triple Threat", "Arm Pot Test", armPot.get());
+		Shuffleboard.putNumber("Triple Threat", "Arm Avg. Voltage", aP.getAverageVoltage());
+		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Arm Angle", getAngle());
 	}

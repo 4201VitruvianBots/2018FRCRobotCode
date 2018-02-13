@@ -141,6 +141,15 @@ public class Wrist extends PIDSubsystem {
 		Shuffleboard.putNumber("Wrist", "Wrist Upper Limit", angleUpperLimit);
 		Shuffleboard.putNumber("Wrist", "Wrist Pot Test", wristPot.get());
 
+		// For TripleThreat Testbed
+		Shuffleboard.putNumber("Triple Threat", "Wrist Absolute Angle", getAbsoluteAngle());
+		Shuffleboard.putNumber("Triple Threat", "Wrist Relative Angle", getRelativeAngle());
+		Shuffleboard.putNumber("Triple Threat", "Wrist Setpoint", getPIDController().getSetpoint());
+		Shuffleboard.putNumber("Triple Threat", "Wrist Avg. Voltage", wP.getAverageVoltage());
+		Shuffleboard.putNumber("Triple Threat", "Wrist Lower Limit", angleLowerLimit);
+		Shuffleboard.putNumber("Triple Threat", "Wrist Upper Limit", angleUpperLimit);
+		Shuffleboard.putNumber("Triple Threat", "Wrist Pot Test", wristPot.get());
+		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Wrist Angle", getRelativeAngle());
 	}
