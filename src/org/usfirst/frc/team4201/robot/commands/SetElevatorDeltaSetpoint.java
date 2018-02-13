@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**	This command must be an InstantCommand because of how we're using it.
  *
  */
-public class SetWristSetpoint extends InstantCommand {
+public class SetElevatorDeltaSetpoint extends InstantCommand {
 	
-	double setpoint;
-    public SetWristSetpoint(double setpoint) {
+	double inc;
+    public SetElevatorDeltaSetpoint(double increment) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.wrist);
-        this.setpoint = setpoint;
+        requires(Robot.elevator);
+        this.inc = increment;
         
         setInterruptible(true);
     }
@@ -23,8 +23,8 @@ public class SetWristSetpoint extends InstantCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Check if new setpoint deosn't violate limits before setting
-    	if(Robot.wrist.checkLimits(setpoint))
-			Robot.wrist.setSetpoint(setpoint);
+    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + inc))
+			Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + inc);
 		else {
 			// Get nearest setpoint and use that instead
 			

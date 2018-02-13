@@ -2,6 +2,7 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.commands.AdjustArmSetpoint;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -71,9 +72,13 @@ public class Arm extends PIDSubsystem {
 	}
 	
 	public void updateSmartDashboard() {
+		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putNumber("Arm", "Arm Angle", getAngle());
+		Shuffleboard.putNumber("Arm", "Arm Pot Test", armPot.get());
+		Shuffleboard.putNumber("Arm", "Arm Avg. Voltage", aP.getAverageVoltage());
+
+		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Arm Angle", getAngle());
-		SmartDashboard.putNumber("Arm Pot Test", armPot.get());
-		SmartDashboard.putNumber("Arm Avg. Voltage", aP.getAverageVoltage());
 	}
 	
 	@Override

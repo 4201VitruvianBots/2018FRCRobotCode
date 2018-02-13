@@ -4,8 +4,7 @@ import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.WristLimitTable;
 import org.usfirst.frc.team4201.robot.commands.UpdateWristSetpoint;
-import org.usfirst.frc.team4201.robot.interfaces.AnalogPotentiometerSource;
-import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -24,9 +23,6 @@ public class Wrist extends PIDSubsystem {
 	static double kD = 0;
 	static double kF = 0.2;
 	static double period = 0.01;
-	public PIDController PIDControl;
-	AnalogPotentiometerSource PIDSource;
-	PIDOutputInterface PIDOutput;
 	
 	int armLimitLowerBound = -42;
 	int armLimitUpperBound = 138;
@@ -136,13 +132,17 @@ public class Wrist extends PIDSubsystem {
 	}
 	
 	public void updateSmartDashboard() {
-		SmartDashboard.putNumber("Wrist Absolute Angle", getAbsoluteAngle());
-		SmartDashboard.putNumber("Wrist Relative Angle", getRelativeAngle());
-		SmartDashboard.putNumber("Wrist Setpoint", getPIDController().getSetpoint());
-		SmartDashboard.putNumber("Wrist Avg. Voltage", wP.getAverageVoltage());
-		SmartDashboard.putNumber("Wrist Lower Limit", angleLowerLimit);
-		SmartDashboard.putNumber("Wrist Upper Limit", angleUpperLimit);
-		SmartDashboard.putNumber("Wrist Pot Test", wristPot.get());
+		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putNumber("Wrist", "Wrist Absolute Angle", getAbsoluteAngle());
+		Shuffleboard.putNumber("Wrist", "Wrist Relative Angle", getRelativeAngle());
+		Shuffleboard.putNumber("Wrist", "Wrist Setpoint", getPIDController().getSetpoint());
+		Shuffleboard.putNumber("Wrist", "Wrist Avg. Voltage", wP.getAverageVoltage());
+		Shuffleboard.putNumber("Wrist", "Wrist Lower Limit", angleLowerLimit);
+		Shuffleboard.putNumber("Wrist", "Wrist Upper Limit", angleUpperLimit);
+		Shuffleboard.putNumber("Wrist", "Wrist Pot Test", wristPot.get());
+
+		// Use SmartDashboard to put only the important stuff for drivers;
+		SmartDashboard.putNumber("Wrist Angle", getRelativeAngle());
 	}
 	
 

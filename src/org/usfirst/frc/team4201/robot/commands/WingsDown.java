@@ -4,8 +4,8 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class WingDown extends Command{
-	public WingDown() {
+public class WingsDown extends Command{
+	public WingsDown() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.platforms);
 	}

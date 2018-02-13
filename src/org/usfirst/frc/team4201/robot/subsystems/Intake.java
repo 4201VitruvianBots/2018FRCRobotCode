@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
 	
@@ -42,6 +44,7 @@ public class Intake extends Subsystem {
 	}
 	
 	public void setIntakeMotorOutput(double intakeLeftSpeed, double intakeRightSpeed){
+		// I guess it works? - JD
 		armDrive.tankDrive(intakeLeftSpeed, intakeRightSpeed);
 	}
 	
@@ -58,7 +61,11 @@ public class Intake extends Subsystem {
 	}
 	
 	public void updateSmartDashboard(){
+		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putBoolean("Intake", "Intake Pistons", getIntakePistonStatus());
 		
+		// Use SmartDashboard to put only the important stuff for drivers;
+		SmartDashboard.putBoolean("Intake Pistons", getIntakePistonStatus());
 	}
 	
 	@Override

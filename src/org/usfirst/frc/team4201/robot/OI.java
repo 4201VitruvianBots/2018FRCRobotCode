@@ -93,7 +93,7 @@ public class OI {
         //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
-        xBoxButtons[0].whileHeld(new SetWristSetpoint(0));			// A Button: Set Position Feed
+        xBoxButtons[0].whenPressed(new SetWristSetpoint(0));			// A Button: Set Position Feed
         xBoxButtons[1].whenPressed(new SetWristSetpoint(45));		// B Button: Set Position Angled
         //xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
         //xBoxButtons[4].whileHeld(new SetArmDeltaSetpoint(1));			// Left Button: Adjust arm up
