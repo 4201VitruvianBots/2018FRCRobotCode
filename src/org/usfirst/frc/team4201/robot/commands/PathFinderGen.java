@@ -73,17 +73,12 @@ public class PathFinderGen extends Command{
 		trajectory = Pathfinder.generate(points, config);
 		
 		try {
-		 /*
-	    Path extractionPath = Files.createTempFile("trajectory", ".csv");
-	    Files.copy(Robot.class.getResourceAsStream("/com/team4201/myfile.csv"), extractionPath);
-	    trajectory = Pathfinder.readFromCSV(extractionPath.toFile());
-	  	*/
-		 //File myfile = new File("/home/lvuser/myfile.csv");
-		 //trajectory = Pathfinder.readFromCSV(myfile);
+			File myfile = new File("/media/sda1/Pathfinder/PathFinderGen.csv");
+		 	Pathfinder.writeToCSV(myfile, trajectory);		
 		 
 		} catch (Exception e) {
 	    // Handle it how you want
-		  DriverStation.reportError("Error: Couldn't read csv", false);
+			DriverStation.reportError("Error: Couldn't create csv", false);
 		} 
 		
 		
