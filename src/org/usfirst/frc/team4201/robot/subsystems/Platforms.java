@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Platforms extends Subsystem{
     
-    DoubleSolenoid leftPlatform = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.leftArmForward, RobotMap.leftArmReverse);
+    //DoubleSolenoid leftPlatform = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.leftArmForward, RobotMap.leftArmReverse);
     DoubleSolenoid rightPlatform = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.rightArmForward, RobotMap.rightArmReverse);
     
     
@@ -17,16 +17,17 @@ public class Platforms extends Subsystem{
     }
     
     public boolean getPlatformStatus() {
-        return leftPlatform.get() == Value.kForward ? true : false;
+        return false;
+    	//return leftPlatform.get() == Value.kForward ? true : false;
     }
     
     public void deployPlatforms() {
-        leftPlatform.set(Value.kForward);
+        //leftPlatform.set(Value.kForward);
         rightPlatform.set(Value.kForward);
     } 
     
     public void retractPlatforms() {
-        leftPlatform.set(Value.kReverse);
+        //leftPlatform.set(Value.kReverse);
         rightPlatform.set(Value.kReverse);
     }
     

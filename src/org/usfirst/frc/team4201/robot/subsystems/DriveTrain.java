@@ -77,9 +77,9 @@ public class DriveTrain extends Subsystem {
 		driveMotors[3].set(ControlMode.Follower, driveMotors[2].getDeviceID());
 
 		// Set Motor Controller Feedback Device
-		//driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		//driveMotors[0].setSensorPhase(true);
-		//driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		driveMotors[0].setSensorPhase(true);
+		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
 		for(int i = 0; i < 4; i++){
@@ -232,8 +232,8 @@ public class DriveTrain extends Subsystem {
 		//SmartDashboard.putNumber("Left Encoder Rate", driveMotors[0].getSelectedSensorVelocity(0));
 		//SmartDashboard.putNumber("Right Encoder Rate", driveMotors[2].getSelectedSensorVelocity(0));
 		
-		SmartDashboard.putNumber("Left Encoder", leftEncoder.get());
-		SmartDashboard.putNumber("Right Encoder", rightEncoder.get());
+		SmartDashboard.putNumber("Left Encoder", driveMotors[0].getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
 		
 		SmartDashboard.putNumber("Test Encoder Count", getTestEncoderCount());
 		

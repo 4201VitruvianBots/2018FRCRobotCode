@@ -63,8 +63,6 @@ public class RobotMap {
 		public static final int elevatorReverse = 3;
 		public static final int intakeForward = 4;
 		public static final int intakeReverse = 5;
-		public static final int fourBarForward = 6;
-		public static final int fourBarReverse = 7;
 		
 	public static final int PCMTwo = 12;
 		public static final int stabalizerReleaseForward = 0;
@@ -73,8 +71,8 @@ public class RobotMap {
 		public static final int stabalizerGrabReverse = 3;
 		public static final int stabalizerEngageForward = 4;
 		public static final int stabalizerEngageReverse = 5;
-		//public static final int rightArmForward = 6;
-		//public static final int rightArmReverse = 7;
+		public static final int rightArmForward = 6;
+		public static final int rightArmReverse = 7;
 		
 	
 	// Motor Controllers
