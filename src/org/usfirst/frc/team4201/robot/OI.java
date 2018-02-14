@@ -54,8 +54,6 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	int leftTrigger = 2;
-	int rightTrigger = 3;
 	
 	public Joystick leftJoystick, rightJoystick, xBoxController;
 	public Button[] leftButtons = new Button[7];
@@ -76,8 +74,8 @@ public class OI {
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
 		for(int i = 0; i < xBoxButtons.length; i++)
 			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
-		xBoxLeftTrigger = new XBoxTrigger(xBoxController, leftTrigger);
-		xBoxRightTrigger = new XBoxTrigger(xBoxController, rightTrigger);
+		xBoxLeftTrigger = new XBoxTrigger(xBoxController, RobotMap.leftTrigger);
+		xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
 		
 		
         leftButtons[0].whileHeld(new ToggleDriveShifters());

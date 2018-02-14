@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,6 +34,10 @@ public class Elevator extends PIDSubsystem {
 		new WPI_TalonSRX(RobotMap.elevatorA),
 		new WPI_TalonSRX(RobotMap.elevatorB),
 	};
+	
+	public DoubleSolenoid elevatorShifters = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.elevatorShifterForward, RobotMap.elevatorShifterReverse);
+	public DoubleSolenoid diskBrake = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.diskBrakeForward, RobotMap.diskBrakeReverse);
+	public DoubleSolenoid climber = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.climberForward, RobotMap.climberReverse);
 	
 	public AnalogInput eP = new AnalogInput(RobotMap.elevatorLinearPot);
 	public AnalogPotentiometer elevatorPot = new AnalogPotentiometer(eP, 50, 0);

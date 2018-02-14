@@ -37,10 +37,9 @@ public class Wrist extends PIDSubsystem {
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 	public AnalogInput wP = new AnalogInput(RobotMap.wristPot);
-	public AnalogPotentiometer wristPot = new AnalogPotentiometer(wP, 360,-224);
+	public AnalogPotentiometer wristPot = new AnalogPotentiometer(wP, 360, -224);
 	
 	public Wrist() {
-		
 		super("Wrist", kP, kI, kD, kF, period);
 		setAbsoluteTolerance(0.5);
 		//setInputRange(angleLowerLimit, angleUpperLimit);
@@ -76,23 +75,18 @@ public class Wrist extends PIDSubsystem {
 	}
 	
 	public boolean checkLimits(double value){
+		// check if the value is bound by the hard limits
 		if(value > angleLowerLimit && value < angleUpperLimit){
-			/*
-			if(Robot.arm.getAngle() > armLimitLowerBound && Robot.arm.getAngle() < armLimitUpperBound){
+			// check if the value is bound by the soft limits
+			if(Robot.arm.getAngle() >= armLimitLowerBound && Robot.arm.getAngle() <= armLimitUpperBound){
 				int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimitLowerBound];
-				SmartDashboard.putNumber("Wrist Limit Angle", setpointLimit);
 				
-				if(Math.abs(Robot.arm.getAngle()) < setpointLimit)
-					return false;
-				else
+				if(Math.abs(getRelativeAngle()) < setpointLimit)
 					return true;
 			}
-			else
-			*/
-				return true;
 		}
-		else
-			return false;
+		
+		return false;
 	}
 	
 	public void updateWristAngle(){
@@ -102,7 +96,12 @@ public class Wrist extends PIDSubsystem {
 		// 3. If the setpoint is outside of the limit, don't use the limit, otherwise
 		// 4. Move the wrist to the limit, biasing it towards where the wrist's angle is.
 		// (If the wrist is below the horizon, invert the setpoint limit so that it is negative, otherwise keep the setpoint limit positive)
-			
+
+		// Update the wrist limits based on Arm angle();
+		angleLowerLimit = getRelativeAngle() - 75;
+		angleUpperLimit = getRelativeAngle() + 50;
+		setInputRange(angleLowerLimit, angleUpperLimit);
+		
 		// If the arm is outside of our limits, do nothing
 		if(Robot.arm.getAngle() < armLimitLowerBound || Robot.arm.getAngle()  > armLimitUpperBound) {// If the arm is outside of our limiting range, just pass the setpoint with no modifications
 			//setSetpoint(getSetpoint());
@@ -125,10 +124,6 @@ public class Wrist extends PIDSubsystem {
 			*/
 		}
 		
-		// Update the wrist limits based on Arm angle();
-		angleLowerLimit = getRelativeAngle() - 75;
-		angleUpperLimit = getRelativeAngle() + 50;
-		setInputRange(angleLowerLimit, angleUpperLimit);
 	}
 	
 	public void updateSmartDashboard() {
