@@ -48,6 +48,7 @@ public class PathFinderTestCommandGroup extends CommandGroup{
 		AutoPaths.driveStraightThree[1] = new Waypoint(0, -1.4, Pathfinder.d2r(90));
 		addSequential(new PathFinder(AutoPaths.driveStraightThree));
 		*/
+	
 		// Use Pathfinder .csv files instead
 		addSequential(new PathFinderRead("straightCalibration", true));
 	}

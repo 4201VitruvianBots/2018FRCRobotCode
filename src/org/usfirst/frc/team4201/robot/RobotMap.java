@@ -63,8 +63,6 @@ public class RobotMap {
 		public static final int elevatorReverse = 3;
 		public static final int intakeForward = 4;
 		public static final int intakeReverse = 5;
-		public static final int fourBarForward = 6;
-		public static final int fourBarReverse = 7;
 		
 	public static final int PCMTwo = 12;
 		public static final int stabalizerReleaseForward = 0;
@@ -73,8 +71,8 @@ public class RobotMap {
 		public static final int stabalizerGrabReverse = 3;
 		public static final int stabalizerEngageForward = 4;
 		public static final int stabalizerEngageReverse = 5;
-		//public static final int rightArmForward = 6;
-		//public static final int rightArmReverse = 7;
+		public static final int rightArmForward = 6;
+		public static final int rightArmReverse = 7;
 		
 	
 	// Motor Controllers
@@ -99,26 +97,26 @@ public class RobotMap {
     
     
     public static Waypoint[] primaryWaypoints = new Waypoint[] {
-        	new Waypoint(0, 0, 0),
-        	new Waypoint(0, 2.833333333333333, 0),
-        	new Waypoint(0, 6.277777777777778, 0),
-        	new Waypoint(3.1, 1.5, 0),
-        	new Waypoint(3.1, 4.2, 0),
-        	new Waypoint(4.3333333333333, 0.5, Pathfinder.d2r(90)),
-        	new Waypoint(4.3333333333333, 5.77777777777778, Pathfinder.d2r(-90)),
-        	new Waypoint(5.6666666666667, 1.38888888888889, Pathfinder.d2r(180)),
-        	new Waypoint(5.6666666666667, 4.88888888888889, Pathfinder.d2r(180)),
-        	new Waypoint(7.3333333333333, 0.88888888888889, 0),
-        	new Waypoint(7.3333333333333, 5.38888888888889, 0),
-        	new Waypoint(8.6666666666667, 0.11111111111111, Pathfinder.d2r(90)),
-        	new Waypoint(8.6666666666667, 5.16666666666667, Pathfinder.d2r(-90)),
+    	new Waypoint(0, 0, 0),
+    	new Waypoint(0, 2.833333333333333, 0),
+    	new Waypoint(0, 6.277777777777778, 0),
+    	new Waypoint(3.1, 1.5, 0),
+    	new Waypoint(3.1, 4.5, 0),
+    	new Waypoint(4.3333333333333, 0.5, Pathfinder.d2r(90)),
+    	new Waypoint(4.3333333333333, 5.77777777777778, Pathfinder.d2r(-90)),
+    	new Waypoint(5.6666666666667, 1.38888888888889, Pathfinder.d2r(180)),
+    	new Waypoint(5.6666666666667, 4.88888888888889, Pathfinder.d2r(180)),
+    	new Waypoint(7.3333333333333, 0.88888888888889, 0),
+    	new Waypoint(7.3333333333333, 5.38888888888889, 0),
+    	new Waypoint(8.6666666666667, 0.11111111111111, Pathfinder.d2r(90)),
+    	new Waypoint(8.6666666666667, 6.16666666666667, Pathfinder.d2r(-90)),
     }; 
     	
     	
         
     public static Waypoint[] secondaryWaypoints = new Waypoint[] {
-		new Waypoint(1, 0.8333333333, Pathfinder.d2r(-45)),
-		new Waypoint(1, 1.8333333333, Pathfinder.d2r(45)),
+		new Waypoint(1, 1.8333333333, Pathfinder.d2r(-45)),
+		new Waypoint(1, 3.8333333333, Pathfinder.d2r(45)),
 		new Waypoint(3.33333333333, -0.5, 0),
 		new Waypoint(3.33333333333, 6.28888888888, 0),
 		new Waypoint(5.33333333333, -0.5, 0),
@@ -131,6 +129,14 @@ public class RobotMap {
     
     public static Waypoint[] extraWaypoints = new Waypoint[] {
     	new Waypoint(4.333333333333, 6.27777777777777777778, 0),
+    	new Waypoint(5.6666666666667, 2, Pathfinder.d2r(180)),
+    	new Waypoint(5.6666666666667, 2.7, Pathfinder.d2r(180)),
+    	new Waypoint(5.6666666666667, 3.4, Pathfinder.d2r(180)),
+    	new Waypoint(5.6666666666667, 4.1, Pathfinder.d2r(180)),
+		new Waypoint(6.33333333333, 1.2, 90),
+		new Waypoint(6.33333333333, 1.9, 90),
+		new Waypoint(6.33333333333, 3.6, 90),
+		new Waypoint(6.33333333333, 4.3, 90),
     };
     
 }

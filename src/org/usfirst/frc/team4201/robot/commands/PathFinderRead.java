@@ -84,12 +84,12 @@ public class PathFinderRead extends Command{
     	
 		SmartDashboard.putString("PathFinder Status" , "Enabling...");
 		
+		
 		left.configureEncoder(Robot.driveTrain.leftEncoder.get(), 180, 0.1111);
 		right.configureEncoder(Robot.driveTrain.rightEncoder.get(), 180, 0.1111);
 		//left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 180, 0.1111);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
 		//right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 180, 0.1111);	// 0.1016 4 inches in meters - undershoot
-																											// 0.1111 4 inches in yards  - 5 in overshoot
-																											// 0.125 undershoot - overshoot
+
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
 		// Usually, you wont have to adjust this though.
@@ -110,10 +110,10 @@ public class PathFinderRead extends Command{
     	}
     	
     	// Calculate the current motor outputs based on the trajectory values + encoder positions
-		double l = left.calculate(Robot.driveTrain.leftEncoder.get());
-		double r = right.calculate(Robot.driveTrain.rightEncoder.get());
-    	//double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
-		//double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+		//double l = left.calculate(Robot.driveTrain.leftEncoder.get());
+		//double r = right.calculate(Robot.driveTrain.rightEncoder.get());
+    	double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
+		double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("PathFinder L" , l);
 		SmartDashboard.putNumber("PathFinder R" , r);
 		SmartDashboard.putNumber("PathFinder H" , Pathfinder.r2d(left.getHeading()));
