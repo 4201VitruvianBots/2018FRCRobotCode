@@ -23,6 +23,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  */
 public class PathFinderRead extends Command{
 	double max_vel = 3.4 * 1.09361;
+	
 	Trajectory trajectory;
 	TankModifier modifier;
 	EncoderFollower left, right;
@@ -83,14 +84,17 @@ public class PathFinderRead extends Command{
     	
 		SmartDashboard.putString("PathFinder Status" , "Enabling...");
 		
-		left.configureEncoder(Robot.driveTrain.leftEncoder.get(), 360, 0.1111);
-		right.configureEncoder(Robot.driveTrain.rightEncoder.get(), 360, 0.1111);
-		//left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 180, 0.1050);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		//right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 180, 0.1050);	// 0.1016 4 inches in meters - undershoot
+		left.configureEncoder(Robot.driveTrain.leftEncoder.get(), 180, 0.1111);
+		right.configureEncoder(Robot.driveTrain.rightEncoder.get(), 180, 0.1111);
+		//left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 180, 0.1111);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		//right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 180, 0.1111);	// 0.1016 4 inches in meters - undershoot
 																											// 0.1111 4 inches in yards  - 5 in overshoot
 																											// 0.125 undershoot - overshoot
-		left.configurePIDVA(0.9, 0, 0, 1 / max_vel, 3.8 * 1.09361);
-		right.configurePIDVA(0.9, 0, 0, 1 / max_vel, 3.8 * 1.09361);   
+		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
+		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
+		// Usually, you wont have to adjust this though.
+		left.configurePIDVA(2, 0, 0, 1 / max_vel, 0);
+		right.configurePIDVA(2, 0, 0, 1 / max_vel, 0);   
 
 		stopwatch = new Timer();
 		lock = false;

@@ -31,28 +31,15 @@ public class PathFinderTestCommandGroup extends CommandGroup{
 		//addSequential(new PathFinder(paths[0]));
 		//addSequential(new DriveTurnWithGyro(-90));
 		//addSequential(new PathFinder(paths[1]));
-<<<<<<< HEAD
 		
-		//AutoPaths.driveStraightOne[1] = new Waypoint(4.25, 0, 0);
-		//addSequential(new Delay(1));
-=======
 		/*
 		AutoPaths.driveStraightOne[1] = new Waypoint(4.25, 0, 0);
 		addSequential(new Delay(1));
->>>>>>> f975a45c138564536abc6146170fd1cc7f654063
-		//addSequential(new PathFinder(AutoPaths.test));
-		//addSequential(new PathFinder(AutoPaths.driveStraightOne));
+		
+		addSequential(new PathFinder(AutoPaths.test));
+		addSequential(new PathFinder(AutoPaths.driveStraightOne));
 		addSequential(new DriveTurnWithGyro(-90));
-		//addSequential(new Delay(3));
-<<<<<<< HEAD
-		//AutoPaths.driveStraightTwo[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
-		//AutoPaths.driveStraightTwo[1] = new Waypoint(0, 0.666666666666666667, Pathfinder.d2r(90));
-		//addSequential(new PathFinder(AutoPaths.driveStraightTwo));
-		//addSequential(new Delay(1));
-		//AutoPaths.driveStraightThree[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
-		//AutoPaths.driveStraightThree[1] = new Waypoint(0, -1.4, Pathfinder.d2r(90));
-		//addSequential(new PathFinder(AutoPaths.driveStraightThree));
-=======
+		addSequential(new Delay(3));
 		AutoPaths.driveStraightTwo[0] = new Waypoint(0, 0, Pathfinder.d2r(90));
 		AutoPaths.driveStraightTwo[1] = new Waypoint(0, 0.666666666666666667, Pathfinder.d2r(90));
 		addSequential(new PathFinder(AutoPaths.driveStraightTwo));
@@ -61,8 +48,6 @@ public class PathFinderTestCommandGroup extends CommandGroup{
 		AutoPaths.driveStraightThree[1] = new Waypoint(0, -1.4, Pathfinder.d2r(90));
 		addSequential(new PathFinder(AutoPaths.driveStraightThree));
 		*/
->>>>>>> f975a45c138564536abc6146170fd1cc7f654063
-		
 		// Use Pathfinder .csv files instead
 		addSequential(new PathFinderRead("straightCalibration", true));
 	}
