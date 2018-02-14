@@ -83,8 +83,8 @@ public class PathFinderRead extends Command{
     	
 		SmartDashboard.putString("PathFinder Status" , "Enabling...");
 		
-		left.configureEncoder(Robot.driveTrain.leftEncoder.get(), 360, 0.1111);
-		right.configureEncoder(Robot.driveTrain.rightEncoder.get(), 360, 0.1111);
+		left.configureEncoder(Robot.driveTrain.leftEncoder.get(), 180, 0.1111);
+		right.configureEncoder(Robot.driveTrain.rightEncoder.get(), 180, 0.1111);
 		//left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 180, 0.1050);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
 		//right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 180, 0.1050);	// 0.1016 4 inches in meters - undershoot
 																											// 0.1111 4 inches in yards  - 5 in overshoot
