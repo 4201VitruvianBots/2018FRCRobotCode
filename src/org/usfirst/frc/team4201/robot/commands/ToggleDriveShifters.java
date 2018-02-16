@@ -2,9 +2,9 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class ToggleDriveShifters extends Command{
+public class ToggleDriveShifters extends InstantCommand{
 	public ToggleDriveShifters() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
@@ -17,17 +17,6 @@ public class ToggleDriveShifters extends Command{
 			Robot.driveTrain.setDriveShiftLow();
 		else
 			Robot.driveTrain.setDriveShiftHigh();
-	}
-
-	// Called repeatedly when this Command is scheduled to run
-	@Override
-	protected void execute() {
-	}
-
-	// Make this return true when this Command no longer needs to run execute()
-	@Override
-	protected boolean isFinished() {
-		return true;
 	}
 
 	// Called once after isFinished returns true

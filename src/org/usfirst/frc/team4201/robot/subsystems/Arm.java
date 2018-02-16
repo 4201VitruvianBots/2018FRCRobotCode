@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.commands.AdjustArmSetpoint;
+import org.usfirst.frc.team4201.robot.commands.UpdateArmSetpoint;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -28,11 +28,15 @@ public class Arm extends PIDSubsystem {
 	static double sensorOffset = -80;
 	static double voltageUpperLimit = 3;
 	static double voltageLowerLimit = 1;
+
+	public static int state = 0;
 	
-	public WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
-	public WPI_TalonSRX armMotor2 = new WPI_TalonSRX(RobotMap.armMotor + 1); // Using test arm
+	public WPI_TalonSRX[] armMotors = {
+		new WPI_TalonSRX(RobotMap.armMotor),
+		//new WPI_TalonSRX(RobotMap.armMotor + 1); // Using test arm
+	};
 	
-	public AnalogInput aP = new AnalogInput(RobotMap.armPot);
+	AnalogInput aP = new AnalogInput(RobotMap.armPot);
 	public AnalogPotentiometer armPot = new AnalogPotentiometer(aP, 360, -91);
 	
 	public Arm() {
@@ -41,14 +45,13 @@ public class Arm extends PIDSubsystem {
 		setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
-		armMotor.setNeutralMode(NeutralMode.Coast);
-		armMotor.configPeakOutputForward(1, 0);
-		armMotor.configPeakOutputReverse(-1, 0);
-		armMotor2.setNeutralMode(NeutralMode.Coast);
-		armMotor2.configPeakOutputForward(1, 0);
-		armMotor2.configPeakOutputReverse(-1, 0);
-		
-		armMotor2.set(ControlMode.Follower, armMotor.getDeviceID());
+		for(int i = 0; i < armMotors.length; i++) {
+			armMotors[0].setNeutralMode(NeutralMode.Coast);
+			armMotors[0].configPeakOutputForward(1, 0);
+			armMotors[0].configPeakOutputReverse(-1, 0);
+			//armMotors[i].setSafetyEnabled(true);
+		}
+		//armMotors[1].set(ControlMode.Follower, armMotor.getDeviceID());
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
 		setSetpoint(getAngle());
@@ -70,20 +73,19 @@ public class Arm extends PIDSubsystem {
 		else
 			return false;
 	}
+
+	public void setMotorsToBrake(){
+		for(int i = 0; i < armMotors.length; i++)
+			armMotors[i].setNeutralMode(NeutralMode.Brake);
+	}
 	
-	public void updateSmartDashboard() {
-		// Use Shuffleboard to place things in their own tabs
-		Shuffleboard.putNumber("Arm", "Arm Angle", getAngle());
-		Shuffleboard.putNumber("Arm", "Arm Pot Test", armPot.get());
-		Shuffleboard.putNumber("Arm", "Arm Avg. Voltage", aP.getAverageVoltage());
-		
-		// For TripleThreat Testbed
-		Shuffleboard.putNumber("Triple Threat", "Arm Angle", getAngle());
-		Shuffleboard.putNumber("Triple Threat", "Arm Pot Test", armPot.get());
-		Shuffleboard.putNumber("Triple Threat", "Arm Avg. Voltage", aP.getAverageVoltage());
-		
-		// Use SmartDashboard to put only the important stuff for drivers;
-		SmartDashboard.putNumber("Arm Angle", getAngle());
+	public void setMotorsToCoast(){
+		for(int i = 0; i < armMotors.length; i++)
+			armMotors[i].setNeutralMode(NeutralMode.Coast);
+	}
+	
+	public void setDirectOutput(double output){
+		armMotors[0].set(ControlMode.PercentOutput, output);
 	}
 	
 	@Override
@@ -94,12 +96,27 @@ public class Arm extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		armMotor.set(ControlMode.PercentOutput, output);
+		armMotors[0].set(ControlMode.PercentOutput, output);
+	}
+	
+	public void updateSmartDashboard() {
+		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putNumber("Arm", "Angle", getAngle());
+		Shuffleboard.putNumber("Arm", "Pot Avg. Voltage", aP.getAverageVoltage());
+		Shuffleboard.putNumber("Arm", "Setpoint", getSetpoint());
+		
+		// For TripleThreat Testbed
+		//Shuffleboard.putNumber("Triple Threat", "Arm Angle", getAngle());
+		//Shuffleboard.putNumber("Triple Threat", "Arm Pot Test", armPot.get());
+		//Shuffleboard.putNumber("Triple Threat", "Arm Avg. Voltage", aP.getAverageVoltage());
+		
+		// Use SmartDashboard to put only the important stuff for drivers;
+		SmartDashboard.putNumber("Arm Angle", getAngle());
 	}
 
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		setDefaultCommand(new AdjustArmSetpoint());
+		setDefaultCommand(new UpdateArmSetpoint());
 	}
 }

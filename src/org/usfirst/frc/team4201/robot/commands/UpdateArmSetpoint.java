@@ -1,15 +1,16 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**	This command must be an InstantCommand because of how we're using it.
  *
  */
-public class AdjustArmSetpoint extends Command {
+public class UpdateArmSetpoint extends Command {
 	
-    public AdjustArmSetpoint() {
+    public UpdateArmSetpoint() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.arm);
         
@@ -26,15 +27,19 @@ public class AdjustArmSetpoint extends Command {
  		// Inverted
  		double yAxis = -Robot.oi.xBoxController.getRawAxis(1);
  		
-    	// Check if new setpoint deosn't violate limits before setting
-    	if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + yAxis))
-			Robot.arm.setSetpoint(Robot.arm.getSetpoint() + yAxis);
-		else {
-			// Get nearest setpoint and use that instead
-			
-			// Haptic feedback for operator
-	        Robot.oi.enableXBoxLeftRumbleTimed();
-		}
+ 		if(Arm.state == 0){
+	    	// Check if new setpoint deosn't violate limits before setting
+	    	if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + yAxis))
+				Robot.arm.setSetpoint(Robot.arm.getSetpoint() + yAxis);
+			else {
+				// Get nearest setpoint and use that instead
+				
+				// Haptic feedback for operator
+		        Robot.oi.enableXBoxLeftRumbleTimed();
+			}
+ 		}
+ 		else
+ 			Robot.arm.setDirectOutput(yAxis / 10);
  	}
 
     // Make this return true when this Command no longer needs to run execute()

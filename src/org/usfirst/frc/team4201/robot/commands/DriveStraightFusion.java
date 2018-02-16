@@ -74,7 +74,7 @@ public class DriveStraightFusion extends Command{
     protected void initialize() {
     	Robot.driveTrain.spartanGyro.reset();
     	Robot.driveTrain.resetEncoders();
-    	new ResetEncoders();
+    	
         stopwatch = new Timer();
         RobotMap.isTurning = false;
     	

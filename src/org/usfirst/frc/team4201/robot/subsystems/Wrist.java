@@ -34,6 +34,8 @@ public class Wrist extends PIDSubsystem {
 	static double sensorOffset = -240;
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
+
+	public static int state = 0;
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 	public AnalogInput wP = new AnalogInput(RobotMap.wristPot);
@@ -45,9 +47,10 @@ public class Wrist extends PIDSubsystem {
 		//setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
-		wristMotor.setNeutralMode(NeutralMode.Coast);
+		wristMotor.setNeutralMode(NeutralMode.Brake);
 		wristMotor.configPeakOutputForward(1, 0);
 		wristMotor.configPeakOutputReverse(-1, 0);
+		//wristMotor.setSafetyEnabled(true);
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
 		setSetpoint(getRelativeAngle());
@@ -57,10 +60,6 @@ public class Wrist extends PIDSubsystem {
 		
 		// Add the PIDController to LiveWindow
 		LiveWindow.addChild(this, this);
-	}
-	
-	public void setDirectOutput(double output){
-		wristMotor.set(ControlMode.PercentOutput, output);
 	}
 	
 	// Get the angle of the wrist
@@ -87,6 +86,18 @@ public class Wrist extends PIDSubsystem {
 		}
 		
 		return false;
+	}
+	
+	public void setMotorsToBrake(){
+		wristMotor.setNeutralMode(NeutralMode.Brake);
+	}
+	
+	public void setMotorsToCoast(){
+		wristMotor.setNeutralMode(NeutralMode.Coast);
+	}
+	
+	public void setDirectOutput(double output){
+		wristMotor.set(ControlMode.PercentOutput, output);
 	}
 	
 	public void updateWristAngle(){
@@ -125,6 +136,18 @@ public class Wrist extends PIDSubsystem {
 		}
 		
 	}
+
+
+	@Override
+	protected double returnPIDInput() {
+		return getRelativeAngle();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// TODO Auto-generated method stub
+		wristMotor.set(ControlMode.PercentOutput, output);
+	}
 	
 	public void updateSmartDashboard() {
 		// Use Shuffleboard to place things in their own tabs
@@ -137,29 +160,18 @@ public class Wrist extends PIDSubsystem {
 		Shuffleboard.putNumber("Wrist", "Wrist Pot Test", wristPot.get());
 
 		// For TripleThreat Testbed
-		Shuffleboard.putNumber("Triple Threat", "Wrist Absolute Angle", getAbsoluteAngle());
-		Shuffleboard.putNumber("Triple Threat", "Wrist Relative Angle", getRelativeAngle());
-		Shuffleboard.putNumber("Triple Threat", "Wrist Setpoint", getPIDController().getSetpoint());
-		Shuffleboard.putNumber("Triple Threat", "Wrist Avg. Voltage", wP.getAverageVoltage());
-		Shuffleboard.putNumber("Triple Threat", "Wrist Lower Limit", angleLowerLimit);
-		Shuffleboard.putNumber("Triple Threat", "Wrist Upper Limit", angleUpperLimit);
-		Shuffleboard.putNumber("Triple Threat", "Wrist Pot Test", wristPot.get());
+		//Shuffleboard.putNumber("Triple Threat", "Wrist Absolute Angle", getAbsoluteAngle());
+		//Shuffleboard.putNumber("Triple Threat", "Wrist Relative Angle", getRelativeAngle());
+		//Shuffleboard.putNumber("Triple Threat", "Wrist Setpoint", getPIDController().getSetpoint());
+		//Shuffleboard.putNumber("Triple Threat", "Wrist Avg. Voltage", wP.getAverageVoltage());
+		//Shuffleboard.putNumber("Triple Threat", "Wrist Lower Limit", angleLowerLimit);
+		//Shuffleboard.putNumber("Triple Threat", "Wrist Upper Limit", angleUpperLimit);
+		//Shuffleboard.putNumber("Triple Threat", "Wrist Pot Test", wristPot.get());
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Wrist Angle", getRelativeAngle());
 	}
 	
-
-	@Override
-	protected double returnPIDInput() {
-		return getRelativeAngle();
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		// TODO Auto-generated method stub
-		wristMotor.set(ControlMode.PercentOutput, output);
-	}
 	
 	@Override
 	protected void initDefaultCommand() {

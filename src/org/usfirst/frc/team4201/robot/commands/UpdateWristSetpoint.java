@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -15,17 +16,18 @@ public class UpdateWristSetpoint extends Command {
     public UpdateWristSetpoint() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.wrist);
+        
         setInterruptible(true);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//Robot.
     }
     
     @Override
 	protected void execute() {
-		Robot.wrist.updateWristAngle();
+    	if(Wrist.state == 0)
+    		Robot.wrist.updateWristAngle();
 	}
     
     // Make this return true when this Command no longer needs to run execute()

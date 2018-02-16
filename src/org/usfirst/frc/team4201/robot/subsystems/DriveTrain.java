@@ -46,15 +46,14 @@ public class DriveTrain extends Subsystem {
     
     double throttleLeft, throttleRight, setpoint;
 	
-	public BaseMotorController[] driveMotors = {
+	public WPI_TalonSRX[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
-		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
+		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),
 		new WPI_TalonSRX(RobotMap.driveTrainRightFront),
-		new WPI_TalonSRX(RobotMap.driveTrainRightRear)	// VictorSPX(RobotMap.driveTrainRightRear)
+		new WPI_TalonSRX(RobotMap.driveTrainRightRear)
 	};
 	
-	//RobotDrive robotDrive = new RobotDrive(driveMotors[0], driveMotors[1], driveMotors[2], driveMotors[3]);
-	DifferentialDrive robotDrive = new DifferentialDrive((WPI_TalonSRX)driveMotors[0], (WPI_TalonSRX)driveMotors[2]);
+	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0], driveMotors[2]);
 	
 	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
 	
@@ -77,11 +76,8 @@ public class DriveTrain extends Subsystem {
 			driveMotors[i].configPeakOutputForward(1, 0);
 			driveMotors[i].configPeakOutputReverse(-1, 0);
 			driveMotors[i].setNeutralMode(NeutralMode.Coast);
+			//driveMotors[i].setSafetyEnabled(true);
 		}
-		
-		// Invert Left Motors
-		//driveMotors[0].setInverted(true);
-		//driveMotors[1].setInverted(true);
 		
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 		spartanGyro.setName("Gyro");
@@ -100,30 +96,20 @@ public class DriveTrain extends Subsystem {
 		return driveMotors[2].getSelectedSensorPosition(0);
 	}
 	
-	public double getAverageEncoderValue() {
-		double leftEncoder = getLeftEncoderValue();
-		double rightEncoder = getRightEncoderValue();
-		double averageEncoderCounts = leftEncoder + rightEncoder;
-		averageEncoderCounts = averageEncoderCounts/2;
-		return averageEncoderCounts;
-	}
 
-	
 	public void resetEncoders() {
-		//driveMotors[0].setSelectedSensorPosition(driveMotors[0].getSelectedSensorPosition(0), 0, 0);
-		//driveMotors[2].setSelectedSensorPosition(driveMotors[2].getSelectedSensorPosition(0), 0, 0);
 		driveMotors[0].setSelectedSensorPosition(0, 0, 0);
 		driveMotors[2].setSelectedSensorPosition(0, 0, 0);
-	}
-	
-	public void setMotorsToCoast(){
-		for(int i = 0; i < driveMotors.length; i++)
-			driveMotors[i].setNeutralMode(NeutralMode.Coast);
 	}
 	
 	public void setMotorsToBrake(){
 		for(int i = 0; i < driveMotors.length; i++)
 			driveMotors[i].setNeutralMode(NeutralMode.Brake);
+	}
+	
+	public void setMotorsToCoast(){
+		for(int i = 0; i < driveMotors.length; i++)
+			driveMotors[i].setNeutralMode(NeutralMode.Coast);
 	}
 	
 	public void setDriveOutput(double throttle, double angularPower){
@@ -195,26 +181,7 @@ public class DriveTrain extends Subsystem {
 		return driveTrainShifters.get() == Value.kForward ? true : false;
 	}
 	
-	public void updateSmartDashboard(){
-		// Use Shuffleboard to place things in their own tabs
-		//Shuffleboard.putNumber("Drive Train", "Front Left Current", driveMotors[0].getOutputCurrent());
-		//Shuffleboard.putNumber("Drive Train", "Rear Left Current", driveMotors[1].getOutputCurrent());
-		//Shuffleboard.putNumber("Drive Train", "Front Right Current", driveMotors[2].getOutputCurrent());
-		//Shuffleboard.putNumber("Drive Train", "Rear Right Current", driveMotors[3].getOutputCurrent());
-        
-		Shuffleboard.putNumber("Drive Train", "Left Encoder Count", getLeftEncoderValue());
-		Shuffleboard.putNumber("Drive Train", "Right Encoder Count", getRightEncoderValue());
-		Shuffleboard.putNumber("Drive Train", "Average Encoder Count", getAverageEncoderValue());
-		Shuffleboard.putNumber("Drive Train", "Spartan Gyro", spartanGyro.getAngle());
-		
-		Shuffleboard.putBoolean("Drive Train", "Cheesy Quick Turn", Robot.oi.isQuickTurn);
-		Shuffleboard.putBoolean("Drive Train", "Drive Train Shift", getDriveShiftStatus());
-		
-		// Use SmartDashboard to put only the important stuff for drivers;
-		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
-		SmartDashboard.putBoolean("Drive Train Shift", getDriveShiftStatus());
-	}
-	
+	// TODO See if this is useful or remove it
 	public void initializeLiveWindow() {
         leftDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[0]);
         rightDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[2]);
@@ -239,13 +206,29 @@ public class DriveTrain extends Subsystem {
     	driveGyroPIDController.setSubsystem("Drive Train");
         driveGyroPIDController.setAbsoluteTolerance(2);
         driveGyroPIDController.setOutputRange(-0.2, 0.2);
-        
+
+        LiveWindow.add(robotDrive);
+        LiveWindow.add(spartanGyro);
         LiveWindow.add(leftMotorPIDController);
         LiveWindow.add(rightMotorPIDController);
         LiveWindow.add(driveGyroPIDController);
         //LiveWindow.addChild("Drive Train", (WPI_TalonSRX)driveMotors[0]);
         //LiveWindow.addChild("Drive Train", (WPI_TalonSRX)driveMotors[2]);
-        //LiveWindow.addChild("Drive Train", spartanGyro);
+	}
+	
+	public void updateSmartDashboard(){
+		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putNumber("Drive Train", "Left Encoder Count", getLeftEncoderValue());
+		Shuffleboard.putNumber("Drive Train", "Right Encoder Count", getRightEncoderValue());
+		Shuffleboard.putNumber("Drive Train", "Gyro", spartanGyro.getAngle());
+		
+		Shuffleboard.putBoolean("Drive Train", "Cheesy Quick Turn", Robot.oi.isQuickTurn);
+		Shuffleboard.putBoolean("Drive Train", "Drive Train Shift", getDriveShiftStatus());
+		
+		// Use SmartDashboard to put only the important stuff for drivers
+		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
+		SmartDashboard.putBoolean("Drive Train Shifters", getDriveShiftStatus());
+		SmartDashboard.putNumber("Gyro", spartanGyro.getAngle() % 360); // This will now act as a compass for driver
 	}
 	
 	public void initDefaultCommand() {

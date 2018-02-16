@@ -74,6 +74,7 @@ public class OI {
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
 		for(int i = 0; i < xBoxButtons.length; i++)
 			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
+		
 		xBoxLeftTrigger = new XBoxTrigger(xBoxController, RobotMap.leftTrigger);
 		xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
 		
@@ -102,7 +103,6 @@ public class OI {
         
         // Test Mode Button Commands. WARNING: EXTREMELY DANGEROUS
         if(DriverStation.getInstance().isTest()) {
-        	leftButtons[3].toggleWhenPressed(new ToggleMotorTest());
         }
 	}
 	
@@ -123,11 +123,11 @@ public class OI {
 	}
 	
 	public double getXBoxLeftTrigger(){
-		return xBoxController.getRawAxis(leftTrigger);
+		return xBoxController.getRawAxis(RobotMap.leftTrigger);
 	}
 	
 	public double getXBoxRightTrigger(){
-		return xBoxController.getRawAxis(rightTrigger);
+		return xBoxController.getRawAxis(RobotMap.rightTrigger);
 	}
 	
 	public void enableXBoxLeftRumble() {

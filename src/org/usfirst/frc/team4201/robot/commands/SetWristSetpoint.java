@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -23,14 +24,16 @@ public class SetWristSetpoint extends InstantCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Check if new setpoint deosn't violate limits before setting
-    	if(Robot.wrist.checkLimits(setpoint))
-			Robot.wrist.setSetpoint(setpoint);
-		else {
-			// Get nearest setpoint and use that instead
-			
-			// Haptic feedback for operator
-	        Robot.oi.enableXBoxRightRumble();
-		}
+    	if(Wrist.state == 0){
+	    	if(Robot.wrist.checkLimits(setpoint))
+				Robot.wrist.setSetpoint(setpoint);
+			else {
+				// Get nearest setpoint and use that instead
+				
+				// Haptic feedback for operator
+		        Robot.oi.enableXBoxRightRumble();
+			}
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

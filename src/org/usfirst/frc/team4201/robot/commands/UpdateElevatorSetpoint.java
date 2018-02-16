@@ -1,19 +1,18 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**	This command must be an InstantCommand because of how we're using it.
  *
  */
-public class AdjustWristSetpoint extends Command {
+public class UpdateElevatorSetpoint extends Command {
 	
-    public AdjustWristSetpoint() {
+    public UpdateElevatorSetpoint() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.wrist);
+        requires(Robot.elevator);
         
         setInterruptible(true);
     }
@@ -25,18 +24,22 @@ public class AdjustWristSetpoint extends Command {
     // Called repeatedly when this Command is scheduled to run
  	@Override
  	protected void execute() {
- 		double yAxis = Robot.oi.xBoxController.getRawAxis(1);
+ 		// Inverted
+ 		double yAxis = -Robot.oi.xBoxController.getRawAxis(5);
  		
-    	// Check if new setpoint deosn't violate limits before setting
-    	if(Robot.wrist.PIDControl.getSetpoint() + yAxis < Robot.wrist.angleUpperLimit &&
-		   Robot.wrist.PIDControl.getSetpoint() + yAxis > Robot.wrist.angleLowerLimit)
-			Robot.wrist.setSetpointRelative(yAxis);
-		else {
-			// Get nearest setpoint and use that instead
-			
-			// Haptic feedback for operator
-	        Robot.oi.enableXBoxRightRumbleTimed();
-		}
+ 		if(Elevator.state == 0){
+	    	// Check if new setpoint deosn't violate limits before setting
+	    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + yAxis))
+				Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + yAxis);
+			else {
+				// Get nearest setpoint and use that instead
+				
+				// Haptic feedback for operator
+		        Robot.oi.enableXBoxRightRumbleTimed();
+			}
+ 		}
+ 		else
+ 			Robot.elevator.setDirectOutput(yAxis / 10);
  	}
 
     // Make this return true when this Command no longer needs to run execute()

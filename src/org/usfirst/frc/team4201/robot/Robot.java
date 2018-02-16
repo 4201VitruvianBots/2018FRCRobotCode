@@ -27,11 +27,12 @@ import org.usfirst.frc.team4201.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
-	public static Intake intake = new Intake();
 	public static Elevator elevator = new Elevator();
-	public static Wings platforms = new Wings();
 	public static Arm arm = new Arm();
 	public static Wrist wrist = new Wrist();
+	public static Intake intake = new Intake();
+	public static Wings wings = new Wings();
+	//public static Stabilizers stabilizers = new Stabilizers();
 	public static Controls controls = new Controls();
 	public static OI oi;
 
@@ -58,10 +59,10 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addObject("Turn", new AutoTemplate());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
-		
-		driveMode.addDefault("Cheesy Drive", new SetCheesyDrive());
+
+		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
+		driveMode.addObject("Cheesy Drive", new SetCheesyDrive());
 		driveMode.addObject("Tank Drive", new SetTankDrive());
-		driveMode.addObject("Split Arcade", new SetSplitArcadeDrive());
 
 		SmartDashboard.putData("Drive Type", driveMode);
 	}
@@ -73,14 +74,23 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		driveTrain.setMotorsToCoast();
+		elevator.setMotorsToCoast();
+		arm.setMotorsToCoast();
+		wrist.setMotorsToCoast();
+		intake.setMotorsToCoast();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		driveTrain.updateSmartDashboard();
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
+		intake.updateSmartDashboard();
+		//wings.updateSmartDashboard();
+		//stabilizers.updateSmartDashboard();
 		controls.updateSmartDashboard();
 	}
 
@@ -106,10 +116,14 @@ public class Robot extends TimedRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 		
-		// Sets drive train motors to brake.
-		driveTrain.setMotorsToBrake();
 		driveTrain.resetEncoders();
-
+		driveTrain.setMotorsToBrake();
+		
+		elevator.setMotorsToBrake();
+		arm.setMotorsToBrake();
+		wrist.setMotorsToBrake();
+		intake.setMotorsToBrake();
+		
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
@@ -122,25 +136,32 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-    	SmartDashboard.putBoolean("Turning", RobotMap.isTurning);
 
 		driveTrain.updateSmartDashboard();
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
-		//controls.updateSmartDashboard();
+		intake.updateSmartDashboard();
+		//wings.updateSmartDashboard();
+		//stabilizers.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 
 	@Override
 	public void teleopInit() {
-		Robot.oi.enableXBoxLeftRumble();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		
 		//Sets drive train motors to coast.
+		driveTrain.resetEncoders();
 		driveTrain.setMotorsToCoast();
+		
+		elevator.setMotorsToBrake();
+		arm.setMotorsToBrake();
+		wrist.setMotorsToBrake();
+		intake.setMotorsToBrake();
 		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
@@ -148,8 +169,6 @@ public class Robot extends TimedRobot {
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
 		}
-		driveTrain.resetEncoders();
-		//arm.initalizeSetpoints();
 	}
 
 	/**
@@ -163,7 +182,10 @@ public class Robot extends TimedRobot {
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
-		//controls.updateSmartDashboard();
+		intake.updateSmartDashboard();
+		//wings.updateSmartDashboard();
+		//stabilizers.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 
 	/**
@@ -171,11 +193,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		//driveTrain.updateSmartDashboard();
+		driveTrain.updateSmartDashboard();
 		wrist.updateSmartDashboard();
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
-		//controls.updateSmartDashboard();
+		intake.updateSmartDashboard();
+		//wings.updateSmartDashboard();
+		//stabilizers.updateSmartDashboard();
+		controls.updateSmartDashboard();
 	}
 	
 }

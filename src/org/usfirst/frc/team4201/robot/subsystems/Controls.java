@@ -2,6 +2,7 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
@@ -51,10 +52,23 @@ public class Controls extends Subsystem{
 	}
 	
 	public void updateSmartDashboard(){
+		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putNumber("Controls", "DriveTrain Front Left Current", Robot.driveTrain.driveMotors[0].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "DriveTrain Rear Left Current", Robot.driveTrain.driveMotors[1].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "DriveTrain Front Right Current", Robot.driveTrain.driveMotors[2].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "DriveTrain Rear Right Current", Robot.driveTrain.driveMotors[3].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "ElevatorA Current", Robot.elevator.elevatorMotors[0].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "ElevatorB Current", Robot.elevator.elevatorMotors[1].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "Arm Current", Robot.arm.armMotors[0].getOutputCurrent());
+		//Shuffleboard.putNumber("Controls", "ArmB Current", Robot.arm.armMotors[1].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "Intake Left Current", Robot.intake.intakeMotors[0].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "Intake Right Current", Robot.intake.intakeMotors[1].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "Total Current Draw", pdp.getTotalCurrent());
+		Shuffleboard.putBoolean("Controls", "Brownout", RobotController.isBrownedOut());
+		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Total Current Draw", pdp.getTotalCurrent());
 		SmartDashboard.putBoolean("Brownout", RobotController.isBrownedOut());
-		
 	}
 	
 	

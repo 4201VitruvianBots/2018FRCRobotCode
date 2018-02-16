@@ -4,10 +4,14 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ReverseIntakeMotors extends Command {
-	public ReverseIntakeMotors() {
+public class SetIntakeMotorOutputs extends Command {
+	double output;
+	
+	public SetIntakeMotorOutputs(double output) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.intake);
+		
+		this.output = output;
 	}
 
 	// Called just before this Command runs the first time
@@ -18,7 +22,7 @@ public class ReverseIntakeMotors extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.intake.setIntakeMotorOutput(-0.75,-0.75);
+		Robot.intake.setIntakeMotorOutput(output);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -30,7 +34,6 @@ public class ReverseIntakeMotors extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.intake.setIntakeMotorOutput(0,0);
 	}
 
 	// Called when another command which requires one or more of the same
