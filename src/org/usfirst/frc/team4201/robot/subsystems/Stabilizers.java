@@ -4,7 +4,6 @@ import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

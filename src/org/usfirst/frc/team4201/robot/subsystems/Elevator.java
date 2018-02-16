@@ -6,7 +6,6 @@ import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -24,7 +23,7 @@ public class Elevator extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double hieghtLowerLimit = 0;	// -33;
+	public double hieghtLowerLimit = 0;			// -33
 	public double hieghtUpperLimit = 50;		// 60
 	public double sensorLowerLimit = 0;
 	public double sensorUpperLimit = 50;
@@ -56,6 +55,9 @@ public class Elevator extends PIDSubsystem {
 			elevatorMotors[i].configPeakOutputReverse(-1, 0);
 			elevatorMotors[i].setNeutralMode(NeutralMode.Brake);
 			//elevatorMotors[i].setSafetyEnabled(true);
+			//elevatorMotors[i].configContinuousCurrentLimit(40, 0);
+			//elevatorMotors[i].configPeakCurrentLimit(80, 0);
+			//elevatorMotors[i].configPeakCurrentDuration(100, 0);
 		}
 		elevatorMotors[1].set(ControlMode.Follower, elevatorMotors[0].getDeviceID());
 		
@@ -67,6 +69,18 @@ public class Elevator extends PIDSubsystem {
 		
 		// Add this to LiveWindow
 		LiveWindow.addChild(this, this);
+
+		elevatorPot.setName("Linear Potentiometer");
+		elevatorPot.setSubsystem("Elevator");
+        LiveWindow.add(elevatorPot);
+        
+		elevatorShifters.setName("Shifters");
+        elevatorShifters.setSubsystem("Elevator");
+        LiveWindow.add(elevatorShifters);
+        
+        //diskBrake.setName("Disk Brake");
+        //diskBrake.setSubsystem("Elevator");
+        //LiveWindow.add(diskBrake);
 	}
 	
 	public double getHieght(){
@@ -138,13 +152,15 @@ public class Elevator extends PIDSubsystem {
 		Shuffleboard.putNumber("Elevator", "Hieght", getHieght());
 		Shuffleboard.putNumber("Elevator", "Avg. Pot Voltage", eP.getAverageVoltage());
 		Shuffleboard.putNumber("Elevator", "Setpoint", getSetpoint());
-		Shuffleboard.putBoolean("Elevator", "Elevator Shifters", getElevatorShiftersStatus());
+		Shuffleboard.putBoolean("Elevator", "Shifters", getElevatorShiftersStatus());
 		Shuffleboard.putBoolean("Elevator", "Disk Brake", getDiskBrakeStatus());
+		Shuffleboard.putBoolean("Elevator", "PID Enabled", getPIDController().isEnabled());
 		
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putNumber("Elevator Hieght", getHieght());
 		SmartDashboard.putBoolean("Elevator Shifters", getElevatorShiftersStatus());
 		SmartDashboard.putBoolean("Disk Brake", getDiskBrakeStatus());
+		SmartDashboard.putBoolean("Elevator PID Enabled", getPIDController().isEnabled());
 	}
 	
 	@Override

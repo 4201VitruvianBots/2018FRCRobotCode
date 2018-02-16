@@ -17,16 +17,13 @@ import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -41,8 +38,6 @@ public class DriveTrain extends Subsystem {
     double kI = 0;           		// Start with I = P / 100
     double kD = 0;           		// Start with D = P * 10
     double period = 0.01;
-    CTREPIDSource leftDriveEncoder, rightDriveEncoder;
-    PIDOutputInterface leftMotorPIDOutput, rightMotorPIDOutput, driveTurnPIDOutput;
     
     double throttleLeft, throttleRight, setpoint;
 	
@@ -77,13 +72,24 @@ public class DriveTrain extends Subsystem {
 			driveMotors[i].configPeakOutputReverse(-1, 0);
 			driveMotors[i].setNeutralMode(NeutralMode.Coast);
 			//driveMotors[i].setSafetyEnabled(true);
+			//driveMotors[i].configContinuousCurrentLimit(40, 0);
+			//driveMotors[i].configPeakCurrentLimit(80, 0);
+			//driveMotors[i].configPeakCurrentDuration(100, 0);
 		}
 		
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+		
 		spartanGyro.setName("Gyro");
 		spartanGyro.setSubsystem("Drive Train");
-		// Initialize PID Controllers
-		
+        LiveWindow.add(spartanGyro);
+
+        robotDrive.setName("Robot Drive");
+		robotDrive.setSubsystem("Drive Train");
+        LiveWindow.add(robotDrive);
+
+        driveTrainShifters.setName("Shifters");
+        driveTrainShifters.setSubsystem("Drive Train");
+        LiveWindow.add(driveTrainShifters);
 	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -152,7 +158,6 @@ public class DriveTrain extends Subsystem {
         	leftPWM = -1.0;
         }
 		
-		//robotDrive.tankDrive(leftPWM, rightPWM);
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
 	
@@ -181,41 +186,6 @@ public class DriveTrain extends Subsystem {
 		return driveTrainShifters.get() == Value.kForward ? true : false;
 	}
 	
-	// TODO See if this is useful or remove it
-	public void initializeLiveWindow() {
-        leftDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[0]);
-        rightDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[2]);
-		leftMotorPIDOutput = new PIDOutputInterface();
-        rightMotorPIDOutput = new PIDOutputInterface();
-        driveTurnPIDOutput = new PIDOutputInterface();
-        
-        leftMotorPIDController = new PIDController(kP, kI, kD, leftDriveEncoder, leftMotorPIDOutput, period);
-        leftMotorPIDController.setName("Left Motor PID");
-        leftMotorPIDController.setSubsystem("Drive Train");
-        leftMotorPIDController.setAbsoluteTolerance(100);
-        leftMotorPIDController.setOutputRange(-0.8, 0.8);
-        
-        rightMotorPIDController = new PIDController(kP, kI, kD, rightDriveEncoder, rightMotorPIDOutput, period);
-        rightMotorPIDController.setName("Right Motor PID");
-        rightMotorPIDController.setSubsystem("Drive Train");
-        rightMotorPIDController.setAbsoluteTolerance(100);
-        rightMotorPIDController.setOutputRange(-0.8, 0.8);
-    	
-        driveGyroPIDController = new PIDController(kP, kI, kD, spartanGyro, driveTurnPIDOutput, period);
-        driveGyroPIDController.setName("Drive Gyro PID");
-    	driveGyroPIDController.setSubsystem("Drive Train");
-        driveGyroPIDController.setAbsoluteTolerance(2);
-        driveGyroPIDController.setOutputRange(-0.2, 0.2);
-
-        LiveWindow.add(robotDrive);
-        LiveWindow.add(spartanGyro);
-        LiveWindow.add(leftMotorPIDController);
-        LiveWindow.add(rightMotorPIDController);
-        LiveWindow.add(driveGyroPIDController);
-        //LiveWindow.addChild("Drive Train", (WPI_TalonSRX)driveMotors[0]);
-        //LiveWindow.addChild("Drive Train", (WPI_TalonSRX)driveMotors[2]);
-	}
-	
 	public void updateSmartDashboard(){
 		// Use Shuffleboard to place things in their own tabs
 		Shuffleboard.putNumber("Drive Train", "Left Encoder Count", getLeftEncoderValue());
@@ -228,7 +198,7 @@ public class DriveTrain extends Subsystem {
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shifters", getDriveShiftStatus());
-		SmartDashboard.putNumber("Gyro", spartanGyro.getAngle() % 360); // This will now act as a compass for driver
+		SmartDashboard.putNumber("Gyro", Math.abs(spartanGyro.getAngle()) % 360); // This will now act as a compass for driver
 	}
 	
 	public void initDefaultCommand() {

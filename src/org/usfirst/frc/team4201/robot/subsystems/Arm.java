@@ -50,6 +50,9 @@ public class Arm extends PIDSubsystem {
 			armMotors[0].configPeakOutputForward(1, 0);
 			armMotors[0].configPeakOutputReverse(-1, 0);
 			//armMotors[i].setSafetyEnabled(true);
+			//armMotors[i].configContinuousCurrentLimit(40, 0);
+			//armMotors[i].configPeakCurrentLimit(80, 0);
+			//armMotors[i].configPeakCurrentDuration(100, 0);
 		}
 		//armMotors[1].set(ControlMode.Follower, armMotor.getDeviceID());
 		
@@ -60,6 +63,14 @@ public class Arm extends PIDSubsystem {
 		enable();
 		
 		LiveWindow.addChild(this, this);
+		
+		armPot.setName("Potentiometer");
+		armPot.setSubsystem("Arm");
+        LiveWindow.add(armPot);
+        
+        armMotors[0].setName("Arm Motor");
+        armMotors[0].setSubsystem("Arm");
+        LiveWindow.add(armMotors[0]);
 	}
 	
 	public double getAngle() {
@@ -104,6 +115,7 @@ public class Arm extends PIDSubsystem {
 		Shuffleboard.putNumber("Arm", "Angle", getAngle());
 		Shuffleboard.putNumber("Arm", "Pot Avg. Voltage", aP.getAverageVoltage());
 		Shuffleboard.putNumber("Arm", "Setpoint", getSetpoint());
+		Shuffleboard.putBoolean("Arm", "PID Enabled", getPIDController().isEnabled());
 		
 		// For TripleThreat Testbed
 		//Shuffleboard.putNumber("Triple Threat", "Arm Angle", getAngle());
@@ -112,6 +124,7 @@ public class Arm extends PIDSubsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Arm Angle", getAngle());
+		SmartDashboard.putBoolean("Arm PID Enabled", getPIDController().isEnabled());
 	}
 
 	@Override

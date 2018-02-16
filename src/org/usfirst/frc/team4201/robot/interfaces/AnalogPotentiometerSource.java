@@ -2,9 +2,6 @@ package org.usfirst.frc.team4201.robot.interfaces;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;

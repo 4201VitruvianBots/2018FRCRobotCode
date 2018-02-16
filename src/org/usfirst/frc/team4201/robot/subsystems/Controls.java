@@ -4,13 +4,10 @@ import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.hal.AnalogJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Controls extends Subsystem{
@@ -36,10 +33,39 @@ public class Controls extends Subsystem{
 		
 		switch(powerState){
 			case 1:
+				for(int i = 0; i < Robot.driveTrain.driveMotors.length; i++) {
+					Robot.driveTrain.driveMotors[i].configContinuousCurrentLimit(40, 0);
+					Robot.driveTrain.driveMotors[i].configPeakCurrentLimit(80, 0);
+					Robot.driveTrain.driveMotors[i].configPeakCurrentDuration(100, 0);
+				}
+				for(int i = 0; i < Robot.elevator.elevatorMotors.length; i++){
+					Robot.elevator.elevatorMotors[i].configContinuousCurrentLimit(40, 0);
+					Robot.elevator.elevatorMotors[i].configPeakCurrentLimit(80, 0);
+					Robot.elevator.elevatorMotors[i].configPeakCurrentDuration(100, 0);
+				}
+				for(int i = 0; i < Robot.arm.armMotors.length; i++){
+					Robot.arm.armMotors[i].configContinuousCurrentLimit(40, 0);
+					Robot.arm.armMotors[i].configPeakCurrentLimit(80, 0);
+					Robot.arm.armMotors[i].configPeakCurrentDuration(100, 0);
+				}
 				break;
 			case 0:
 			default:
-				
+				for(int i = 0; i < Robot.driveTrain.driveMotors.length; i++) {
+					Robot.driveTrain.driveMotors[i].configContinuousCurrentLimit(40, 0);
+					Robot.driveTrain.driveMotors[i].configPeakCurrentLimit(80, 0);
+					Robot.driveTrain.driveMotors[i].configPeakCurrentDuration(100, 0);
+				}
+				for(int i = 0; i < Robot.elevator.elevatorMotors.length; i++){
+					Robot.elevator.elevatorMotors[i].configContinuousCurrentLimit(40, 0);
+					Robot.elevator.elevatorMotors[i].configPeakCurrentLimit(80, 0);
+					Robot.elevator.elevatorMotors[i].configPeakCurrentDuration(100, 0);
+				}
+				for(int i = 0; i < Robot.arm.armMotors.length; i++){
+					Robot.arm.armMotors[i].configContinuousCurrentLimit(40, 0);
+					Robot.arm.armMotors[i].configPeakCurrentLimit(80, 0);
+					Robot.arm.armMotors[i].configPeakCurrentDuration(100, 0);
+				}
 				break;
 		}
 	}
@@ -76,6 +102,6 @@ public class Controls extends Subsystem{
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		
+		//setDefaultCommand(command);
 	}
 }

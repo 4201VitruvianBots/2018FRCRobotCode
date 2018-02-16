@@ -6,25 +6,26 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Wings extends Subsystem{
+public class Climber extends Subsystem{
 	
-	DoubleSolenoid platformPistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.wingsForward, RobotMap.wingsReverse);
+	DoubleSolenoid climberPistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.climberForward, RobotMap.climberReverse);
 	
 
-	public Wings(){		
-		super("Wings");
+	public Climber(){		
+		super("Climber");
 	}
 	public boolean getWingStatus() {
-		return platformPistons.get() == Value.kForward ? true : false;
+		return climberPistons.get() == Value.kForward ? true : false;
 	}
 	
 	public void deployWings() {
-		platformPistons.set(Value.kForward);
+		climberPistons.set(Value.kForward);
 	}
 	
 	public void retractWings() {
-		platformPistons.set(Value.kReverse);
+		climberPistons.set(Value.kReverse);
 	}
+	
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub

@@ -3,9 +3,7 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**	This command must be an InstantCommand because of how we're using it.
  *

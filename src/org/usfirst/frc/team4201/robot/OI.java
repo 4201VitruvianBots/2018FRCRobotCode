@@ -14,12 +14,9 @@ import org.usfirst.frc.team4201.robot.interfaces.XBoxTrigger;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -93,13 +90,14 @@ public class OI {
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
         xBoxButtons[0].whenPressed(new SetWristSetpoint(0));			// A Button: Set Position Feed
-        xBoxButtons[1].whenPressed(new SetWristSetpoint(45));		// B Button: Set Position Angled
-        //xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
+        xBoxButtons[1].whenPressed(new SetWristSetpoint(45));			// B Button: Set Position Angled
+        //xBoxButtons[3].whenPressed(command);							// Y Button: Set Position Perpendicular
         //xBoxButtons[4].whileHeld(new SetArmDeltaSetpoint(1));			// Left Button: Adjust arm up
-        //xBoxLeftTrigger.whileHeld(new SetArmDeltaSetpoint(-1));			// Left Trigger: Adjust arm down
+        //xBoxLeftTrigger.whileHeld(new SetArmDeltaSetpoint(-1));		// Left Trigger: Adjust arm down
         xBoxButtons[5].whileActive(new SetWristDeltaSetpoint(1));		// Right Button: Adjust wrist up
         xBoxRightTrigger.whileActive(new SetWristDeltaSetpoint(-1));	// Right Trigger: Adjust wrist down
-        
+        // xBoxLeftJoystickY: Adjust Arm angle up/down
+        // xBoxRightJoystickY: Adjust Elevator height up/down 
         
         // Test Mode Button Commands. WARNING: EXTREMELY DANGEROUS
         if(DriverStation.getInstance().isTest()) {
@@ -147,23 +145,29 @@ public class OI {
 	}
 	
 	public void enableXBoxLeftRumbleTimed(){
-		Timer stopwatch = new Timer();
-		enableXBoxLeftRumble();
-		stopwatch.start();
-		while(stopwatch.get() < 0.05){
-			
-		}
-		disableXBoxLeftRumble();
+		Thread t = new Thread(() -> {
+			Timer stopwatch = new Timer();
+			enableXBoxLeftRumble();
+			stopwatch.start();
+			while(stopwatch.get() < 0.05){
+				
+			}
+			disableXBoxLeftRumble();
+		});
+		t.start();
 	}
 	
 	public void enableXBoxRightRumbleTimed(){
-		Timer stopwatch = new Timer();
-		enableXBoxRightRumble();
-		stopwatch.start();
-		while(stopwatch.get() < 0.05){
-			
-		}
-		disableXBoxRightRumble();
+		Thread t = new Thread(() -> {
+			Timer stopwatch = new Timer();
+			enableXBoxRightRumble();
+			stopwatch.start();
+			while(stopwatch.get() < 0.05){
+				
+			}
+			disableXBoxRightRumble();
+		});
+		t.start();
 	}
 }
 

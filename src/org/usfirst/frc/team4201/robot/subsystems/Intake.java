@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
@@ -37,6 +38,17 @@ public class Intake extends Subsystem {
 		intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
 		intakeMotors[1].setInverted(true);
 		
+		intakePistons.setName("Pistons");
+		intakePistons.setSubsystem("Intake");
+        LiveWindow.add(intakePistons);
+        
+        intakeMotors[0].setName("Intake Left Motor");
+        intakeMotors[0].setSubsystem("Intake");
+        LiveWindow.add(intakeMotors[0]);
+        
+        intakeMotors[1].setName("Intake Right Motor");
+        intakeMotors[1].setSubsystem("Intake");
+        LiveWindow.add(intakeMotors[1]);
 	}
 	
 	public void setIntakeMotorOutput(double intakeSpeed){

@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -60,6 +59,14 @@ public class Wrist extends PIDSubsystem {
 		
 		// Add the PIDController to LiveWindow
 		LiveWindow.addChild(this, this);
+		
+		wristPot.setName("Potentiometer");
+		wristPot.setSubsystem("Wrist");
+        LiveWindow.add(wristPot);
+        
+        wristMotor.setName("Wrist Motor");
+        wristMotor.setSubsystem("Wrist");
+        LiveWindow.add(wristMotor);
 	}
 	
 	// Get the angle of the wrist
@@ -151,13 +158,14 @@ public class Wrist extends PIDSubsystem {
 	
 	public void updateSmartDashboard() {
 		// Use Shuffleboard to place things in their own tabs
-		Shuffleboard.putNumber("Wrist", "Wrist Absolute Angle", getAbsoluteAngle());
-		Shuffleboard.putNumber("Wrist", "Wrist Relative Angle", getRelativeAngle());
-		Shuffleboard.putNumber("Wrist", "Wrist Setpoint", getPIDController().getSetpoint());
-		Shuffleboard.putNumber("Wrist", "Wrist Avg. Voltage", wP.getAverageVoltage());
-		Shuffleboard.putNumber("Wrist", "Wrist Lower Limit", angleLowerLimit);
-		Shuffleboard.putNumber("Wrist", "Wrist Upper Limit", angleUpperLimit);
-		Shuffleboard.putNumber("Wrist", "Wrist Pot Test", wristPot.get());
+		Shuffleboard.putNumber("Wrist", "Absolute Angle", getAbsoluteAngle());
+		Shuffleboard.putNumber("Wrist", "Relative Angle", getRelativeAngle());
+		Shuffleboard.putNumber("Wrist", "Setpoint", getPIDController().getSetpoint());
+		Shuffleboard.putNumber("Wrist", "Pot Avg. Voltage", wP.getAverageVoltage());
+		Shuffleboard.putNumber("Wrist", "Lower Limit", angleLowerLimit);
+		Shuffleboard.putNumber("Wrist", "Upper Limit", angleUpperLimit);
+		Shuffleboard.putNumber("Wrist", "Pot Test", wristPot.get());
+		Shuffleboard.putBoolean("Wrist", "PID Enabled", getPIDController().isEnabled());
 
 		// For TripleThreat Testbed
 		//Shuffleboard.putNumber("Triple Threat", "Wrist Absolute Angle", getAbsoluteAngle());
@@ -170,6 +178,7 @@ public class Wrist extends PIDSubsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Wrist Angle", getRelativeAngle());
+		SmartDashboard.putBoolean("Wrist PID Enabled", getPIDController().isEnabled());
 	}
 	
 	

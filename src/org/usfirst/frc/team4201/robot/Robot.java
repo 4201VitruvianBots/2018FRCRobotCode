@@ -32,13 +32,14 @@ public class Robot extends TimedRobot {
 	public static Wrist wrist = new Wrist();
 	public static Intake intake = new Intake();
 	public static Wings wings = new Wings();
+	//public static Climber climber = new Climber();
 	//public static Stabilizers stabilizers = new Stabilizers();
 	public static Controls controls = new Controls();
 	public static OI oi;
 
 	Command m_autonomousCommand;
 	Command teleOpDrive;
-	SendableChooser<Command> autoModes = new SendableChooser<>();
+	
 	SendableChooser<Command> driveMode = new SendableChooser<>();
 	SendableChooser<Command> autoModeChooser = new SendableChooser<>();
 
@@ -50,14 +51,11 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		//Robot.driveTrain.initializeLiveWindow();
-		
 		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
 		autoModeChooser.addObject("Turn", new Turn());
 		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
 		autoModeChooser.addObject("RightRobotToRightScale", new RightRobotToRightScale());
 		autoModeChooser.addObject("Turn", new AutoTemplate());
-		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -75,7 +73,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		driveTrain.setMotorsToCoast();
-		elevator.setMotorsToCoast();
+		elevator.setMotorsToCoast();	// Comment this out during competitions
 		arm.setMotorsToCoast();
 		wrist.setMotorsToCoast();
 		intake.setMotorsToCoast();
@@ -91,6 +89,7 @@ public class Robot extends TimedRobot {
 		intake.updateSmartDashboard();
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
+		//climber.updateSmartDashboard();
 		controls.updateSmartDashboard();
 	}
 
@@ -144,6 +143,7 @@ public class Robot extends TimedRobot {
 		intake.updateSmartDashboard();
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
+		//climber.updateSmartDashboard();
 		controls.updateSmartDashboard();
 	}
 
@@ -185,6 +185,7 @@ public class Robot extends TimedRobot {
 		intake.updateSmartDashboard();
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
+		//climber.updateSmartDashboard();
 		controls.updateSmartDashboard();
 	}
 
@@ -200,6 +201,7 @@ public class Robot extends TimedRobot {
 		intake.updateSmartDashboard();
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
+		//climber.updateSmartDashboard();
 		controls.updateSmartDashboard();
 	}
 	

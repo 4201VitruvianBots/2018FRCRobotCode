@@ -3,11 +3,7 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
