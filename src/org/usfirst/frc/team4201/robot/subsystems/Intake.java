@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
 	
-	WPI_TalonSRX[] intakeMotors = {
+	public WPI_TalonSRX[] intakeMotors = {
 		new WPI_TalonSRX(RobotMap.intakeLeft),	// TO maintain consistancy, left should always go before right
 		new WPI_TalonSRX(RobotMap.intakeRight)
 	};
@@ -43,9 +43,9 @@ public class Intake extends Subsystem {
 		//Invert right motor. This will still work if the motor is following another motor
 	}
 	
-	public void setIntakeMotorOutput(double intakeLeftSpeed, double intakeRightSpeed){
+	public void setIntakeMotorOutput(double intakeSpeed){
 		// I guess it works? - JD
-		armDrive.tankDrive(intakeLeftSpeed, intakeRightSpeed);
+		armDrive.tankDrive(intakeSpeed, intakeSpeed);
 	}
 	
 	public boolean getIntakePistonStatus() {

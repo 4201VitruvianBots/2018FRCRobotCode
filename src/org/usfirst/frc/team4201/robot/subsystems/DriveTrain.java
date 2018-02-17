@@ -46,6 +46,7 @@ public class DriveTrain extends Subsystem {
     
     double throttleLeft, throttleRight, setpoint;
 	
+    // Using BaseMotorController in case we swap to Victors
 	public BaseMotorController[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
 		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
@@ -80,11 +81,13 @@ public class DriveTrain extends Subsystem {
 			driveMotors[i].configPeakOutputForward(1, 0);
 			driveMotors[i].configPeakOutputReverse(-1, 0);
 			driveMotors[i].setNeutralMode(NeutralMode.Coast);
+			((WPI_TalonSRX)driveMotors[i]).configContinuousCurrentLimit(40, 0);
+			((WPI_TalonSRX)driveMotors[i]).configPeakCurrentLimit(80, 0);
+			((WPI_TalonSRX)driveMotors[i]).configPeakCurrentDuration(100, 0);
+			((WPI_TalonSRX)driveMotors[i]).enableCurrentLimit(false);
 		}
 		
 		// Invert Left Motors
-		//driveMotors[0].setInverted(true);
-		//driveMotors[1].setInverted(true);
 		
 		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 		spartanGyro.setName("Gyro");

@@ -3,6 +3,8 @@ package org.usfirst.frc.team4201.robot.subsystems;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -39,10 +41,13 @@ public class Controls extends Subsystem{
 		
 		switch(powerState){
 			case 1:
+				for(int i = 0; i < Robot.driveTrain.driveMotors.length; i++)
+					((WPI_TalonSRX)Robot.driveTrain.driveMotors[i]).enableCurrentLimit(true);
 				break;
 			case 0:
 			default:
-				
+				for(int i = 0; i < Robot.driveTrain.driveMotors.length; i++)
+					((WPI_TalonSRX)Robot.driveTrain.driveMotors[i]).enableCurrentLimit(false);
 				break;
 		}
 	}

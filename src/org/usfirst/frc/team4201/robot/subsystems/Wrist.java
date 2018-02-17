@@ -40,10 +40,9 @@ public class Wrist extends PIDSubsystem {
 	public AnalogPotentiometer wristPot = new AnalogPotentiometer(wP, 360,-224);
 	
 	public Wrist() {
-		
 		super("Wrist", kP, kI, kD, kF, period);
 		setAbsoluteTolerance(0.5);
-		//setInputRange(angleLowerLimit, angleUpperLimit);
+		setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
 		wristMotor.setNeutralMode(NeutralMode.Coast);
@@ -97,16 +96,20 @@ public class Wrist extends PIDSubsystem {
 	
 	public void updateWristAngle(){
 		// Summary of what this does:
-		// 1. If the wrist does not need to be limited, setpoint of wrist is just set
-		// 2. If the wrist needs to be limited, read from an array to find the limit
-		// 3. If the setpoint is outside of the limit, don't use the limit, otherwise
-		// 4. Move the wrist to the limit, biasing it towards where the wrist's angle is.
-		// (If the wrist is below the horizon, invert the setpoint limit so that it is negative, otherwise keep the setpoint limit positive)
-			
+		// 1. Update the wrist angle limit bounds based off of the current arm angle
+		// 2. Check if the arm is at an angle where the wrist needs to be limited
+		//    a. If the wrist needs to be limited, read from an array to find the limit and set it as your setpoint.
+		//       i. If the wrist is below the horizon, invert the setpoint so that it outputs the correct position
+
+		
+		// Update the wrist limits based on Arm angle();
+		angleLowerLimit = getRelativeAngle() - 90;
+		angleUpperLimit = getRelativeAngle() + 90;
+		setInputRange(angleLowerLimit, angleUpperLimit);
+		
 		// If the arm is outside of our limits, do nothing
-		if(Robot.arm.getAngle() < armLimitLowerBound || Robot.arm.getAngle()  > armLimitUpperBound) {// If the arm is outside of our limiting range, just pass the setpoint with no modifications
-			//setSetpoint(getSetpoint());
-		} else { // if(getArmAngle >= armLimitLowerBound && getArmAngle <= armLimitUpperBound){
+		if(Robot.arm.getAngle() >= armLimitLowerBound && Robot.arm.getAngle()  <= armLimitUpperBound) {// If the arm is outside of our limiting range, do nothing
+			Shuffleboard.putBoolean("Triple Threat", "Wrist Limiting", true);
 			// Get the limit from our array. The array is basically a mirror at 0 degrees, so we swap how we access the array at that point. (from 0->arrayLength - 1 to arraayLength->0)
 			/*
 			int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimitLowerBound];
@@ -124,11 +127,8 @@ public class Wrist extends PIDSubsystem {
 			}
 			*/
 		}
-		
-		// Update the wrist limits based on Arm angle();
-		angleLowerLimit = getRelativeAngle() - 75;
-		angleUpperLimit = getRelativeAngle() + 50;
-		setInputRange(angleLowerLimit, angleUpperLimit);
+		else
+			Shuffleboard.putBoolean("Triple Threat", "Wrist Limiting", false);
 	}
 	
 	public void updateSmartDashboard() {

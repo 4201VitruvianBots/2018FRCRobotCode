@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------*/
 
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+	/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -81,6 +81,8 @@ public class OI {
 		
 		
         leftButtons[0].whileHeld(new ToggleDriveShifters());
+        
+        // LED Test, free to remove on competition
         leftButtons[1].whenPressed(new ToggleLEDs(0));
         leftButtons[2].whenPressed(new ToggleLEDs(1));
         leftButtons[3].whenPressed(new ToggleLEDs(2));
@@ -93,8 +95,11 @@ public class OI {
         //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
-        xBoxButtons[0].whenPressed(new SetWristSetpoint(0));			// A Button: Set Position Feed
-        xBoxButtons[1].whenPressed(new SetWristSetpoint(45));		// B Button: Set Position Angled
+        xBoxButtons[0].whenPressed(new ToggleIntakeMotorsForward());				// A Button: Toggle Intake Motors Forward
+        xBoxButtons[1].whenPressed(new ToggleIntakeMotorsReverse());				// B Button: Toggle Intake Motors Reverse
+        xBoxButtons[2].whenPressed(new SetWristArmElevatorSetpoints(0, -45, 0));	// X Button: Set Arm/Wrist/Intake to inktake position
+        xBoxButtons[3].whenPressed(new ToggleIntakePistons());						// Y Button: Toggle Intake Pistons
+        
         //xBoxButtons[3].whenPressed(command);						// Y Button: Set Position Perpendicular
         //xBoxButtons[4].whileHeld(new SetArmDeltaSetpoint(1));			// Left Button: Adjust arm up
         //xBoxLeftTrigger.whileHeld(new SetArmDeltaSetpoint(-1));			// Left Trigger: Adjust arm down
