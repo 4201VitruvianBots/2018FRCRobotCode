@@ -128,11 +128,11 @@ public class OI {
 	}
 	
 	public double getXBoxLeftTrigger(){
-		return xBoxController.getRawAxis(leftTrigger);
+		return xBoxController.getRawAxis(RobotMap.leftTrigger);
 	}
 	
 	public double getXBoxRightTrigger(){
-		return xBoxController.getRawAxis(rightTrigger);
+		return xBoxController.getRawAxis(RobotMap.rightTrigger);
 	}
 	
 	public void enableXBoxLeftRumble() {
