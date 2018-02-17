@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Wings extends Subsystem{
 	
-	DoubleSolenoid platformDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.WingUp, RobotMap.WingDown);
+	DoubleSolenoid platformDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.wingsForward, RobotMap.wingsReverse);
 	
 
 	public Wings(){		

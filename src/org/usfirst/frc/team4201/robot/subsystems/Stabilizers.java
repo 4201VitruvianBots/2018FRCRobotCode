@@ -1,42 +1,55 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Stabilizers extends Subsystem{
 	
-	DoubleSolenoid stabilizerHorizontalDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.stabalizerEngageHorizontal, RobotMap.stabalizerReleaseHorizontal);
-	DoubleSolenoid stabilizerVerticalDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.stabalizerEngageVertical, RobotMap.stabalizerReleaseVertical);
+	DoubleSolenoid stabilizerDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.stabilizerDeployForward, RobotMap.stabilizerDeployReverse);
+	DoubleSolenoid stabilizerEngage = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.stabilizerEngageForward, RobotMap.stabilizerEngageReverse);
 	
 	public Stabilizers(){		
 		super("Stabilizers");
 	}
 
-	public boolean getHorizontalStatus() {
-		return stabilizerHorizontalDeploy.get() == Value.kForward ? true : false;
+	public boolean getDeployedStatus() {
+		return stabilizerDeploy.get() == Value.kForward ? true : false;
 	}
 	
-	public void deployHorizontalStabilizers() {
-		stabilizerHorizontalDeploy.set(Value.kForward);
+	public void deployStabliziers() {
+		stabilizerDeploy.set(Value.kForward);
 	}
 	
-	public void retractHorizontalStabilizers() {
-		stabilizerHorizontalDeploy.set(Value.kReverse);
+	public void retractStabilizers() {
+		stabilizerDeploy.set(Value.kReverse);
 	}
-	public boolean getVerticalStatus() {
-		return stabilizerVerticalDeploy.get() == Value.kForward ? true : false;
-	}
-	
-	public void deployVerticalStabilizers() {
-		stabilizerVerticalDeploy.set(Value.kForward);
+	public boolean getEngagedStatus() {
+		return stabilizerEngage.get() == Value.kForward ? true : false;
 	}
 	
-	public void retractVerticalStabilizers() {
-		stabilizerVerticalDeploy.set(Value.kReverse);
+	public void engageStabilizers() {
+		stabilizerEngage.set(Value.kForward);
+	}
+	
+	public void disengageStabilizers() {
+		stabilizerEngage.set(Value.kReverse);
+	}
+	
+	public void updateSmartdashboard(){
+		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putBoolean("Climber", "Stabilizers Deployed", getDeployedStatus());
+		Shuffleboard.putBoolean("Climber", "Stabilizers Engaged", getEngagedStatus());
+		
+
+		// Use SmartDashboard to put only the important stuff for drivers;
+		SmartDashboard.putBoolean("Stabilizers Deployed", getDeployedStatus());
+		SmartDashboard.putBoolean("Stabilizers Engaged", getEngagedStatus());
 	}
 	
 	@Override

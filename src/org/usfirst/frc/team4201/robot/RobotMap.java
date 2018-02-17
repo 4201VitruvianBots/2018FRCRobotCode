@@ -26,11 +26,15 @@ public class RobotMap {
 	public static final int rightJoystick = 1;
 	public static final int xBoxController = 2;
 	
-	// DIO Sensors
-	public static final int leftEncoderA = 10;
-	public static final int leftEncoderB = 11;
-	public static final int rightEncoderA = 12;
-	public static final int rightEncoderB = 13;
+	// Joystick Constants
+	public static final int leftTrigger = 2;
+	public static final int rightTrigger = 3;
+	
+	// DIO Ports
+	public static final int redSignal = 0;
+	public static final int greenSignal = 1;
+	public static final int blueSignal = 2;
+	public static final int flashSignal = 3;
 	
 	// Analog Sensors
 	public static final int wristPot = 0;
@@ -56,22 +60,24 @@ public class RobotMap {
 	
 	// Pneumatic Modules & their devices
 	public static final int PCMOne = 11;
-		public static final int driveTrainShifterLeft = 0;
-		public static final int driveTrainShifterRight = 1;
-		public static final int elevatorOne = 2;
-		public static final int elevatorTwo = 3;
-		public static final int intakeOne = 4;
-		public static final int intakeTwo = 5;
-		public static final int WingDown = 6;
-		public static final int WingUp = 7;
+		public static final int driveTrainShifterForward = 0;
+		public static final int driveTrainShifterReverse = 1;
+		public static final int stabilizerDeployForward = 2;
+		public static final int stabilizerDeployReverse = 3;
+		public static final int stabilizerEngageForward = 4;
+		public static final int stabilizerEngageReverse = 5;
+		public static final int wingsForward = 6;
+		public static final int wingsReverse = 7;
 		
 	public static final int PCMTwo = 12;
-		public static final int stabalizerReleaseHorizontal = 0;
-		public static final int stabalizerReleaseVertical = 1;
-		public static final int stabalizerEngageHorizontal = 4;
-		public static final int stabalizerEngageVertical = 5;
-		public static final int rightArmOne = 6;
-		public static final int rightArmTwo = 7;
+		public static final int intakeForward = 0;
+		public static final int intakeReverse = 1;
+		public static final int elevatorShifterForward = 2;
+		public static final int elevatorShifterReverse = 3;
+		public static final int climberForward = 4;
+		public static final int climberReverse = 5;
+		public static final int diskBrakeForward = 6;
+		public static final int diskBrakeReverse = 7;
 		
 	
 	// Motor Controllers

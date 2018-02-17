@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,7 +36,7 @@ public class Wrist extends PIDSubsystem {
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 	public AnalogInput wP = new AnalogInput(RobotMap.wristPot);
-	public AnalogPotentiometer wristPot = new AnalogPotentiometer(wP, 360,-224);
+	public AnalogPotentiometer wristPot = new AnalogPotentiometer(wP, 360, -224);
 	
 	public Wrist() {
 		super("Wrist", kP, kI, kD, kF, period);
@@ -75,23 +74,18 @@ public class Wrist extends PIDSubsystem {
 	}
 	
 	public boolean checkLimits(double value){
+		// check if the value is bound by the hard limits
 		if(value > angleLowerLimit && value < angleUpperLimit){
-			/*
-			if(Robot.arm.getAngle() > armLimitLowerBound && Robot.arm.getAngle() < armLimitUpperBound){
+			// check if the value is bound by the soft limits
+			if(Robot.arm.getAngle() >= armLimitLowerBound && Robot.arm.getAngle() <= armLimitUpperBound){
 				int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimitLowerBound];
-				SmartDashboard.putNumber("Wrist Limit Angle", setpointLimit);
 				
-				if(Math.abs(Robot.arm.getAngle()) < setpointLimit)
-					return false;
-				else
+				if(Math.abs(getRelativeAngle()) < setpointLimit)
 					return true;
 			}
-			else
-			*/
-				return true;
 		}
-		else
-			return false;
+		
+		return false;
 	}
 	
 	public void updateWristAngle(){
@@ -105,7 +99,6 @@ public class Wrist extends PIDSubsystem {
 		// Update the wrist limits based on Arm angle();
 		angleLowerLimit = getRelativeAngle() - 90;
 		angleUpperLimit = getRelativeAngle() + 90;
-		setInputRange(angleLowerLimit, angleUpperLimit);
 		
 		// If the arm is outside of our limits, do nothing
 		if(Robot.arm.getAngle() >= armLimitLowerBound && Robot.arm.getAngle()  <= armLimitUpperBound) {// If the arm is outside of our limiting range, do nothing
@@ -127,8 +120,6 @@ public class Wrist extends PIDSubsystem {
 			}
 			*/
 		}
-		else
-			Shuffleboard.putBoolean("Triple Threat", "Wrist Limiting", false);
 	}
 	
 	public void updateSmartDashboard() {

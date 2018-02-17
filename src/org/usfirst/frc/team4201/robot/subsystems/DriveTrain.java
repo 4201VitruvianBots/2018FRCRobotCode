@@ -57,12 +57,9 @@ public class DriveTrain extends Subsystem {
 	//RobotDrive robotDrive = new RobotDrive(driveMotors[0], driveMotors[1], driveMotors[2], driveMotors[3]);
 	DifferentialDrive robotDrive = new DifferentialDrive((WPI_TalonSRX)driveMotors[0], (WPI_TalonSRX)driveMotors[2]);
 	
-	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterLeft, RobotMap.driveTrainShifterRight);
+	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
 	
 	public ADXRS450_Gyro spartanGyro;
-	
-	public Encoder leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, false, EncodingType.k2X);
-	public Encoder rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB, false, EncodingType.k2X);
 	
 	public DriveTrain(){
 		super("Drive Train");
@@ -99,11 +96,11 @@ public class DriveTrain extends Subsystem {
 	// here. Call these from Commands.
 	
 	public double getLeftEncoderValue() {
-		return leftEncoder.get();
+		return driveMotors[0].getSelectedSensorPosition(0);
 	}
 	
 	public double getRightEncoderValue() {
-		return rightEncoder.get();
+		return driveMotors[2].getSelectedSensorPosition(0);
 	}
 	
 	public double getAverageEncoderValue() {
@@ -116,14 +113,10 @@ public class DriveTrain extends Subsystem {
 
 	
 	public void resetEncoders() {
-		leftEncoder.reset();
-		rightEncoder.reset();
-		
 		//driveMotors[0].setSelectedSensorPosition(driveMotors[0].getSelectedSensorPosition(0), 0, 0);
 		//driveMotors[2].setSelectedSensorPosition(driveMotors[2].getSelectedSensorPosition(0), 0, 0);
 		driveMotors[0].setSelectedSensorPosition(0, 0, 0);
 		driveMotors[2].setSelectedSensorPosition(0, 0, 0);
-	
 	}
 	
 	public void setMotorsToCoast(){
@@ -207,14 +200,11 @@ public class DriveTrain extends Subsystem {
 	
 	public void updateSmartDashboard(){
 		// Use Shuffleboard to place things in their own tabs
-		Shuffleboard.putNumber("Drive Train", "Front Left Current", driveMotors[0].getOutputCurrent());
-		Shuffleboard.putNumber("Drive Train", "Rear Left Current", driveMotors[1].getOutputCurrent());
-		Shuffleboard.putNumber("Drive Train", "Front Right Current", driveMotors[2].getOutputCurrent());
-		Shuffleboard.putNumber("Drive Train", "Rear Right Current", driveMotors[3].getOutputCurrent());
+		//Shuffleboard.putNumber("Drive Train", "Front Left Current", driveMotors[0].getOutputCurrent());
+		//Shuffleboard.putNumber("Drive Train", "Rear Left Current", driveMotors[1].getOutputCurrent());
+		//Shuffleboard.putNumber("Drive Train", "Front Right Current", driveMotors[2].getOutputCurrent());
+		//Shuffleboard.putNumber("Drive Train", "Rear Right Current", driveMotors[3].getOutputCurrent());
         
-		Shuffleboard.putNumber("Drive Train", "Left Encoder", driveMotors[0].getSelectedSensorPosition(0));
-		Shuffleboard.putNumber("Drive Train", "Right Encoder", driveMotors[2].getSelectedSensorPosition(0));
-		
 		Shuffleboard.putNumber("Drive Train", "Left Encoder Count", getLeftEncoderValue());
 		Shuffleboard.putNumber("Drive Train", "Right Encoder Count", getRightEncoderValue());
 		Shuffleboard.putNumber("Drive Train", "Average Encoder Count", getAverageEncoderValue());

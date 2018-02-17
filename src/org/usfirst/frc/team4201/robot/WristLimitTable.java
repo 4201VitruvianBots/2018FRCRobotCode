@@ -96,6 +96,5 @@ public class WristLimitTable {
 		27, 
 		22, 
 		16
-
 	};
 }
