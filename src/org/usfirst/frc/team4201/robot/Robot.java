@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 
 	Command m_autonomousCommand;
-	Command teleOpDrive;
+	public static Command teleOpDrive;
 	
 	SendableChooser<Command> driveMode = new SendableChooser<>();
 	SendableChooser<Command> autoModeChooser = new SendableChooser<>();
