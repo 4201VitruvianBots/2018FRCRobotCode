@@ -166,6 +166,7 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		
 		teleOpDrive = driveMode.getSelected();
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
