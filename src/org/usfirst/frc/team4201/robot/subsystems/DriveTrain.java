@@ -104,9 +104,10 @@ public class DriveTrain extends Subsystem {
 	}
 	
 
-	public void resetEncoders() {
+	public void resetSensors() {
 		driveMotors[0].setSelectedSensorPosition(0, 0, 0);
 		driveMotors[2].setSelectedSensorPosition(0, 0, 0);
+		spartanGyro.reset();
 	}
 	
 	public void setMotorsToBrake(){
@@ -199,7 +200,8 @@ public class DriveTrain extends Subsystem {
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shifters", getDriveShiftStatus());
-		SmartDashboard.putNumber("Gyro", Math.abs(spartanGyro.getAngle()) % 360); // This will now act as a compass for driver
+		//SmartDashboard.putNumber("Gyro", Math.abs(spartanGyro.getAngle()) % 360); // This will now act as a compass for driver
+		SmartDashboard.putData(spartanGyro);
 	}
 	
 	public void initDefaultCommand() {

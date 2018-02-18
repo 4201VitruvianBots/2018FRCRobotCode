@@ -62,22 +62,22 @@ public class RobotMap {
 	public static final int PCMOne = 11;
 		public static final int driveTrainShifterForward = 0;
 		public static final int driveTrainShifterReverse = 1;
-		public static final int stabilizerDeployForward = 2;
-		public static final int stabilizerDeployReverse = 3;
-		public static final int stabilizerEngageForward = 4;
-		public static final int stabilizerEngageReverse = 5;
+		public static final int elevatorShifterForward = 2;
+		public static final int elevatorShifterReverse = 3;
+		public static final int intakeForward = 4;
+		public static final int intakeReverse = 5;
 		public static final int wingsForward = 6;
 		public static final int wingsReverse = 7;
 		
 	public static final int PCMTwo = 12;
-		public static final int intakeForward = 0;
-		public static final int intakeReverse = 1;
-		public static final int elevatorShifterForward = 2;
-		public static final int elevatorShifterReverse = 3;
-		public static final int climberForward = 4;
-		public static final int climberReverse = 5;
-		public static final int diskBrakeForward = 6;
-		public static final int diskBrakeReverse = 7;
+		public static final int stabilizerDeployForward = 0;
+		public static final int stabilizerDeployReverse = 1;
+		public static final int stabilizerEngageForward = 2;
+		public static final int stabilizerEngageReverse = 3;
+		public static final int diskBrakeForward = 4;
+		public static final int diskBrakeReverse = 5;
+		public static final int climberForward = 6;
+		public static final int climberReverse = 7;
 		
 	
 	// Motor Controllers

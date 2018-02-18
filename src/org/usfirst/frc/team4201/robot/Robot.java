@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
 	//public static Climber climber = new Climber();
 	//public static Stabilizers stabilizers = new Stabilizers();
 	public static Controls controls = new Controls();
+	public static PIDTuner pidTuner = new PIDTuner();
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -115,7 +116,7 @@ public class Robot extends TimedRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 		
-		driveTrain.resetEncoders();
+		driveTrain.resetSensors();
 		driveTrain.setMotorsToBrake();
 		
 		elevator.setMotorsToBrake();
@@ -155,7 +156,7 @@ public class Robot extends TimedRobot {
 		// this line or comment it out.
 		
 		//Sets drive train motors to coast.
-		driveTrain.resetEncoders();
+		driveTrain.resetSensors();
 		driveTrain.setMotorsToCoast();
 		
 		elevator.setMotorsToBrake();
@@ -189,6 +190,8 @@ public class Robot extends TimedRobot {
 		//stabilizers.updateSmartDashboard();
 		//climber.updateSmartDashboard();
 		controls.updateSmartDashboard();
+		
+		pidTuner.updatePIDValues();
 	}
 
 	/**

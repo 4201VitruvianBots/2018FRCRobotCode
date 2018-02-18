@@ -20,7 +20,7 @@ public class Intake extends Subsystem {
 		new WPI_TalonSRX(RobotMap.intakeRight)
 	};
 	
-	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.intakeForward, RobotMap.intakeReverse);
+	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward, RobotMap.intakeReverse);
 	
 	public Intake() {
 		super("Intake");
@@ -36,7 +36,7 @@ public class Intake extends Subsystem {
 			intakeMotors[i].setNeutralMode(NeutralMode.Brake);	// Brake is probably preferred for this game, due to the 1 cube control limit
 		}
 		intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
-		intakeMotors[1].setInverted(true);
+		intakeMotors[0].setInverted(true);
 		
 		intakePistons.setName("Pistons");
 		intakePistons.setSubsystem("Intake");

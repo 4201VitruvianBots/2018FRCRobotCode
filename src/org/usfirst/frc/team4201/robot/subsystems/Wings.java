@@ -8,22 +8,22 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Wings extends Subsystem{
 	
-	DoubleSolenoid platformPistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.wingsForward, RobotMap.wingsReverse);
+	DoubleSolenoid wingPistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.wingsForward, RobotMap.wingsReverse);
 	
 
 	public Wings(){		
 		super("Wings");
 	}
 	public boolean getWingStatus() {
-		return platformPistons.get() == Value.kForward ? true : false;
+		return wingPistons.get() == Value.kForward ? true : false;
 	}
 	
 	public void deployWings() {
-		platformPistons.set(Value.kForward);
+		wingPistons.set(Value.kForward);
 	}
 	
 	public void retractWings() {
-		platformPistons.set(Value.kReverse);
+		wingPistons.set(Value.kReverse);
 	}
 	@Override
 	protected void initDefaultCommand() {

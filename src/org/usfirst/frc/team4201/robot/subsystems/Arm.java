@@ -15,21 +15,21 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends PIDSubsystem {
-	static double kP = 0.06;		// Test values for Triple Threat
+	static double kP = 0.6;		// Test values for Triple Threat
 	static double kI = 0;
-	static double kD = 0;
+	static double kD = 0.1;
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double angleLowerLimit = -30;	// -33;
-	public double angleUpperLimit = 80;		// 60
+	public double angleLowerLimit = 0.75;	//-30;	// -33;
+	public double angleUpperLimit = 12;		//80;		// 60
 	public double sensorLowerLimit = -41;
 	public double sensorUpperLimit = 90;
 	static double sensorOffset = -80;
 	static double voltageUpperLimit = 3;
 	static double voltageLowerLimit = 1;
 
-	public static int state = 0;
+	public static int state = 1;
 	
 	public WPI_TalonSRX[] armMotors = {
 		new WPI_TalonSRX(RobotMap.armMotor),
@@ -37,7 +37,8 @@ public class Arm extends PIDSubsystem {
 	};
 	
 	AnalogInput aP = new AnalogInput(RobotMap.armPot);
-	public AnalogPotentiometer armPot = new AnalogPotentiometer(aP, 360, -91);
+	// 12 inches
+	public AnalogPotentiometer armPot = new AnalogPotentiometer(aP, 17.15, 0);	// 360, -91: Triple Threat
 	
 	public Arm() {
 		super("Arm", kP, kI, kD, kF, period);
@@ -60,7 +61,8 @@ public class Arm extends PIDSubsystem {
 		setSetpoint(getAngle());
 		
 		// Enable the PIDController;
-		enable();
+		if(state == 0)
+			enable();
 		
 		LiveWindow.addChild(this, this);
 		
@@ -71,11 +73,13 @@ public class Arm extends PIDSubsystem {
         armMotors[0].setName("Arm Motor");
         armMotors[0].setSubsystem("Arm");
         LiveWindow.add(armMotors[0]);
+        
+        //aP.setAverageBits(6);
 	}
 	
 	public double getAngle() {
-		return armPot.get();
-		//return (armPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
+		//return armPot.get();
+		return (aP.getAverageVoltage() * ((12)/(3.5)));
 	}
 	
 	public boolean checkLimits(double value){

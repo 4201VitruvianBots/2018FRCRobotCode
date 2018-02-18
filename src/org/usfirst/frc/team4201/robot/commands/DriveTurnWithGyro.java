@@ -30,6 +30,7 @@ public class DriveTurnWithGyro extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain); 
         
+        /*
         if(!SmartDashboard.containsKey("kP"))
         	SmartDashboard.putNumber("kP", kP);
         if(!SmartDashboard.containsKey("kI"))
@@ -40,6 +41,7 @@ public class DriveTurnWithGyro extends Command {
         kP = SmartDashboard.getNumber("kP", kP);
         kI = SmartDashboard.getNumber("kI", kI);
         kD = SmartDashboard.getNumber("kD", kD);
+        */
         driveTurnPIDOutput = new PIDOutputInterface();
         driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
     	driveGyroPIDController.setName("Drive Gyro PID");

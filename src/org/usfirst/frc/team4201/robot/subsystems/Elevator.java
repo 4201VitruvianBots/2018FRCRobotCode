@@ -38,11 +38,12 @@ public class Elevator extends PIDSubsystem {
 		new WPI_TalonSRX(RobotMap.elevatorB),
 	};
 	
-	public DoubleSolenoid elevatorShifters = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.elevatorShifterForward, RobotMap.elevatorShifterReverse);
+	public DoubleSolenoid elevatorShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.elevatorShifterForward, RobotMap.elevatorShifterReverse);
 	public DoubleSolenoid diskBrake = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.diskBrakeForward, RobotMap.diskBrakeReverse);
 	
 	AnalogInput eP = new AnalogInput(RobotMap.elevatorLinearPot);
 	public AnalogPotentiometer elevatorPot = new AnalogPotentiometer(eP, 50, 0);
+	
 	
 	public Elevator() {
 		super("Elevator", kP, kI, kD, kF, period);

@@ -30,7 +30,7 @@ public class DriveStraightFusion extends Command{
     public DriveStraightFusion(double distance) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
-        
+        /*
         if(!SmartDashboard.containsKey("kP"))
         	SmartDashboard.putNumber("kP", kP);
         if(!SmartDashboard.containsKey("kI"))
@@ -41,7 +41,7 @@ public class DriveStraightFusion extends Command{
         kP = SmartDashboard.getNumber("kP", kP);
         kI = SmartDashboard.getNumber("kI", kI);
         kD = SmartDashboard.getNumber("kD", kD);
-        
+        */
         leftDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[0]);
         rightDriveEncoder = new CTREPIDSource(Robot.driveTrain.driveMotors[2]);
         leftMotorPIDOutput = new PIDOutputInterface();
@@ -72,7 +72,7 @@ public class DriveStraightFusion extends Command{
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.spartanGyro.reset();
-    	Robot.driveTrain.resetEncoders();
+    	Robot.driveTrain.resetSensors();
     	
         stopwatch = new Timer();
         RobotMap.isTurning = false;

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Climber extends Subsystem{
 	
-	DoubleSolenoid climberPistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.climberForward, RobotMap.climberReverse);
+	DoubleSolenoid climberPistons = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.climberForward, RobotMap.climberReverse);
 	
 
 	public Climber(){		

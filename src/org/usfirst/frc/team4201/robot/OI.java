@@ -76,21 +76,22 @@ public class OI {
 		xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
 		
 		
-        leftButtons[0].whileHeld(new ToggleDriveShifters());
+        leftButtons[0].whenPressed(new ToggleDriveShifters());
         leftButtons[1].whenPressed(new ToggleLEDs(0));
         leftButtons[2].whenPressed(new ToggleLEDs(1));
         leftButtons[3].whenPressed(new ToggleLEDs(2));
         leftButtons[4].whenPressed(new ToggleLEDs(3));
 
-        //rightButtons[0].whileHeld(new ReverseIntakeMotors());
+        rightButtons[0].whenPressed(new SetPIDTunerSetpoint());
         //rightButtons[1].whenPressed(new RetractIntakePistons());
         //rightButtons[3].whileHeld(new ArmDown());
         //rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
         //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
-        xBoxButtons[0].whenPressed(new SetWristSetpoint(0));			// A Button: Set Position Feed
-        xBoxButtons[1].whenPressed(new SetWristSetpoint(45));			// B Button: Set Position Angled
+        xBoxButtons[0].toggleWhenPressed(new SetIntakeMotorOutputs(0.75));			// A Button: Set Position Feed
+        xBoxButtons[1].toggleWhenPressed(new SetIntakeMotorOutputs(-0.75));			// B Button: Set Position Angled
+        xBoxButtons[3].whenPressed(new ToggleIntakePistons());					// B Button: Set Position Angled
         //xBoxButtons[3].whenPressed(command);							// Y Button: Set Position Perpendicular
         //xBoxButtons[4].whileHeld(new SetArmDeltaSetpoint(1));			// Left Button: Adjust arm up
         //xBoxLeftTrigger.whileHeld(new SetArmDeltaSetpoint(-1));		// Left Trigger: Adjust arm down

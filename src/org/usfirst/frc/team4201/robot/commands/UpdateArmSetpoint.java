@@ -39,7 +39,7 @@ public class UpdateArmSetpoint extends Command {
 			}
  		}
  		else
- 			Robot.arm.setDirectOutput(yAxis / 10);
+ 			Robot.arm.setDirectOutput(yAxis);
  	}
 
     // Make this return true when this Command no longer needs to run execute()

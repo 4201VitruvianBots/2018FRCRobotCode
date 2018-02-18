@@ -2,6 +2,7 @@ package org.usfirst.frc.team4201.robot.interfaces;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Sendable;
 
 public class Shuffleboard {
 	private static final NetworkTable table = NetworkTableInstance.getDefault().getTable("");
