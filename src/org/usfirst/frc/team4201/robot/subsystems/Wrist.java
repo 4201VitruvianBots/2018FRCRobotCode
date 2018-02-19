@@ -34,7 +34,7 @@ public class Wrist extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
-	public static int state = 0;
+	public static int state = 1;
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 	public AnalogInput wP = new AnalogInput(RobotMap.wristPot);
@@ -55,7 +55,7 @@ public class Wrist extends PIDSubsystem {
 		setSetpoint(getRelativeAngle());
 		
 		// Enable the PIDController;
-		enable();
+		//enable();
 		
 		// Add the PIDController to LiveWindow
 		LiveWindow.addChild(this, this);

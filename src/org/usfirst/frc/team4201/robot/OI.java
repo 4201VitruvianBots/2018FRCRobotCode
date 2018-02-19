@@ -97,6 +97,7 @@ public class OI {
         //xBoxLeftTrigger.whileHeld(new SetArmDeltaSetpoint(-1));		// Left Trigger: Adjust arm down
         xBoxButtons[5].whileActive(new SetWristDeltaSetpoint(1));		// Right Button: Adjust wrist up
         xBoxRightTrigger.whileActive(new SetWristDeltaSetpoint(-1));	// Right Trigger: Adjust wrist down
+        xBoxButtons[2].whileActive(new SetWristDeltaSetpoint(0));
         // xBoxLeftJoystickY: Adjust Arm angle up/down
         // xBoxRightJoystickY: Adjust Elevator height up/down 
         

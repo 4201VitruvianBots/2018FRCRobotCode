@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
-import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 import org.usfirst.frc.team4201.robot.subsystems.*;
 
 /**
@@ -52,11 +51,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
-		autoModeChooser.addObject("Turn", new Turn());
-		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
-		autoModeChooser.addObject("RightRobotToRightScale", new RightRobotToRightScale());
-		autoModeChooser.addObject("Turn", new AutoTemplate());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
