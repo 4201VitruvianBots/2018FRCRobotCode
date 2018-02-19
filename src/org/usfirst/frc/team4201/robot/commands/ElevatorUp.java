@@ -4,8 +4,8 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ElevatorBDown extends Command{
-	public ElevatorBDown() {
+public class ElevatorUp extends Command{
+	public ElevatorUp() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.elevator);
 	}
@@ -18,7 +18,7 @@ public class ElevatorBDown extends Command{
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.elevator.elevatorBDown();
+		Robot.elevator.elevatorUp();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -30,7 +30,7 @@ public class ElevatorBDown extends Command{
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.elevator.elevatorBStop();
+		Robot.elevator.elevatorStop();
 	}
 
 	// Called when another command which requires one or more of the same

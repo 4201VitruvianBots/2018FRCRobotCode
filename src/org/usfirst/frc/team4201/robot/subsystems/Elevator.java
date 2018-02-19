@@ -32,27 +32,18 @@ public class Elevator extends Subsystem {
 		linePot = new AnalogInput(0);
 	}
 	
-	public void elevatorAUp() {
+	public void elevatorUp() {
 		elevatorMotors[0].set(ControlMode.PercentOutput, 1);
-	}
-	
-	public void elevatorADown() {
-		elevatorMotors[0].set(ControlMode.PercentOutput, -1);
-	}
-	
-	public void elevatorAStop() {
-		elevatorMotors[0].set(ControlMode.PercentOutput, 0);
-	}
-	
-	public void elevatorBUp() {
 		elevatorMotors[1].set(ControlMode.PercentOutput, 1);
 	}
 	
-	public void elevatorBDown() {
+	public void elevatorDown() {
+		elevatorMotors[0].set(ControlMode.PercentOutput, -1);
 		elevatorMotors[1].set(ControlMode.PercentOutput, -1);
 	}
 	
-	public void elevatorBStop() {
+	public void elevatorStop() {
+		elevatorMotors[0].set(ControlMode.PercentOutput, 0);
 		elevatorMotors[1].set(ControlMode.PercentOutput, 0);
 	}
 	
@@ -71,5 +62,6 @@ public class Elevator extends Subsystem {
 	}
 
 }
+
 
 	

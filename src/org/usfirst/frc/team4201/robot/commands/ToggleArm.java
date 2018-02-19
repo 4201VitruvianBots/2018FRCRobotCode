@@ -7,17 +7,17 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ToggleArm extends Command{
 	public ToggleArm() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.arm);
+		requires(Robot.intake);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if(Robot.arm.getArmStatus())
-			new ArmDown();
+		if(Robot.intake.getIntakePistonStatus())
+			new DeployIntakePistons();
 		else
-			new ArmUp();
-	}
+			new RetractIntakePistons();
+	} 
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
