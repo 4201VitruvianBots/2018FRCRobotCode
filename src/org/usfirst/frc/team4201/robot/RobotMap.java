@@ -122,7 +122,7 @@ public class RobotMap {
 		new Waypoint(5.33333333333, -0.5, 0),
 		new Waypoint(5.33333333333, 6.28888888888, 0),
 		new Waypoint(6.33333333333, 0.5, 90),
-		new Waypoint(6.33333333333, 1.5, -90),
+		new Waypoint(6.33333333333, 1.5, -90),		
 		new Waypoint(6.33333333333, 3.77777777778, Pathfinder.d2r(90)),
 		new Waypoint(6.33333333333, 4.77777777778, Pathfinder.d2r(-90)),
     }; 
