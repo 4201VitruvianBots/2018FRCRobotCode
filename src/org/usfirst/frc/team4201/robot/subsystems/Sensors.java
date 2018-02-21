@@ -9,10 +9,10 @@ public class Sensors extends Subsystem {
 	
 	public Sensors() {
 		super("Sensors");
-		rangeFinder = new AnalogInput(0);
+		//rangeFinder = new AnalogInput(0);
 		
 	}
-	
+	/*
 	public double getRangeMM(){
 		return rangeFinder.getAverageValue() * 5;
 	}
@@ -25,7 +25,7 @@ public class Sensors extends Subsystem {
 		SmartDashboard.putNumber("Ultrasonic Rangefinder (mm)", getRangeMM());
 		SmartDashboard.putNumber("Ultrasonic Rangefinder (in)", getRangeIn());
 	}
-	
+	*/
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
