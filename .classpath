@@ -9,8 +9,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar" sourcepath="/CTRE_Phoenix.sources"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar" sourcepath="/Pathfinder-Java-1.8-sources"/>
 	<classpathentry kind="lib" path="C:/Users/jonat/wpilib/user/java/lib/libCTRE_PhoenixCCI.so"/>
+	<classpathentry kind="lib" path="C:/Users/Controls/wpilib/java/current/lib/Pathfinder-Java-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
