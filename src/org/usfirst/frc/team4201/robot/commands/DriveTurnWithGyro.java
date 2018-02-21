@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTurnWithGyro extends Command {
 	PIDController driveGyroPIDController;
-	static double kP = 0.1;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
-    static double kI = 0.001;           // Start with I = P / 100
-    static double kD = 1;           	// Start with D = P * 10
+	static double kP = 0.08;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
+    static double kI = 0;           // Start with I = P / 100
+    static double kD = 0.6;           	// Start with D = P * 10
     static double period = 0.01;
     PIDOutputInterface driveTurnPIDOutput;
     
@@ -46,7 +46,7 @@ public class DriveTurnWithGyro extends Command {
         driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
     	driveGyroPIDController.setName("Drive Gyro PID");
     	driveGyroPIDController.setSubsystem("Drive Train");
-    	driveGyroPIDController.setAbsoluteTolerance(1);
+    	driveGyroPIDController.setAbsoluteTolerance(1.5);
     	driveGyroPIDController.setOutputRange(-0.8, 0.8);
         this.setpoint = angle;
     }
@@ -89,7 +89,7 @@ public class DriveTurnWithGyro extends Command {
     		lock = false;
     	}
     	
-    	return stopwatch.get() > 1; 
+    	return stopwatch.get() > 0.05; 
     }
 
     // Called once after isFinished returns true

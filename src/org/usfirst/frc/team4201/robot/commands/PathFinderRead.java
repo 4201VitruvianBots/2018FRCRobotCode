@@ -7,10 +7,12 @@ import java.nio.file.Path;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
@@ -22,9 +24,9 @@ import jaci.pathfinder.modifiers.TankModifier;
  *
  */
 public class PathFinderRead extends Command{
-	double max_vel = 3.4 * 1.09361;
+	double max_vel = 180; // 180
 	
-	Trajectory trajectory;
+	Trajectory leftTrajectory, rightTrajectory;
 	TankModifier modifier;
 	EncoderFollower left, right;
 	boolean end = false;
@@ -41,7 +43,6 @@ public class PathFinderRead extends Command{
         requires(Robot.driveTrain);
         this.filename = filename;
         this.first = first;
-
     }
 
     public PathFinderRead(String filename) {
@@ -52,58 +53,61 @@ public class PathFinderRead extends Command{
     
     // Called just before this Command runs the first time
     protected void initialize() {
-		SmartDashboard.putString("PathFinder Status" , "Initializing...");
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Initializing...");
+		
+		
 		try {
 			//Path extractionPath = Files.createTempFile("trajectory", ".csv");
 			//Files.copy(Robot.class.getResourceAsStream("/com/team4201/myfile.csv"), extractionPath);
 			//trajectory = Pathfinder.readFromCSV(extractionPath.toFile());
 			
-			File myfile = new File("/media/sda1/Pathfinder/" + filename + ".csv");
-			trajectory = Pathfinder.readFromCSV(myfile);
-		 
+			File leftFile = new File("/media/sda1/Pathfinder/" + filename + "_Left.csv");
+			Trajectory lT = Pathfinder.readFromCSV(leftFile);
+			leftTrajectory = lT;
+			File rightFile = new File("/media/sda1/Pathfinder/" + filename + "_Right.csv");
+			Trajectory rT = Pathfinder.readFromCSV(rightFile);
+			rightTrajectory =  rT;
 		} catch (Exception e) {
 			// Handle it how you want
-		  DriverStation.reportError("4201 Error: Couldn't read csv", false);
-		  if(first) {
-				File myfile = new File("/media/sda1/Pathfinder/driveSpline.csv");
-				trajectory = Pathfinder.readFromCSV(myfile);
-		  }
-		  else
-			  end();
+			DriverStation.reportError("4201 Error: Couldn't read csv", false);
+			if(first) {
+				//File myfile = new File("/media/sda1/Pathfinder/driveSpline.csv");
+				//trajectory = Pathfinder.readFromCSV(myfile);
+			}
+			else{
+				Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Error: Could Not Read string - " + filename + " - Ending Autonomous to be safe");
+				Scheduler.getInstance().removeAll();
+			}
 		} 
 		
-		SmartDashboard.putString("PathFinder Status" , "Trajectory Generated!");
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Trajectory Generated!");
 		
 		// Modify the trajectory from a single line from the center of the bot to two lines for both sides of the drive train.
 		// Wheelbase = Distance between left/right side of wheels
-		modifier = new TankModifier(trajectory).modify(0.9111);
 		
 		// Configure encoder classes to follow the trajectories
-    	left = new EncoderFollower(modifier.getLeftTrajectory());
-		right = new EncoderFollower(modifier.getRightTrajectory());
+    	left = new EncoderFollower(leftTrajectory);
+		right = new EncoderFollower(rightTrajectory);
     	
-		SmartDashboard.putString("PathFinder Status" , "Enabling...");
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Enabling...");
 		
-		
-		left.configureEncoder(Robot.driveTrain.leftEncoder.get(), 180, 0.1111);
-		right.configureEncoder(Robot.driveTrain.rightEncoder.get(), 180, 0.1111);
-		//left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 180, 0.1111);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		//right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 180, 0.1111);	// 0.1016 4 inches in meters - undershoot
+		left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
 
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
 		// Usually, you wont have to adjust this though.
-		left.configurePIDVA(2, 0, 0, 1 / max_vel, 0);
-		right.configurePIDVA(2, 0, 0, 1 / max_vel, 0);   
+		left.configurePIDVA(1, 0, 0.04, 1 / max_vel, 0);
+		right.configurePIDVA(1, 0, 0.04, 1 / max_vel, 0);   
 
-		stopwatch = new Timer();
+		stopwatch = new Timer(); 
 		lock = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	SmartDashboard.putString("PathFinder Status" , "Running...");
+    	Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
     	if(!lock) {
     		stopwatch.start();
     		lock = true;
@@ -114,19 +118,19 @@ public class PathFinderRead extends Command{
 		//double r = right.calculate(Robot.driveTrain.rightEncoder.get());
     	double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
 		double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("PathFinder L" , l);
-		SmartDashboard.putNumber("PathFinder R" , r);
-		SmartDashboard.putNumber("PathFinder H" , Pathfinder.r2d(left.getHeading()));
+		Shuffleboard.putNumber("Pathfinder", "PathFinder L" , l);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder R" , r);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder H" , Pathfinder.r2d(left.getHeading()));
 		
 		// Adjust a turn value based on the gyro's heading + the trajectory's heading. Note that we only sue the left's ehading, but left/right would be teh same since they're following the same path, but sepearetd by wheelbase distance.
 		double turn = 0.8 * (-1.0/80.0) * Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()) + Robot.driveTrain.spartanGyro.getAngle());
 		//double turn = 0;
-		SmartDashboard.putNumber("PathFinder T" , turn);
-		SmartDashboard.putNumber("PathFinder L output" , l + turn);
-		SmartDashboard.putNumber("PathFinder R output" , r - turn);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder T" , turn);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder L output" , l + turn);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder R output" , r - turn);
 		
-		SmartDashboard.putNumber("Timer", stopwatch.get());
-		//SmartDashboard.putNumber("Speed", Robot.driveTrain.getTestEncoderSpeed());
+		Shuffleboard.putNumber("Pathfinder", "Timer", stopwatch.get());
+		//Shuffleboard.putNumber("Pathfinder", "Speed", Robot.driveTrain.getTestEncoderSpeed());
 		
 		// Set the output to the motors
 		Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
@@ -143,10 +147,10 @@ public class PathFinderRead extends Command{
 
     // Called once after isFinished returns true
     protected void end() {
-		SmartDashboard.putString("PathFinder Status" , "Command Exited");
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Command Exited");
     	Robot.driveTrain.setDriveOutput(0, 0);
     	stopwatch.stop();
-    	SmartDashboard.putNumber("Path Time", stopwatch.get());
+    	Shuffleboard.putNumber("Pathfinder", "Path Time", stopwatch.get());
     	//RobotMap.waypointX = points[points.length - 1].x;
     	//RobotMap.waypointY = points[points.length - 1].y;
     	//RobotMap.waypointAngle = points[points.length - 1].angle;

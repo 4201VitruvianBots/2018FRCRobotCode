@@ -41,6 +41,8 @@ public class SetWristDeltaSetpoint extends InstantCommand {
     // Called once after isFinished returns true
     protected void end() {
 		Robot.oi.disableXBoxRightRumble();
+		if(Wrist.state != 0)
+			Robot.wrist.setDirectOutput(0);
     }
 
     // Called when another command which requires one or more of the same

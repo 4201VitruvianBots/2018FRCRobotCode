@@ -52,11 +52,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
-		autoModeChooser.addObject("Turn", new Turn());
-		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
-		autoModeChooser.addObject("RightRobotToRightScale", new RightRobotToRightScale());
-		autoModeChooser.addObject("Turn", new AutoTemplate());
+		autoModeChooser.addDefault("Super Auto Right", new SuperAutoRight());
+		autoModeChooser.addObject("Simple Center Auto", new SimpleCenterAuto());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -78,20 +75,15 @@ public class Robot extends TimedRobot {
 		arm.setMotorsToCoast();
 		wrist.setMotorsToCoast();
 		intake.setMotorsToCoast();
+		
+		Robot.driveTrain.resetSensors();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		driveTrain.updateSmartDashboard();
-		wrist.updateSmartDashboard();
-		arm.updateSmartDashboard();
-		elevator.updateSmartDashboard();
-		intake.updateSmartDashboard();
-		//wings.updateSmartDashboard();
-		//stabilizers.updateSmartDashboard();
-		//climber.updateSmartDashboard();
-		controls.updateSmartDashboard();
+		
+		updateSmartDashboard();
 	}
 
 	/**
@@ -107,15 +99,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = autoModeChooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-		
 		driveTrain.resetSensors();
 		driveTrain.setMotorsToBrake();
 		
@@ -125,6 +108,7 @@ public class Robot extends TimedRobot {
 		intake.setMotorsToBrake();
 		
 		// schedule the autonomous command (example)
+		m_autonomousCommand = autoModeChooser.getSelected();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
@@ -136,16 +120,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-
-		driveTrain.updateSmartDashboard();
-		wrist.updateSmartDashboard();
-		arm.updateSmartDashboard();
-		elevator.updateSmartDashboard();
-		intake.updateSmartDashboard();
-		//wings.updateSmartDashboard();
-		//stabilizers.updateSmartDashboard();
-		//climber.updateSmartDashboard();
-		controls.updateSmartDashboard();
+		
+		updateSmartDashboard();
 	}
 
 	@Override
@@ -158,7 +134,7 @@ public class Robot extends TimedRobot {
 		//Sets drive train motors to coast.
 		driveTrain.resetSensors();
 		driveTrain.setMotorsToCoast();
-		
+		driveTrain.setDriveShiftLow();
 		elevator.setMotorsToBrake();
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
@@ -180,18 +156,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+
+		updateSmartDashboard();
 		
-		driveTrain.updateSmartDashboard();
-		wrist.updateSmartDashboard();
-		arm.updateSmartDashboard();
-		elevator.updateSmartDashboard();
-		intake.updateSmartDashboard();
-		//wings.updateSmartDashboard();
-		//stabilizers.updateSmartDashboard();
-		//climber.updateSmartDashboard();
-		controls.updateSmartDashboard();
-		
-		pidTuner.updatePIDValues();
+		//pidTuner.updatePIDValues();
 	}
 
 	/**
@@ -199,10 +167,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		updateSmartDashboard();
+	}
+	
+	void updateSmartDashboard(){
 		driveTrain.updateSmartDashboard();
-		wrist.updateSmartDashboard();
-		arm.updateSmartDashboard();
-		elevator.updateSmartDashboard();
+		//wrist.updateSmartDashboard();
+		//arm.updateSmartDashboard();
+		//elevator.updateSmartDashboard();
 		intake.updateSmartDashboard();
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();

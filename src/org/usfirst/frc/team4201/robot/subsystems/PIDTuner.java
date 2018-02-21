@@ -27,11 +27,11 @@ public class PIDTuner extends Subsystem {
 	}
 	
 	public void updatePIDValues(){
-    	SmartDashboard.putNumber("Setpoint", controller.getSetpoint());
-    	SmartDashboard.putNumber("kP", controller.getP());
-    	SmartDashboard.putNumber("kI", controller.getI());
-    	SmartDashboard.putNumber("kD", controller.getD());
-    	SmartDashboard.putNumber("kF", controller.getF());
+    	//SmartDashboard.putNumber("Setpoint", controller.getSetpoint());
+    	//SmartDashboard.putNumber("kP", controller.getP());
+    	//SmartDashboard.putNumber("kI", controller.getI());
+    	//SmartDashboard.putNumber("kD", controller.getD());
+    	//SmartDashboard.putNumber("kF", controller.getF());
         
         
         controller.setP(SmartDashboard.getNumber("kP", 0));

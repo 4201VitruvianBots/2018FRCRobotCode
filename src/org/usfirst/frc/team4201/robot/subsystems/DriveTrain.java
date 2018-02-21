@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -63,14 +64,13 @@ public class DriveTrain extends Subsystem {
 
 		// Set Motor Controller Feedback Device
 		driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		driveMotors[0].setSensorPhase(true);
+		driveMotors[2].setSensorPhase(true);
 		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
 		for(int i = 0; i < 4; i++){
 			driveMotors[i].configPeakOutputForward(1, 0);
 			driveMotors[i].configPeakOutputReverse(-1, 0);
-			driveMotors[i].setNeutralMode(NeutralMode.Coast);
 			driveMotors[i].setInverted(true);
 			//driveMotors[i].setSafetyEnabled(true);
 			//driveMotors[i].configContinuousCurrentLimit(40, 0);
@@ -95,11 +95,11 @@ public class DriveTrain extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	
-	public double getLeftEncoderValue() {
+	public int getLeftEncoderValue() {
 		return driveMotors[0].getSelectedSensorPosition(0);
 	}
 	
-	public double getRightEncoderValue() {
+	public int getRightEncoderValue() {
 		return driveMotors[2].getSelectedSensorPosition(0);
 	}
 	
@@ -163,6 +163,10 @@ public class DriveTrain extends Subsystem {
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
 	
+	public void setDirectDriveOutput(double leftOutput, double rightOutput) {
+		robotDrive.tankDrive(leftOutput, rightOutput);
+	}
+	
 	public void cheesyDrive(double xSpeed, double zRotation, boolean QuickTurn) {
 		robotDrive.curvatureDrive(xSpeed, zRotation, QuickTurn);
 	}
@@ -197,11 +201,15 @@ public class DriveTrain extends Subsystem {
 		Shuffleboard.putBoolean("Drive Train", "Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		Shuffleboard.putBoolean("Drive Train", "Drive Train Shift", getDriveShiftStatus());
 		
+
+		Shuffleboard.putNumber("Pathfinder", "Left Encoder Count", getLeftEncoderValue());
+		Shuffleboard.putNumber("Pathfinder", "Right Encoder Count", getRightEncoderValue());
+		Shuffleboard.putNumber("Pathfinder", "Gyro", spartanGyro.getAngle());
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shifters", getDriveShiftStatus());
 		//SmartDashboard.putNumber("Gyro", Math.abs(spartanGyro.getAngle()) % 360); // This will now act as a compass for driver
-		SmartDashboard.putData(spartanGyro);
+		//SmartDashboard.putData(spartanGyro);
 	}
 	
 	public void initDefaultCommand() {

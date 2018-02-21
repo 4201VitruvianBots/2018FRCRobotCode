@@ -71,9 +71,6 @@ public class DriveStraightFusion extends Command{
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.spartanGyro.reset();
-    	Robot.driveTrain.resetSensors();
-    	
         stopwatch = new Timer();
         RobotMap.isTurning = false;
     	
@@ -95,16 +92,16 @@ public class DriveStraightFusion extends Command{
     	SmartDashboard.putBoolean("On Target", pidControl.onTarget());
     	SmartDashboard.putBoolean("Enabled", pidControl.isEnabled());
 		*/
-    	SmartDashboard.putNumber("Left PID Setpoint", leftMotorPIDController.getSetpoint());
-    	SmartDashboard.putNumber("Right PID Setpoint", rightMotorPIDController.getSetpoint());
-    	SmartDashboard.putNumber("Turn PID Setpoint", driveGyroPIDController.getSetpoint());
-    	SmartDashboard.putNumber("Left PID Output", leftMotorPIDController.get());
-    	SmartDashboard.putNumber("Right PID Output", rightMotorPIDController.get());
-    	SmartDashboard.putNumber("Turn PID Output", driveGyroPIDController.get());
+    	//SmartDashboard.putNumber("Left PID Setpoint", leftMotorPIDController.getSetpoint());
+    	//SmartDashboard.putNumber("Right PID Setpoint", rightMotorPIDController.getSetpoint());
+    	//SmartDashboard.putNumber("Turn PID Setpoint", driveGyroPIDController.getSetpoint());
+    	//SmartDashboard.putNumber("Left PID Output", leftMotorPIDController.get());
+    	//SmartDashboard.putNumber("Right PID Output", rightMotorPIDController.get());
+    	//SmartDashboard.putNumber("Turn PID Output", driveGyroPIDController.get());
     	//SmartDashboard.putNumber("Left PIDS Output", PIDThrottleLeft.getPIDOutput());
     	//SmartDashboard.putNumber("Right PIDS Output", PIDThrottleRight.getPIDOutput());
     	//SmartDashboard.putNumber("Turn PIDS Output", PIDTurn.getPIDOutput());
-    	SmartDashboard.putBoolean("Lock Value: ", lock);
+    	//SmartDashboard.putBoolean("Lock Value: ", lock);
     	
     	//Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
         Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput() + driveTurnPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput() - driveTurnPIDOutput.getPIDOutput());

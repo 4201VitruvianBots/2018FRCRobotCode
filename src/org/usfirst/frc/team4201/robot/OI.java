@@ -10,6 +10,7 @@ package org.usfirst.frc.team4201.robot;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.interfaces.XBoxTrigger;
+import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -95,6 +96,7 @@ public class OI {
         //xBoxButtons[3].whenPressed(command);							// Y Button: Set Position Perpendicular
         //xBoxButtons[4].whileHeld(new SetArmDeltaSetpoint(1));			// Left Button: Adjust arm up
         //xBoxLeftTrigger.whileHeld(new SetArmDeltaSetpoint(-1));		// Left Trigger: Adjust arm down
+        if(Wrist.state == 0)
         xBoxButtons[5].whileActive(new SetWristDeltaSetpoint(1));		// Right Button: Adjust wrist up
         xBoxRightTrigger.whileActive(new SetWristDeltaSetpoint(-1));	// Right Trigger: Adjust wrist down
         // xBoxLeftJoystickY: Adjust Arm angle up/down

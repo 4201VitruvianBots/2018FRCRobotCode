@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Controls extends Subsystem{
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
-	DigitalOutput LEDS[] = {
+	public DigitalOutput LEDS[] = {
 		new DigitalOutput(RobotMap.redSignal),
 		new DigitalOutput(RobotMap.greenSignal),
 		new DigitalOutput(RobotMap.blueSignal),
@@ -74,7 +74,11 @@ public class Controls extends Subsystem{
 	}
 	
 	public void setRGBF(int channel) {
-		LEDS[channel].set(!LEDS[channel].get());
+		if(!LEDS[channel].isPulsing())
+			LEDS[channel].enablePWM(0.5);
+		else
+			LEDS[channel].disablePWM();
+		
 	}
 	
 	public void updateSmartDashboard(){

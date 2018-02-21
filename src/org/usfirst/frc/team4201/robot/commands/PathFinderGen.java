@@ -7,6 +7,7 @@ import java.nio.file.Path;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -52,7 +53,7 @@ public class PathFinderGen extends Command{
     
     // Called just before this Command runs the first time
     protected void initialize() {
-		SmartDashboard.putString("PathFinder Status" , "Initializing...");
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Initializing...");
 		
 		// Create the Trajectory Configuration
 		//
@@ -69,7 +70,7 @@ public class PathFinderGen extends Command{
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.005, max_vel, 200, (800 * 1.09361));
 
 		// Generate the trajectory
-		SmartDashboard.putString("PathFinder Status" , "Generating Trajectory..."); 
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Generating Trajectory..."); 
 		trajectory = Pathfinder.generate(points, config);
 		
 		try {
@@ -82,7 +83,7 @@ public class PathFinderGen extends Command{
 		} 
 		
 		
-		SmartDashboard.putString("PathFinder Status" , "Trajectory Generated!");
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Trajectory Generated!");
 		
 		// Modify the trajectory from a single line from the center of the bot to two lines for both sides of the drive train.
 		// Wheelbase = Distance between left/right side of wheels
@@ -92,7 +93,7 @@ public class PathFinderGen extends Command{
     	left = new EncoderFollower(modifier.getLeftTrajectory());
 		right = new EncoderFollower(modifier.getRightTrajectory());
     	
-		SmartDashboard.putString("PathFinder Status" , "Enabling...");
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Enabling...");
 		
 		left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 1440, 0.1050);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
 		right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 1440, 0.1050);	// 0.1016 4 inches in meters - undershoot
@@ -108,7 +109,7 @@ public class PathFinderGen extends Command{
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	SmartDashboard.putString("PathFinder Status" , "Running...");
+    	Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
     	if(!lock) {
     		stopwatch.start();
     		lock = true;
@@ -117,19 +118,18 @@ public class PathFinderGen extends Command{
     	// Calculate the current motor outputs based on the trajectory values + encoder positions
 		double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
 		double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("PathFinder L" , l);
-		SmartDashboard.putNumber("PathFinder R" , r);
-		SmartDashboard.putNumber("PathFinder H" , Pathfinder.r2d(left.getHeading()));
+		Shuffleboard.putNumber("Pathfinder", "PathFinder L" , l);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder R" , r);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder H" , Pathfinder.r2d(left.getHeading()));
 		
 		// Adjust a turn value based on the gyro's heading + the trajectory's heading. Note that we only sue the left's ehading, but left/right would be teh same since they're following the same path, but sepearetd by wheelbase distance.
 		double turn = 0.8 * (-1.0/80.0) * Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()) + Robot.driveTrain.spartanGyro.getAngle());
 		//double turn = 0;
-		SmartDashboard.putNumber("PathFinder T" , turn);
-		SmartDashboard.putNumber("PathFinder L output" , l + turn);
-		SmartDashboard.putNumber("PathFinder R output" , r - turn);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder T" , turn);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder L output" , l + turn);
+		Shuffleboard.putNumber("Pathfinder", "PathFinder R output" , r - turn);
 		
-		SmartDashboard.putNumber("Timer", stopwatch.get());
-		SmartDashboard.putNumber("Speed", Robot.driveTrain.getTestEncoderSpeed());
+		Shuffleboard.putNumber("Pathfinder", "Timer", stopwatch.get());
 		
 		
 		// Set the output to the motors
@@ -148,13 +148,10 @@ public class PathFinderGen extends Command{
 
     // Called once after isFinished returns true
     protected void end() {
-		SmartDashboard.putString("PathFinder Status" , "Command Exited");
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Command Exited");
     	Robot.driveTrain.setDriveOutput(0, 0);
     	stopwatch.stop();
-    	SmartDashboard.putNumber("Path Time", stopwatch.get());
-    	RobotMap.waypointX = points[points.length - 1].x;
-    	RobotMap.waypointY = points[points.length - 1].y;
-    	RobotMap.waypointAngle = points[points.length - 1].angle;
+    	Shuffleboard.putNumber("Pathfinder", "Path Time", stopwatch.get());
     }
 
     // Called when another command which requires one or more of the same
