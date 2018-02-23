@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -31,7 +32,7 @@ public class Robot extends TimedRobot {
 	public static Arm arm = new Arm();
 	public static Wrist wrist = new Wrist();
 	public static Intake intake = new Intake();
-	public static Wings wings = new Wings();
+	//public static Wings wings = new Wings();
 	//public static Climber climber = new Climber();
 	//public static Stabilizers stabilizers = new Stabilizers();
 	public static Controls controls = new Controls();
@@ -44,6 +45,8 @@ public class Robot extends TimedRobot {
 	SendableChooser<Command> driveMode = new SendableChooser<>();
 	SendableChooser<Command> autoModeChooser = new SendableChooser<>();
 
+	UsbCamera fisheyeCamera;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -59,8 +62,16 @@ public class Robot extends TimedRobot {
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
 		driveMode.addObject("Cheesy Drive", new SetCheesyDrive());
 		driveMode.addObject("Tank Drive", new SetTankDrive());
-
+		
+		try {
+			fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();
+		} catch(Exception e) {
+			
+		}
+		
 		SmartDashboard.putData("Drive Type", driveMode);
+
+		pidTuner.initializeSmartDashboard();
 	}
 
 	/**
@@ -100,6 +111,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		driveTrain.resetSensors();
+		driveTrain.setDriveShiftLow();
 		driveTrain.setMotorsToBrake();
 		
 		elevator.setMotorsToBrake();
@@ -126,10 +138,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
 		
 		//Sets drive train motors to coast.
 		driveTrain.resetSensors();
@@ -139,7 +147,11 @@ public class Robot extends TimedRobot {
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
 		intake.setMotorsToBrake();
-		
+
+		// This makes sure that the autonomous stops running when
+		// teleop starts running. If you want the autonomous to
+		// continue until interrupted by another command, remove
+		// this line or comment it out.
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
@@ -157,9 +169,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 
+		oi.checkDriverInputs();
 		updateSmartDashboard();
-		
-		//pidTuner.updatePIDValues();
 	}
 
 	/**
@@ -172,14 +183,15 @@ public class Robot extends TimedRobot {
 	
 	void updateSmartDashboard(){
 		driveTrain.updateSmartDashboard();
-		//wrist.updateSmartDashboard();
-		//arm.updateSmartDashboard();
-		//elevator.updateSmartDashboard();
+		wrist.updateSmartDashboard();
+		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
 		intake.updateSmartDashboard();
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
 		//climber.updateSmartDashboard();
 		controls.updateSmartDashboard();
+		pidTuner.updateSmartDashboard();
 	}
 	
 }

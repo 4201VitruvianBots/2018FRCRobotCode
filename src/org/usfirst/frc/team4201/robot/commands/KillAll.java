@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class KillAll extends InstantCommand{
 	
-	public KillAll(int channel) {
+	public KillAll() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.elevator);
 		requires(Robot.arm);

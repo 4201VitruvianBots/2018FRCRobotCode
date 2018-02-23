@@ -1,13 +1,13 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
+/**	This is a test subsystem to tune PID Values.
+ *	We made this because LiveWindow on Shuffleboard exhibits some weird behaviors.
  */
 public class PIDTuner extends Subsystem {
 	PIDController controller;
@@ -22,25 +22,24 @@ public class PIDTuner extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	public void setSetpoint(){
-        controller.setSetpoint(SmartDashboard.getNumber("Setpoint", controller.getSetpoint()));
+	public void updatePIDValues(){
+        controller.setSetpoint(Shuffleboard.getNumber("PIDTuner",  "Setpoint", controller.getSetpoint()));
+        controller.setP(Shuffleboard.getNumber("PIDTuner", "kP", controller.getP()));
+        controller.setI(Shuffleboard.getNumber("PIDTuner", "kI", controller.getI()));
+        controller.setD(Shuffleboard.getNumber("PIDTuner", "kD", controller.getD()));
+        controller.setF(Shuffleboard.getNumber("PIDTuner", "kF", controller.get()));
 	}
 	
-	public void updatePIDValues(){
-    	//SmartDashboard.putNumber("Setpoint", controller.getSetpoint());
-    	//SmartDashboard.putNumber("kP", controller.getP());
-    	//SmartDashboard.putNumber("kI", controller.getI());
-    	//SmartDashboard.putNumber("kD", controller.getD());
-    	//SmartDashboard.putNumber("kF", controller.getF());
-        
-        
-        controller.setP(SmartDashboard.getNumber("kP", 0));
-        controller.setI(SmartDashboard.getNumber("kI", 0));
-        controller.setD(SmartDashboard.getNumber("kD", 0));
-        controller.setF(SmartDashboard.getNumber("kF", 0));
+	public void initializeSmartDashboard(){
+		Shuffleboard.putNumber("PIDTuner", "kP", controller.getP());
+		Shuffleboard.putNumber("PIDTuner", "kI", controller.getI());
+		Shuffleboard.putNumber("PIDTuner", "kD", controller.getD());
+		Shuffleboard.putNumber("PIDTuner", "kF", controller.getF());
 	}
 	
 	public void updateSmartDashboard(){
+		Shuffleboard.putBoolean("PIDTuner", "Output", controller.onTarget());
+		Shuffleboard.putNumber("PIDTuner", "Output", controller.get());
 	}
 	
     public void initDefaultCommand() {

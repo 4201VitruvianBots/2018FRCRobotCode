@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 /**
  *
  */
-public class SetPIDTunerSetpoint extends InstantCommand {
+public class SetPIDTunerValues extends InstantCommand {
 
-    public SetPIDTunerSetpoint() {
+    public SetPIDTunerValues() {
         requires(Robot.pidTuner);
     }
 

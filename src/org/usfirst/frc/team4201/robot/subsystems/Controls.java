@@ -7,6 +7,7 @@ import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,7 +18,7 @@ public class Controls extends Subsystem{
 		new DigitalOutput(RobotMap.redSignal),
 		new DigitalOutput(RobotMap.greenSignal),
 		new DigitalOutput(RobotMap.blueSignal),
-		new DigitalOutput(RobotMap.flashSignal),
+		//new DigitalOutput(RobotMap.flashSignal),
 	};
 	
 	public int powerState;
@@ -71,6 +72,21 @@ public class Controls extends Subsystem{
 	}
 	
 	public void checkSensorHealth(){
+		// NEED TO TEST
+		if(Robot.elevator.getPIDController().get() > 0) {
+			// Is error absolute?
+			if(!Robot.elevator.checkLimits(Robot.elevator.returnPIDInput() + Robot.elevator.getPIDController().getError())){
+				Scheduler.getInstance().removeAll();
+				Robot.elevator.disable();
+				Elevator.state = 1;
+			}
+		} else if(Robot.elevator.getPIDController().get() < 0) {
+			if(!Robot.elevator.checkLimits(Robot.elevator.returnPIDInput() - Robot.elevator.getPIDController().getError())){
+				Scheduler.getInstance().removeAll();
+				Robot.elevator.disable();
+				Elevator.state = 1;
+			}
+		}
 	}
 	
 	public void setRGBF(int channel) {

@@ -1,12 +1,16 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.commands.RetractWristOnContact;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,6 +25,10 @@ public class Intake extends Subsystem {
 	};
 	
 	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward, RobotMap.intakeReverse);
+	DigitalInput bumpSwitch = new DigitalInput(0);
+	
+	public static boolean isCubePresent = false;
+	public static ReentrantLock m_cubeLock = new ReentrantLock();
 	
 	public Intake() {
 		super("Intake");
@@ -89,6 +97,6 @@ public class Intake extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		
+		setDefaultCommand(new RetractWristOnContact());
 	}
 }

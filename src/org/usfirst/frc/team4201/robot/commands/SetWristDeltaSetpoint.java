@@ -30,7 +30,7 @@ public class SetWristDeltaSetpoint extends InstantCommand {
 		        Robot.oi.enableXBoxRightRumble();
     	}
     	else
-			Robot.wrist.setDirectOutput(inc / 4);
+			Robot.wrist.setDirectOutput(inc / 3);
     }
 
     // Make this return true when this Command no longer needs to run execute()

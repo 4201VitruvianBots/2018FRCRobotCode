@@ -28,10 +28,10 @@ public class Elevator extends PIDSubsystem {
 	public double sensorLowerLimit = 0;
 	public double sensorUpperLimit = 50;
 	static double sensorOffset = 0;
-	static double voltageUpperLimit = 5;
 	static double voltageLowerLimit = 0;
+	static double voltageUpperLimit = 5;
 	
-	public static int state = 0;
+	public static int state = 1;
 	
 	public WPI_TalonSRX[] elevatorMotors = {
 		new WPI_TalonSRX(RobotMap.elevatorA),
@@ -42,7 +42,7 @@ public class Elevator extends PIDSubsystem {
 	public DoubleSolenoid diskBrake = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.diskBrakeForward, RobotMap.diskBrakeReverse);
 	
 	AnalogInput eP = new AnalogInput(RobotMap.elevatorLinearPot);
-	public AnalogPotentiometer elevatorPot = new AnalogPotentiometer(eP, 50, 0);
+	public AnalogPotentiometer elevatorPot = new AnalogPotentiometer(eP, sensorUpperLimit, sensorOffset);
 	
 	
 	public Elevator() {
@@ -64,9 +64,10 @@ public class Elevator extends PIDSubsystem {
 		
 		// Initialize the setpoint to where the elevator starts so it doesn't move
 		setSetpoint(getHieght());
-		
-		// Enable the PIDController
-		enable();
+
+		// Enable the PIDController if state == 0
+		if(state == 0)
+			enable();
 		
 		// Add this to LiveWindow
 		LiveWindow.addChild(this, this);

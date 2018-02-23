@@ -21,13 +21,13 @@ public class Arm extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double angleLowerLimit = 0.75;	//-30;	// -33;
-	public double angleUpperLimit = 12;		//80;		// 60
-	public double sensorLowerLimit = -41;
-	public double sensorUpperLimit = 90;
-	static double sensorOffset = -80;
-	static double voltageUpperLimit = 3;
-	static double voltageLowerLimit = 1;
+	public double angleLowerLimit = 0.75;	// These are actually height for DART actuator 	// -30;		// -33;
+	public double angleUpperLimit = 12;														// 80;		// 60
+	public double sensorLowerLimit = 0;														// -41
+	public double sensorUpperLimit = 12;													// 90
+	static double sensorOffset = 0;															// -80
+	static double voltageLowerLimit = 0;
+	static double voltageUpperLimit = 3.5;
 
 	public static int state = 1;
 	
@@ -36,10 +36,16 @@ public class Arm extends PIDSubsystem {
 		//new WPI_TalonSRX(RobotMap.armMotor + 1); // Using test arm
 	};
 	
-	AnalogInput aP = new AnalogInput(RobotMap.armPot);
-	// 12 inches
-	public AnalogPotentiometer armPot = new AnalogPotentiometer(aP, 17.15, 0);	// 360, -91: Triple Threat
+	/* Dart Actuator LUT:
+	 * ??? = -60 Hard stop
+	 * ??? = 0 Horizontal
+	 * ??? = 70 Max height
+	 */
 	
+	AnalogInput aP = new AnalogInput(RobotMap.armPot);
+	public AnalogPotentiometer armPot = new AnalogPotentiometer(aP, sensorUpperLimit, sensorOffset);	// 360, -91: Triple Threat
+																										// Dart actuator physically moves 12 inches, but pot values goes only up to ~3.5v.
+																										// Using rations 12:3.5v = ~17.15:5v
 	public Arm() {
 		super("Arm", kP, kI, kD, kF, period);
 		setAbsoluteTolerance(0.5);
@@ -59,8 +65,8 @@ public class Arm extends PIDSubsystem {
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
 		setSetpoint(getAngle());
-		
-		// Enable the PIDController;
+
+		// Enable the PIDController if state == 0
 		if(state == 0)
 			enable();
 		

@@ -201,7 +201,6 @@ public class DriveTrain extends Subsystem {
 		Shuffleboard.putBoolean("Drive Train", "Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		Shuffleboard.putBoolean("Drive Train", "Drive Train Shift", getDriveShiftStatus());
 		
-
 		Shuffleboard.putNumber("Pathfinder", "Left Encoder Count", getLeftEncoderValue());
 		Shuffleboard.putNumber("Pathfinder", "Right Encoder Count", getRightEncoderValue());
 		Shuffleboard.putNumber("Pathfinder", "Gyro", spartanGyro.getAngle());
@@ -209,7 +208,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		SmartDashboard.putBoolean("Drive Train Shifters", getDriveShiftStatus());
 		//SmartDashboard.putNumber("Gyro", Math.abs(spartanGyro.getAngle()) % 360); // This will now act as a compass for driver
-		//SmartDashboard.putData(spartanGyro);
+		SmartDashboard.putData(spartanGyro);	// Use if Gyro widget on driverstation is preferred over just a value
 	}
 	
 	public void initDefaultCommand() {

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.WristLimitTable;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -25,8 +26,16 @@ public class SetWristSetpoint extends InstantCommand {
     	if(Wrist.state == 0){
 	    	if(Robot.wrist.checkLimits(setpoint))
 				Robot.wrist.setSetpoint(setpoint);
-			else {
+			else if(Robot.arm.getAngle() >= Wrist.armLimiterLowerBound && Robot.arm.getAngle() <= Wrist.armLimiterUpperBound) {
+				int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - Wrist.armLimiterLowerBound];
+				
+				if(Robot.wrist.getSetpoint() < 0)
+					Robot.wrist.setSetpoint(-setpointLimit);
+				else 
+					Robot.wrist.setSetpoint(setpointLimit);
+			} else {
 				// Get nearest setpoint and use that instead
+				
 				
 				// Haptic feedback for operator
 		        Robot.oi.enableXBoxRightRumble();

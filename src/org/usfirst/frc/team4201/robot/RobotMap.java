@@ -31,10 +31,12 @@ public class RobotMap {
 	public static final int rightTrigger = 3;
 	
 	// DIO Ports
-	public static final int redSignal = 0;
-	public static final int greenSignal = 1;
-	public static final int blueSignal = 2;
-	public static final int flashSignal = 3;
+	public static final int bumpSwitch = 0;
+	
+	public static final int redSignal = 7;
+	public static final int greenSignal = 8;
+	public static final int blueSignal = 9;
+	//public static final int flashSignal = 3;
 	
 	// Analog Sensors
 	public static final int wristPot = 0;

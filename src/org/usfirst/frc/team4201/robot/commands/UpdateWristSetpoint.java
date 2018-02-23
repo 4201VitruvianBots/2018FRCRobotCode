@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Arm;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,7 +27,7 @@ public class UpdateWristSetpoint extends Command {
     
     @Override
 	protected void execute() {
-    	if(Wrist.state == 0)
+    	if(Wrist.state == 0 && Arm.state == 0)
     		Robot.wrist.updateWristAngle();
 	}
     
