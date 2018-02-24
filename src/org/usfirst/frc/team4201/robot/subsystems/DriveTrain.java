@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends Subsystem { 
 	
-	BaseMotorController[] driveMotors = {
+	public BaseMotorController[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainMotorLeftFront),
 		new WPI_TalonSRX(RobotMap.driveTrainMotorLeftRear),	// VictorSPX(RobotMap.driveTrainLeftRear),
 		new WPI_TalonSRX(RobotMap.driveTrainMotorRightFront),
@@ -56,11 +56,8 @@ public class DriveTrain extends Subsystem {
 
 		// Set Motor Controller Feedback Device
 		driveMotors[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		int absA = driveMotors[0].getSelectedSensorPosition(0);
-		driveMotors[0].setSelectedSensorPosition(absA, 0, 0);
+		driveMotors[0].setSensorPhase(true);
 		driveMotors[2].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		int absB = driveMotors[0].getSelectedSensorPosition(0);
-		driveMotors[2].setSelectedSensorPosition(absB, 0, 0);
 		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
 		for(int i = 0; i < 4; i++){
@@ -80,6 +77,16 @@ public class DriveTrain extends Subsystem {
 	
 	public double getEncoderCount() {	
 		return enc.get();
+	}
+	
+	public int getLeftEncoderValue() {
+		// TODO Auto-generated method stub
+		return driveMotors[0].getSelectedSensorPosition(0);
+	}
+	
+	public int getRightEncoderValue() {
+		// TODO Auto-generated method stub
+		return driveMotors[2].getSelectedSensorPosition(0);
 	}
 	
 	public void setHighGear() {
@@ -114,6 +121,11 @@ public class DriveTrain extends Subsystem {
 		
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}
+	
+	public void setDirectDriveOutput(double leftPower, double rightPower){
+		robotDrive.tankDrive(leftPower, rightPower);
+	}
+	
 	
 	public void cheesyDrive(double xSpeed, double zRotation, boolean QuickTurn) {
 		robotDrive.curvatureDrive(xSpeed, zRotation, QuickTurn);

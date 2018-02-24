@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		autoModeChooser.addDefault("Default Auto", new AutoDriveStraightThenTurn());
+		autoModeChooser.addDefault("Default Auto", new PathFinderRead("straightCalibration"));
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		
