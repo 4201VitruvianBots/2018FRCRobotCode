@@ -187,6 +187,6 @@ public class Wrist extends PIDSubsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		setDefaultCommand(new UpdateWristSetpoint());
+		//setDefaultCommand(new UpdateWristSetpoint());
 	}
 }

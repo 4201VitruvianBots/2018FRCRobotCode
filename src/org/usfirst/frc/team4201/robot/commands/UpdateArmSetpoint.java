@@ -38,8 +38,13 @@ public class UpdateArmSetpoint extends Command {
 		        Robot.oi.enableXBoxLeftRumbleTimed();
 			}
  		}
- 		else
- 			Robot.arm.setDirectOutput(yAxis * (2/3));
+ 		else{
+ 			if(yAxis > 0)
+ 				Robot.arm.setDirectOutput(yAxis * 0.8);	// Do not multiply by a fraction
+ 			else
+ 				Robot.arm.setDirectOutput(yAxis / 3);
+ 				
+ 		}
  	}
 
     // Make this return true when this Command no longer needs to run execute()

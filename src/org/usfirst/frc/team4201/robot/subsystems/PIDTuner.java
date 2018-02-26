@@ -14,7 +14,7 @@ public class PIDTuner extends Subsystem {
 	
 	public PIDTuner(){
 		super("PIDTuner");
-		controller = Robot.arm.getPIDController();
+		//controller = Robot.arm.getPIDController();
 		
 		//SmartDashboard.putData(controller);
 	}

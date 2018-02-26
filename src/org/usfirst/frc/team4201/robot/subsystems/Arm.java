@@ -33,6 +33,8 @@ public class Arm extends PIDSubsystem {
 	
 	public WPI_TalonSRX[] armMotors = {
 		new WPI_TalonSRX(RobotMap.armMotor),
+		//new WPI_TalonSRX(RobotMap.elevatorB)
+		//new WPI_TalonSRX(RobotMap.armMotor),
 		//new WPI_TalonSRX(RobotMap.armMotor + 1); // Using test arm
 	};
 	
@@ -53,15 +55,15 @@ public class Arm extends PIDSubsystem {
 		setOutputRange(-1, 1);
 		
 		for(int i = 0; i < armMotors.length; i++) {
-			armMotors[0].setNeutralMode(NeutralMode.Coast);
-			armMotors[0].configPeakOutputForward(1, 0);
-			armMotors[0].configPeakOutputReverse(-1, 0);
+			armMotors[i].setNeutralMode(NeutralMode.Coast);
+			armMotors[i].configPeakOutputForward(1, 0);
+			armMotors[i].configPeakOutputReverse(-1, 0);
 			//armMotors[i].setSafetyEnabled(true);
 			//armMotors[i].configContinuousCurrentLimit(40, 0);
 			//armMotors[i].configPeakCurrentLimit(80, 0);
 			//armMotors[i].configPeakCurrentDuration(100, 0);
 		}
-		//armMotors[1].set(ControlMode.Follower, armMotor.getDeviceID());
+		//armMotors[1].set(ControlMode.Follower, armMotors[0].getDeviceID());
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
 		setSetpoint(getAngle());
@@ -79,8 +81,6 @@ public class Arm extends PIDSubsystem {
         armMotors[0].setName("Arm Motor");
         armMotors[0].setSubsystem("Arm");
         LiveWindow.add(armMotors[0]);
-        
-        //aP.setAverageBits(6);
 	}
 	
 	public double getAngle() {

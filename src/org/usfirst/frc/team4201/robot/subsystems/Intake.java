@@ -39,8 +39,8 @@ public class Intake extends Subsystem {
 		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
 		for(int i = 0; i < intakeMotors.length; i++){	// Changed to intakeMotors.length so it adjusts to array length
-			intakeMotors[i].configPeakOutputForward(1, 0);
-			intakeMotors[i].configPeakOutputReverse(-1, 0);
+			//intakeMotors[i].configPeakOutputForward(1, 0);
+			//intakeMotors[i].configPeakOutputReverse(-1, 0);
 			intakeMotors[i].setNeutralMode(NeutralMode.Brake);	// Brake is probably preferred for this game, due to the 1 cube control limit
 		}
 		intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
@@ -97,6 +97,6 @@ public class Intake extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		setDefaultCommand(new RetractWristOnContact());
+		//setDefaultCommand(new RetractWristOnContact());
 	}
 }

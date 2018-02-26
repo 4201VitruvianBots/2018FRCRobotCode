@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Stabilizers extends Subsystem{
 	
-	DoubleSolenoid stabilizerDeploy = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.stabilizerDeployForward, RobotMap.stabilizerDeployReverse);
-	DoubleSolenoid stabilizerEngage = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.stabilizerEngageForward, RobotMap.stabilizerEngageReverse);
+	DoubleSolenoid stabilizerDeploy = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.stabilizerDeployForward, RobotMap.stabilizerDeployReverse);
+	DoubleSolenoid stabilizerEngage = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.stabilizerEngageForward, RobotMap.stabilizerEngageReverse);
 	
 	public Stabilizers(){		
 		super("Stabilizers");

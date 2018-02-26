@@ -35,8 +35,8 @@ public class Robot extends TimedRobot {
 	//public static Wings wings = new Wings();
 	//public static Climber climber = new Climber();
 	//public static Stabilizers stabilizers = new Stabilizers();
-	public static Controls controls = new Controls();
-	public static PIDTuner pidTuner = new PIDTuner();
+	//public static Controls controls = new Controls();
+	//public static PIDTuner pidTuner = new PIDTuner();
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -64,14 +64,14 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Tank Drive", new SetTankDrive());
 		
 		try {
-			fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();
+			//fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();
 		} catch(Exception e) {
 			
 		}
 		
 		SmartDashboard.putData("Drive Type", driveMode);
 
-		pidTuner.initializeSmartDashboard();
+		//pidTuner.initializeSmartDashboard();
 	}
 
 	/**
@@ -190,8 +190,8 @@ public class Robot extends TimedRobot {
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
 		//climber.updateSmartDashboard();
-		controls.updateSmartDashboard();
-		pidTuner.updateSmartDashboard();
+		//controls.updateSmartDashboard();
+		//pidTuner.updateSmartDashboard();
 	}
 	
 }

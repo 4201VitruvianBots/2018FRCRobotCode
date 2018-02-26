@@ -39,7 +39,7 @@ public class UpdateElevatorSetpoint extends Command {
 			}
  		}
  		else
- 			Robot.elevator.setDirectOutput(yAxis / 10);
+ 			Robot.elevator.setDirectOutput(yAxis / 2);
  	}
 
     // Make this return true when this Command no longer needs to run execute()

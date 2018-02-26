@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class SetPIDTunerValues extends InstantCommand {
 
     public SetPIDTunerValues() {
-        requires(Robot.pidTuner);
+        //requires(Robot.pidTuner);
     }
 
     // Called once when the command executes
     protected void initialize() {
-    	Robot.pidTuner.setSetpoint();
+    	//Robot.pidTuner.updatePIDValues();
     }
 }

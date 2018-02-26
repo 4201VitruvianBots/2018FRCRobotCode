@@ -103,8 +103,8 @@ public class Controls extends Subsystem{
 		Shuffleboard.putNumber("Controls", "DriveTrain Rear Left Current", Robot.driveTrain.driveMotors[1].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "DriveTrain Front Right Current", Robot.driveTrain.driveMotors[2].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "DriveTrain Rear Right Current", Robot.driveTrain.driveMotors[3].getOutputCurrent());
-		Shuffleboard.putNumber("Controls", "ElevatorA Current", Robot.elevator.elevatorMotors[0].getOutputCurrent());
-		Shuffleboard.putNumber("Controls", "ElevatorB Current", Robot.elevator.elevatorMotors[1].getOutputCurrent());
+		//Shuffleboard.putNumber("Controls", "ElevatorA Current", Robot.elevator.elevatorMotors[0].getOutputCurrent());
+		//Shuffleboard.putNumber("Controls", "ElevatorB Current", Robot.elevator.elevatorMotors[1].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "Arm Current", Robot.arm.armMotors[0].getOutputCurrent());
 		//Shuffleboard.putNumber("Controls", "ArmB Current", Robot.arm.armMotors[1].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "Intake Left Current", Robot.intake.intakeMotors[0].getOutputCurrent());

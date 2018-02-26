@@ -52,9 +52,10 @@ public class Elevator extends PIDSubsystem {
 		setOutputRange(-1, 1);
 		
 		for(int i = 0; i < elevatorMotors.length; i++){
+			elevatorMotors[i].setNeutralMode(NeutralMode.Brake);
 			elevatorMotors[i].configPeakOutputForward(1, 0);
 			elevatorMotors[i].configPeakOutputReverse(-1, 0);
-			elevatorMotors[i].setNeutralMode(NeutralMode.Brake);
+			elevatorMotors[i].setInverted(true);
 			//elevatorMotors[i].setSafetyEnabled(true);
 			//elevatorMotors[i].configContinuousCurrentLimit(40, 0);
 			//elevatorMotors[i].configPeakCurrentLimit(80, 0);

@@ -9,14 +9,15 @@ public class ToggleLEDs extends InstantCommand{
 	
 	public ToggleLEDs(int channel) {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.controls);
+		//requires(Robot.controls);
 		this.channel = channel;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.controls.setRGBF(channel);
+		//if(channel >= 0 && channel <= 2)
+			//Robot.controls.setRGBF(channel);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

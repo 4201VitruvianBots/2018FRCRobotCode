@@ -96,14 +96,12 @@ public class OI {
         xBoxButtons[3].whenPressed(new ToggleIntakePistons());						// Y Button: Toggle Intake Motors
         //xBoxButtons[8].whenPressed(new KillAll());								// Select: Kill all PIDControllers
         
-        xBoxButtons[5].whileActive(new SetWristDeltaSetpoint(1));					// Right Button: Adjust wrist up
-        xBoxRightTrigger.whileActive(new SetWristDeltaSetpoint(-1));				// Right Trigger: Adjust wrist down
+        xBoxButtons[5].whileHeld(new SetWristDeltaSetpoint(1));						// Right Button: Adjust wrist up
+        xBoxButtons[5].whenReleased(new SetWristDeltaSetpoint(0));					// Right Button: Disable
+        xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-1));					// Right Trigger: Adjust wrist down
+        xBoxRightTrigger.whenReleased(new SetWristDeltaSetpoint(0));				// Right Trigger: Disable
         // xBoxLeftJoystickY: Adjust Arm angle up/down
         // xBoxRightJoystickY: Adjust Elevator height up/down 
-        
-        // Test Mode Button Commands. WARNING: EXTREMELY DANGEROUS
-        if(DriverStation.getInstance().isTest()) {
-        }
 	}
 	
 	public double getLeftY(){

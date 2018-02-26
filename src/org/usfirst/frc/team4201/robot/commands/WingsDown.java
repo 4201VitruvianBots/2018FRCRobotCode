@@ -7,14 +7,16 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class WingsDown extends InstantCommand{
 	public WingsDown() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.wings);
+		//requires(Robot.wings);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		/*
 		if(!Robot.wings.getWingStatus());
 			Robot.wings.deployWings();
+			*/
 	}
 
 	// Called once after isFinished returns true

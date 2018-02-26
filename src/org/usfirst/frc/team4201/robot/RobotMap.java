@@ -90,6 +90,7 @@ public class RobotMap {
 	public static final int elevatorA = 24;
 	public static final int elevatorB = 25;
 	public static final int intakeLeft = 26;
+	
 	public static final int intakeRight = 27;
 	public static final int armMotor = 28;
 	public static final int wristMotor = 30;
