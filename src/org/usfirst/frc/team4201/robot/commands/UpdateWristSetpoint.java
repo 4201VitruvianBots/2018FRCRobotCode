@@ -29,6 +29,8 @@ public class UpdateWristSetpoint extends Command {
 	protected void execute() {
     	if(Wrist.state == 0 && Arm.state == 0)
     		Robot.wrist.updateWristAngle();
+    	else if(Wrist.state != 0)
+    		Robot.wrist.setDirectOutput(0.15);		// Hold the wrist in place? (May not necessarily work (wrist keeps going up after a certain point)
 	}
     
     // Make this return true when this Command no longer needs to run execute()

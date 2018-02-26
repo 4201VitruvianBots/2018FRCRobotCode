@@ -10,9 +10,7 @@ package org.usfirst.frc.team4201.robot;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.interfaces.XBoxTrigger;
-import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -60,7 +58,8 @@ public class OI {
 	public Button xBoxLeftTrigger;
 	public Button xBoxRightTrigger;
 	public boolean isQuickTurn = true;
-
+	public boolean complexControls = false;
+	
 	public OI(){
 		leftJoystick = new Joystick(RobotMap.leftJoystick);
 		rightJoystick = new Joystick(RobotMap.rightJoystick);
@@ -77,29 +76,32 @@ public class OI {
 		xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
 		
 		
-        leftButtons[0].whenPressed(new ToggleDriveShifters());						// Left Joystick Trigger: Toggle Driver Shifters
+        leftButtons[0].whenPressed(new ToggleDriveShifters());							// Left Joystick Trigger: Toggle Driver Shifters
         leftButtons[1].whenPressed(new ToggleLEDs(7));
         leftButtons[2].whenPressed(new ToggleLEDs(8));
         leftButtons[3].whenPressed(new ToggleLEDs(9));
-        //leftButtons[4].whenPressed(new ToggleLEDs(3));
 
-        rightButtons[0].whenPressed(new SetPIDTunerValues());
+        rightButtons[1].whenPressed(new ToggleElevatorShifters());						// This is mostly a test command atm. In reality, this will be assigned ot a different button and used as ToggleElevatorClimbMode()
+        rightButtons[7].whenPressed(new SetPIDTunerValues());
         //rightButtons[1].whenPressed(new RetractIntakePistons());
         //rightButtons[3].whileHeld(new ArmDown());
         //rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
         //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
-        xBoxButtons[0].toggleWhenPressed(new SetIntakeMotorOutputs(0.75));			// A Button: Set Intake to Intake
-        xBoxButtons[1].toggleWhenPressed(new SetIntakeMotorOutputs(-0.75));			// B Button: Set Intake to Outtake
-        //xBoxButtons[2].whenPressed(new SetWristArmElevatorSetpoints(0, -40, 0));	// X Button: Set Wrist/Arm/Elevator to Intake Position
-        xBoxButtons[3].whenPressed(new ToggleIntakePistons());						// Y Button: Toggle Intake Motors
-        //xBoxButtons[8].whenPressed(new KillAll());								// Select: Kill all PIDControllers
+        xBoxButtons[0].toggleWhenPressed(new SetIntakeMotorOutputs(0.75));				// A Button: Set Intake to Intake
+        xBoxButtons[1].toggleWhenPressed(new SetIntakeMotorOutputs(-0.75));				// B Button: Set Intake to Outtake
+        //xBoxButtons[2].whileHeld(new SetWristArmElevatorSetpoints(0, -40, 0));		// X Button: Set Wrist/Arm/Elevator to Intake Position
+        xBoxButtons[3].whenPressed(new ToggleIntakePistons());							// Y Button: Toggle Intake Motors
+        //xBoxButtons[8].whenPressed(new KillAll());									// Select: Kill all PIDControllers (Check button assignment)
         
-        xBoxButtons[5].whileHeld(new SetWristDeltaSetpoint(1));						// Right Button: Adjust wrist up
-        xBoxButtons[5].whenReleased(new SetWristDeltaSetpoint(0));					// Right Button: Disable
-        xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-1));					// Right Trigger: Adjust wrist down
-        xBoxRightTrigger.whenReleased(new SetWristDeltaSetpoint(0));				// Right Trigger: Disable
+        xBoxButtons[5].whileHeld(new SetWristDeltaSetpoint(1));							// Right Button: Adjust wrist up
+        xBoxButtons[5].whenReleased(new SetWristDeltaSetpoint(0));						// Right Button: Disable (This is needed due to how whileHeld() functions)
+        xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-1));						// Right Trigger: Adjust wrist down
+        xBoxRightTrigger.whenReleased(new SetWristDeltaSetpoint(0));					// Right Trigger: Disable (This is needed due to how whileHeld() functions)
+        //xBoxButtons[4].whileHeld(new SetWristArmElevatorSetpoints(0, -40, 0));		// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+        //xBoxLeftTrigger.whileHeld(new SetWristArmElevatorSetpoints(0, -40, 0));		// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Parallel
+        
         // xBoxLeftJoystickY: Adjust Arm angle up/down
         // xBoxRightJoystickY: Adjust Elevator height up/down 
 	}
@@ -184,7 +186,7 @@ public class OI {
 		
 		// Check if two of the driver joysticks are pressed to enable climb mode. This is done to avoid accidental deployment mid-match.
 		if(leftButtons[6].get() && rightButtons[6].get())
-			new SetElevatorClimbMode();
+			new ToggleElevatorClimbMode();
 	}
 }
 

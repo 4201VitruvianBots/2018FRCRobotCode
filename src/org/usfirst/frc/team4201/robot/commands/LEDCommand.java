@@ -13,13 +13,13 @@ public class LEDCommand extends Command {
 	
     public LEDCommand() {
         // Use requires() here to declare subsystem dependencies
-        //requires(Robot.controls);
+        requires(Robot.controls);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//for(int i = 0; i < Robot.controls.LEDS.length; i++)
-    	//	Robot.controls.LEDS[i].set(false);
+    	for(int i = 0; i < Robot.controls.LEDS.length; i++)
+    		Robot.controls.LEDS[i].set(false);
     	
     	LEDTimer = new Timer();
     }
@@ -27,7 +27,6 @@ public class LEDCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	LEDTimer.start();
-    	/*
     	if(LEDTimer.get() < 0.2){
     		Robot.controls.LEDS[0].set(true);
     		Robot.controls.LEDS[1].set(false);
@@ -49,7 +48,6 @@ public class LEDCommand extends Command {
     		Robot.controls.LEDS[1].set(false);
     		Robot.controls.LEDS[2].set(true);
     	}
-    	*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -59,11 +57,10 @@ public class LEDCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	/*
 		Robot.controls.LEDS[0].set(false);
 		Robot.controls.LEDS[1].set(false);
 		Robot.controls.LEDS[2].set(false);
-		*/
+		
 		LEDTimer.stop();
 		LEDTimer.reset();
     }

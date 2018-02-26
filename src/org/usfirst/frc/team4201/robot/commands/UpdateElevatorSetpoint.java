@@ -38,8 +38,13 @@ public class UpdateElevatorSetpoint extends Command {
 		        Robot.oi.enableXBoxRightRumbleTimed();
 			}
  		}
- 		else
- 			Robot.elevator.setDirectOutput(yAxis / 2);
+ 		else {
+ 			if(yAxis != 0)
+ 				Robot.elevator.setDirectOutput(yAxis / 2);
+ 			else {
+ 				//Robot.elevator.setDirectOutput(0.15);		// Test one thing at a time
+ 			}
+ 		}
  	}
 
     // Make this return true when this Command no longer needs to run execute()

@@ -14,7 +14,7 @@ public class Wings extends Subsystem{
 	public Wings(){		
 		super("Wings");
 	}
-	public boolean getWingStatus() {
+	public boolean getWingsStatus() {
 		return wingPistons.get() == Value.kForward ? true : false;
 	}
 	

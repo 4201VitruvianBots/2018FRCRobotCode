@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 	//public static Wings wings = new Wings();
 	//public static Climber climber = new Climber();
 	//public static Stabilizers stabilizers = new Stabilizers();
-	//public static Controls controls = new Controls();
+	public static Controls controls = new Controls();
 	//public static PIDTuner pidTuner = new PIDTuner();
 	public static OI oi;
 
@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Tank Drive", new SetTankDrive());
 		
 		try {
-			//fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();
+			//fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
 		} catch(Exception e) {
 			
 		}
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		driveTrain.setMotorsToCoast();
-		elevator.setMotorsToCoast();	// Comment this out during competitions
+		elevator.setMotorsToCoast();	// Comment this out during competitions/ change to brake
 		arm.setMotorsToCoast();
 		wrist.setMotorsToCoast();
 		intake.setMotorsToCoast();
@@ -149,11 +149,11 @@ public class Robot extends TimedRobot {
 		intake.setMotorsToBrake();
 
 		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
+		// teleOp starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+			m_autonomousCommand.cancel();		// Consider commenting this out under certain conditions...
 		}
 		
 		teleOpDrive = driveMode.getSelected();
@@ -190,7 +190,7 @@ public class Robot extends TimedRobot {
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
 		//climber.updateSmartDashboard();
-		//controls.updateSmartDashboard();
+		controls.updateSmartDashboard();
 		//pidTuner.updateSmartDashboard();
 	}
 	

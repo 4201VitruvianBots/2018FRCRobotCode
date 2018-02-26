@@ -85,7 +85,7 @@ public class Arm extends PIDSubsystem {
 	
 	public double getAngle() {
 		//return armPot.get();
-		return (aP.getAverageVoltage() * ((12)/(3.5)));
+		return (aP.getAverageVoltage() * ((12)/(3.5)));		// Using DART Actuator values
 	}
 	
 	public boolean checkLimits(double value){
@@ -125,6 +125,7 @@ public class Arm extends PIDSubsystem {
 		Shuffleboard.putNumber("Arm", "Angle", getAngle());
 		Shuffleboard.putNumber("Arm", "Pot Avg. Voltage", aP.getAverageVoltage());
 		Shuffleboard.putNumber("Arm", "Setpoint", getSetpoint());
+		Shuffleboard.putNumber("Arm", "Motor Output", armMotors[0].get());
 		Shuffleboard.putBoolean("Arm", "PID Enabled", getPIDController().isEnabled());
 		
 		// For TripleThreat Testbed

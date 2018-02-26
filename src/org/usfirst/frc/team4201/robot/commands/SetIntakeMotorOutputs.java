@@ -5,20 +5,36 @@ import org.usfirst.frc.team4201.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SetIntakeMotorOutputs extends Command {
-	double output;
+	double leftOutput, rightOutput;
+	int state = 0;
 	
 	public SetIntakeMotorOutputs(double output) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.intake);
 		
 		setInterruptible(true);
-		this.output = output;
+		this.leftOutput = output;
+	}
+	
+	public SetIntakeMotorOutputs(double leftOutput, double rightOutput) {
+		// Use requires() here to declare subsystem dependencies
+		requires(Robot.intake);
+		
+		state = 1;
+		
+		setInterruptible(true);
+		this.leftOutput = leftOutput;
+		this.rightOutput = rightOutput;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.intake.setIntakeMotorOutput(output);
+		if(state == 0)
+			Robot.intake.setIntakeMotorOutput(leftOutput);
+		else
+			Robot.intake.setIntakeMotorOutput(leftOutput, rightOutput);
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,6 +52,7 @@ public class SetIntakeMotorOutputs extends Command {
 	@Override
 	protected void end() {
 		Robot.intake.setIntakeMotorOutput(0);
+		state = 0;
 	}
 
 	// Called when another command which requires one or more of the same

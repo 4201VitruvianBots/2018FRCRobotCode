@@ -4,28 +4,21 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class ToggleLEDs extends InstantCommand{
-	int channel;
-	
-	public ToggleLEDs(int channel) {
+public class ToggleElevatorShifters extends InstantCommand{
+	public ToggleElevatorShifters() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.controls);
-		this.channel = channel;
+		requires(Robot.elevator);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if(channel >= 0 && channel <= 2)
-			Robot.controls.setRGBF(channel);
+		if(Robot.elevator.getElevatorShiftersStatus())
+			Robot.elevator.setElevatorShiftersLow();
+		else
+			Robot.elevator.setElevatorShiftersHigh();
 	}
-
-	// Make this return true when this Command no longer needs to run execute()
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
-
+    
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {

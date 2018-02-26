@@ -61,6 +61,12 @@ public class Intake extends Subsystem {
 	
 	public void setIntakeMotorOutput(double intakeSpeed){
 		intakeMotors[0].set(ControlMode.PercentOutput, intakeSpeed);
+		intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
+	}
+	
+	public void setIntakeMotorOutput(double leftSpeed, double rightSpeed){
+		intakeMotors[0].set(ControlMode.PercentOutput, leftSpeed);
+		intakeMotors[1].set(ControlMode.PercentOutput, rightSpeed);
 	}
 	
 	public boolean getIntakePistonStatus() {
