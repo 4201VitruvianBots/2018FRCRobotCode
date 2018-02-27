@@ -39,10 +39,10 @@ public class UpdateElevatorSetpoint extends Command {
 			}
  		}
  		else {
- 			if(yAxis != 0)
+ 			if(Math.abs(yAxis) > 0.05)
  				Robot.elevator.setDirectOutput(yAxis / 2);
  			else {
- 				//Robot.elevator.setDirectOutput(0.15);		// Test one thing at a time
+ 				Robot.elevator.setDirectOutput(0.25);		// Test one thing at a time
  			}
  		}
  	}

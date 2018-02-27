@@ -29,9 +29,14 @@ public class UpdateArmSetpoint extends Command {
  		
  		if(Arm.state == 0){
 	    	// Check if new setpoint deosn't violate limits before setting
-	    	if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + yAxis))
-				Robot.arm.setSetpoint(Robot.arm.getSetpoint() + yAxis);
-			else {
+	    	if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + yAxis)){
+				if(Robot.arm.getSetpoint() + yAxis > Robot.arm.getSetpoint())
+					Robot.arm.getPIDController().setP(Robot.arm.kPUp);
+				else
+					Robot.arm.getPIDController().setP(Robot.arm.kPDown);
+				
+	    		Robot.arm.setSetpoint(Robot.arm.getSetpoint() + yAxis);
+	    	} else {
 				// Get nearest setpoint and use that instead
 				
 				// Haptic feedback for operator

@@ -15,21 +15,24 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends PIDSubsystem {
-	static double kP = 0.6;		// Test values for Triple Threat
+	public double kPUp = 0.9;	
+	public double kPDown = 0.25;
+	public static double kP = 0.25;		// Test values for Triple Threat
 	static double kI = 0;
 	static double kD = 0.1;
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double angleLowerLimit = 0.75;	// These are actually height for DART actuator 	// -30;		// -33;
-	public double angleUpperLimit = 12;														// 80;		// 60
+	public double angleLowerLimit = -60;	//1.5;	// These are actually height for DART actuator 	// -30;		// -33;
+	public double angleUpperLimit = 55;		//11.5;														// 80;		// 60
+	public double angleOffset = 80;		
 	public double sensorLowerLimit = 0;														// -41
-	public double sensorUpperLimit = 12;													// 90
-	static double sensorOffset = 0;															// -80
+	public double sensorUpperLimit = 105;													// 90
+	static double sensorOffset = -80;															// -80
 	static double voltageLowerLimit = 0;
-	static double voltageUpperLimit = 3.5;
+	static double voltageUpperLimit = 4.5;
 
-	public static int state = 1;
+	public static int state = 0;
 	
 	public WPI_TalonSRX[] armMotors = {
 		new WPI_TalonSRX(RobotMap.armMotor),
@@ -55,7 +58,7 @@ public class Arm extends PIDSubsystem {
 		setOutputRange(-1, 1);
 		
 		for(int i = 0; i < armMotors.length; i++) {
-			armMotors[i].setNeutralMode(NeutralMode.Coast);
+			armMotors[i].setNeutralMode(NeutralMode.Brake);
 			armMotors[i].configPeakOutputForward(1, 0);
 			armMotors[i].configPeakOutputReverse(-1, 0);
 			//armMotors[i].setSafetyEnabled(true);
@@ -83,9 +86,13 @@ public class Arm extends PIDSubsystem {
         LiveWindow.add(armMotors[0]);
 	}
 	
+	public double getDARTHieght() {
+		return (aP.getAverageVoltage() * ((12)/(4.5)));		// Using DART Actuator values. 4.5 Pracatice, 3.5 Comp???
+	}
+	
 	public double getAngle() {
 		//return armPot.get();
-		return (aP.getAverageVoltage() * ((12)/(3.5)));		// Using DART Actuator values
+		return getDARTHieght() * (115 / 10.5) - angleOffset;
 	}
 	
 	public boolean checkLimits(double value){
@@ -122,8 +129,10 @@ public class Arm extends PIDSubsystem {
 	
 	public void updateSmartDashboard() {
 		// Use Shuffleboard to place things in their own tabs
+		Shuffleboard.putNumber("Arm", "DART Hieght", getDARTHieght());
 		Shuffleboard.putNumber("Arm", "Angle", getAngle());
 		Shuffleboard.putNumber("Arm", "Pot Avg. Voltage", aP.getAverageVoltage());
+		Shuffleboard.putNumber("Arm", "kP", getPIDController().getP());
 		Shuffleboard.putNumber("Arm", "Setpoint", getSetpoint());
 		Shuffleboard.putNumber("Arm", "Motor Output", armMotors[0].get());
 		Shuffleboard.putBoolean("Arm", "PID Enabled", getPIDController().isEnabled());

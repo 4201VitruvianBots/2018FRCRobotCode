@@ -6,6 +6,7 @@ import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -27,10 +28,14 @@ public class UpdateWristSetpoint extends Command {
     
     @Override
 	protected void execute() {
-    	if(Wrist.state == 0 && Arm.state == 0)
-    		Robot.wrist.updateWristAngle();
-    	else if(Wrist.state != 0)
-    		Robot.wrist.setDirectOutput(0.15);		// Hold the wrist in place? (May not necessarily work (wrist keeps going up after a certain point)
+    	if(Wrist.state == 0) {
+    		//Robot.wrist.updateWristAngle();
+    		
+    		if(Robot.intake.intakeMotors[0].getOutputCurrent() > 15 && Robot.intake.intakeMotors[1].getOutputCurrent() > 15)
+    			Scheduler.getInstance().add(new RetractWristOnContact());
+    		
+    	} else if(Wrist.state != 0)
+    		Robot.wrist.setDirectOutput(0.1);		// Hold the wrist in place? (May not necessarily work (wrist keeps going up after a certain point)
 	}
     
     // Make this return true when this Command no longer needs to run execute()

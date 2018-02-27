@@ -14,14 +14,17 @@ public class RetractWristOnContact extends InstantCommand {
     public RetractWristOnContact() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.intake);
+        requires(Robot.wrist);
+        
+        setInterruptible(true);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(Intake.isCubePresent && !Intake.m_cubeLock.isLocked() && 
-    	   Robot.wrist.getSetpoint() == 0 // && Robot.arm.getSetpoint() == -45 && Robot.elevator.getSetpoint() == 0
+    	if(Intake.isCubePresent && !Intake.m_cubeLock.isLocked()// && 
+    	   //Robot.wrist.getSetpoint() == 0 // && Robot.arm.getSetpoint() == -45 && Robot.elevator.getSetpoint() == 0
     	   ){
-    		//new SetWristSetpoint(45);
+    		new SetWristSetpoint(60);
     		Intake.m_cubeLock.lock();
     	} else {
     		Thread t = new Thread(() -> {

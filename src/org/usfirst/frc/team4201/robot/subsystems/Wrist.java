@@ -23,18 +23,18 @@ public class Wrist extends PIDSubsystem {
 	static double kF = 0.2;
 	static double period = 0.01;
 	
-	public static int armLimiterLowerBound = -42;
-	public static int armLimiterUpperBound = 138;
+	public static int armLimiterLowerBound = -50;
+	public static int armLimiterUpperBound = 50;
 
-	public double angleLowerLimit = -90;	// -75
-	public double angleUpperLimit = 90;		// 50 	
-	public double sensorLowerLimit = 0;		//-133;
-	public double sensorUpperLimit = 360; 	// 80; 
-	static double sensorOffset = -224;		// -240;
+	public double angleLowerLimit = -140;												// -75
+	public double angleUpperLimit = 160;													// 50 	
+	public double sensorLowerLimit = 0;													//-133;
+	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
+	static double sensorOffset = 657;														// -240;
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
-	public static int state = 1;
+	public static int state = 0;
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 	public AnalogInput wP = new AnalogInput(RobotMap.wristPot);
@@ -71,30 +71,27 @@ public class Wrist extends PIDSubsystem {
 	}
 	
 	// Get the angle of the wrist
+	public double getMotorAngle() {
+		return wristPot.get();
+		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
+	}
+	
+	// Get the angle of the wrist
 	public double getAbsoluteAngle() {
-		return wristPot.get(); // 2.333 gear ratio
+		return wristPot.get() / 2.333; // 2.333 gear ratio
 		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
 	
 	// Get the angle of the wrist based off of the angle of the arm
 	public double getRelativeAngle() {
-		return getAbsoluteAngle() + (180 + Robot.arm.getAngle());
+		return getAbsoluteAngle() + (-25 + Robot.arm.getAngle());
 	}
 	
 	public boolean checkLimits(double value){
 		// check if the value is bound by the hard limits
-		if(value > angleLowerLimit && value < angleUpperLimit){
-			// check if the value is bound by the soft limits
-			if(Robot.arm.getAngle() >= armLimiterLowerBound && Robot.arm.getAngle() <= armLimiterUpperBound){
-				int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimiterLowerBound];
-				
-				if(Math.abs(value) < setpointLimit)
-					return true;
-				else
-					return false;
-			} else
-				return true;
-		} else
+		if(value > angleLowerLimit && value < angleUpperLimit)
+			return true;
+		else
 			return false;
 	}
 	
@@ -119,30 +116,27 @@ public class Wrist extends PIDSubsystem {
 		// (If the wrist is below the horizon, invert the setpoint limit so that it is negative, otherwise keep the setpoint limit positive)
 
 		// Update the wrist limits based on Arm angle();
-		angleLowerLimit = getRelativeAngle() - 75;
-		angleUpperLimit = getRelativeAngle() + 50;
+		angleLowerLimit = getRelativeAngle() - 140;
+		angleUpperLimit = getRelativeAngle() + 160;
 		setInputRange(angleLowerLimit, angleUpperLimit);
 		
 		// If the arm is outside of our limits, do nothing
-		if(Robot.arm.getAngle() < armLimiterLowerBound || Robot.arm.getAngle()  > armLimiterUpperBound) // If the arm is outside of our limiting range, just pass the setpoint with no modifications
-			setSetpoint(getSetpoint());
-		else {
-			if(Robot.arm.getAngle()  >= armLimiterLowerBound && Robot.arm.getAngle()  <= armLimiterUpperBound){
-				// Get the limit from our array. The array is basically a mirror at 0 degrees, so we swap how we access the array at that point. (from 0->arrayLength - 1 to arraayLength->0)
-	
-				int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimiterUpperBound];
+		
+		if(Robot.arm.getAngle()  >= armLimiterLowerBound && Robot.arm.getAngle()  <= armLimiterUpperBound){
+			// Get the limit from our array. The array is basically a mirror at 0 degrees, so we swap how we access the array at that point. (from 0->arrayLength - 1 to arraayLength->0)
+
+			int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimiterLowerBound];
+				
+			// If the setpoint we're attempting to set is less than our limit, set the setpoint to our limit
+			if(Math.abs(getSetpoint()) < setpointLimit){
+				int setpoint = setpointLimit;
 					
-				// If the setpoint we're attempting to set is less than our limit, set the setpoint to our limit
-				if(Math.abs(getSetpoint()) < setpointLimit){
-					int setpoint = setpointLimit;
-						
-					// Invert the limit setpoint if you are below the horizon (This is the nearest angle that is legal)
-					if(getSetpoint() < 0)
-						setpoint = -setpoint;
-					
-					// Set this as the new setpoint
-					setSetpoint(setpoint);
-				}
+				// Invert the limit setpoint if you are below the horizon (This is the nearest angle that is legal)
+				if(getSetpoint() < 0)
+					setpoint = -setpoint;
+				
+				// Set this as the new setpoint
+				setSetpoint(setpoint);
 			}
 		}
 	}
@@ -162,6 +156,7 @@ public class Wrist extends PIDSubsystem {
 		// Use Shuffleboard to place things in their own tabs
 		Shuffleboard.putNumber("Wrist", "Absolute Angle", getAbsoluteAngle());
 		Shuffleboard.putNumber("Wrist", "Relative Angle", getRelativeAngle());
+		Shuffleboard.putNumber("Wrist", "Motor Angle", getMotorAngle());
 		Shuffleboard.putNumber("Wrist", "Setpoint", getPIDController().getSetpoint());
 		Shuffleboard.putNumber("Wrist", "Pot Avg. Voltage", wP.getAverageVoltage());
 		Shuffleboard.putNumber("Wrist", "Lower Limit", angleLowerLimit);
@@ -187,6 +182,6 @@ public class Wrist extends PIDSubsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		//setDefaultCommand(new UpdateWristSetpoint());
+		setDefaultCommand(new UpdateWristSetpoint());
 	}
 }

@@ -82,25 +82,25 @@ public class OI {
         leftButtons[3].whenPressed(new ToggleLEDs(9));
 
         rightButtons[1].whenPressed(new ToggleElevatorShifters());						// This is mostly a test command atm. In reality, this will be assigned ot a different button and used as ToggleElevatorClimbMode()
-        rightButtons[7].whenPressed(new SetPIDTunerValues());
+        rightButtons[6].whenPressed(new SetPIDTunerValues());
         //rightButtons[1].whenPressed(new RetractIntakePistons());
         //rightButtons[3].whileHeld(new ArmDown());
         //rightButtons[3].whileHeld(new IntakeMotorsRightReverse());
         //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
-        xBoxButtons[0].toggleWhenPressed(new SetIntakeMotorOutputs(0.75));				// A Button: Set Intake to Intake
+        xBoxButtons[0].toggleWhenPressed(new SetIntakeMotorOutputs(0.75, 0.5));				// A Button: Set Intake to Intake
         xBoxButtons[1].toggleWhenPressed(new SetIntakeMotorOutputs(-0.75));				// B Button: Set Intake to Outtake
-        //xBoxButtons[2].whileHeld(new SetWristArmElevatorSetpoints(0, -40, 0));		// X Button: Set Wrist/Arm/Elevator to Intake Position
+        xBoxButtons[2].whileHeld(new SetWristArmElevatorSetpoints(0, -60, 0));		// X Button: Set Wrist/Arm/Elevator to Intake Position
         xBoxButtons[3].whenPressed(new ToggleIntakePistons());							// Y Button: Toggle Intake Motors
-        //xBoxButtons[8].whenPressed(new KillAll());									// Select: Kill all PIDControllers (Check button assignment)
+        xBoxButtons[7].whenPressed(new KillAll());									// Select: Kill all PIDControllers (Check button assignment)
         
         xBoxButtons[5].whileHeld(new SetWristDeltaSetpoint(1));							// Right Button: Adjust wrist up
         xBoxButtons[5].whenReleased(new SetWristDeltaSetpoint(0));						// Right Button: Disable (This is needed due to how whileHeld() functions)
         xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-1));						// Right Trigger: Adjust wrist down
         xBoxRightTrigger.whenReleased(new SetWristDeltaSetpoint(0));					// Right Trigger: Disable (This is needed due to how whileHeld() functions)
-        //xBoxButtons[4].whileHeld(new SetWristArmElevatorSetpoints(0, -40, 0));		// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
-        //xBoxLeftTrigger.whileHeld(new SetWristArmElevatorSetpoints(0, -40, 0));		// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Parallel
+        xBoxButtons[4].whileHeld(new SetWristArmElevatorSetpoints(-20, 55, 0));		// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+        xBoxLeftTrigger.whileHeld(new SetWristArmElevatorSetpoints(65, 55, 0));		// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Parallel
         
         // xBoxLeftJoystickY: Adjust Arm angle up/down
         // xBoxRightJoystickY: Adjust Elevator height up/down 

@@ -155,7 +155,7 @@ public class Elevator extends PIDSubsystem {
 		Shuffleboard.putNumber("Elevator", "Hieght", getHieght());
 		Shuffleboard.putNumber("Elevator", "Avg. Pot Voltage", eP.getAverageVoltage());
 		Shuffleboard.putNumber("Elevator", "Setpoint", getSetpoint());
-		Shuffleboard.putNumber("Elevator", "Motor Output", elevatorMotors[0].get());
+		Shuffleboard.putNumber("Elevator", "Motor Output", elevatorMotors[0].getMotorOutputVoltage());
 		Shuffleboard.putBoolean("Elevator", "Shifters", getElevatorShiftersStatus());
 		Shuffleboard.putBoolean("Elevator", "Disk Brake", getDiskBrakeStatus());
 		Shuffleboard.putBoolean("Elevator", "PID Enabled", getPIDController().isEnabled());
