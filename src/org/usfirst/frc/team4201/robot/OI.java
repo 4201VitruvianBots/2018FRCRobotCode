@@ -81,7 +81,7 @@ public class OI {
         leftButtons[2].whenPressed(new ToggleLEDs(8));
         leftButtons[3].whenPressed(new ToggleLEDs(9));
         
-        leftButtons[0].whenPressed(new ToggleCubeIntakeWithRetraction());
+        rightButtons[0].toggleWhenPressed(new ToggleCubeIntakeWithRetraction());
         rightButtons[1].whenPressed(new ToggleElevatorShifters());						// This is mostly a test command atm. In reality, this will be assigned ot a different button and used as ToggleElevatorClimbMode()
         rightButtons[6].whenPressed(new SetPIDTunerValues());
         //rightButtons[1].whenPressed(new RetractIntakePistons());
@@ -90,8 +90,8 @@ public class OI {
         //rightButtons[5].whileHeld(new ArmUp());		
 		//rightButtons[5].whenPressed(new ToggleCheesyDrive());
         
-        xBoxButtons[0].toggleWhenPressed(new SetIntakeMotorOutputs(0.75, 0.5));				// A Button: Set Intake to Intake
-        xBoxButtons[1].toggleWhenPressed(new SetIntakeMotorOutputs(-0.75));					// B Button: Set Intake to Outtake
+        xBoxButtons[0].toggleWhenPressed(new SetIntakeMotorOutputs(1, 0.75));				// A Button: Set Intake to Intake
+        xBoxButtons[1].toggleWhenPressed(new SetIntakeMotorOutputs(-1));					// B Button: Set Intake to Outtake
         xBoxButtons[2].whileHeld(new SetWristArmElevatorSetpoints(0, -60, 0));				// X Button: Set Wrist/Arm/Elevator to Intake Position
         xBoxButtons[3].whenPressed(new ToggleIntakePistons());								// Y Button: Toggle Intake Motors
         xBoxButtons[7].whenPressed(new KillAll());											// Start: Kill all PIDControllers (Check button assignment)

@@ -26,8 +26,8 @@ public class Wrist extends PIDSubsystem {
 	public static int armLimiterLowerBound = -50;
 	public static int armLimiterUpperBound = 50;
 
-	public double angleLowerLimit = -140;												// -75
-	public double angleUpperLimit = 160;													// 50 	
+	public double angleLowerLimit = -105;												// -75
+	public double angleUpperLimit = 125;												// 50 	
 	public double sensorLowerLimit = 0;													//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
 	static double sensorOffset = 657;														// -240;
@@ -87,13 +87,14 @@ public class Wrist extends PIDSubsystem {
 	
 	// Get the angle of the wrist
 	public double getAbsoluteAngle() {
-		return wristPot.get() / 2.333; // 2.333 gear ratio
+		return wP.getAverageVoltage() * (250/(4.468 - 1.23)) - 120;
+		//return wristPot.get() / 2.333; // 2.333 gear ratio
 		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
 	
 	// Get the angle of the wrist based off of the angle of the arm
 	public double getRelativeAngle() {
-		return getAbsoluteAngle() + (-25 + Robot.arm.getAngle());
+		return getAbsoluteAngle() + (-30 + Robot.arm.getAngle());
 	}
 	
 	public boolean checkLimits(double value){

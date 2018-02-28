@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Arm;
+import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -31,7 +33,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     
     @Override
 	protected void execute() {
-    	Robot.intake.setIntakeMotorOutput(0.75, 0.5);
+    	Robot.intake.setIntakeMotorOutput(1, 0.75);
     }
 
 	@Override
@@ -43,7 +45,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 	
     // Called once after isFinished returns true
     protected void end() {
-    	if(cubeDetected){
+    	if(cubeDetected && Wrist.state == 0 && Arm.state == 0){
         	Robot.intake.setIntakeMotorOutput(0);
     		stopwatch.start();
     		while(stopwatch.get() < 0.1){

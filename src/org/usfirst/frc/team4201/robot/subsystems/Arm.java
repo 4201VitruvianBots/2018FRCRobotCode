@@ -32,7 +32,7 @@ public class Arm extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 4.5;
 
-	public static int state = 0;
+	public static int state = 1;
 	
 	public WPI_TalonSRX[] armMotors = {
 		new WPI_TalonSRX(RobotMap.armMotor),
@@ -53,7 +53,7 @@ public class Arm extends PIDSubsystem {
 																										// Using rations 12:3.5v = ~17.15:5v
 	public Arm() {
 		super("Arm", kP, kI, kD, kF, period);
-		setAbsoluteTolerance(0.5);
+		setAbsoluteTolerance(1);
 		setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
@@ -92,7 +92,8 @@ public class Arm extends PIDSubsystem {
 	
 	public double getAngle() {
 		//return armPot.get();
-		return getDARTHieght() * (115 / 10.5) - angleOffset;
+		//return getDARTHieght() * (115 / 10.5) - angleOffset;
+		return 1.2113 * (aP.getAverageValue() * aP.getAverageValue() * aP.getAverageValue()) - 9.2787 * (aP.getAverageValue() * aP.getAverageVoltage()) + 47.7672 * aP.getAverageVoltage() - 84.6061;
 	}
 	
 	public boolean checkLimits(double value){

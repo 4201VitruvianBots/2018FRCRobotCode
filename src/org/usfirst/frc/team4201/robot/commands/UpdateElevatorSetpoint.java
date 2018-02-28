@@ -47,9 +47,12 @@ public class UpdateElevatorSetpoint extends Command {
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)
- 				Robot.elevator.setDirectOutput(yAxis / 2);
+ 				Robot.elevator.setDirectOutput(yAxis * 0.75);
  			else { // Provide constant motor output to prevent backdrive
- 				Robot.elevator.setDirectOutput(0.25);		
+ 				if(Robot.elevator.getElevatorShiftersStatus())
+ 					Robot.elevator.setDirectOutput(0);		
+				else
+ 					Robot.elevator.setDirectOutput(0.05);		
  			}
  		}
  	}

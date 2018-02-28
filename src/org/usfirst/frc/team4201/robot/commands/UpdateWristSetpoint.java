@@ -78,7 +78,7 @@ public class UpdateWristSetpoint extends Command {
 	    				Robot.wrist.setSetpoint(Robot.wrist.getSetpoint() + 1);
 	    			else
 	    		        Robot.oi.enableXBoxRightRumble();
-        		} else if(Robot.oi.xBoxLeftTrigger.get()){
+        		} else if(Robot.oi.xBoxRightTrigger.get()){
         			if(Robot.wrist.checkLimits(Robot.wrist.getSetpoint() - 1))
 	    				Robot.wrist.setSetpoint(Robot.wrist.getSetpoint() - 1);
 	    			else
@@ -88,7 +88,7 @@ public class UpdateWristSetpoint extends Command {
     	} else { // Manual Mode
     		if(Robot.oi.xBoxButtons[5].get())
     			Robot.wrist.setDirectOutput(0.5);
-    		else if(Robot.oi.xBoxLeftTrigger.get()){
+    		else if(Robot.oi.xBoxRightTrigger.get()){
     			Robot.wrist.setDirectOutput(-0.5);
     		} else
     			Robot.wrist.setDirectOutput(0.1); // Prevent backdrive in manual mode (Wrist can still move a bit after a certain point)
