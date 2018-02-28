@@ -28,6 +28,13 @@ public class UpdateElevatorSetpoint extends Command {
  		double yAxis = -Robot.oi.xBoxController.getRawAxis(5);
  		
  		if(Elevator.state == 0){
+ 			// If the elevator somehow gets out of range, pull it back in range automatically.
+ 			// If this isn't done, then there is a chance the elevator can become uncontrollable due to the increment not being able to set the setpoint in range.
+ 			if(Robot.elevator.getHieght() > Robot.elevator.hieghtUpperLimit)
+ 				Robot.elevator.setSetpoint(Robot.elevator.hieghtUpperLimit - 0.5);
+ 			else if(Robot.elevator.getHieght() < Robot.elevator.hieghtLowerLimit)
+ 				Robot.elevator.setSetpoint(Robot.elevator.hieghtLowerLimit + 0.5);
+ 			
 	    	// Check if new setpoint deosn't violate limits before setting
 	    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + yAxis))
 				Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + yAxis);
@@ -38,11 +45,11 @@ public class UpdateElevatorSetpoint extends Command {
 		        Robot.oi.enableXBoxRightRumbleTimed();
 			}
  		}
- 		else {
+ 		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)
  				Robot.elevator.setDirectOutput(yAxis / 2);
- 			else {
- 				Robot.elevator.setDirectOutput(0.25);		// Test one thing at a time
+ 			else { // Provide constant motor output to prevent backdrive
+ 				Robot.elevator.setDirectOutput(0.25);		
  			}
  		}
  	}

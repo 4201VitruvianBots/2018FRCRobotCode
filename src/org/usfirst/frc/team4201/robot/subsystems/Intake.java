@@ -3,7 +3,7 @@ package org.usfirst.frc.team4201.robot.subsystems;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.commands.RetractWristOnContact;
+import org.usfirst.frc.team4201.robot.commands.ToggleCubeIntakeWithRetraction;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;

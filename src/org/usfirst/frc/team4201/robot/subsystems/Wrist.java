@@ -34,11 +34,20 @@ public class Wrist extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
-	public static int state = 0;
+	public static int state = 1;
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 	public AnalogInput wP = new AnalogInput(RobotMap.wristPot);
 	public AnalogPotentiometer wristPot = new AnalogPotentiometer(wP, sensorUpperLimit, sensorOffset);
+	
+	/*	Wrist LUT:
+	 *	60 (0): Parallel to Ground 
+	 *	180 (120): Parallel to arm
+	 *	105 (45): Shoot Forward
+	 *	240 (180): Reverse Parallel
+	 *	195 (135): Reverse Shoot
+	 */
+	
 	
 	public Wrist() {
 		super("Wrist", kP, kI, kD, kF, period);
@@ -107,38 +116,11 @@ public class Wrist extends PIDSubsystem {
 		wristMotor.set(ControlMode.PercentOutput, output);
 	}
 	
-	public void updateWristAngle(){
-		// Summary of what this does:
-		// 1. If the wrist does not need to be limited, setpoint of wrist is just set
-		// 2. If the wrist needs to be limited, read from an array to find the limit
-		// 3. If the setpoint is outside of the limit, don't use the limit, otherwise
-		// 4. Move the wrist to the limit, biasing it towards where the wrist's angle is.
-		// (If the wrist is below the horizon, invert the setpoint limit so that it is negative, otherwise keep the setpoint limit positive)
-
+	public void updateWristLimits(){
 		// Update the wrist limits based on Arm angle();
-		angleLowerLimit = getRelativeAngle() - 140;
-		angleUpperLimit = getRelativeAngle() + 160;
+		angleLowerLimit = getRelativeAngle() - 140 + Robot.arm.getAngle();	// Is this correct?
+		angleUpperLimit = getRelativeAngle() + 160 + Robot.arm.getAngle();
 		setInputRange(angleLowerLimit, angleUpperLimit);
-		
-		// If the arm is outside of our limits, do nothing
-		
-		if(Robot.arm.getAngle()  >= armLimiterLowerBound && Robot.arm.getAngle()  <= armLimiterUpperBound){
-			// Get the limit from our array. The array is basically a mirror at 0 degrees, so we swap how we access the array at that point. (from 0->arrayLength - 1 to arraayLength->0)
-
-			int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimiterLowerBound];
-				
-			// If the setpoint we're attempting to set is less than our limit, set the setpoint to our limit
-			if(Math.abs(getSetpoint()) < setpointLimit){
-				int setpoint = setpointLimit;
-					
-				// Invert the limit setpoint if you are below the horizon (This is the nearest angle that is legal)
-				if(getSetpoint() < 0)
-					setpoint = -setpoint;
-				
-				// Set this as the new setpoint
-				setSetpoint(setpoint);
-			}
-		}
 	}
 
 	@Override

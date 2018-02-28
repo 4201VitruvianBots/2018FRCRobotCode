@@ -28,14 +28,21 @@ public class UpdateArmSetpoint extends Command {
  		double yAxis = -Robot.oi.xBoxController.getRawAxis(1);
  		
  		if(Arm.state == 0){
+ 			// If the arm somehow gets out of range, pull it back in range automatically.
+ 			// If this isn't done, then there is a chance the arm can become uncontrollable due to the increment not being able to set the setpoint in range.
+ 			if(Robot.arm.getAngle() > Robot.arm.angleUpperLimit)
+ 				Robot.arm.setSetpoint(Robot.arm.angleUpperLimit - 2);
+ 			else if(Robot.arm.getAngle() < Robot.arm.angleLowerLimit)
+ 				Robot.arm.setSetpoint(Robot.arm.angleLowerLimit + 2);
+ 			
 	    	// Check if new setpoint deosn't violate limits before setting
-	    	if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + yAxis)){
+ 			if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + 2 * yAxis)){
 				if(Robot.arm.getSetpoint() + yAxis > Robot.arm.getSetpoint())
 					Robot.arm.getPIDController().setP(Robot.arm.kPUp);
 				else
 					Robot.arm.getPIDController().setP(Robot.arm.kPDown);
 				
-	    		Robot.arm.setSetpoint(Robot.arm.getSetpoint() + yAxis);
+	    		Robot.arm.setSetpoint(Robot.arm.getSetpoint() + 2 * yAxis);
 	    	} else {
 				// Get nearest setpoint and use that instead
 				
@@ -43,10 +50,10 @@ public class UpdateArmSetpoint extends Command {
 		        Robot.oi.enableXBoxLeftRumbleTimed();
 			}
  		}
- 		else{
- 			if(yAxis > 0)
+ 		else {	// Manual Mode
+ 			if(Math.abs(yAxis) > 0.05)
  				Robot.arm.setDirectOutput(yAxis * 0.8);	// Do not multiply by a fraction
- 			else
+ 			else // Provide constant motor output to prevent backdrive
  				Robot.arm.setDirectOutput(yAxis / 3);
  				
  		}

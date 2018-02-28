@@ -23,29 +23,10 @@ public class SetWristSetpoint extends InstantCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Check if new setpoint deosn't violate limits before setting
-    	if(Wrist.state == 0){
-	    	if(Robot.wrist.checkLimits(setpoint))
-				Robot.wrist.setSetpoint(setpoint);
-			else if(Robot.arm.getAngle() >= Wrist.armLimiterLowerBound && Robot.arm.getAngle() <= Wrist.armLimiterUpperBound) {
-				int setpointLimit = WristLimitTable.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - Wrist.armLimiterLowerBound];
-				
-				if(Robot.wrist.getSetpoint() < 0)
-					Robot.wrist.setSetpoint(-setpointLimit);
-				else 
-					Robot.wrist.setSetpoint(setpointLimit);
-			} else {
-				// Get nearest setpoint and use that instead
-				
-				
-				// Haptic feedback for operator
-		        Robot.oi.enableXBoxRightRumble();
-			}
-    	}
-    }
-
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return true;
+    	if(Robot.wrist.checkLimits(setpoint)) {
+    		Robot.wrist.setSetpoint(setpoint);
+    	} else
+	        Robot.oi.enableXBoxRightRumble();
     }
 
     // Called once after isFinished returns true
