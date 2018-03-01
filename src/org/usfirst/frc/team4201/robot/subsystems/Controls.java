@@ -89,13 +89,17 @@ public class Controls extends Subsystem{
 		}
 	}
 	
-	public void setRGBF(int channel) {
-		if(!LEDS[channel].isPulsing())
+	public boolean getRGBFStatus(int channel){
+		return LEDS[channel].isPulsing();
+	}
+	
+	public void setRGBF(int channel, boolean mode) {
+		if(mode)
 			LEDS[channel].enablePWM(0.5);
 		else
 			LEDS[channel].disablePWM();
-		
 	}
+	
 	
 	public void updateSmartDashboard(){
 		// Use Shuffleboard to place things in their own tabs

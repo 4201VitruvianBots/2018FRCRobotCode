@@ -2,7 +2,7 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.WristLimitTable;
+import org.usfirst.frc.team4201.robot.LUTs;
 import org.usfirst.frc.team4201.robot.commands.UpdateWristSetpoint;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
@@ -61,7 +61,7 @@ public class Wrist extends PIDSubsystem {
 		//wristMotor.setSafetyEnabled(true);
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
-		setSetpoint(getRelativeAngle());
+		setSetpoint(getAbsoluteAngle());
 		
 		// Enable the PIDController if state == 0
 		if(state == 0)
@@ -79,22 +79,31 @@ public class Wrist extends PIDSubsystem {
         LiveWindow.add(wristMotor);
 	}
 	
-	// Get the angle of the wrist
-	public double getMotorAngle() {
+	// Get the angle of the wrist directly from the motor
+	public double getUnscaledAngle() {
 		return wristPot.get();
 		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
 	
-	// Get the angle of the wrist
+	// Get the angle of the wrist at the sprocket
 	public double getAbsoluteAngle() {
-		return wP.getAverageVoltage() * (250/(4.468 - 1.23)) - 120;
-		//return wristPot.get() / 2.333; // 2.333 gear ratio
+		//return wP.getAverageVoltage() * (250/(4.468 - 1.23)) - 120;
+		return wristPot.get() / 2.333; // 2.333 gear ratio
 		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
 	
 	// Get the angle of the wrist based off of the angle of the arm
 	public double getRelativeAngle() {
-		return getAbsoluteAngle() + (-30 + Robot.arm.getAngle());
+		return getAbsoluteAngle() - (Robot.arm.getAngle() + 60);
+	}
+	
+	// Get the angle of the wrist based off of the angle of the arm
+	public double getArmRelativeAngle() {
+		return Robot.arm.getAngle() + 60;	// Should realistically be +60?
+	}
+	
+	public double convertRelativeToAbsoluteSetpoint(double value) {
+		return value - getArmRelativeAngle();
 	}
 	
 	public boolean checkLimits(double value){
@@ -117,16 +126,9 @@ public class Wrist extends PIDSubsystem {
 		wristMotor.set(ControlMode.PercentOutput, output);
 	}
 	
-	public void updateWristLimits(){
-		// Update the wrist limits based on Arm angle();
-		angleLowerLimit = getRelativeAngle() - 140 + Robot.arm.getAngle();	// Is this correct?
-		angleUpperLimit = getRelativeAngle() + 160 + Robot.arm.getAngle();
-		setInputRange(angleLowerLimit, angleUpperLimit);
-	}
-
 	@Override
 	protected double returnPIDInput() {
-		return getRelativeAngle();
+		return getAbsoluteAngle();
 	}
 
 	@Override
@@ -139,7 +141,7 @@ public class Wrist extends PIDSubsystem {
 		// Use Shuffleboard to place things in their own tabs
 		Shuffleboard.putNumber("Wrist", "Absolute Angle", getAbsoluteAngle());
 		Shuffleboard.putNumber("Wrist", "Relative Angle", getRelativeAngle());
-		Shuffleboard.putNumber("Wrist", "Motor Angle", getMotorAngle());
+		Shuffleboard.putNumber("Wrist", "Motor Angle", getUnscaledAngle());
 		Shuffleboard.putNumber("Wrist", "Setpoint", getPIDController().getSetpoint());
 		Shuffleboard.putNumber("Wrist", "Pot Avg. Voltage", wP.getAverageVoltage());
 		Shuffleboard.putNumber("Wrist", "Lower Limit", angleLowerLimit);

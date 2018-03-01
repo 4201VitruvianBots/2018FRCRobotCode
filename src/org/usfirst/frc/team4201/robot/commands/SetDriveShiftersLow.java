@@ -4,25 +4,18 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class SetIntakeMotorOutputs extends InstantCommand {
-	double output;
-	
-	public SetIntakeMotorOutputs(double output) {
+public class SetDriveShiftersLow extends InstantCommand{
+	public SetDriveShiftersLow() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.intake);
-
-		this.output = output;
-		
-		setInterruptible(true);
+		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.intake.setIntakeMotorOutput(output);
-		
+		Robot.driveTrain.setDriveShiftLow();
 	}
-
+    
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
@@ -35,4 +28,3 @@ public class SetIntakeMotorOutputs extends InstantCommand {
 		end();
 	}
 }
-

@@ -4,14 +4,15 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class SetIntakeMotorOutputs extends InstantCommand {
-	double output;
+public class SetIntakeMotorIndividualOutputs extends InstantCommand {
+	double leftOutput, rightOutput;
 	
-	public SetIntakeMotorOutputs(double output) {
+	public SetIntakeMotorIndividualOutputs(double leftOutput, double rightOutput) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.intake);
 
-		this.output = output;
+		this.leftOutput = leftOutput;
+		this.rightOutput = rightOutput;
 		
 		setInterruptible(true);
 	}
@@ -19,7 +20,7 @@ public class SetIntakeMotorOutputs extends InstantCommand {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.intake.setIntakeMotorOutput(output);
+			Robot.intake.setIntakeMotorOutput(leftOutput, rightOutput);
 		
 	}
 

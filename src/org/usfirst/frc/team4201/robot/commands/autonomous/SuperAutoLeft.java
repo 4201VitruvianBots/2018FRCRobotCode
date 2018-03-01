@@ -15,11 +15,11 @@ public class SuperAutoLeft extends CommandGroup{
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L'){
 			// score at scale (ideal):
 			// parallel: move arm/wrist/intake to scale
-			addParallel(new SetWristArmElevatorSetpoints(0, 0, 0));
+			addParallel(new SetWristArmElevatorSetpoints(0, -60, 0));
 			// sequential: Pathfinder - Move to scale (ideal)
 			addSequential(new PathFinderRead("leftStartToLeftScale"));
 			// sequential: score
-			addSequential(new SetIntakeMotorOutputs(0.75));
+			addSequential(new SetIntakeMotorIndividualOutputs(1, 0.75));
 			addSequential(new Delay(0.1));
 			if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L'){
 				// intake and score at switch (ideal), then intake and score at scale (ideal)

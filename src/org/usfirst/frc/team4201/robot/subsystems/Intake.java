@@ -1,9 +1,6 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.commands.ToggleCubeIntakeWithRetraction;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -28,7 +25,6 @@ public class Intake extends Subsystem {
 	DigitalInput bumpSwitch = new DigitalInput(0);
 	
 	public static boolean isCubePresent = false;
-	public static ReentrantLock m_cubeLock = new ReentrantLock();
 	
 	public Intake() {
 		super("Intake");
@@ -103,6 +99,5 @@ public class Intake extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		//setDefaultCommand(new RetractWristOnContact());
 	}
 }

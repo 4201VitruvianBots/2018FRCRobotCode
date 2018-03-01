@@ -63,14 +63,17 @@ public class UpdateWristSetpoint extends Command {
     	if(Wrist.state == 0) {
     		// If the arm somehow gets out of range, pull it back in range automatically.
  			// If this isn't done, then there is a chance the arm can become uncontrollable due to the increment not being able to set the setpoint in range.
- 			if(Robot.wrist.getRelativeAngle() > Robot.wrist.angleUpperLimit)
+ 			if(Robot.wrist.getAbsoluteAngle() > Robot.wrist.angleUpperLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleUpperLimit - 2);
- 			else if(Robot.wrist.getRelativeAngle() < Robot.wrist.angleLowerLimit)
+ 			else if(Robot.wrist.getAbsoluteAngle() < Robot.wrist.angleLowerLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleLowerLimit + 2);
  			
- 			if(Robot.arm.getAngle() > Wrist.armLimiterLowerBound && Robot.arm.getAngle() < Wrist.armLimiterUpperBound){
+ 			if(Robot.arm.getAngle() > Wrist.armLimiterLowerBound && Robot.arm.getAngle() < 0) 
  				// If the arm is in the limit range, then we always have it retracted
  				Robot.wrist.setSetpoint(120);
+			else if(Robot.arm.getAngle() > 0)
+ 				Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
+			/*
     		} else {
     			// Manual Closed-Loop Control
         		if(Robot.oi.xBoxButtons[5].get()){
@@ -85,14 +88,16 @@ public class UpdateWristSetpoint extends Command {
 	    		        Robot.oi.enableXBoxRightRumble();
         		}
     		}
+    		*/
     	} else { // Manual Mode
+    		/*
     		if(Robot.oi.xBoxButtons[5].get())
     			Robot.wrist.setDirectOutput(0.5);
     		else if(Robot.oi.xBoxRightTrigger.get()){
     			Robot.wrist.setDirectOutput(-0.5);
     		} else
     			Robot.wrist.setDirectOutput(0.1); // Prevent backdrive in manual mode (Wrist can still move a bit after a certain point)
-    			
+    		*/
     	}
 	}
     

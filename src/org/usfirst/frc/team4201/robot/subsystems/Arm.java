@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
+import org.usfirst.frc.team4201.robot.LUTs;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.commands.UpdateArmSetpoint;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
@@ -23,16 +24,18 @@ public class Arm extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double angleLowerLimit = -60;	//1.5;	// These are actually height for DART actuator 	// -30;		// -33;
-	public double angleUpperLimit = 55;		//11.5;														// 80;		// 60
+	public double angleLowerLimit = -60;																										// 1.5		
+	public double angleUpperLimit = 50;		// Physical limit is closer to 55, but 50 is to prevent DART from getting stuck at max extension	//11.5;		
 	public double angleOffset = 80;		
-	public double sensorLowerLimit = 0;														// -41
-	public double sensorUpperLimit = 105;													// 90
-	static double sensorOffset = -80;															// -80
+	public double sensorLowerLimit = 0;																														
+	public double sensorUpperLimit = 105;																														
+	static double sensorOffset = -80;																														
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 4.5;
 
 	public static int state = 1;
+	
+	double previousAngle = -60;
 	
 	public WPI_TalonSRX[] armMotors = {
 		new WPI_TalonSRX(RobotMap.armMotor),
@@ -87,13 +90,19 @@ public class Arm extends PIDSubsystem {
 	}
 	
 	public double getDARTHieght() {
-		return (aP.getAverageVoltage() * ((12)/(4.5)));		// Using DART Actuator values. 4.5 Pracatice, 3.5 Comp???
+		return (aP.getAverageVoltage() * ((12)/(4.5)));		// Using DART Actuator values. 4.5 Practice, 3.5 Comp???. Double check this with real values
 	}
 	
 	public double getAngle() {
+		try { 
+			previousAngle = LUTs.armAngle[(int)Math.round(aP.getAverageVoltage())];	// Need a try/catch to avoid rounding to a value outside of 0-5v
+			return previousAngle;
+		} catch(Exception e) {
+			return previousAngle;
+		} //*/
 		//return armPot.get();
 		//return getDARTHieght() * (115 / 10.5) - angleOffset;
-		return 1.2113 * (aP.getAverageValue() * aP.getAverageValue() * aP.getAverageValue()) - 9.2787 * (aP.getAverageValue() * aP.getAverageVoltage()) + 47.7672 * aP.getAverageVoltage() - 84.6061;
+		//return 1.2113 * (aP.getAverageValue() * aP.getAverageValue() * aP.getAverageValue()) - 9.2787 * (aP.getAverageValue() * aP.getAverageVoltage()) + 47.7672 * aP.getAverageVoltage() - 84.6061;
 	}
 	
 	public boolean checkLimits(double value){

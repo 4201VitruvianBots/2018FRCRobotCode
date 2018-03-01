@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		driveTrain.setMotorsToCoast();
 		elevator.setMotorsToCoast();	// Comment this out during competitions/ change to brake
+		elevator.setElevatorShiftersHigh();
 		arm.setMotorsToCoast();
 		wrist.setMotorsToCoast();
 		intake.setMotorsToCoast();
@@ -115,9 +116,11 @@ public class Robot extends TimedRobot {
 		driveTrain.setMotorsToBrake();
 		
 		elevator.setMotorsToBrake();
+		elevator.setElevatorShiftersLow();
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
 		intake.setMotorsToBrake();
+		intake.retractIntakePistons();
 		
 		// schedule the autonomous command (example)
 		m_autonomousCommand = autoModeChooser.getSelected();
@@ -144,6 +147,7 @@ public class Robot extends TimedRobot {
 		driveTrain.setMotorsToCoast();
 		driveTrain.setDriveShiftLow();
 		elevator.setMotorsToBrake();
+		elevator.setElevatorShiftersLow();
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
 		intake.setMotorsToBrake();
@@ -159,6 +163,7 @@ public class Robot extends TimedRobot {
 		teleOpDrive = driveMode.getSelected();
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
+			Robot.driveTrain.setDefaultCommand(teleOpDrive);			// To prevent KillAll() from switching drive modes mid-match
 		}
 	}
 

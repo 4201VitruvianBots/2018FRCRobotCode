@@ -17,7 +17,7 @@ public class ToggleLEDs extends InstantCommand{
 	@Override
 	protected void initialize() {
 		if(channel >= 0 && channel <= 2)
-			Robot.controls.setRGBF(channel);
+			Robot.controls.setRGBF(channel, !Robot.controls.getRGBFStatus(channel));
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

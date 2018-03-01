@@ -4,6 +4,7 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import org.usfirst.frc.team4201.robot.subsystems.Arm;
 import org.usfirst.frc.team4201.robot.subsystems.Elevator;
+import org.usfirst.frc.team4201.robot.subsystems.Intake;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -21,6 +22,7 @@ public class KillAll extends InstantCommand{
 		requires(Robot.elevator);
 		requires(Robot.arm);
 		requires(Robot.wrist);
+		requires(Robot.intake);
 		setInterruptible(false);
 	}
 
@@ -39,6 +41,7 @@ public class KillAll extends InstantCommand{
 		Elevator.state  = 1;
 		Arm.state = 1;
 		Wrist.state = 1;
+		//Intake.isCubePresent = false;
 	}
 
 	// Called once after isFinished returns true

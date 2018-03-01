@@ -39,20 +39,18 @@ public class UpdateElevatorSetpoint extends Command {
 	    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + yAxis))
 				Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + yAxis);
 			else {
-				// Get nearest setpoint and use that instead
-				
 				// Haptic feedback for operator
-		        Robot.oi.enableXBoxRightRumbleTimed();
+		        Robot.oi.enableXBoxLeftRumbleTimed();
 			}
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)
  				Robot.elevator.setDirectOutput(yAxis * 0.75);
- 			else { // Provide constant motor output to prevent backdrive
+ 			else { // Provide constant motor output to prevent backdrive. This depends if the elevator is on high/low gear (high gear has enough torque to prevent backdrive)
  				if(Robot.elevator.getElevatorShiftersStatus())
  					Robot.elevator.setDirectOutput(0);		
 				else
- 					Robot.elevator.setDirectOutput(0.05);		
+ 					Robot.elevator.setDirectOutput(0.2);		
  			}
  		}
  	}
