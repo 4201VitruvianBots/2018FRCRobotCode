@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Wrist extends PIDSubsystem {
-	static double kP = 0.03;		// Test values for Triple Threat
+	static double kP = 0.015;		// Test values for Triple Threat
 	static double kI = 0;
 	static double kD = 0;
-	static double kF = 0.2;
+	static double kF = 0;
 	static double period = 0.01;
 	
 	public static int armLimiterLowerBound = -50;
@@ -34,7 +34,7 @@ public class Wrist extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
-	public static int state = 1;
+	public static int state = 0;
 	
 	public WPI_TalonSRX wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 	public AnalogInput wP = new AnalogInput(RobotMap.wristPot);
@@ -51,7 +51,7 @@ public class Wrist extends PIDSubsystem {
 	
 	public Wrist() {
 		super("Wrist", kP, kI, kD, kF, period);
-		setAbsoluteTolerance(0.5);
+		setAbsoluteTolerance(1);
 		//setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
@@ -94,7 +94,7 @@ public class Wrist extends PIDSubsystem {
 	
 	// Get the angle of the wrist based off of the angle of the arm
 	public double getRelativeAngle() {
-		return getAbsoluteAngle() - (Robot.arm.getAngle() + 60);
+		return getAbsoluteAngle() + Robot.arm.getAngle() + 60;
 	}
 	
 	// Get the angle of the wrist based off of the angle of the arm

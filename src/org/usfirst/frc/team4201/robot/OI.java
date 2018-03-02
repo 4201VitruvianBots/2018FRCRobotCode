@@ -88,7 +88,7 @@ public class OI {
         //leftButtons[5].whenPressed(new ToggleLEDs(8));
         //leftButtons[6].whenPressed(new ToggleLEDs(9));
         
-        rightButtons[0].whenPressed(new ToggleCubeIntakeWithRetraction());		// Right Joystick Trigger: Retract intake
+        rightButtons[0].toggleWhenPressed(new ToggleCubeIntakeWithRetraction());		// Right Joystick Trigger: Retract intake
         rightButtons[1].whenPressed(new SetIntakePistonsOpen());				// Double-check button mappings
         rightButtons[2].whenPressed(new SetIntakePistonsClose());				// Double-check button mappings
         rightButtons[3].whenPressed(new SetElevatorShiftersHigh());				// Double-check button mappings
@@ -96,20 +96,20 @@ public class OI {
         //rightButtons[5].whenPressed(new ToggleElevatorShifters());			// This is mostly a test command atm. In reality, this will be assigned ot a different button and used as ToggleElevatorClimbMode()
         //rightButtons[6].whenPressed(new SetPIDTunerValues());
         
-        xBoxButtons[0].whileHeld(new SetWristRelativeSetpoint(45));				// A Button: Set Intake to forward shoot position
+        xBoxButtons[0].whileHeld(new SetWristRelativeSetpoint(45, xBoxButtons[0]));				// A Button: Set Intake to forward shoot position
         xBoxButtons[0].whenReleased(new DisableXBoxRumble());
-        xBoxButtons[1].whileHeld(new SetWristRelativeSetpoint(0));				// B Button: Set Intake to forward parallel
+        xBoxButtons[1].whileHeld(new SetWristRelativeSetpoint(0, xBoxButtons[1]));				// B Button: Set Intake to forward parallel
         xBoxButtons[1].whenReleased(new DisableXBoxRumble());
-        xBoxButtons[2].whileHeld(new SetWristRelativeSetpoint(180));			// X Button: Set Intake to reverse parallel
+        xBoxButtons[2].whileHeld(new SetWristRelativeSetpoint(180, xBoxButtons[2]));			// X Button: Set Intake to reverse parallel
         xBoxButtons[2].whenReleased(new DisableXBoxRumble());
-        xBoxButtons[3].whileHeld(new SetWristRelativeSetpoint(135));			// Y Button: Set Intake to reverse shoot position
+        xBoxButtons[3].whileHeld(new SetWristRelativeSetpoint(135, xBoxButtons[3]));			// Y Button: Set Intake to reverse shoot position
         xBoxButtons[3].whenReleased(new DisableXBoxRumble());
         xBoxButtons[7].whenPressed(new KillAll());								// Start: Kill all PIDControllers (Check button assignment)
         
         // These are handled in UpdateWristSetpoint to put everything into a single function/command to prevent conflicts
-        xBoxButtons[5].whileHeld(new SetWristDeltaSetpoint(1));					// Right Button: Adjust wrist up
+        xBoxButtons[5].whileHeld(new SetWristDeltaSetpoint(5));					// Right Button: Adjust wrist up
         xBoxButtons[5].whenReleased(new SetWristDeltaSetpoint(0));				// Right Button: Disable (This is needed due to how whileHeld() functions)
-        xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-1));				// Right Trigger: Adjust wrist down
+        xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-5));				// Right Trigger: Adjust wrist down
         xBoxRightTrigger.whenReleased(new SetWristDeltaSetpoint(0));			// Right Trigger: Disable (This is needed due to how whileHeld() functions)
         xBoxButtons[4].whileHeld(new SetIntakeMotorOutputs(-1));				// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
         xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));

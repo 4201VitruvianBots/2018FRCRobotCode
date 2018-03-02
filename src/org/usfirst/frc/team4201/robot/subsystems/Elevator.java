@@ -17,21 +17,23 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
-	static double kP = 0.02;		
+	public double kPUp = 0.3;	
+	public double kPDown = 0.1;	
+	static double kP = 0.3;	
 	static double kI = 0;
 	static double kD = 0;
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double hieghtLowerLimit = 0;			// -33
-	public double hieghtUpperLimit = 50;		// 60
+	public double hieghtLowerLimit = 2.9;			// -33
+	public double hieghtUpperLimit = 28;			//26.3			// 60
 	public double sensorLowerLimit = 0;
-	public double sensorUpperLimit = 50;
+	public double sensorUpperLimit = 52.6464;		// Adjusted, ideal is 50
 	static double sensorOffset = 0;
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 	
-	public static int state = 1;
+	public static int state = 0;
 	
 	public WPI_TalonSRX[] elevatorMotors = {
 		new WPI_TalonSRX(RobotMap.elevatorA),
@@ -47,7 +49,7 @@ public class Elevator extends PIDSubsystem {
 	
 	public Elevator() {
 		super("Elevator", kP, kI, kD, kF, period);
-		setAbsoluteTolerance(0.5);
+		setAbsoluteTolerance(0.1);
 		setInputRange(hieghtLowerLimit, hieghtUpperLimit);
 		setOutputRange(-1, 1);
 		

@@ -36,18 +36,19 @@ public class UpdateArmSetpoint extends Command {
  				Robot.arm.setSetpoint(Robot.arm.angleLowerLimit + 2);
  			
 	    	// Check if new setpoint deosn't violate limits before setting
- 			if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + 2 * yAxis)){
- 				// Change kP value for the PIDController when going up/down, to prevent wobbling going down due to excessive force
-				if(Robot.arm.getSetpoint() + yAxis > Robot.arm.getSetpoint())
-					Robot.arm.getPIDController().setP(Robot.arm.kPUp);
-				else
-					Robot.arm.getPIDController().setP(Robot.arm.kPDown);
-				
-	    		Robot.arm.setSetpoint(Robot.arm.getSetpoint() + 2 * yAxis);
-	    	} else {
-				// Haptic feedback for operator
-		        Robot.oi.enableXBoxRightRumbleTimed();
-			}
+ 			if(Math.abs(yAxis) > 0.05)
+	 			if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + (2 * yAxis))){
+	 				// Change kP value for the PIDController when going up/down, to prevent wobbling going down due to excessive force
+					if(Robot.arm.getSetpoint() + (2 *yAxis) > Robot.arm.getSetpoint())
+						Robot.arm.getPIDController().setP(Robot.arm.kPUp);
+					else
+						Robot.arm.getPIDController().setP(Robot.arm.kPDown);
+					
+		    		Robot.arm.setSetpoint(Robot.arm.getSetpoint() + (2 * yAxis));
+		    	} else {
+					// Haptic feedback for operator
+			        Robot.oi.enableXBoxRightRumbleTimed();
+				}
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)

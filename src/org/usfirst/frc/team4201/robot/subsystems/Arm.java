@@ -20,7 +20,7 @@ public class Arm extends PIDSubsystem {
 	public double kPDown = 0.25;
 	public static double kP = 0.25;		// Test values for Triple Threat
 	static double kI = 0;
-	static double kD = 0.1;
+	static double kD = 0;
 	static double kF = 0;
 	static double period = 0.01;
 
@@ -33,7 +33,7 @@ public class Arm extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 4.5;
 
-	public static int state = 1;
+	public static int state = 0;
 	
 	double previousAngle = -60;
 	
@@ -90,12 +90,12 @@ public class Arm extends PIDSubsystem {
 	}
 	
 	public double getDARTHieght() {
-		return (aP.getAverageVoltage() * ((12)/(4.5)));		// Using DART Actuator values. 4.5 Practice, 3.5 Comp???. Double check this with real values
+		return (aP.getAverageVoltage() * ((11.125)/(3.98)));		// Using DART Actuator values. 4.5 Practice, 3.5 Comp???. Double check this with real values
 	}
 	
 	public double getAngle() {
 		try { 
-			previousAngle = LUTs.armAngle[(int)Math.round(aP.getAverageVoltage() * 5)];	// Need a try/catch to avoid rounding to a value outside of 0-5v
+			previousAngle = LUTs.armAngle[(int)Math.round(aP.getAverageVoltage() * 50)];	// Need a try/catch to avoid rounding to a value outside of 0-5v
 			return previousAngle;
 		} catch(Exception e) {
 			return previousAngle;

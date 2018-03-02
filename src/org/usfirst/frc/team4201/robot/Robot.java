@@ -151,7 +151,7 @@ public class Robot extends TimedRobot {
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
 		intake.setMotorsToBrake();
-
+		
 		// This makes sure that the autonomous stops running when
 		// teleOp starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove

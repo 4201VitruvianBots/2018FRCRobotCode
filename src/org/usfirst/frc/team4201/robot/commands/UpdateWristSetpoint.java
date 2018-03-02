@@ -69,6 +69,8 @@ public class UpdateWristSetpoint extends Command {
  			else if(Robot.wrist.getAbsoluteAngle() < Robot.wrist.angleLowerLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleLowerLimit + 2);
  			
+    		
+    		
  			if(Robot.arm.getAngle() < 0) 
  				// If the arm is in the limit range, then we always have it retracted
  				Robot.wrist.setSetpoint(120);

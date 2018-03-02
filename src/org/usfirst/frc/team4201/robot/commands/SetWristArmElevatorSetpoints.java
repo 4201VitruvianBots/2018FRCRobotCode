@@ -12,12 +12,10 @@ public class SetWristArmElevatorSetpoints extends CommandGroup {
     public SetWristArmElevatorSetpoints(double wristSetpoint, double armSetpoint, double elevatorSetpoint) {
     	// Check if the arm is going to pass the horizon. If so, we retract the wrist, set the arm to the horizion, and move half the elevator hieght before going to the actual setpoints
     	if(Robot.arm.getAngle() * armSetpoint < 0){
-	    	addParallel(new SetWristSetpoint(120));
-	    	addParallel(new SetArmSetpoint(0));
-	    	addSequential(new SetElevatorSetpoint(Math.abs(Robot.elevator.getHieght() - elevatorSetpoint ) / 2));
-	    	addParallel(new SetWristSetpoint(wristSetpoint));
+    		addSequential(new SetWristSetpoint(120));
 	    	addParallel(new SetArmSetpoint(armSetpoint));
 	    	addSequential(new SetElevatorSetpoint(elevatorSetpoint));
+	    	addSequential(new SetWristSetpoint(wristSetpoint));
     	} else {
 	    	addParallel(new SetWristSetpoint(wristSetpoint));
 	    	addParallel(new SetArmSetpoint(armSetpoint));

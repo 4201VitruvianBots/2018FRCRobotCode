@@ -42,7 +42,7 @@ public class SetWristDeltaSetpoint extends InstantCommand {
     protected void end() {
 		Robot.oi.disableXBoxRightRumble();
 		if(Wrist.state != 0) {
-			//Robot.wrist.setDirectOutput(0);
+			//Robot.wrist.setDirectOutput(0.1);
 		}
     }
 

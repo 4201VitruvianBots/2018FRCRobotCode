@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  *
  */
 public class SetWristRelativeSetpoint extends InstantCommand {
-	
+	static double absoluteSetpoint, setpointLimit, increment;
 	static double setpoint;
 	static int state = 0;
 	static int adjustment = 0;
@@ -29,12 +29,14 @@ public class SetWristRelativeSetpoint extends InstantCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Check if new setpoint deosn't violate limits before setting
-    	if(Robot.arm.getAngle() > 0 && state == 0){
-    		double absoluteSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint);
+    	if(Wrist.state == 0){
+    		absoluteSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint);
+    		Robot.wrist.setSetpoint(absoluteSetpoint);
+    		/*
     		if(Robot.wrist.checkLimits(absoluteSetpoint)) {
     			if(Robot.arm.getAngle() <= 50){
 	    			try{
-	    				double setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + 50];
+	    				setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + 50];
 	    				if(absoluteSetpoint < setpointLimit)
 	    					absoluteSetpoint = setpointLimit;
 	    				
@@ -61,6 +63,7 @@ public class SetWristRelativeSetpoint extends InstantCommand {
     		}
     		if(Robot.wrist.checkLimits(absoluteSetpoint))
     			Robot.wrist.setSetpoint(absoluteSetpoint + increment);
+    		*/
     	} else 
 	        Robot.oi.enableXBoxRightRumble();
     }
@@ -69,7 +72,7 @@ public class SetWristRelativeSetpoint extends InstantCommand {
     protected void end() {
     	if(!thisButton.get()){
     		state = 0;
-    		adjustment = 0;
+    		increment = 0;
 	        Robot.oi.disableXBoxRightRumble();
 	        //Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
     	}

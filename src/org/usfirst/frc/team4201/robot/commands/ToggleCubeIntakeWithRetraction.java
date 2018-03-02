@@ -20,6 +20,8 @@ public class ToggleCubeIntakeWithRetraction extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.intake);
         requires(Robot.wrist);
+        requires(Robot.arm);
+        requires(Robot.elevator);
         
         setInterruptible(false);
         
@@ -29,7 +31,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	cubeDetected = false;
-    	//new SetWristArmElevatorSetpoints(0, -60, 0);
+    	new SetWristArmElevatorSetpoints(0, -60, 0);
     }
     
     @Override
@@ -61,6 +63,23 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     		stopwatch.stop();
     		stopwatch.reset();
     		//Intake.isCubePresent = true;
+    	} else if(cubeDetected){
+    		Robot.intake.setIntakeMotorOutput(0);
+    		stopwatch.start();
+    		while(stopwatch.get() < 0.1){
+    			// Do nothing pause
+    		}
+    		stopwatch.stop();
+    		stopwatch.reset();
+    		stopwatch.start();
+    		while(stopwatch.get() < 0.1){
+            	Robot.intake.setIntakeMotorOutput(0.75, 0.5);
+    		}
+    		stopwatch.stop();
+    		stopwatch.reset();
+    		while(Robot.wrist.wristMotor.getOutputCurrent() < 10)
+    			Robot.wrist.setDirectOutput(0.75);
+    		Robot.wrist.setDirectOutput(0.0);
     	}
     	
         Robot.intake.setIntakeMotorOutput(0);

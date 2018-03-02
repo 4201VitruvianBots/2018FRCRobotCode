@@ -32,16 +32,22 @@ public class UpdateElevatorSetpoint extends Command {
  			// If this isn't done, then there is a chance the elevator can become uncontrollable due to the increment not being able to set the setpoint in range.
  			if(Robot.elevator.getHieght() > Robot.elevator.hieghtUpperLimit)
  				Robot.elevator.setSetpoint(Robot.elevator.hieghtUpperLimit - 0.5);
- 			else if(Robot.elevator.getHieght() < Robot.elevator.hieghtLowerLimit)
- 				Robot.elevator.setSetpoint(Robot.elevator.hieghtLowerLimit + 0.5);
+ 			//else if(Robot.elevator.getHieght() < Robot.elevator.hieghtLowerLimit)
+ 				//Robot.elevator.setSetpoint(Robot.elevator.hieghtLowerLimit + 0.5);
  			
 	    	// Check if new setpoint deosn't violate limits before setting
-	    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + yAxis))
-				Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + yAxis);
-			else {
-				// Haptic feedback for operator
-		        Robot.oi.enableXBoxLeftRumbleTimed();
-			}
+ 			if(Math.abs(-yAxis) > 0.05)
+		    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + (0.5 * yAxis))) {
+		    		if(Robot.elevator.getSetpoint() + (0.5 * yAxis) > Robot.elevator.getSetpoint())
+						Robot.elevator.getPIDController().setP(Robot.elevator.kPUp);
+					else
+						Robot.elevator.getPIDController().setP(Robot.elevator.kPDown);
+		    		
+					Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + (0.5 * yAxis));
+		    	} else {
+					// Haptic feedback for operator
+			        Robot.oi.enableXBoxLeftRumbleTimed();
+				}
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)
@@ -50,7 +56,7 @@ public class UpdateElevatorSetpoint extends Command {
  				if(Robot.elevator.getElevatorShiftersStatus())
  					Robot.elevator.setDirectOutput(0);		
 				else
- 					Robot.elevator.setDirectOutput(0.2);		
+ 					Robot.elevator.setDirectOutput(0.05);		
  			}
  		}
  	}
