@@ -95,7 +95,6 @@ public class OI {
         rightButtons[4].whenPressed(new SetElevatorShiftersLow());				// Double-check button mappings
         //rightButtons[5].whenPressed(new ToggleElevatorShifters());			// This is mostly a test command atm. In reality, this will be assigned ot a different button and used as ToggleElevatorClimbMode()
         //rightButtons[6].whenPressed(new SetPIDTunerValues());
-
         
         xBoxButtons[0].whileHeld(new SetWristRelativeSetpoint(45));				// A Button: Set Intake to forward shoot position
         xBoxButtons[0].whenReleased(new DisableXBoxRumble());

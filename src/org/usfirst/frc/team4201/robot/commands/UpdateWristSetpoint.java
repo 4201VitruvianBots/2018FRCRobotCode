@@ -63,15 +63,16 @@ public class UpdateWristSetpoint extends Command {
     	if(Wrist.state == 0) {
     		// If the arm somehow gets out of range, pull it back in range automatically.
  			// If this isn't done, then there is a chance the arm can become uncontrollable due to the increment not being able to set the setpoint in range.
- 			if(Robot.wrist.getAbsoluteAngle() > Robot.wrist.angleUpperLimit)
+    		
+    		if(Robot.wrist.getAbsoluteAngle() > Robot.wrist.angleUpperLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleUpperLimit - 2);
  			else if(Robot.wrist.getAbsoluteAngle() < Robot.wrist.angleLowerLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleLowerLimit + 2);
  			
- 			if(Robot.arm.getAngle() > Wrist.armLimiterLowerBound && Robot.arm.getAngle() < 0) 
+ 			if(Robot.arm.getAngle() < 0) 
  				// If the arm is in the limit range, then we always have it retracted
  				Robot.wrist.setSetpoint(120);
-			else if(Robot.arm.getAngle() > 0)
+			else if(Robot.arm.getAngle() >= 0)
  				Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
 			/*
     		} else {

@@ -106,6 +106,29 @@ public class Wrist extends PIDSubsystem {
 		return value - getArmRelativeAngle();
 	}
 	
+	public double getValidAngle(double value){
+		if(value > angleLowerLimit && value < angleUpperLimit)
+			if(Math.abs(Robot.arm.getAngle()) <= 50) {
+				double angleLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + 50];
+				
+				if(Math.abs(Robot.wrist.getAbsoluteAngle()) < angleLimit) {
+					if(Robot.wrist.getAbsoluteAngle() < 0)
+						return -angleLimit;
+					else
+						return angleLimit;
+				}
+				else
+					return value;
+			} else
+				return value;
+		else if(value > angleUpperLimit)
+			return angleUpperLimit - 2;
+		else if(value < angleLowerLimit)
+			return angleLowerLimit + 2;
+		else
+			return -500;	// Error value. Should never be returned.
+	}
+	
 	public boolean checkLimits(double value){
 		// check if the value is bound by the hard limits
 		if(value > angleLowerLimit && value < angleUpperLimit)

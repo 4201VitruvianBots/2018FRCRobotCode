@@ -95,7 +95,7 @@ public class Arm extends PIDSubsystem {
 	
 	public double getAngle() {
 		try { 
-			previousAngle = LUTs.armAngle[(int)Math.round(aP.getAverageVoltage())];	// Need a try/catch to avoid rounding to a value outside of 0-5v
+			previousAngle = LUTs.armAngle[(int)Math.round(aP.getAverageVoltage() * 5)];	// Need a try/catch to avoid rounding to a value outside of 0-5v
 			return previousAngle;
 		} catch(Exception e) {
 			return previousAngle;

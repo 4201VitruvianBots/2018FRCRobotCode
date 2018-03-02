@@ -24,8 +24,13 @@ public class SetWristDeltaSetpoint extends InstantCommand {
     	//SmartDashboard.putNumber("Wrist Setpoint", Robot.wrist.PIDControl.getSetpoint() + inc);
     	if(Wrist.state == 0){
 	    	// Check if new setpoint deosn't violate limits before setting
-			if(Robot.wrist.checkLimits(Robot.wrist.getSetpoint() + inc))
-				Robot.wrist.setSetpoint(Robot.wrist.getSetpoint() + inc);
+    		double input = Robot.wrist.getSetpoint() + inc;
+			double checkSetpoint = Robot.wrist.getValidAngle(input);
+    		if(checkSetpoint != -500)
+    			if(input != checkSetpoint){
+    			}
+				else
+    				Robot.wrist.setSetpoint(checkSetpoint);
 			else
 		        Robot.oi.enableXBoxRightRumble();
     	}
