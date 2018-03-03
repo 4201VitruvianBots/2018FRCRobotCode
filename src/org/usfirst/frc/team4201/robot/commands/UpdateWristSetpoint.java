@@ -10,14 +10,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  *
  */
 public class UpdateWristSetpoint extends Command {
-	boolean setSetpoint = false;
 	double setpoint;
 	
 	public UpdateWristSetpoint() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.wrist);
 
-        this.setSetpoint = false;
         
         setInterruptible(true);
     }
@@ -28,49 +26,16 @@ public class UpdateWristSetpoint extends Command {
     
     @Override
 	protected void execute() {
-    	/*
-    	if(Wrist.state == 0) {
-    		// Update the wrists max limits based on current arm angle.
-    		Robot.wrist.updateWristLimits();
-    		
-    		// If the arm somehow gets out of range, pull it back in range automatically.
- 			// If this isn't done, then there is a chance the arm can become uncontrollable due to the increment not being able to set the setpoint in range.
- 			if(Robot.wrist.getRelativeAngle() > Robot.wrist.angleUpperLimit)
- 				Robot.wrist.setSetpoint(Robot.wrist.angleUpperLimit - 2);
- 			else if(Robot.wrist.getRelativeAngle() < Robot.wrist.angleLowerLimit)
- 				Robot.wrist.setSetpoint(Robot.wrist.angleLowerLimit + 2);
- 			
- 			// Override the retraction when within arm limit range. This is done by programmers who know how far to move.
- 			if(override)
- 				Robot.wrist.setSetpoint(setpoint);
- 			else if(Robot.arm.getAngle() > Robot.wrist.armLimiterLowerBound && Robot.arm.getAngle() < Robot.wrist.armLimiterUpperBound){
- 				// If the arm is in the limit range, then we always have it retracted
- 				Robot.wrist.setSetpoint(120);
- 			} else if(increment){
- 				// Manual Closed-Loop Control
- 				if(Robot.wrist.checkLimits(setpoint))
- 					Robot.wrist.setSetpoint(setpoint);
- 				else
- 			        Robot.oi.enableXBoxRightRumble();
- 			}
-    	} else if(Wrist.state != 0) { // Manual Mode
-    		if(setpoint != 0 && increment)
-    			Robot.wrist.setDirectOutput(setpoint / 2);
-    		else
-    			Robot.wrist.setDirectOutput(0.1);		// Hold the wrist in place? (May not necessarily work (wrist keeps going up after a certain point)
-    	}
-    	*/
     	if(Wrist.state == 0) {
     		// If the arm somehow gets out of range, pull it back in range automatically.
- 			// If this isn't done, then there is a chance the arm can become uncontrollable due to the increment not being able to set the setpoint in range.
-    		
+ 			// If this isn't done, then there is a chance the wrist can become uncontrollable due to the increment not being able to set the setpoint in range.
     		if(Robot.wrist.getAbsoluteAngle() > Robot.wrist.angleUpperLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleUpperLimit - 2);
  			else if(Robot.wrist.getAbsoluteAngle() < Robot.wrist.angleLowerLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleLowerLimit + 2);
  			
     		
-    		
+    		// Default to one of two setpoints if no setpoint is being actively commanded
  			if(Robot.arm.getAngle() < 0) 
  				// If the arm is in the limit range, then we always have it retracted
  				Robot.wrist.setSetpoint(120);
@@ -92,21 +57,15 @@ public class UpdateWristSetpoint extends Command {
         		}
     		}
     		*/
-    	} else { // Manual Mode
-    		/*
-    		if(Robot.oi.xBoxButtons[5].get())
-    			Robot.wrist.setDirectOutput(0.5);
-    		else if(Robot.oi.xBoxRightTrigger.get()){
-    			Robot.wrist.setDirectOutput(-0.5);
-    		} else
+    	} else {
+    		if(!Robot.oi.xBoxButtons[5].get() && !Robot.oi.xBoxRightTrigger.get())
     			Robot.wrist.setDirectOutput(0.1); // Prevent backdrive in manual mode (Wrist can still move a bit after a certain point)
-    		*/
     	}
 	}
     
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return false;	// What if this returns true? Does this eliminate all other issues?
     }
 
     // Called once after isFinished returns true
@@ -116,5 +75,6 @@ public class UpdateWristSetpoint extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

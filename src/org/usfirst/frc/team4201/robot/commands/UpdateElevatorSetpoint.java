@@ -32,12 +32,15 @@ public class UpdateElevatorSetpoint extends Command {
  			// If this isn't done, then there is a chance the elevator can become uncontrollable due to the increment not being able to set the setpoint in range.
  			if(Robot.elevator.getHieght() > Robot.elevator.hieghtUpperLimit)
  				Robot.elevator.setSetpoint(Robot.elevator.hieghtUpperLimit - 0.5);
- 			//else if(Robot.elevator.getHieght() < Robot.elevator.hieghtLowerLimit)
- 				//Robot.elevator.setSetpoint(Robot.elevator.hieghtLowerLimit + 0.5);
+ 			//else if(Robot.elevator.getHieght() < Robot.elevator.hieghtLowerLimit)		// This does not apply to the elevator because it has an actual hard-stop. 
+ 				//Robot.elevator.setSetpoint(Robot.elevator.hieghtLowerLimit + 0.5);	// Disabled due to issues with this overriding user input.
  			
-	    	// Check if new setpoint deosn't violate limits before setting
+ 			// We do this check to make sure co-driver is actually commanding the elevator and not due to minor movement of the joystick.
+ 			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
  			if(Math.abs(-yAxis) > 0.05)
+ 		    	// Check if new setpoint deosn't violate limits before setting
 		    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + (0.5 * yAxis))) {
+	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
 		    		if(Robot.elevator.getSetpoint() + (0.5 * yAxis) > Robot.elevator.getSetpoint())
 						Robot.elevator.getPIDController().setP(Robot.elevator.kPUp);
 					else

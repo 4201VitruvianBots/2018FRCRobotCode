@@ -109,7 +109,7 @@ public class Wrist extends PIDSubsystem {
 	public double getValidAngle(double value){
 		if(value > angleLowerLimit && value < angleUpperLimit)
 			if(Math.abs(Robot.arm.getAngle()) <= 50) {
-				double angleLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + 50];
+				double angleLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + armLimiterUpperBound];
 				
 				if(Math.abs(Robot.wrist.getAbsoluteAngle()) < angleLimit) {
 					if(Robot.wrist.getAbsoluteAngle() < 0)

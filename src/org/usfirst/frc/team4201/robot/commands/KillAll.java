@@ -41,6 +41,7 @@ public class KillAll extends InstantCommand{
 		Elevator.state  = 1;
 		Arm.state = 1;
 		Wrist.state = 1;
+		Robot.oi.setWristManualMode();
 		//Intake.isCubePresent = false;
 	}
 

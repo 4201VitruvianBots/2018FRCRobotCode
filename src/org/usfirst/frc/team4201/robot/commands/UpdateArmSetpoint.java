@@ -34,11 +34,13 @@ public class UpdateArmSetpoint extends Command {
  				Robot.arm.setSetpoint(Robot.arm.angleUpperLimit - 2);
  			else if(Robot.arm.getAngle() < Robot.arm.angleLowerLimit)
  				Robot.arm.setSetpoint(Robot.arm.angleLowerLimit + 2);
- 			
-	    	// Check if new setpoint deosn't violate limits before setting
+
+ 			// We do this check to make sure co-driver is actually commanding the arm and not due to minor movement of the joystick.
+ 			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
  			if(Math.abs(yAxis) > 0.05)
+ 		    	// Check if new setpoint deosn't violate limits before setting
 	 			if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + (2 * yAxis))){
-	 				// Change kP value for the PIDController when going up/down, to prevent wobbling going down due to excessive force
+	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
 					if(Robot.arm.getSetpoint() + (2 *yAxis) > Robot.arm.getSetpoint())
 						Robot.arm.getPIDController().setP(Robot.arm.kPUp);
 					else

@@ -16,13 +16,12 @@ public class SetWristRelativeSetpoint extends InstantCommand {
 	static int state = 0;
 	static int adjustment = 0;
 	Button thisButton;
-    public SetWristRelativeSetpoint(double setpoint, Button thisButton) {
+    public SetWristRelativeSetpoint(double setpoint) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.wrist);
         SetWristRelativeSetpoint.setpoint = setpoint;
-        
-        this.thisButton = thisButton;
-        
+
+        Robot.wrist.setDefaultCommand(null);
         setInterruptible(false);
     }
 
@@ -30,8 +29,23 @@ public class SetWristRelativeSetpoint extends InstantCommand {
     protected void initialize() {
     	// Check if new setpoint deosn't violate limits before setting
     	if(Wrist.state == 0){
+    		if(Robot.arm.getAngle() <= Wrist.armLimiterUpperBound){
+				try{
+					setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + Wrist.armLimiterUpperBound];
+					if(setpoint < setpointLimit)
+						setpoint = setpointLimit;
+					
+					if(Math.abs(Robot.wrist.getAbsoluteAngle() - setpoint) < 2);	// Rumble when arm cannot proceed further
+			       		Robot.oi.enableXBoxRightRumble();
+				} catch(Exception e) {
+					
+				}
+    		}
     		absoluteSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint);
-    		Robot.wrist.setSetpoint(absoluteSetpoint);
+			if(Robot.wrist.checkLimits(absoluteSetpoint))
+				Robot.wrist.setSetpoint(absoluteSetpoint);
+			else
+				Robot.oi.enableXBoxRightRumble();
     		/*
     		if(Robot.wrist.checkLimits(absoluteSetpoint)) {
     			if(Robot.arm.getAngle() <= 50){
@@ -70,12 +84,9 @@ public class SetWristRelativeSetpoint extends InstantCommand {
 
     // Called once after isFinished returns true
     protected void end() {
-    	if(!thisButton.get()){
-    		state = 0;
-    		increment = 0;
-	        Robot.oi.disableXBoxRightRumble();
-	        //Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
-    	}
+        Robot.wrist.setDefaultCommand(new UpdateWristSetpoint());
+        Robot.oi.disableXBoxRightRumble();
+        //Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
     }
 
     // Called when another command which requires one or more of the same

@@ -9,17 +9,15 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 
-public class DeployIntake extends Command {
+public class AutoIntakeControl extends Command {
 	boolean cubeDetected;
 	
 	Timer stopwatch;
 	
-    public DeployIntake() {
+    public AutoIntakeControl() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.intake);
         requires(Robot.wrist);
-        
-        setInterruptible(false);
         
         stopwatch = new Timer();
     }

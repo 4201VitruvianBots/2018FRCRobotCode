@@ -19,7 +19,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Elevator extends PIDSubsystem {
 	public double kPUp = 0.3;	
 	public double kPDown = 0.1;	
-	static double kP = 0.3;	
+	public double kPClimb = 0.1;	
+	public double kIClimb = 0;
+	public double kDClimb = 0;
+	public double kFClimb = 0;
+	
+	static double kP = 0.1;	
 	static double kI = 0;
 	static double kD = 0;
 	static double kF = 0;

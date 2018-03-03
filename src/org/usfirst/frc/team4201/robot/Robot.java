@@ -32,8 +32,8 @@ public class Robot extends TimedRobot {
 	public static Arm arm = new Arm();
 	public static Wrist wrist = new Wrist();
 	public static Intake intake = new Intake();
+	public static Climber climber = new Climber();
 	//public static Wings wings = new Wings();
-	//public static Climber climber = new Climber();
 	//public static Stabilizers stabilizers = new Stabilizers();
 	public static Controls controls = new Controls();
 	//public static PIDTuner pidTuner = new PIDTuner();
@@ -192,9 +192,9 @@ public class Robot extends TimedRobot {
 		arm.updateSmartDashboard();
 		elevator.updateSmartDashboard();
 		intake.updateSmartDashboard();
+		climber.updateSmartDashboard();
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
-		//climber.updateSmartDashboard();
 		controls.updateSmartDashboard();
 		//pidTuner.updateSmartDashboard();
 	}
