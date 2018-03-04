@@ -170,6 +170,8 @@ public class Wrist extends PIDSubsystem {
 		Shuffleboard.putNumber("Wrist", "Lower Limit", angleLowerLimit);
 		Shuffleboard.putNumber("Wrist", "Upper Limit", angleUpperLimit);
 		Shuffleboard.putNumber("Wrist", "Pot Test", wristPot.get());
+		Shuffleboard.putNumber("Wrist", "Arm Angle", Robot.arm.getAngle());
+		Shuffleboard.putNumber("Wrist", "Wrist Limit Angle", Math.abs(Robot.arm.getAngle()) <= 50 ? LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + armLimiterUpperBound] : 0);
 		Shuffleboard.putBoolean("Wrist", "PID Enabled", getPIDController().isEnabled());
 
 		// For TripleThreat Testbed

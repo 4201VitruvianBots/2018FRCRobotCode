@@ -24,7 +24,7 @@ public class SetWristSetpoint extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.wrist);
         this.setpoint = setpoint;
-        Robot.wrist.setDefaultCommand(null);
+        //Robot.wrist.setDefaultCommand(null);
         
         setTimeout(timeout);
         setInterruptible(true);

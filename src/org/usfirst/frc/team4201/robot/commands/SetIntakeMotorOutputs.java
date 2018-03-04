@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
@@ -26,6 +27,8 @@ public class SetIntakeMotorOutputs extends InstantCommand {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		if(output < 0)
+			Intake.isCubePresent = false;
 	}
 
 	// Called when another command which requires one or more of the same

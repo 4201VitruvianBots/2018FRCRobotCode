@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
@@ -21,6 +22,7 @@ public class SetIntakePistonsClose extends InstantCommand {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		Intake.isCubePresent = true;
 	}
 
 	// Called when another command which requires one or more of the same

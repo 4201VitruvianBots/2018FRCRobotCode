@@ -54,7 +54,7 @@ public class Elevator extends PIDSubsystem {
 	
 	public Elevator() {
 		super("Elevator", kP, kI, kD, kF, period);
-		setAbsoluteTolerance(0.1);
+		setAbsoluteTolerance(0.75);
 		setInputRange(hieghtLowerLimit, hieghtUpperLimit);
 		setOutputRange(-1, 1);
 		

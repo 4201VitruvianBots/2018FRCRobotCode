@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.commands.UpdateIntakeState;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -21,7 +22,7 @@ public class Intake extends Subsystem {
 		new WPI_TalonSRX(RobotMap.intakeRight)
 	};
 	
-	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward, RobotMap.intakeReverse);
+	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward + 1, RobotMap.intakeReverse - 1);
 	DigitalInput bumpSwitch = new DigitalInput(0);
 	
 	public static boolean isCubePresent = false;
@@ -99,5 +100,6 @@ public class Intake extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
+		//setDefaultCommand(new UpdateIntakeState());
 	}
 }

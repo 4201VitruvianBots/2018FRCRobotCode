@@ -17,7 +17,7 @@ public class SetWristDeltaSetpoint extends InstantCommand {
         this.inc = increment;
         
         setInterruptible(true);
-        Robot.wrist.setDefaultCommand(null);
+        //Robot.wrist.setDefaultCommand(null);
     }
 
     // Called just before this Command runs the first time
@@ -36,13 +36,18 @@ public class SetWristDeltaSetpoint extends InstantCommand {
 		        Robot.oi.enableXBoxRightRumble();
     	}
     	else
-			Robot.wrist.setDirectOutput(0.5);
+    		if(inc > 0)
+    			Robot.wrist.setDirectOutput(0.5);
+    		else if(inc < 0)
+    			Robot.wrist.setDirectOutput(-0.5);
+    		else
+    			Robot.wrist.setDirectOutput(0);
     }
 
     // Called once after isFinished returns true
     protected void end() {
 		Robot.oi.disableXBoxRightRumble();
-        Robot.wrist.setDefaultCommand(new UpdateWristSetpoint());
+        //Robot.wrist.setDefaultCommand(new UpdateWristSetpoint());
     }
 
     // Called when another command which requires one or more of the same

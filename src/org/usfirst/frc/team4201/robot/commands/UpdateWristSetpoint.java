@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  *
  */
 public class UpdateWristSetpoint extends Command {
+	public static boolean intaking;
 	double setpoint;
 	
 	public UpdateWristSetpoint() {
@@ -34,29 +35,23 @@ public class UpdateWristSetpoint extends Command {
  			else if(Robot.wrist.getAbsoluteAngle() < Robot.wrist.angleLowerLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleLowerLimit + 2);
  			
-    		
-    		// Default to one of two setpoints if no setpoint is being actively commanded
- 			if(Robot.arm.getAngle() < 0) 
- 				// If the arm is in the limit range, then we always have it retracted
- 				Robot.wrist.setSetpoint(120);
-			else if(Robot.arm.getAngle() >= 0)
- 				Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
-			/*
-    		} else {
-    			// Manual Closed-Loop Control
-        		if(Robot.oi.xBoxButtons[5].get()){
-	    			if(Robot.wrist.checkLimits(Robot.wrist.getSetpoint() + 1))
-	    				Robot.wrist.setSetpoint(Robot.wrist.getSetpoint() + 1);
-	    			else
-	    		        Robot.oi.enableXBoxRightRumble();
-        		} else if(Robot.oi.xBoxRightTrigger.get()){
-        			if(Robot.wrist.checkLimits(Robot.wrist.getSetpoint() - 1))
-	    				Robot.wrist.setSetpoint(Robot.wrist.getSetpoint() - 1);
-	    			else
-	    		        Robot.oi.enableXBoxRightRumble();
-        		}
-    		}
-    		*/
+ 			if(Robot.oi.xBoxButtons[1].get() || intaking)
+    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(0);
+			else if(Robot.oi.xBoxButtons[0].get())
+    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(180);	// 45
+			//else if(Robot.oi.xBoxButtons[2].get())
+    		//	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(180));
+			//else if(Robot.oi.xBoxButtons[3].get())
+    		//	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(135));
+			else		
+				// Default to one of two setpoints if no setpoint is being actively commanded
+	 			if(Robot.arm.getAngle() < 0) 
+	 				// If the arm is in the limit range, then we always have it retracted
+	 				setpoint = 130;
+				else if(Robot.arm.getAngle() >= 0)
+	 				setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(90);
+ 			
+ 			Robot.wrist.setSetpoint(setpoint);
     	} else {
     		if(!Robot.oi.xBoxButtons[5].get() && !Robot.oi.xBoxRightTrigger.get())
     			Robot.wrist.setDirectOutput(0.1); // Prevent backdrive in manual mode (Wrist can still move a bit after a certain point)
@@ -65,7 +60,7 @@ public class UpdateWristSetpoint extends Command {
     
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;	// What if this returns true? Does this eliminate all other issues?
+        return true;	// What if this returns true? Does this eliminate all other issues?
     }
 
     // Called once after isFinished returns true

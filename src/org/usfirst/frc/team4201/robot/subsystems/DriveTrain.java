@@ -22,6 +22,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -78,11 +79,17 @@ public class DriveTrain extends Subsystem {
 			//driveMotors[i].configPeakCurrentDuration(100, 0);
 		}
 		
-		spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+		try{
+			spartanGyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+
+			spartanGyro.setName("Gyro");
+			spartanGyro.setSubsystem("Drive Train");
+	        LiveWindow.add(spartanGyro);
+	        
+		} catch (Exception e){
+			DriverStation.reportError("4201 Error: Spartan Gyro not detected!", false);
+		}
 		
-		spartanGyro.setName("Gyro");
-		spartanGyro.setSubsystem("Drive Train");
-        LiveWindow.add(spartanGyro);
 
         robotDrive.setName("Robot Drive");
 		robotDrive.setSubsystem("Drive Train");

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 import org.usfirst.frc.team4201.robot.LUTs;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
@@ -21,7 +22,7 @@ public class SetWristRelativeSetpoint extends InstantCommand {
         requires(Robot.wrist);
         SetWristRelativeSetpoint.setpoint = setpoint;
 
-        Robot.wrist.setDefaultCommand(null);
+        //Robot.wrist.setDefaultCommand(null);
         setInterruptible(false);
     }
 
@@ -29,23 +30,30 @@ public class SetWristRelativeSetpoint extends InstantCommand {
     protected void initialize() {
     	// Check if new setpoint deosn't violate limits before setting
     	if(Wrist.state == 0){
-    		if(Robot.arm.getAngle() <= Wrist.armLimiterUpperBound){
+    		if(Robot.arm.getAngle() >= Wrist.armLimiterLowerBound && Robot.arm.getAngle() <= Wrist.armLimiterUpperBound){
 				try{
 					setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + Wrist.armLimiterUpperBound];
-					if(setpoint < setpointLimit)
-						setpoint = setpointLimit;
-					
+					if(Math.abs(setpoint) < setpointLimit)
+						setpoint = setpoint < 0 ? -setpointLimit : setpointLimit;
+						
 					if(Math.abs(Robot.wrist.getAbsoluteAngle() - setpoint) < 2);	// Rumble when arm cannot proceed further
 			       		Robot.oi.enableXBoxRightRumble();
+
+					Shuffleboard.putNumber("Wrist", "Setpoint Limit", setpoint);
 				} catch(Exception e) {
-					
+					Shuffleboard.putString("Wrist", "Wrist Status", "Error in Code");
 				}
     		}
     		absoluteSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint);
-			if(Robot.wrist.checkLimits(absoluteSetpoint))
+			Shuffleboard.putNumber("Wrist", "Abs Setpoint Limit", absoluteSetpoint);
+    		Robot.wrist.setSetpoint(absoluteSetpoint);
+			
+    		/*
+    		if(Robot.wrist.checkLimits(absoluteSetpoint))
 				Robot.wrist.setSetpoint(absoluteSetpoint);
 			else
 				Robot.oi.enableXBoxRightRumble();
+    		*/
     		/*
     		if(Robot.wrist.checkLimits(absoluteSetpoint)) {
     			if(Robot.arm.getAngle() <= 50){
@@ -84,7 +92,7 @@ public class SetWristRelativeSetpoint extends InstantCommand {
 
     // Called once after isFinished returns true
     protected void end() {
-        Robot.wrist.setDefaultCommand(new UpdateWristSetpoint());
+        //Robot.wrist.setDefaultCommand(new UpdateWristSetpoint());
         Robot.oi.disableXBoxRightRumble();
         //Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
     }

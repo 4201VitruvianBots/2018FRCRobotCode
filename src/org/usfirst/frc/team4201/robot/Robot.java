@@ -55,8 +55,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		autoModeChooser.addDefault("Super Auto Right", new SuperAutoRight());
-		autoModeChooser.addObject("Simple Center Auto", new SimpleCenterAuto());
+		//autoModeChooser.addDefault("Super Auto Right", new SuperAutoRight());
+		autoModeChooser.addDefault("Simple Center Auto", new SimpleCenterAuto());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
