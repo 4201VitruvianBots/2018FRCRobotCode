@@ -17,12 +17,19 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
-	public double kPUp = 0.3;	
-	public double kPDown = 0.1;	
-	public double kPClimb = 0.1;	
-	public double kIClimb = 0;
-	public double kDClimb = 0;
-	public double kFClimb = 0;
+	public static double kPHighUp = 0.3;
+	public static double kPHighDown = 0.3;
+	public static double kIHighUp = 0;
+	public static double kIHighDown = 0.001;
+	public static double kDHighUp = 0;	
+	public static double kDHighDown = 0.02;	
+	public static double kPLowUp = 0.3;
+	public static double kPLowDown = 0.3;
+	public static double kILowUp = 0;
+	public static double kILowDown = 0.001;
+	public static double kDLowUp = 0;	
+	public static double kDLowDown = 0.02;	
+	
 	
 	static double kP = 0.1;	
 	static double kI = 0;
@@ -31,7 +38,7 @@ public class Elevator extends PIDSubsystem {
 	static double period = 0.01;
 
 	public double hieghtLowerLimit = 2.9;			// -33
-	public double hieghtUpperLimit = 28;			//26.3			// 60
+	public double hieghtUpperLimit = 26;			//26.3			// 60
 	public double sensorLowerLimit = 0;
 	public double sensorUpperLimit = 52.6464;		// Adjusted, ideal is 50
 	static double sensorOffset = 0;
@@ -56,7 +63,7 @@ public class Elevator extends PIDSubsystem {
 		super("Elevator", kP, kI, kD, kF, period);
 		setAbsoluteTolerance(0.75);
 		setInputRange(hieghtLowerLimit, hieghtUpperLimit);
-		setOutputRange(-1, 1);
+		setOutputRange(-0.5, 1);
 		
 		for(int i = 0; i < elevatorMotors.length; i++){
 			elevatorMotors[i].setNeutralMode(NeutralMode.Brake);
@@ -166,6 +173,9 @@ public class Elevator extends PIDSubsystem {
 		Shuffleboard.putBoolean("Elevator", "Shifters", getElevatorShiftersStatus());
 		Shuffleboard.putBoolean("Elevator", "Disk Brake", getDiskBrakeStatus());
 		Shuffleboard.putBoolean("Elevator", "PID Enabled", getPIDController().isEnabled());
+		Shuffleboard.putNumber("Elevator", "kP", getPIDController().getP());
+		Shuffleboard.putNumber("Elevator", "kI", getPIDController().getI());
+		Shuffleboard.putNumber("Elevator", "kD", getPIDController().getD());
 		
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putNumber("Elevator Hieght", getHieght());

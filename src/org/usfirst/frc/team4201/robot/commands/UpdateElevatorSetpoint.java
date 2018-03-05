@@ -41,16 +41,37 @@ public class UpdateElevatorSetpoint extends Command {
  		    	// Check if new setpoint deosn't violate limits before setting
 		    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + (0.5 * yAxis))) {
 	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
-		    		if(Robot.elevator.getSetpoint() + (0.5 * yAxis) > Robot.elevator.getSetpoint())
-						Robot.elevator.getPIDController().setP(Robot.elevator.kPUp);
-					else
-						Robot.elevator.getPIDController().setP(Robot.elevator.kPDown);
 		    		
 					Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + (0.5 * yAxis));
 		    	} else {
 					// Haptic feedback for operator
 			        Robot.oi.enableXBoxLeftRumbleTimed();
 				}
+ 			
+			if(Robot.elevator.getElevatorShiftersStatus()) {
+				if(Robot.elevator.getPIDController().get() > 0){
+					Robot.elevator.getPIDController().setP(Elevator.kPLowUp);
+					Robot.elevator.getPIDController().setD(Elevator.kILowUp);
+					Robot.elevator.getPIDController().setI(Elevator.kDLowUp);
+				} else {
+					Robot.elevator.getPIDController().setP(Elevator.kPLowDown);
+					Robot.elevator.getPIDController().setD(Elevator.kILowDown);
+					Robot.elevator.getPIDController().setI(Elevator.kDLowDown);
+					
+				}
+ 			} else {
+				if(Robot.elevator.getPIDController().get() > 0){
+					Robot.elevator.getPIDController().setP(Elevator.kPHighUp);
+					Robot.elevator.getPIDController().setD(Elevator.kIHighUp);
+					Robot.elevator.getPIDController().setI(Elevator.kDHighUp);
+ 					
+ 				} else {
+					Robot.elevator.getPIDController().setP(Elevator.kPHighDown);
+					Robot.elevator.getPIDController().setD(Elevator.kIHighDown);
+					Robot.elevator.getPIDController().setI(Elevator.kDHighDown);
+ 				}
+ 			}
+ 			
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)

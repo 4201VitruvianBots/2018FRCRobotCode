@@ -24,7 +24,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  *
  */
 public class PathFinderRead extends Command{
-	double max_vel = 180; // 180
+	double max_vel = 3; // 180
 	
 	Trajectory leftTrajectory, rightTrajectory;
 	TankModifier modifier;
@@ -67,30 +67,40 @@ public class PathFinderRead extends Command{
 			File rightFile = new File("/media/sda1/Pathfinder/" + filename + "_Right.csv");
 			Trajectory rT = Pathfinder.readFromCSV(rightFile);
 			rightTrajectory =  rT;
-			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Trajectory Read!");
+			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Trajectory Read Success!");
 		} catch (Exception e) {
 			// Handle it how you want
+			File leftFile = new File("/media/sda1/Pathfinder/straightCalibration_Left.csv");
+			Trajectory lT = Pathfinder.readFromCSV(leftFile);
+			leftTrajectory = lT;
+			File rightFile = new File("/media/sda1/Pathfinder/straightCalibration_Right.csv");
+			Trajectory rT = Pathfinder.readFromCSV(rightFile);
+			rightTrajectory =  rT;
+			
 			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Trajectory Read Failed!");
 		} 
 		
 		// This resets the trajectory counts so you can run autos successively without redeploying the entire code.
-		left.reset();
-		right.reset();
-		
+		try {
+			left.reset();
+			right.reset();
+		} catch (Exception e){
+			
+		}
 		// Configure encoder classes to follow the trajectories
     	left = new EncoderFollower(leftTrajectory);
 		right = new EncoderFollower(rightTrajectory);
     	
 		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Enabling...");
-		
-		left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
+																						// 1080 for Grasshopper
+		left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1080, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1080, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
 
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
 		// Usually, you wont have to adjust this though.
-		left.configurePIDVA(1, 0, 0.04, 1 / max_vel, 0);
-		right.configurePIDVA(1, 0, 0.04, 1 / max_vel, 0);   
+		left.configurePIDVA(1, 0, 0, 1 / max_vel, 0);
+		right.configurePIDVA(1, 0, 0, 1 / max_vel, 0);   
 
 		stopwatch = new Timer(); 
 		lock = false;

@@ -23,14 +23,14 @@ public class Wrist extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 	
-	public static int armLimiterLowerBound = -50;
-	public static int armLimiterUpperBound = 50;
+	public static int armLimiterLowerBound = -51;
+	public static int armLimiterUpperBound = 49;
 
 	public double angleLowerLimit = -105;												// -75
 	public double angleUpperLimit = 125;												// 50 	
 	public double sensorLowerLimit = 0;													//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
-	static double sensorOffset = 657;														// -240;
+	static double sensorOffset = 651;														// -240;
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
@@ -171,9 +171,14 @@ public class Wrist extends PIDSubsystem {
 		Shuffleboard.putNumber("Wrist", "Upper Limit", angleUpperLimit);
 		Shuffleboard.putNumber("Wrist", "Pot Test", wristPot.get());
 		Shuffleboard.putNumber("Wrist", "Arm Angle", Robot.arm.getAngle());
-		Shuffleboard.putNumber("Wrist", "Wrist Limit Angle", Math.abs(Robot.arm.getAngle()) <= 50 ? LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + armLimiterUpperBound] : 0);
 		Shuffleboard.putBoolean("Wrist", "PID Enabled", getPIDController().isEnabled());
-
+		
+		try {
+			Shuffleboard.putNumber("Wrist", "Wrist Limit Angle", Math.abs(Robot.arm.getAngle()) >= armLimiterLowerBound && Robot.arm.getAngle() <= armLimiterUpperBound ? LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimiterLowerBound] : 0);
+		} catch(Exception e) {
+			
+		}
+		
 		// For TripleThreat Testbed
 		//Shuffleboard.putNumber("Triple Threat", "Wrist Absolute Angle", getAbsoluteAngle());
 		//Shuffleboard.putNumber("Triple Threat", "Wrist Relative Angle", getRelativeAngle());

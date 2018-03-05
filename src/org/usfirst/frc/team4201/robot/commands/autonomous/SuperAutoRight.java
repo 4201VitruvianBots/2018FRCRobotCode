@@ -14,16 +14,15 @@ public class SuperAutoRight extends CommandGroup{
 	public SuperAutoRight() {
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'R'){
 			// Move to Scale 
-			addParallel(new SetArmElevatorSetpoints(50, 0));
+			addParallel(new AutoSetArmElevatorSetpoints(52, 12));
 			// sequential: Pathfinder - Move to scale (ideal)
-			addSequential(new PathFinderRead("rightStartToRightScale"));
+			addSequential(new PathFinderRead("straightCalibration"));
 			
 			// Score at scale
-			addSequential(new HoldWristSetpoint());
-			addSequential(new SetWristRelativeSetpoint(180));
-			addSequential(new SetIntakeMotorOutputs(-0.5));
-			addSequential(new Delay(0.1));
-			addSequential(new ReleaseWristSetpoint());
+			addSequential(new AutoSetWristRelativeSetpoint(180));
+			addSequential(new AutoSetIntakeMotorOutputs(-0.75, 1));
+			addSequential(new AutoReleaseWristSetpoint());
+			addSequential(new SetIntakeMotorOutputs(0));
 
 			if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R') { /*
 				// Reverse and intake cube one

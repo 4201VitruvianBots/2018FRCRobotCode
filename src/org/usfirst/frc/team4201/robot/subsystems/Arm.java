@@ -16,8 +16,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends PIDSubsystem {
-	public double kPUp = 0.9;	
-	public double kPDown = 0.25;
+	public static double kPUp = 0.9;	
+	public static double kPDown = 0.25;
+	public static double kDDown = 0.25;
 	public static double kP = 0.25;		// Test values for Triple Threat
 	static double kI = 0;
 	static double kD = 0;
@@ -29,11 +30,11 @@ public class Arm extends PIDSubsystem {
 	public double angleOffset = 80;		
 	public double sensorLowerLimit = 0;																														
 	public double sensorUpperLimit = 105;																														
-	static double sensorOffset = -80;																														
+	static double sensorOffset = -75.5;																														
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 4.5;
 
-	public static int state = 0;
+	public static int state = 1;
 	
 	double previousAngle = -60;
 	

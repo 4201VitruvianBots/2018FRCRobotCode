@@ -55,8 +55,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		//autoModeChooser.addDefault("Super Auto Right", new SuperAutoRight());
-		autoModeChooser.addDefault("Simple Center Auto", new SimpleCenterAuto());
+		autoModeChooser.addDefault("Super Auto Right", new SuperAutoRight());
+		//autoModeChooser.addObject("Simple Center Auto", new SimpleCenterAuto());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putData("Drive Type", driveMode);
 
+		elevator.setElevatorShiftersHigh();
 		//pidTuner.initializeSmartDashboard();
 	}
 
@@ -127,6 +128,7 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+		elevator.setElevatorShiftersHigh();
 	}
 
 	/**
@@ -141,6 +143,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		elevator.setElevatorShiftersHigh();
 		
 		//Sets drive train motors to coast.
 		driveTrain.resetSensors();

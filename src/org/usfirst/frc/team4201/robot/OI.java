@@ -80,7 +80,7 @@ public class OI {
 		
         leftButtons[0].whileHeld(new SetIntakeMotorOutputs(-0.75));					// Left Joystick Trigger: Eject cube
         leftButtons[0].whenReleased(new SetIntakeMotorOutputs(0));					// Left Joystick Trigger: Eject cube
-        //leftButtons[1].whenPressed(new SetDriveShiftersHigh());					// Left Center Thumb Button: N/A
+        //leftButtons[1].toggleWhenPressed(new BurnTest());							// Left Center Thumb Button: N/A
         //leftButtons[2].whenPressed(new SetDriveShiftersLow());					// Left Left Thumb Button Up:
         //leftButtons[4].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Left Thumb Button Down: 
         //leftButtons[3].whenPressed(new EnableClimbMode());						// Left Right Thumb Button Up: Retract Intake
@@ -88,7 +88,7 @@ public class OI {
         //leftButtons[6].whenPressed(new SetPIDTunerValues());						// Forward Button
         
         rightButtons[0].whenPressed(new SetIntakePistonsOpen());					// Right Joystick Trigger: Deploy intake
-        //rightButtons[1].whenPressed(new SetDriveShiftersHigh());					// Left Center Thumb Button: N/A                     
+        rightButtons[1].whenPressed(new ToggleElevatorShifters());					// Left Center Thumb Button: N/A                     
         rightButtons[2].whenPressed(new SetDriveShiftersLow());					// Left Left Thumb Button Up:                        
         rightButtons[4].whenPressed(new SetDriveShiftersHigh());						// Left Left Thumb Button Down:                      
         //rightButtons[3].whenPressed(new EnableClimbMode());							// Left Right Thumb Button Up: Retract Intake        
@@ -115,7 +115,7 @@ public class OI {
         if(Wrist.state == 0) 
         	setWristManualMode();
         
-        xBoxButtons[4].whenPressed(new SetArmElevatorSetpoints(-58, 3));				// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+        xBoxButtons[4].whenPressed(new SetArmElevatorSetpoints(-58, 10));				// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
         xBoxButtons[4].whenPressed(new SetIntakePistonsClose());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
         
         //xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));
@@ -198,14 +198,14 @@ public class OI {
 	public void checkDriverInputs(){
 		
 		// Read the xBox Controller D-Pad and use that to set the Wrist/Arm/Elevator positions
-		if(xBoxController.getPOV() == 0) 			// 0 degrees, Up Button: Set Wrist/Arm/Elevator to Forward Scale High Position
+		if(xBoxController.getPOV() == 0) 			// 0 degrees, Up Button: Set Wrist/Arm/Elevator to Forward Scale Super High Position
 			Scheduler.getInstance().add(new SetArmElevatorSetpoints(48, 25));	// -90,
-		else if (xBoxController.getPOV() == 90) 	// 90 degrees, Right Button: Set Wrist/Arm/Elevator to Forward Scale Neutral Position
+		else if (xBoxController.getPOV() == 90) 	// 90 degrees, Right Button: Set Wrist/Arm/Elevator to Forward Scale High Position
 			Scheduler.getInstance().add(new SetArmElevatorSetpoints(48, 12));	// -90,
 		else if (xBoxController.getPOV() == 180) 	// 180 degrees, Down Button: Set  Wrist/Arm/Elevator to Forward Scale Low Position
-			Scheduler.getInstance().add(new SetArmElevatorSetpoints(27, 3 ));	// -90,
+			Scheduler.getInstance().add(new SetArmElevatorSetpoints(26, 5));	// -90,
 		else if (xBoxController.getPOV() == 270) 	// 270 degrees, Left Button: Set Wrist/Arm/Elevator to Switch Position
-			Scheduler.getInstance().add(new SetArmElevatorSetpoints(-58, 26));	// -90,
+			Scheduler.getInstance().add(new SetArmElevatorSetpoints(-58, 25));	// -90,
 		
 		// Check if two of the driver joysticks are pressed to enable climb mode. This is done to avoid accidental deployment mid-match.
 		//if(leftButtons[6].get() && rightButtons[6].get())
