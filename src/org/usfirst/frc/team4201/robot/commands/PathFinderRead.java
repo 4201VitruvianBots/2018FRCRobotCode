@@ -1,19 +1,13 @@
 package org.usfirst.frc.team4201.robot.commands;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.*;
 
 import org.usfirst.frc.team4201.robot.Robot;
-import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -70,14 +64,16 @@ public class PathFinderRead extends Command{
 			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Trajectory Read Success!");
 		} catch (Exception e) {
 			// Handle it how you want
-			File leftFile = new File("/media/sda1/Pathfinder/straightCalibration_Left.csv");
-			Trajectory lT = Pathfinder.readFromCSV(leftFile);
-			leftTrajectory = lT;
-			File rightFile = new File("/media/sda1/Pathfinder/straightCalibration_Right.csv");
-			Trajectory rT = Pathfinder.readFromCSV(rightFile);
-			rightTrajectory =  rT;
-			
-			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Trajectory Read Failed!");
+			if(first){
+				File leftFile = new File("/media/sda1/Pathfinder/straightCalibration_Left.csv");
+				Trajectory lT = Pathfinder.readFromCSV(leftFile);
+				leftTrajectory = lT;
+				File rightFile = new File("/media/sda1/Pathfinder/straightCalibration_Right.csv");
+				Trajectory rT = Pathfinder.readFromCSV(rightFile);
+				rightTrajectory =  rT;
+				
+				Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Trajectory Read Failed!");
+			}
 		} 
 		
 		// This resets the trajectory counts so you can run autos successively without redeploying the entire code.
@@ -150,6 +146,21 @@ public class PathFinderRead extends Command{
     	Robot.driveTrain.setDriveOutput(0, 0);
     	stopwatch.stop();
     	Shuffleboard.putNumber("Pathfinder", "Path Time", stopwatch.get());
+    	
+    	if(first) {
+    		try {
+	    		FileWriter writer = new FileWriter("/media/sda1/Pathfinder/calibrationFile.txt", true);
+	            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+	            
+	            bufferedWriter.write("Left Enc. Count: " + Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
+	            bufferedWriter.newLine();
+	            bufferedWriter.write("Right Enc. Count: " + Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+	 
+	            bufferedWriter.close();
+    		} catch(Exception e) {
+    			DriverStation.reportError("Error: Could not write to calibration file", false);
+    		}
+    	}
     }
 
     // Called when another command which requires one or more of the same

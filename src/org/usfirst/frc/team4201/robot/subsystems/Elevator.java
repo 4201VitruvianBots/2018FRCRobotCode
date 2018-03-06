@@ -23,14 +23,15 @@ public class Elevator extends PIDSubsystem {
 	public static double kIHighDown = 0.001;
 	public static double kDHighUp = 0;	
 	public static double kDHighDown = 0.02;	
-	public static double kPLowUp = 0.3;
-	public static double kPLowDown = 0.3;
+	
+	public static double kPLowUp = 0.5;
+	public static double kPLowDown = 0.4;
 	public static double kILowUp = 0;
-	public static double kILowDown = 0.001;
+	public static double kILowDown = 0;
 	public static double kDLowUp = 0;	
-	public static double kDLowDown = 0.02;	
+	public static double kDLowDown = 0;	
 	
-	
+	// Default values
 	static double kP = 0.1;	
 	static double kI = 0;
 	static double kD = 0;

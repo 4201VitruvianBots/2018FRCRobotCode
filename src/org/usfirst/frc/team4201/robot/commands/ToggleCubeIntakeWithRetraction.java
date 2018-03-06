@@ -94,9 +94,15 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     		Robot.wrist.setDirectOutput(0);
     	}
     	
-    	Robot.intake.setIntakeMotorOutput(0);
+    	
+    	if(finished) {
+    		Intake.isCubePresent = true;
+        	Robot.intake.setIntakeMotorOutput(0.1);
+    		
+    	} else 
+        	Robot.intake.setIntakeMotorOutput(0);
+    	
     	UpdateWristSetpoint.intaking = false;
-        Intake.isCubePresent = true;
     }
 
     // Called when another command which requires one or more of the same

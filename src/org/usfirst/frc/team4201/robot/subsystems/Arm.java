@@ -17,13 +17,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends PIDSubsystem {
 	public static double kPUp = 0.9;	
+	public static double kDUp = 0;
 	public static double kPDown = 0.25;
-	public static double kDDown = 0.25;
+	public static double kDDown = 0;
+	
 	public static double kP = 0.25;		// Test values for Triple Threat
-	static double kI = 0;
-	static double kD = 0;
-	static double kF = 0;
-	static double period = 0.01;
+	public static double kI = 0;
+	public static double kD = 0;
+	public static double kF = 0;
+	public static double period = 0.01;
 
 	public double angleLowerLimit = -60;	// -67.73																									// 1.5		
 	public double angleUpperLimit = 60;		// Physical limit is closer to 55, but 53 is to prevent DART from getting stuck at max extension	//11.5;		
@@ -143,10 +145,12 @@ public class Arm extends PIDSubsystem {
 		Shuffleboard.putNumber("Arm", "DART Hieght", getDARTHieght());
 		Shuffleboard.putNumber("Arm", "Angle", getAngle());
 		Shuffleboard.putNumber("Arm", "Pot Avg. Voltage", aP.getAverageVoltage());
-		Shuffleboard.putNumber("Arm", "kP", getPIDController().getP());
 		Shuffleboard.putNumber("Arm", "Setpoint", getSetpoint());
 		Shuffleboard.putNumber("Arm", "Motor Output", armMotors[0].get());
 		Shuffleboard.putBoolean("Arm", "PID Enabled", getPIDController().isEnabled());
+		Shuffleboard.putNumber("Arm", "kP", getPIDController().getP());
+		Shuffleboard.putNumber("Arm", "kI", getPIDController().getI());
+		Shuffleboard.putNumber("Arm", "kD", getPIDController().getD());
 		
 		// For TripleThreat Testbed
 		//Shuffleboard.putNumber("Triple Threat", "Arm Angle", getAngle());

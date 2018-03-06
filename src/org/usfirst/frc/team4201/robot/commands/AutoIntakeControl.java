@@ -53,12 +53,12 @@ public class AutoIntakeControl extends Command {
     		stopwatch.reset();
     		stopwatch.start();
     		while(stopwatch.get() < 0.1){
-            	Robot.intake.setIntakeMotorOutput(1, 0.75);
+            	Robot.intake.setIntakeMotorOutput(0.75, 0.75);
     		}
     		stopwatch.stop();
     		stopwatch.reset();
     		//Intake.isCubePresent = true;
-        	Robot.wrist.setSetpoint(120);
+        	Robot.wrist.setSetpoint(130);
     	} else if(cubeDetected){
             Robot.intake.setIntakeMotorOutput(0);
             
@@ -67,8 +67,8 @@ public class AutoIntakeControl extends Command {
     		
 			Robot.wrist.setDirectOutput(0);
     	}
-    	else
-            Robot.intake.setIntakeMotorOutput(0);
+    	
+        Robot.intake.setIntakeMotorOutput(0.1);
     }
 
     // Called when another command which requires one or more of the same

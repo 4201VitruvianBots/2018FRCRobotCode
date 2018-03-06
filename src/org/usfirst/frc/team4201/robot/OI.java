@@ -81,23 +81,25 @@ public class OI {
         leftButtons[0].whileHeld(new SetIntakeMotorOutputs(-0.75));					// Left Joystick Trigger: Eject cube
         leftButtons[0].whenReleased(new SetIntakeMotorOutputs(0));					// Left Joystick Trigger: Eject cube
         //leftButtons[1].toggleWhenPressed(new BurnTest());							// Left Center Thumb Button: N/A
-        //leftButtons[2].whenPressed(new SetDriveShiftersLow());					// Left Left Thumb Button Up:
-        //leftButtons[4].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Left Thumb Button Down: 
+        //leftButtons[2].whenPressed(new SetDriveShiftersLow());					// Left Left Thumb Button Up: N/A
+        //leftButtons[4].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Left Thumb Button Down: N/A
         //leftButtons[3].whenPressed(new EnableClimbMode());						// Left Right Thumb Button Up: Retract Intake
         leftButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Right Thumb Button Down: Deploy Intake
-        //leftButtons[6].whenPressed(new SetPIDTunerValues());						// Forward Button
+        //leftButtons[6].whenPressed(new SetPIDTunerValues());						// Forward Button: N/A
         
         rightButtons[0].whenPressed(new SetIntakePistonsOpen());					// Right Joystick Trigger: Deploy intake
-        rightButtons[1].whenPressed(new ToggleElevatorShifters());					// Left Center Thumb Button: N/A                     
-        rightButtons[2].whenPressed(new SetDriveShiftersLow());					// Left Left Thumb Button Up:                        
-        rightButtons[4].whenPressed(new SetDriveShiftersHigh());						// Left Left Thumb Button Down:                      
-        //rightButtons[3].whenPressed(new EnableClimbMode());							// Left Right Thumb Button Up: Retract Intake        
-        //rightButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Right Thumb Button Down: Deploy Intake       
-        //rightButtons[6].whenPressed(new SetPIDTunerValues());				        // Forward Button                                    
-          
+        //rightButtons[1].whenPressed(new ToggleElevatorShifters());				// Left Center Thumb Button: N/A                     
+        rightButtons[2].whenPressed(new SetDriveShiftersLow());						// Left Left Thumb Button Up:                        
+        rightButtons[4].whenPressed(new SetDriveShiftersHigh());					// Left Left Thumb Button Down:                      
+        //rightButtons[3].whenPressed(new EnableClimbMode());						// Left Right Thumb Button Up: N/A   
+        //rightButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());		// Left Right Thumb Button Down: N/A       
+        //rightButtons[6].whenPressed(new SetPIDTunerValues());				        // Forward Button: Broken                                    
+
+        xBoxButtons[2].whenPressed(new SetElevatorShiftersLow());		
+        xBoxButtons[3].whenPressed(new SetElevatorShiftersHigh());			
         /*
         for(int i = 0; i < 3; i++) {
-	        xBoxButtons[0].whileHeld(new HoldWristSetpoint());					// A Button: Set Intake to forward shoot position
+	        xBoxButtons[0].whileHeld(new HoldWristSetpoint());						// A Button: Set Intake to forward shoot position
 	        xBoxButtons[0].whenReleased(new ReleaseWristSetpoint());
         }
         xBoxButtons[0].whileHeld(new SetWristRelativeSetpoint(45));					// A Button: Set Intake to forward shoot position

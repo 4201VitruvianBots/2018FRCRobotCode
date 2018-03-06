@@ -2,11 +2,7 @@ package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Waypoint;
 
-import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.commands.*;
 
 public class SuperAutoRight extends CommandGroup{
@@ -16,13 +12,13 @@ public class SuperAutoRight extends CommandGroup{
 			// Move to Scale 
 			addParallel(new AutoSetArmElevatorSetpoints(52, 12));
 			// sequential: Pathfinder - Move to scale (ideal)
-			addSequential(new PathFinderRead("straightCalibration"));
+			addSequential(new PathFinderRead("straightCalibration", true));
 			
 			// Score at scale
 			addSequential(new AutoSetWristRelativeSetpoint(180));
 			addSequential(new AutoSetIntakeMotorOutputs(-0.75, 1));
 			addSequential(new AutoReleaseWristSetpoint());
-			addSequential(new SetIntakeMotorOutputs(0));
+			addSequential(new AutoSetIntakeMotorOutputs(0, 0));
 
 			if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R') { /*
 				// Reverse and intake cube one
@@ -68,10 +64,10 @@ public class SuperAutoRight extends CommandGroup{
 			}
 		} else if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R') {
 			// score at switch (ideal), then intake and score at scale (non-ideal) then intake
-			
-			// Parallel: move/arm/wrist/intake to intake position
-			// Parallel: Activate intake motors
-			// sequential: Pathfinder - Move to cube 1 (Curve)
+
+			addParallel(new AutoSetArmElevatorSetpoints(-60, 25));
+			// sequential: Pathfinder - Move to switch (ideal)
+			addSequential(new PathFinderRead("rightStartToRightSwitch", true));
 
 			// parallel: move arm/wrist/intake to scale
 			// sequential: Pathfinder - Move to scale (non-ideal)
@@ -83,7 +79,7 @@ public class SuperAutoRight extends CommandGroup{
 		} else { // If both scoring platforms are opposite of your starting position
 			// score at scale (non-ideal):
 			// parallel: move arm/wrist/intake to scale
-			addSequential(new PathFinderRead("rightStartToLeftScaleOne"));
+			addSequential(new PathFinderRead("rightStartToLeftScaleOne", true));
 			//addSequential(new PathFinderRead("rightStartToLeftScaleTwo"));
 			
 			// Parallel: move/arm/wrist/intake to intake position

@@ -42,7 +42,7 @@ public class Wrist extends PIDSubsystem {
 	
 	/*	Wrist LUT:
 	 *	60 (0): Parallel to Ground 
-	 *	180 (120): Parallel to arm
+	 *	180 (130): Parallel to arm (I use 130 because it seems better in practice)
 	 *	105 (45): Shoot Forward
 	 *	240 (180): Reverse Parallel
 	 *	195 (135): Reverse Shoot
@@ -87,7 +87,6 @@ public class Wrist extends PIDSubsystem {
 	
 	// Get the angle of the wrist at the sprocket
 	public double getAbsoluteAngle() {
-		//return wP.getAverageVoltage() * (250/(4.468 - 1.23)) - 120;
 		return wristPot.get() / 2.333; // 2.333 gear ratio
 		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}

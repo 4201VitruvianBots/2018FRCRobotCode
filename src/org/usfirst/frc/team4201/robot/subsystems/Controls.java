@@ -115,7 +115,6 @@ public class Controls extends Subsystem{
 		Shuffleboard.putNumber("Controls", "Intake Right Current", Robot.intake.intakeMotors[1].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "Total Current Draw", pdp.getTotalCurrent());
 		Shuffleboard.putBoolean("Controls", "Brownout", RobotController.isBrownedOut());
-		Shuffleboard.putNumber("Controls", "POV", Robot.oi.xBoxController.getPOV());
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Total Current Draw", pdp.getTotalCurrent());
