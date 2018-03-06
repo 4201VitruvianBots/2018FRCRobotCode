@@ -4,32 +4,28 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**	This command must be an InstantCommand because of how we're using it.
+/**
  *
  */
-public class AutoSetWristRelativeSetpoint extends Command {
-	double setpoint;
-	
-    public AutoSetWristRelativeSetpoint(double setpoint) {
-    	requires(Robot.wrist);
-    	
-    	this.setpoint = setpoint;
-    	setTimeout(1);
+public class UpdateControlState extends Command {
+
+    public UpdateControlState() {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.controls);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	UpdateWristSetpoint.autoCommand = true;
-    	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint));
     }
-    
-    @Override
-   	protected void execute() {
-    	//UpdateWristSetpoint.autoSetpoint = setpoint;
-    }       
+
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+    	Robot.controls.checkMechanismStatus();
+    }
+
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.wrist.onTarget() || isTimedOut();
+        return false;
     }
 
     // Called once after isFinished returns true

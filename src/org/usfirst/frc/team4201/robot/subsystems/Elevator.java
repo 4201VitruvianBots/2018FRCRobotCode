@@ -17,19 +17,19 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
-	public static double kPHighUp = 0.3;
-	public static double kPHighDown = 0.3;
-	public static double kIHighUp = 0;
-	public static double kIHighDown = 0.001;
-	public static double kDHighUp = 0;	
-	public static double kDHighDown = 0.02;	
-	
-	public static double kPLowUp = 0.5;
-	public static double kPLowDown = 0.4;
-	public static double kILowUp = 0;
-	public static double kILowDown = 0;
+	public static double kPLowUp = 0.3;
+	public static double kPLowDown = 0.3;
+	public static double kILowUp = 0.005;
+	public static double kILowDown = 0.005;
 	public static double kDLowUp = 0;	
-	public static double kDLowDown = 0;	
+	public static double kDLowDown = 0.1;	
+	
+	public static double kPHighUp = 2;
+	public static double kPHighDown = 2;
+	public static double kIHighUp = 0;
+	public static double kIHighDown = 0;
+	public static double kDHighUp = 0;	
+	public static double kDHighDown = 0;	
 	
 	// Default values
 	static double kP = 0.1;	
@@ -62,7 +62,7 @@ public class Elevator extends PIDSubsystem {
 	
 	public Elevator() {
 		super("Elevator", kP, kI, kD, kF, period);
-		setAbsoluteTolerance(0.75);
+		setAbsoluteTolerance(1);
 		setInputRange(hieghtLowerLimit, hieghtUpperLimit);
 		setOutputRange(-0.5, 1);
 		
@@ -72,9 +72,9 @@ public class Elevator extends PIDSubsystem {
 			elevatorMotors[i].configPeakOutputReverse(-1, 0);
 			elevatorMotors[i].setInverted(true);
 			//elevatorMotors[i].setSafetyEnabled(true);
-			//elevatorMotors[i].configContinuousCurrentLimit(40, 0);
-			//elevatorMotors[i].configPeakCurrentLimit(80, 0);
-			//elevatorMotors[i].configPeakCurrentDuration(100, 0);
+			elevatorMotors[i].configContinuousCurrentLimit(30, 0);
+			elevatorMotors[i].configPeakCurrentLimit(80, 0);
+			elevatorMotors[i].configPeakCurrentDuration(100, 0);
 		}
 		elevatorMotors[1].set(ControlMode.Follower, elevatorMotors[0].getDeviceID());
 		
@@ -152,7 +152,6 @@ public class Elevator extends PIDSubsystem {
 		return diskBrake.get() == Value.kForward ? true : false;
 	}
 	
-	
 	@Override
 	protected double returnPIDInput() {
 		// TODO Auto-generated method stub
@@ -170,13 +169,18 @@ public class Elevator extends PIDSubsystem {
 		Shuffleboard.putNumber("Elevator", "Hieght", getHieght());
 		Shuffleboard.putNumber("Elevator", "Avg. Pot Voltage", eP.getAverageVoltage());
 		Shuffleboard.putNumber("Elevator", "Setpoint", getSetpoint());
-		Shuffleboard.putNumber("Elevator", "Motor Output", elevatorMotors[0].getMotorOutputVoltage());
 		Shuffleboard.putBoolean("Elevator", "Shifters", getElevatorShiftersStatus());
 		Shuffleboard.putBoolean("Elevator", "Disk Brake", getDiskBrakeStatus());
 		Shuffleboard.putBoolean("Elevator", "PID Enabled", getPIDController().isEnabled());
 		Shuffleboard.putNumber("Elevator", "kP", getPIDController().getP());
 		Shuffleboard.putNumber("Elevator", "kI", getPIDController().getI());
 		Shuffleboard.putNumber("Elevator", "kD", getPIDController().getD());
+		Shuffleboard.putNumber("Elevator", "Motor Output A", elevatorMotors[0].getMotorOutputVoltage());
+		Shuffleboard.putNumber("Elevator", "Motor Output B", elevatorMotors[1].getMotorOutputVoltage());
+		Shuffleboard.putNumber("Elevator", "Elevator A Current", elevatorMotors[0].getOutputCurrent());
+		Shuffleboard.putNumber("Elevator", "Elevator B Current", elevatorMotors[1].getOutputCurrent());
+		Shuffleboard.putNumber("Elevator", "Elevator A Voltage", elevatorMotors[0].getBusVoltage());
+		Shuffleboard.putNumber("Elevator", "Elevator B Voltage", elevatorMotors[1].getBusVoltage());
 		
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putNumber("Elevator Hieght", getHieght());

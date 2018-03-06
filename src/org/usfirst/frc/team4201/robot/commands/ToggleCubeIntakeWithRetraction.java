@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class ToggleCubeIntakeWithRetraction extends Command {
 	boolean cubeFlush, cubeStalled, finished;
 	
-	
 	Timer stopwatch;
 	
     public ToggleCubeIntakeWithRetraction() {
@@ -35,10 +34,11 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	cubeFlush = false;
     	UpdateWristSetpoint.intaking = true;
     	Robot.wrist.setSetpointRelative(Robot.wrist.convertRelativeToAbsoluteSetpoint(0));
-    	Robot.arm.setSetpoint(-58);
+    	Robot.arm.setSetpoint(-59);
     	Robot.elevator.setSetpoint(2.8);
     	Robot.intake.retractIntakePistons();
     	finished = false;
+    	UpdateArmSetpoint.lock = true;
     }
     
     @Override
@@ -103,6 +103,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
         	Robot.intake.setIntakeMotorOutput(0);
     	
     	UpdateWristSetpoint.intaking = false;
+    	UpdateArmSetpoint.lock = false;
     }
 
     // Called when another command which requires one or more of the same

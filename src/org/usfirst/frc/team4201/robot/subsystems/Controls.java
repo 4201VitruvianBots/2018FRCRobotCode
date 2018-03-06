@@ -2,17 +2,21 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.commands.UpdateControlState;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Controls extends Subsystem{
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
+	
+	Timer elevatorTimeout;
 	
 	public DigitalOutput LEDS[] = {
 		new DigitalOutput(RobotMap.redSignal),
@@ -25,6 +29,8 @@ public class Controls extends Subsystem{
 	
 	public Controls(){
 		super("Controls");
+		
+		elevatorTimeout = new Timer();
 	}
 	
 	public void updateCurrentState(){
@@ -71,8 +77,22 @@ public class Controls extends Subsystem{
 		}
 	}
 	
-	public void checkSensorHealth(){
+	public void checkMechanismStatus(){
+		
+		if(Robot.elevator.elevatorMotors[0].getOutputCurrent() + Robot.elevator.elevatorMotors[1].getOutputCurrent() > 130){
+			elevatorTimeout.start();
+		} else {
+			elevatorTimeout.stop();
+			elevatorTimeout.reset();
+		}
+		
+		if(elevatorTimeout.get() > 5) {
+			Robot.elevator.disable();
+			Elevator.state = 1;
+		}
+		
 		// NEED TO TEST
+		/*
 		if(Robot.elevator.getPIDController().get() > 0) {
 			// Is error absolute?
 			if(!Robot.elevator.checkLimits(Robot.elevator.returnPIDInput() + Robot.elevator.getPIDController().getError())){
@@ -87,6 +107,7 @@ public class Controls extends Subsystem{
 				Elevator.state = 1;
 			}
 		}
+		*/
 	}
 	
 	public boolean getRGBFStatus(int channel){
@@ -126,6 +147,6 @@ public class Controls extends Subsystem{
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		//setDefaultCommand(command);
+		setDefaultCommand(new UpdateControlState());
 	}
 }

@@ -23,7 +23,7 @@ public class Arm extends PIDSubsystem {
 	
 	public static double kP = 0.25;		// Test values for Triple Threat
 	public static double kI = 0;
-	public static double kD = 0;
+	public static double kD = 0.1;
 	public static double kF = 0;
 	public static double period = 0.01;
 
@@ -36,7 +36,7 @@ public class Arm extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 4.5;
 
-	public static int state = 1;
+	public static int state = 0;
 	
 	double previousAngle = -60;
 	

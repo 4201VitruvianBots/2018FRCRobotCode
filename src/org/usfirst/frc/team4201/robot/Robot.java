@@ -53,9 +53,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		AutoCalibration.initializeAutoCalibration();
 		oi = new OI();
 		
-		autoModeChooser.addDefault("Super Auto Right", new SuperAutoRight());
+		autoModeChooser.addDefault("Auto Calibration", new AutoCalibration());
 		//autoModeChooser.addObject("Simple Center Auto", new SimpleCenterAuto());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
@@ -113,7 +114,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		driveTrain.resetSensors();
-		driveTrain.setDriveShiftLow();
+		//driveTrain.setDriveShiftLow();
 		driveTrain.setMotorsToBrake();
 		
 		elevator.setMotorsToBrake();
@@ -143,18 +144,20 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		
 		elevator.setElevatorShiftersHigh();
 		
 		//Sets drive train motors to coast.
 		driveTrain.resetSensors();
 		driveTrain.setMotorsToCoast();
-		driveTrain.setDriveShiftLow();
+		//driveTrain.setDriveShiftLow();
 		elevator.setMotorsToBrake();
 		elevator.setElevatorShiftersLow();
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
 		intake.setMotorsToBrake();
 		
+		Scheduler.getInstance().removeAll();
 		// This makes sure that the autonomous stops running when
 		// teleOp starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -200,6 +203,7 @@ public class Robot extends TimedRobot {
 		//stabilizers.updateSmartDashboard();
 		controls.updateSmartDashboard();
 		//pidTuner.updateSmartDashboard();
+		AutoCalibration.updateSmartDashboard();
 	}
 	
 }

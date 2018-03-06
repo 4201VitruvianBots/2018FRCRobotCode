@@ -135,17 +135,19 @@ public class DriveTrain extends Subsystem {
 			leftPWM -= (rightPWM - 1.0);
 			rightPWM = 1.0;
         } else if(rightPWM < -1.0){
-        	leftPWM += (-rightPWM - 1.0);
+        	leftPWM += -(rightPWM + 1.0);
         	rightPWM = -1.0;
         } else if(leftPWM > 1.0){
         	rightPWM -= (leftPWM - 1.0);
         	leftPWM = 1.0;
         } else if(leftPWM < -1.0){
-        	rightPWM += (-leftPWM - 1.0);
+        	rightPWM += -(leftPWM + 1.0);
         	leftPWM = -1.0;
         }
 		
 		robotDrive.tankDrive(leftPWM, rightPWM);
+		//driveMotors[0].set(ControlMode.PercentOutput, leftPWM);
+		//driveMotors[2].set(ControlMode.PercentOutput, rightPWM);
 	}
 	
 	public void PIDDrive(double leftOutput, double rightOutput){

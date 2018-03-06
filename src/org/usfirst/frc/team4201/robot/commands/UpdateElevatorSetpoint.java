@@ -42,6 +42,10 @@ public class UpdateElevatorSetpoint extends Command {
 		    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + (0.5 * yAxis))) {
 	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
 		    		
+		    		// Move the arm to prevent catching if its angle is low and is not being moved
+		    		//if(Robot.arm.getAngle() < -55 && Robot.arm.getSetpoint() < -55 && Robot.elevator.getHieght() < 5)
+		    		//	Robot.arm.setSetpoint(-55);
+		    		
 					Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + (0.5 * yAxis));
 		    	} else {
 					// Haptic feedback for operator
@@ -49,29 +53,30 @@ public class UpdateElevatorSetpoint extends Command {
 				}
  			
 			if(Robot.elevator.getElevatorShiftersStatus()) {
+ 				Robot.elevator.setOutputRange(-1, 1);
 				if(Robot.elevator.getPIDController().get() > 0){
-					Robot.elevator.getPIDController().setP(Elevator.kPLowUp);
-					Robot.elevator.getPIDController().setD(Elevator.kILowUp);
-					Robot.elevator.getPIDController().setI(Elevator.kDLowUp);
+					Robot.elevator.getPIDController().setP(Elevator.kPHighUp);
+					Robot.elevator.getPIDController().setI(Elevator.kIHighUp);
+					Robot.elevator.getPIDController().setD(Elevator.kDHighUp);
 				} else {
-					Robot.elevator.getPIDController().setP(Elevator.kPLowDown);
-					Robot.elevator.getPIDController().setD(Elevator.kILowDown);
-					Robot.elevator.getPIDController().setI(Elevator.kDLowDown);
+					Robot.elevator.getPIDController().setP(Elevator.kPHighDown);
+					Robot.elevator.getPIDController().setI(Elevator.kIHighDown);
+					Robot.elevator.getPIDController().setD(Elevator.kDHighDown);
 					
 				}
  			} else {
+ 				Robot.elevator.setOutputRange(-0.2, 1);
 				if(Robot.elevator.getPIDController().get() > 0){
-					Robot.elevator.getPIDController().setP(Elevator.kPHighUp);
-					Robot.elevator.getPIDController().setD(Elevator.kIHighUp);
-					Robot.elevator.getPIDController().setI(Elevator.kDHighUp);
+					Robot.elevator.getPIDController().setP(Elevator.kPLowUp);
+					Robot.elevator.getPIDController().setI(Elevator.kILowUp);
+					Robot.elevator.getPIDController().setD(Elevator.kDLowUp);
  					
  				} else {
-					Robot.elevator.getPIDController().setP(Elevator.kPHighDown);
-					Robot.elevator.getPIDController().setD(Elevator.kIHighDown);
-					Robot.elevator.getPIDController().setI(Elevator.kDHighDown);
+					Robot.elevator.getPIDController().setP(Elevator.kPLowDown);
+					Robot.elevator.getPIDController().setI(Elevator.kILowDown);
+					Robot.elevator.getPIDController().setD(Elevator.kDLowDown);
  				}
  			}
- 			
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)

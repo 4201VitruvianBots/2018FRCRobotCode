@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class UpdateArmSetpoint extends Command {
+	public static boolean lock = false;
 	
     public UpdateArmSetpoint() {
         // Use requires() here to declare subsystem dependencies
@@ -32,12 +33,12 @@ public class UpdateArmSetpoint extends Command {
  			// If this isn't done, then there is a chance the arm can become uncontrollable due to the increment not being able to set the setpoint in range.
  			if(Robot.arm.getAngle() > Robot.arm.angleUpperLimit)
  				Robot.arm.setSetpoint(Robot.arm.angleUpperLimit - 2);
- 			else if(Robot.arm.getAngle() < Robot.arm.angleLowerLimit)
- 				Robot.arm.setSetpoint(Robot.arm.angleLowerLimit + 2);
+ 			//else if(Robot.arm.getAngle() < Robot.arm.angleLowerLimit)
+ 			//	Robot.arm.setSetpoint(Robot.arm.angleLowerLimit + 2);
 
  			// We do this check to make sure co-driver is actually commanding the arm and not due to minor movement of the joystick.
  			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
- 			if(Math.abs(yAxis) > 0.05)
+ 			if(Math.abs(yAxis) > 0.05 && !lock)
  		    	// Check if new setpoint deosn't violate limits before setting
 	 			if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + (2 * yAxis) + 1)){	// Add 1 to prevent going past upper limit
 	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
