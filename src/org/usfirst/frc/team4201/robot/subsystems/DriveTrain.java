@@ -10,8 +10,6 @@ package org.usfirst.frc.team4201.robot.subsystems;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.commands.SetSplitArcadeDrive;
-import org.usfirst.frc.team4201.robot.interfaces.CTREPIDSource;
-import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -25,7 +23,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -41,8 +38,6 @@ public class DriveTrain extends Subsystem {
     double kD = 0;           		// Start with D = P * 10
     double period = 0.01;
     
-    double throttleLeft, throttleRight, setpoint;
-	
 	public WPI_TalonSRX[] driveMotors = {
 		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
 		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),
@@ -85,8 +80,7 @@ public class DriveTrain extends Subsystem {
 			spartanGyro.setName("Gyro");
 			spartanGyro.setSubsystem("Drive Train");
 	        LiveWindow.add(spartanGyro);
-	        
-		} catch (Exception e){
+		} catch (Exception e) {
 			DriverStation.reportError("4201 Error: Spartan Gyro not detected!", false);
 		}
 		
@@ -117,43 +111,48 @@ public class DriveTrain extends Subsystem {
 		spartanGyro.reset();
 	}
 	
-	public void setMotorsToBrake(){
+	public void setMotorsToBrake() {
 		for(int i = 0; i < driveMotors.length; i++)
 			driveMotors[i].setNeutralMode(NeutralMode.Brake);
 	}
 	
-	public void setMotorsToCoast(){
+	public void setMotorsToCoast() {
 		for(int i = 0; i < driveMotors.length; i++)
 			driveMotors[i].setNeutralMode(NeutralMode.Coast);
 	}
 	
-	public void setDriveOutput(double throttle, double angularPower){
+	public void setDriveOutput(double throttle, double angularPower) {
 		double leftPWM = throttle + angularPower;
 		double rightPWM = throttle - angularPower;
 		
-		if(rightPWM > 1.0){
-			leftPWM -= (rightPWM - 1.0);
+		if(rightPWM > 1.0) {
+			leftPWM -= rightPWM - 1.0;
 			rightPWM = 1.0;
-        } else if(rightPWM < -1.0){
-        	leftPWM += -(rightPWM + 1.0);
+        } else if(rightPWM < -1.0) {
+        	leftPWM -= rightPWM + 1.0;
         	rightPWM = -1.0;
-        } else if(leftPWM > 1.0){
-        	rightPWM -= (leftPWM - 1.0);
+        } else if(leftPWM > 1.0) {
+        	rightPWM -= leftPWM - 1.0;
         	leftPWM = 1.0;
-        } else if(leftPWM < -1.0){
-        	rightPWM += -(leftPWM + 1.0);
+        } else if(leftPWM < -1.0) {
+        	rightPWM -= leftPWM + 1.0;
         	leftPWM = -1.0;
         }
+
+		/*
+		double maxMagnitude = Math.max(Math.abs(leftPWM), Math.abs(rightPWM));
+		if(maxMagnitude > 1.0) {
+			leftPWM /= maxMagnitude;
+			rightPWM /= maxMagnitude;
+		}
+		*/
 		
-		robotDrive.tankDrive(leftPWM, rightPWM);
-		//driveMotors[0].set(ControlMode.PercentOutput, leftPWM);
-		//driveMotors[2].set(ControlMode.PercentOutput, rightPWM);
+		setDirectDriveOutput(leftPWM, rightPWM);
 	}
 	
-	public void PIDDrive(double leftOutput, double rightOutput){
+	public void PIDDrive(double leftOutput, double rightOutput) {
 		double leftPWM = leftOutput;
 		double rightPWM = rightOutput;
-		
 		
 		if(rightPWM > 1.0){
 			leftPWM -= (rightPWM - 1.0);
@@ -174,6 +173,8 @@ public class DriveTrain extends Subsystem {
 	
 	public void setDirectDriveOutput(double leftOutput, double rightOutput) {
 		robotDrive.tankDrive(leftOutput, rightOutput);
+		//driveMotors[0].set(ControlMode.PercentOutput, leftPWM);
+		//driveMotors[2].set(ControlMode.PercentOutput, rightPWM);
 	}
 	
 	public void cheesyDrive(double xSpeed, double zRotation, boolean QuickTurn) {

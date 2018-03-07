@@ -58,8 +58,7 @@ public class OI {
 	public Button[] rightButtons = new Button[7];
 	public Button[] xBoxButtons = new Button[10];
 	public Button[] testButtons = new Button[10];
-	public Button xBoxLeftTrigger;
-	public Button xBoxRightTrigger;
+	public Button xBoxLeftTrigger, xBoxRightTrigger, testLeftTrigger, testRightTrigger;
 	public boolean isQuickTurn = true;
 	public boolean complexControls = false;
 	
@@ -67,7 +66,6 @@ public class OI {
 		leftJoystick = new Joystick(RobotMap.leftJoystick);
 		rightJoystick = new Joystick(RobotMap.rightJoystick);
 		xBoxController = new Joystick(RobotMap.xBoxController);
-		testController = new Joystick(RobotMap.testController);
 		
 		for(int i = 0; i < leftButtons.length; i++)
 			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
@@ -75,8 +73,6 @@ public class OI {
 			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
 		for(int i = 0; i < xBoxButtons.length; i++)
 			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
-		for(int i = 0; i < testButtons.length; i++)
-			testButtons[i] = new JoystickButton(testController, (i + 1));
 		
 		xBoxLeftTrigger = new XBoxTrigger(xBoxController, RobotMap.leftTrigger);
 		xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
@@ -135,10 +131,21 @@ public class OI {
         // xBoxRightJoystickY: Adjust Elevator height up/down 
         
         // Test Controller Buttons
-        testButtons[0].whenPressed(new AutoSetWristRelativeSetpoint(180));
-        testButtons[1].whenPressed(new AutoReleaseWristSetpoint());
-        testButtons[2].whenPressed(new ToggleElevatorShifters());
-        testButtons[2].whenPressed(new ToggleElevatorShifters());
+        try {
+    		testController = new Joystick(RobotMap.testController);
+    		for(int i = 0; i < testButtons.length; i++)
+    			testButtons[i] = new JoystickButton(testController, (i + 1));
+
+    		testLeftTrigger = new XBoxTrigger(testController, RobotMap.leftTrigger);
+    		testRightTrigger = new XBoxTrigger(testController, RobotMap.rightTrigger);
+    		
+	        testButtons[0].whenPressed(new AutoSetWristRelativeSetpoint(180));
+	        testButtons[1].whenPressed(new AutoReleaseWristSetpoint());
+	        testButtons[2].whenPressed(new ToggleElevatorShifters());
+	        testButtons[2].whenPressed(new ToggleElevatorShifters());
+        } catch(Exception e) {
+        	
+        }
 	}
 	
 	public double getLeftY(){

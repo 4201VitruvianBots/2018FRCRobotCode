@@ -7,31 +7,30 @@ import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 public class AutoCalibration extends CommandGroup{
 	static Command[] testCommands = new Command[10];
-	
-	public static void initializeAutoCalibration(){
-		testCommands[0] = new AutoSetArmElevatorSetpoints(52, 12);
-		testCommands[1] = new Delay(1.5);
-		testCommands[2] = new AutoSetWristRelativeSetpoint(180);
-		testCommands[3] = new SetIntakePistonsOpen();
-		testCommands[4] = new AutoReleaseWristSetpoint(); 
-		testCommands[5] = new SetIntakePistonsClose();
+	static int index = 0;
+	public static void initializeAutoCalibration() {
+		testCommands[index++] = new AutoSetArmElevatorSetpoints(52, 12);
+		//testCommands[i++] = new Delay(1.5);
+		testCommands[index++] = new AutoSetWristRelativeSetpoint(180);
+		testCommands[index++] = new SetIntakePistonsOpen();
+		testCommands[index++] = new AutoReleaseWristSetpoint(); 
+		testCommands[index++] = new Delay(0.5);
+		testCommands[index++] = new SetIntakePistonsClose();
 	}
 	
 	public AutoCalibration() {
 		// Move to Scale 
 		
 		Shuffleboard.putString("Auto", "Auto Status", "Step 1");
-		addParallel(testCommands[0]);
-		//addParallel(new AutoSetArmSetpoint(52));
-		//addParallel(new AutoSetElevatorSetpoint(12));
+		addSequential(testCommands[0]);
 		// sequential: Pathfinder - Move to scale (ideal)
 		//addSequential(new PathFinderRead("straightCalibration", true));
-		addSequential(testCommands[1]);
 		
 		Shuffleboard.putString("Auto", "Auto Status", "Step 2");
 		// Score at scale
-		addSequential(testCommands[2]);
+		addSequential(testCommands[1]);
 		//addSequential(new AutoSetIntakeMotorOutputs(-0.75, 1));
+		addSequential(testCommands[2]);
 		addSequential(testCommands[3]);
 		addSequential(testCommands[4]);
 		addSequential(testCommands[5]);
@@ -52,7 +51,7 @@ public class AutoCalibration extends CommandGroup{
 	}
 	
 	public static void updateSmartDashboard(){
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < index; i++) {
 			Shuffleboard.putBoolean("Auto", "Test Command " + i + " Running", testCommands[i].isRunning());
 			Shuffleboard.putBoolean("Auto", "Test Command " + i + " Finished", testCommands[i].isCompleted());
 		}
