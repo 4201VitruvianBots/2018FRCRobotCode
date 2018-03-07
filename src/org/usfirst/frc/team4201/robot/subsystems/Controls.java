@@ -88,7 +88,7 @@ public class Controls extends Subsystem{
 		
 		if(elevatorTimeout.get() > 5) {
 			Robot.elevator.disable();
-			Elevator.state = 1;
+			RobotMap.ElevatorState = 1;
 		}
 		
 		// NEED TO TEST

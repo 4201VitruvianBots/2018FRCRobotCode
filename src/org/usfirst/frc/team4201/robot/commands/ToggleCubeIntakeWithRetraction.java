@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Arm;
 import org.usfirst.frc.team4201.robot.subsystems.Intake;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
@@ -19,7 +20,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 	
     public ToggleCubeIntakeWithRetraction() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.intake);
+        //requires(Robot.intake);
         //requires(Robot.wrist);
         requires(Robot.arm);
         requires(Robot.elevator);
@@ -53,19 +54,19 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		cubeFlush = Robot.intake.intakeMotors[0].getOutputCurrent() > 15 && Robot.intake.intakeMotors[1].getOutputCurrent() > 15;
 		cubeStalled = Robot.intake.intakeMotors[0].getOutputCurrent() > 12 || Robot.intake.intakeMotors[1].getOutputCurrent() > 12;
 		
-		if(cubeFlush || cubeStalled){
+		if(cubeFlush || cubeStalled)
 			stopwatch.start();
-		} else if(!cubeFlush && !cubeStalled){
+		else if(!cubeFlush && !cubeStalled) {
 			stopwatch.stop();
 			stopwatch.reset();
 		}
 		
-		if(stopwatch.get() > 0.2){
+		if(stopwatch.get() > 0.1) {
+			finished = true;
 			stopwatch.stop();
 			stopwatch.reset();
-			finished = true;
 		}
-		return (finished|| Robot.oi.leftButtons[3].get());
+		return (finished || Robot.oi.leftButtons[3].get());
 	}
 	
     // Called once after isFinished returns true
@@ -85,7 +86,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     		stopwatch.stop();
     		stopwatch.reset();
     	}
-    	if(Wrist.state == 0)
+    	if(RobotMap.WristState == 0)
             Robot.wrist.setSetpoint(130);
     	else {
     		while(Robot.wrist.wristMotor.getOutputCurrent() < 10)

@@ -114,7 +114,7 @@ public class OI {
         xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
         
         // Wrist commands will be handled in the UpdateWristSetpoint function to avoid conflicts/issues with the whileHeld() functionality
-        if(Wrist.state == 0) 
+        if(RobotMap.WristState == 0) 
         	setWristManualMode();
         
         xBoxButtons[4].whenPressed(new SetArmElevatorSetpoints(-59, 3));				// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
@@ -133,16 +133,18 @@ public class OI {
         // Test Controller Buttons
         try {
     		testController = new Joystick(RobotMap.testController);
-    		for(int i = 0; i < testButtons.length; i++)
-    			testButtons[i] = new JoystickButton(testController, (i + 1));
+    		if(!testController.getName().equals("")) {
+    			for(int i = 0; i < testButtons.length; i++)
+    				testButtons[i] = new JoystickButton(testController, (i + 1));
 
-    		testLeftTrigger = new XBoxTrigger(testController, RobotMap.leftTrigger);
-    		testRightTrigger = new XBoxTrigger(testController, RobotMap.rightTrigger);
-    		
-	        testButtons[0].whenPressed(new AutoSetWristRelativeSetpoint(180));
-	        testButtons[1].whenPressed(new AutoReleaseWristSetpoint());
-	        testButtons[2].whenPressed(new ToggleElevatorShifters());
-	        testButtons[2].whenPressed(new ToggleElevatorShifters());
+	    		testLeftTrigger = new XBoxTrigger(testController, RobotMap.leftTrigger);
+	    		testRightTrigger = new XBoxTrigger(testController, RobotMap.rightTrigger);
+	    		
+		        testButtons[0].whenPressed(new AutoSetWristRelativeSetpoint(180));
+		        testButtons[1].whenPressed(new AutoReleaseWristSetpoint());
+		        testButtons[2].whenPressed(new ToggleElevatorShifters());
+		        testButtons[2].whenPressed(new ToggleElevatorShifters());
+    		}
         } catch(Exception e) {
         	
         }

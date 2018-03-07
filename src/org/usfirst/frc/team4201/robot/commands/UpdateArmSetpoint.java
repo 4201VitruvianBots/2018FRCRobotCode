@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,7 +29,7 @@ public class UpdateArmSetpoint extends Command {
  		// Inverted
  		double yAxis = -Robot.oi.xBoxController.getRawAxis(1);
  		
- 		if(Arm.state == 0){
+ 		if(RobotMap.ArmState == 0){
  			// If the arm somehow gets out of range, pull it back in range automatically.
  			// If this isn't done, then there is a chance the arm can become uncontrollable due to the increment not being able to set the setpoint in range.
  			if(Robot.arm.getAngle() > Robot.arm.angleUpperLimit)

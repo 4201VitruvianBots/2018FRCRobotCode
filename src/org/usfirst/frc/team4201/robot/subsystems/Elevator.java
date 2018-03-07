@@ -46,7 +46,6 @@ public class Elevator extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 	
-	public static int state = 0;
 	
 	public WPI_TalonSRX[] elevatorMotors = {
 		new WPI_TalonSRX(RobotMap.elevatorA),
@@ -82,7 +81,7 @@ public class Elevator extends PIDSubsystem {
 		setSetpoint(getHieght());
 
 		// Enable the PIDController if state == 0
-		if(state == 0)
+		if(RobotMap.ElevatorState == 0)
 			enable();
 		
 		// Add this to LiveWindow

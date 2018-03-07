@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Arm;
 import org.usfirst.frc.team4201.robot.subsystems.Intake;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
@@ -43,7 +44,7 @@ public class AutoIntakeControl extends Command {
 	
     // Called once after isFinished returns true
     protected void end() {
-    	if(cubeDetected && Wrist.state == 0) {	// && !Intake.isCubePresent){
+    	if(cubeDetected && RobotMap.WristState == 0) {	// && !Intake.isCubePresent){
         	Robot.intake.setIntakeMotorOutput(0);
     		stopwatch.start();
     		while(stopwatch.get() < 0.1){

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -23,7 +24,7 @@ public class SetWristDeltaSetpoint extends InstantCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	//SmartDashboard.putNumber("Wrist Setpoint", Robot.wrist.PIDControl.getSetpoint() + inc);
-    	if(Wrist.state == 0){
+    	if(RobotMap.WristState == 0){
 	    	// Check if new setpoint deosn't violate limits before setting
     		double input = Robot.wrist.getSetpoint() + inc;
 			double checkSetpoint = Robot.wrist.getValidAngle(input);

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,7 +28,7 @@ public class UpdateElevatorSetpoint extends Command {
  		// Inverted
  		double yAxis = -Robot.oi.xBoxController.getRawAxis(5);
  		
- 		if(Elevator.state == 0){
+ 		if(RobotMap.ElevatorState == 0){
  			// If the elevator somehow gets out of range, pull it back in range automatically.
  			// If this isn't done, then there is a chance the elevator can become uncontrollable due to the increment not being able to set the setpoint in range.
  			if(Robot.elevator.getHieght() > Robot.elevator.hieghtUpperLimit)

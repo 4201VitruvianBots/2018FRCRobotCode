@@ -36,8 +36,6 @@ public class Arm extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 4.5;
 
-	public static int state = 0;
-	
 	double previousAngle = -60;
 	
 	public WPI_TalonSRX[] armMotors = {
@@ -78,7 +76,7 @@ public class Arm extends PIDSubsystem {
 		setSetpoint(getAngle());
 
 		// Enable the PIDController if state == 0
-		if(state == 0)
+		if(RobotMap.ArmState == 0)
 			enable();
 		
 		LiveWindow.addChild(this, this);

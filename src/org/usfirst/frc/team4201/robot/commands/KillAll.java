@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
-
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Arm;
 import org.usfirst.frc.team4201.robot.subsystems.Elevator;
 import org.usfirst.frc.team4201.robot.subsystems.Intake;
@@ -38,9 +38,9 @@ public class KillAll extends InstantCommand{
 		Robot.wrist.disable();
 		
 		// Set all subsystem states to 1 (Fault mode)
-		Elevator.state  = 1;
-		Arm.state = 1;
-		Wrist.state = 1;
+		RobotMap.ElevatorState  = 1;
+		RobotMap.ArmState = 1;
+		RobotMap.WristState = 1;
 		Robot.oi.setWristManualMode();
 		//Intake.isCubePresent = false;
 	}

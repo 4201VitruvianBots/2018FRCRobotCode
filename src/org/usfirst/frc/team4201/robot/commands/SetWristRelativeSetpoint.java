@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 import org.usfirst.frc.team4201.robot.LUTs;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
@@ -29,7 +30,7 @@ public class SetWristRelativeSetpoint extends InstantCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// Check if new setpoint deosn't violate limits before setting
-    	if(Wrist.state == 0){
+    	if(RobotMap.WristState == 0){
     		if(Robot.arm.getAngle() >= Wrist.armLimiterLowerBound && Robot.arm.getAngle() <= Wrist.armLimiterUpperBound){
 				try{
 					setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + Wrist.armLimiterUpperBound];

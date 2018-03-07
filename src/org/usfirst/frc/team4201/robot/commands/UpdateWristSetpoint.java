@@ -2,6 +2,7 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.LUTs;
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -29,7 +30,7 @@ public class UpdateWristSetpoint extends Command {
     
     @Override
 	protected void execute() {
-    	if(Wrist.state == 0) {
+    	if(RobotMap.WristState == 0) {
     		// If the arm somehow gets out of range, pull it back in range automatically.
  			// If this isn't done, then there is a chance the wrist can become uncontrollable due to the increment not being able to set the setpoint in range.
     		if(Robot.wrist.getAbsoluteAngle() > Robot.wrist.angleUpperLimit)
