@@ -33,7 +33,7 @@ public class SetWristRelativeSetpoint extends InstantCommand {
     	if(RobotMap.WristState == 0){
     		if(Robot.arm.getAngle() >= Wrist.armLimiterLowerBound && Robot.arm.getAngle() <= Wrist.armLimiterUpperBound){
 				try{
-					setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + Wrist.armLimiterUpperBound];
+					setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - Wrist.armLimiterLowerBound];
 					if(Math.abs(setpoint) < setpointLimit)
 						setpoint = setpoint < 0 ? -setpointLimit : setpointLimit;
 						

@@ -23,8 +23,8 @@ public class Wrist extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 	
-	public static int armLimiterLowerBound = -51;
-	public static int armLimiterUpperBound = 49;
+	public static int armLimiterLowerBound = -46;
+	public static int armLimiterUpperBound = 45;
 
 	public double angleLowerLimit = -105;												// -75
 	public double angleUpperLimit = 125;												// 50 	
@@ -106,7 +106,7 @@ public class Wrist extends PIDSubsystem {
 	public double getValidAngle(double value){
 		if(value > angleLowerLimit && value < angleUpperLimit)
 			if(Math.abs(Robot.arm.getAngle()) <= 50) {
-				double angleLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) + armLimiterUpperBound];
+				double angleLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimiterLowerBound];
 				
 				if(Math.abs(Robot.wrist.getAbsoluteAngle()) < angleLimit) {
 					if(Robot.wrist.getAbsoluteAngle() < 0)
