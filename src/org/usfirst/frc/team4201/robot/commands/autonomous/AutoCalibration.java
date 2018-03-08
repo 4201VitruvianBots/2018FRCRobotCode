@@ -9,13 +9,16 @@ public class AutoCalibration extends CommandGroup{
 	static Command[] testCommands = new Command[10];
 	static int index = 0;
 	public static void initializeAutoCalibration() {
-		testCommands[index++] = new AutoSetArmElevatorSetpoints(52, 12);
+		testCommands[index++] = new SetLEDs(4);
+		testCommands[index++] = new AutoSetArmElevatorSetpoints(52, 6);
 		//testCommands[i++] = new Delay(1.5);
-		testCommands[index++] = new AutoSetWristRelativeSetpoint(180);
+		
+		testCommands[index++] = new AutoSetWristRelativeSetpoint(0);
 		testCommands[index++] = new SetIntakePistonsOpen();
-		testCommands[index++] = new AutoReleaseWristSetpoint(); 
-		testCommands[index++] = new Delay(0.5);
+		testCommands[index++] = new Delay(0.75);						// Delay to drop cube
+		testCommands[index++] = new AutoReleaseWristSetpoint(); 		
 		testCommands[index++] = new SetIntakePistonsClose();
+		testCommands[index++] = new SetLEDs(2);
 	}
 	
 	public AutoCalibration() {
@@ -33,7 +36,7 @@ public class AutoCalibration extends CommandGroup{
 		addSequential(testCommands[2]);
 		addSequential(testCommands[3]);
 		addSequential(testCommands[4]);
-		addSequential(testCommands[5]);
+		//addSequential(testCommands[5]);
 		//addSequential(new AutoSetIntakeMotorOutputs(0, 0));
 		
 		/*

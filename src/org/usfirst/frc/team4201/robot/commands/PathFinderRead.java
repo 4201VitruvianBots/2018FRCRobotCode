@@ -32,6 +32,14 @@ public class PathFinderRead extends Command{
 	
 	boolean lock = false;
 	
+	public PathFinderRead(String filename, boolean first, double maxVel) {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.driveTrain);
+        this.filename = filename;
+        this.first = first;
+        this.max_vel = maxVel;
+    }
+	
     public PathFinderRead(String filename, boolean first) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);

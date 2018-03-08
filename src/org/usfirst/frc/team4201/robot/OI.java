@@ -140,10 +140,12 @@ public class OI {
 	    		testLeftTrigger = new XBoxTrigger(testController, RobotMap.leftTrigger);
 	    		testRightTrigger = new XBoxTrigger(testController, RobotMap.rightTrigger);
 	    		
-		        testButtons[0].whenPressed(new AutoSetWristRelativeSetpoint(180));
-		        testButtons[1].whenPressed(new AutoReleaseWristSetpoint());
-		        testButtons[2].whenPressed(new ToggleElevatorShifters());
-		        testButtons[2].whenPressed(new ToggleElevatorShifters());
+		        testButtons[0].whenPressed(new ToggleCubeIntakeWithRetraction());
+		        testButtons[1].whenPressed(new SetLEDs(2));
+		        testButtons[3].whenPressed(new SetLEDs(4));
+		        
+		        //testButtons[1].whenPressed();
+		        //testButtons[2].whenPressed(new ToggleElevatorShifters());
     		}
         } catch(Exception e) {
         	

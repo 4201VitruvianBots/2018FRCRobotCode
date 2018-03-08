@@ -18,6 +18,7 @@ public class AutoSetWristRelativeSetpoint extends Command {
     	
     	this.setpoint = setpoint;
     	stopwatch = new Timer();
+    	setTimeout(1.5);
     }
 
     // Called just before this Command runs the first time
@@ -40,7 +41,7 @@ public class AutoSetWristRelativeSetpoint extends Command {
     		lock = false;
     	}
     	
-    	return stopwatch.get() > 0.25;
+    	return stopwatch.get() > 0.25 || isTimedOut();
     }
 
     // Called once after isFinished returns true

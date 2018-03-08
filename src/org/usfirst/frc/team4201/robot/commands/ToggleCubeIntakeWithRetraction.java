@@ -2,6 +2,7 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 import org.usfirst.frc.team4201.robot.subsystems.Arm;
 import org.usfirst.frc.team4201.robot.subsystems.Intake;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
@@ -17,6 +18,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 	boolean cubeFlush, cubeStalled, finished;
 	
 	Timer stopwatch;
+	boolean lock;
 	
     public ToggleCubeIntakeWithRetraction() {
         // Use requires() here to declare subsystem dependencies
@@ -44,7 +46,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     
     @Override
 	protected void execute() {
-    	Robot.intake.setIntakeMotorOutput(0.75, 0.75);
+    	Robot.intake.setIntakeMotorOutput(0.9);
     }
 
 	@Override
@@ -54,11 +56,13 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		cubeFlush = Robot.intake.intakeMotors[0].getOutputCurrent() > 15 && Robot.intake.intakeMotors[1].getOutputCurrent() > 15;
 		cubeStalled = Robot.intake.intakeMotors[0].getOutputCurrent() > 12 || Robot.intake.intakeMotors[1].getOutputCurrent() > 12;
 		
-		if(cubeFlush || cubeStalled)
+		if((cubeFlush || cubeStalled) && !lock) {
 			stopwatch.start();
-		else if(!cubeFlush && !cubeStalled) {
+			lock = true;
+		} else if(!cubeFlush && !cubeStalled) {
 			stopwatch.stop();
 			stopwatch.reset();
+			lock = false;
 		}
 		
 		if(stopwatch.get() > 0.1) {
@@ -66,7 +70,11 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 			stopwatch.stop();
 			stopwatch.reset();
 		}
-		return (finished || Robot.oi.leftButtons[3].get());
+		
+		Shuffleboard.putBoolean("Intake", "Flush", cubeFlush);
+		Shuffleboard.putBoolean("Intake", "Stalled", cubeStalled);
+		
+		return (finished || Robot.oi.leftButtons[3].get() || Robot.oi.testButtons[2].get());
 	}
 	
     // Called once after isFinished returns true
@@ -81,7 +89,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     		stopwatch.reset();
     		stopwatch.start();
     		while(stopwatch.get() < 0.25){
-            	Robot.intake.setIntakeMotorOutput(0.75, 0.75);
+            	Robot.intake.setIntakeMotorOutput(0.55, 0.5);
     		}
     		stopwatch.stop();
     		stopwatch.reset();

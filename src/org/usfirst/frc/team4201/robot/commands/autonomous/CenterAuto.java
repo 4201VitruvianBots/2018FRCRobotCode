@@ -9,9 +9,9 @@ public class CenterAuto extends CommandGroup{
 	public CenterAuto() {
 		//addParallel(new SetWristArmElevatorSetpoints(0, 0, 0));
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L')
-			addSequential(new PathFinderRead("centerToLeftSwitch"));
+			addSequential(new PathFinderRead("centerToLeftSwitch", true, 3));
 		else
-			addSequential(new PathFinderRead("centerToRightSwitch"));
+			addSequential(new PathFinderRead("centerToRightSwitch", true, 3));
 		//addSequential(new SetIntakeMotorOutputs(0.75));
 	}
 }
