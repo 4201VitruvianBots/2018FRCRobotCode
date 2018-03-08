@@ -220,13 +220,13 @@ public class OI {
 		
 		// Read the xBox Controller D-Pad and use that to set the Wrist/Arm/Elevator positions
 		if(xBoxController.getPOV() == 0) 			// 0 degrees, Up Button: Set Wrist/Arm/Elevator to Forward Scale Super High Position
-			Scheduler.getInstance().add(new SetArmElevatorSetpoints(55, 25));	// -90,
+			Scheduler.getInstance().add(new SetArmElevatorSetpoints(55, 25));	// (55, 25)
 		else if (xBoxController.getPOV() == 90) 	// 90 degrees, Right Button: Set Wrist/Arm/Elevator to Forward Scale High Position
-			Scheduler.getInstance().add(new SetArmElevatorSetpoints(55, 12));	// -90,
+			Scheduler.getInstance().add(new SetArmElevatorSetpoints(55, 12));	// (55, 12)
 		else if (xBoxController.getPOV() == 180) 	// 180 degrees, Down Button: Set  Wrist/Arm/Elevator to Forward Scale Low Position
-			Scheduler.getInstance().add(new SetArmElevatorSetpoints(55, 5));	// -90,
+			Scheduler.getInstance().add(new SetArmElevatorSetpoints(55, 5));	// (55, 5)
 		else if (xBoxController.getPOV() == 270) 	// 270 degrees, Left Button: Set Wrist/Arm/Elevator to Switch Position
-			Scheduler.getInstance().add(new SetArmElevatorSetpoints(-56, 25));	// -90,
+			Scheduler.getInstance().add(new SetArmElevatorSetpoints(-56, 25));	// (-56, 25)
 		
 		// Check if two of the driver joysticks are pressed to enable climb mode. This is done to avoid accidental deployment mid-match.
 		//if(leftButtons[6].get() && rightButtons[6].get())

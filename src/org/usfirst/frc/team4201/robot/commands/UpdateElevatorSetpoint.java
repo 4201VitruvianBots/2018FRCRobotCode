@@ -38,7 +38,7 @@ public class UpdateElevatorSetpoint extends Command {
  			
  			// We do this check to make sure co-driver is actually commanding the elevator and not due to minor movement of the joystick.
  			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
- 			if(Math.abs(-yAxis) > 0.05)
+ 			if(Math.abs(yAxis) > 0.05) {
  		    	// Check if new setpoint deosn't violate limits before setting
 		    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + (0.5 * yAxis))) {
 	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
@@ -50,9 +50,11 @@ public class UpdateElevatorSetpoint extends Command {
 					Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + (0.5 * yAxis));
 		    	} else {
 					// Haptic feedback for operator
-			        Robot.oi.enableXBoxLeftRumbleTimed();
+			        Robot.oi.enableXBoxRightRumbleTimed();
 				}
+ 			}
  			
+ 			// Set different PID values depending on elevator shifter status and whether the elevator is going up/down
 			if(Robot.elevator.getElevatorShiftersStatus()) {
  				Robot.elevator.setOutputRange(-1, 1);
 				if(Robot.elevator.getPIDController().get() > 0){
@@ -63,7 +65,6 @@ public class UpdateElevatorSetpoint extends Command {
 					Robot.elevator.getPIDController().setP(Elevator.kPHighDown);
 					Robot.elevator.getPIDController().setI(Elevator.kIHighDown);
 					Robot.elevator.getPIDController().setD(Elevator.kDHighDown);
-					
 				}
  			} else {
  				Robot.elevator.setOutputRange(-0.2, 1);
@@ -71,7 +72,6 @@ public class UpdateElevatorSetpoint extends Command {
 					Robot.elevator.getPIDController().setP(Elevator.kPLowUp);
 					Robot.elevator.getPIDController().setI(Elevator.kILowUp);
 					Robot.elevator.getPIDController().setD(Elevator.kDLowUp);
- 					
  				} else {
 					Robot.elevator.getPIDController().setP(Elevator.kPLowDown);
 					Robot.elevator.getPIDController().setI(Elevator.kILowDown);
@@ -83,7 +83,8 @@ public class UpdateElevatorSetpoint extends Command {
  			if(Math.abs(yAxis) > 0.05)
  				Robot.elevator.setDirectOutput(yAxis * 0.75);
  			else { // Provide constant motor output to prevent backdrive. This depends if the elevator is on high/low gear (high gear has enough torque to prevent backdrive)
- 				// No longer needed due to addition of back rope
+				Robot.elevator.setDirectOutput(0);		
+				// No longer needed due to addition of back rope (?)
  				
  				/*
  				if(Robot.elevator.getElevatorShiftersStatus())

@@ -3,6 +3,7 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Arm;
+import org.usfirst.frc.team4201.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -39,27 +40,27 @@ public class UpdateArmSetpoint extends Command {
 
  			// We do this check to make sure co-driver is actually commanding the arm and not due to minor movement of the joystick.
  			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
- 			if(Math.abs(yAxis) > 0.05 && !lock)
+ 			else if(Math.abs(yAxis) > 0.05 && !lock) {
  		    	// Check if new setpoint deosn't violate limits before setting
-	 			if(Robot.arm.checkLimits(Robot.arm.getSetpoint() + (2 * yAxis) + 1)){	// Add 1 to prevent going past upper limit
+	 			if(Robot.arm.checkLimits(Robot.arm.getAngle() + (2 * yAxis) + 1)){	// Add 1 to prevent going past upper limit
 	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
-					if(Robot.arm.getSetpoint() + (2 *yAxis) > Robot.arm.getSetpoint())
-						Robot.arm.getPIDController().setP(Arm.kPUp);
-					else
-						Robot.arm.getPIDController().setP(Arm.kPDown);
-					
-		    		Robot.arm.setSetpoint(Robot.arm.getSetpoint() + (2 * yAxis));
+		    		Robot.arm.setSetpoint(Robot.arm.getAngle() + (2 * yAxis));	// try this (?)
 		    	} else {
 					// Haptic feedback for operator
-			        Robot.oi.enableXBoxRightRumbleTimed();
+			        Robot.oi.enableXBoxLeftRumbleTimed();
 				}
+ 			}
+ 			
+ 			// Set different PID values depending on arm is going up/down
+ 			if(Robot.arm.getPIDController().get() > 0){
+				Robot.arm.getPIDController().setP(Arm.kPUp);
+			} else {
+				Robot.arm.getPIDController().setP(Arm.kPDown);
+			}
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)
- 				Robot.arm.setDirectOutput(yAxis * 0.8);	// Do not multiply by a fraction
- 			else // Provide constant motor output to prevent backdrive
- 				Robot.arm.setDirectOutput(yAxis / 3);
- 				
+ 				Robot.arm.setDirectOutput(yAxis * 0.8);	// Do not multiply by a fraction			
  		}
  	}
 
