@@ -16,19 +16,19 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends PIDSubsystem {
-	public static double kPUp = 0.9;	
+	public static double kPUp = 0.3;	
 	public static double kDUp = 0;
-	public static double kPDown = 0.25;
+	public static double kPDown = 0.1;
 	public static double kDDown = 0;
 	
 	public static double kP = 0.25;		// Test values for Triple Threat
 	public static double kI = 0;
-	public static double kD = 0.1;
+	public static double kD = 0;
 	public static double kF = 0;
 	public static double period = 0.01;
 
-	public double angleLowerLimit = -60;	// -67.73																									// 1.5		
-	public double angleUpperLimit = 60;		// Physical limit is closer to 55, but 53 is to prevent DART from getting stuck at max extension	//11.5;		
+	public double angleLowerLimit = -59;	// -67.73																									// 1.5		
+	public double angleUpperLimit = 48;		// Physical limit is closer to 55, but 53 is to prevent DART from getting stuck at max extension	//11.5;		
 	public double angleOffset = 80;		
 	public double sensorLowerLimit = 0;																														
 	public double sensorUpperLimit = 105;																														
@@ -59,7 +59,7 @@ public class Arm extends PIDSubsystem {
 		super("Arm", kP, kI, kD, kF, period);
 		setAbsoluteTolerance(1);
 		setInputRange(angleLowerLimit, angleUpperLimit);
-		setOutputRange(-1, 1);
+		setOutputRange(-1.5, 1.5);
 		
 		for(int i = 0; i < armMotors.length; i++) {
 			armMotors[i].setNeutralMode(NeutralMode.Brake);
@@ -95,6 +95,7 @@ public class Arm extends PIDSubsystem {
 	}
 	
 	public double getAngle() {
+		
 		try { 
 			previousAngle = LUTs.armAngle[(int)Math.round(aP.getAverageVoltage() * 50)];	// Need a try/catch to avoid rounding to a value outside of 0-5v
 			return previousAngle;
@@ -157,6 +158,7 @@ public class Arm extends PIDSubsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Arm Angle", getAngle());
+		SmartDashboard.putNumber("Arm Pot Voltage", aP.getAverageVoltage());
 		SmartDashboard.putBoolean("Arm PID Enabled", getPIDController().isEnabled());
 	}
 

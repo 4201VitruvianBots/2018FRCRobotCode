@@ -18,7 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  *
  */
 public class PathFinderRead extends Command{
-	double max_vel = 3; // 180
+	double max_vel = 2; // 180
 	
 	Trajectory leftTrajectory, rightTrajectory;
 	TankModifier modifier;
@@ -97,8 +97,8 @@ public class PathFinderRead extends Command{
     	
 		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Enabling...");
 																						// 1080 for Grasshopper
-		left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1080, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1080, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
+		left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
 
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).

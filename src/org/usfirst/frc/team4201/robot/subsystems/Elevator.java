@@ -38,7 +38,7 @@ public class Elevator extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double hieghtLowerLimit = 2.9;			// -33
+	public double hieghtLowerLimit = 3.9;			// -33
 	public double hieghtUpperLimit = 26;			//26.3			// 60
 	public double sensorLowerLimit = 0;
 	public double sensorUpperLimit = 52.6464;		// Adjusted, ideal is 50
@@ -183,6 +183,7 @@ public class Elevator extends PIDSubsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putNumber("Elevator Hieght", getHieght());
+		SmartDashboard.putNumber("Elevator Pot Voltage", eP.getAverageVoltage());
 		SmartDashboard.putBoolean("Elevator Shifters", getElevatorShiftersStatus());
 		SmartDashboard.putBoolean("Disk Brake", getDiskBrakeStatus());
 		SmartDashboard.putBoolean("Elevator PID Enabled", getPIDController().isEnabled());

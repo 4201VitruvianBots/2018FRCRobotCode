@@ -8,7 +8,9 @@ import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 public class AutoCalibration extends CommandGroup{
 	static Command[] testCommands = new Command[10];
 	static int index = 0;
+	
 	public static void initializeAutoCalibration() {
+		/*
 		testCommands[index++] = new SetLEDs(4);
 		testCommands[index++] = new AutoSetArmElevatorSetpoints(52, 6);
 		//testCommands[i++] = new Delay(1.5);
@@ -19,11 +21,12 @@ public class AutoCalibration extends CommandGroup{
 		testCommands[index++] = new AutoReleaseWristSetpoint(); 		
 		testCommands[index++] = new SetIntakePistonsClose();
 		testCommands[index++] = new SetLEDs(2);
+		*/
 	}
 	
 	public AutoCalibration() {
 		// Move to Scale 
-		
+		/*
 		Shuffleboard.putString("Auto", "Auto Status", "Step 1");
 		addSequential(testCommands[0]);
 		// sequential: Pathfinder - Move to scale (ideal)
@@ -36,7 +39,9 @@ public class AutoCalibration extends CommandGroup{
 		addSequential(testCommands[2]);
 		addSequential(testCommands[3]);
 		addSequential(testCommands[4]);
+		*/
 		//addSequential(testCommands[5]);
+		
 		//addSequential(new AutoSetIntakeMotorOutputs(0, 0));
 		
 		/*

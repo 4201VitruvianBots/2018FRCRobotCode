@@ -47,7 +47,7 @@ public class DriveTrain extends Subsystem {
 	
 	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0], driveMotors[2]);
 	
-	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
+	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward + 1, RobotMap.driveTrainShifterReverse - 1);
 	
 	public ADXRS450_Gyro spartanGyro;
 	

@@ -24,7 +24,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
         // Use requires() here to declare subsystem dependencies
         //requires(Robot.intake);
         //requires(Robot.wrist);
-        requires(Robot.arm);
+        //requires(Robot.arm);
         requires(Robot.elevator);
         
         setInterruptible(false);
@@ -36,9 +36,9 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     protected void initialize() {
     	cubeFlush = false;
     	UpdateWristSetpoint.intaking = true;
-    	Robot.wrist.setSetpointRelative(Robot.wrist.convertRelativeToAbsoluteSetpoint(0));
+    	Robot.wrist.setSetpoint(0);
     	Robot.arm.setSetpoint(-59);
-    	Robot.elevator.setSetpoint(2.8);
+    	Robot.elevator.setSetpoint(3.9);
     	Robot.intake.retractIntakePistons();
     	finished = false;
     	UpdateArmSetpoint.lock = true;
@@ -55,7 +55,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		
 		cubeFlush = Robot.intake.intakeMotors[0].getOutputCurrent() > 15 && Robot.intake.intakeMotors[1].getOutputCurrent() > 15;
 		cubeStalled = Robot.intake.intakeMotors[0].getOutputCurrent() > 12 || Robot.intake.intakeMotors[1].getOutputCurrent() > 12;
-		
+		/*
 		if((cubeFlush || cubeStalled) && !lock) {
 			stopwatch.start();
 			lock = true;
@@ -65,16 +65,16 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 			lock = false;
 		}
 		
-		if(stopwatch.get() > 0.1) {
+		if(stopwatch.get() > 0.25) {
 			finished = true;
 			stopwatch.stop();
 			stopwatch.reset();
 		}
-		
+		*/
 		Shuffleboard.putBoolean("Intake", "Flush", cubeFlush);
 		Shuffleboard.putBoolean("Intake", "Stalled", cubeStalled);
 		
-		return (finished || Robot.oi.leftButtons[3].get() || Robot.oi.testButtons[2].get());
+		return (finished || Robot.oi.leftButtons[3].get());// || Robot.oi.testButtons[2].get());
 	}
 	
     // Called once after isFinished returns true
@@ -95,7 +95,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     		stopwatch.reset();
     	}
     	if(RobotMap.WristState == 0)
-            Robot.wrist.setSetpoint(130);
+            Robot.wrist.setSetpoint(120);
     	else {
     		while(Robot.wrist.wristMotor.getOutputCurrent() < 10)
     			Robot.wrist.setDirectOutput(0.75);

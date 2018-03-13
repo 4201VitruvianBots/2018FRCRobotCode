@@ -21,9 +21,9 @@ public class RobotMap {
 	// Global Variables
 	public static boolean isTurning = false;
 	
-	public static int WristState = 0;
-	public static int ArmState = 0;
-	public static int ElevatorState = 0;
+	public static int WristState = 1;
+	public static int ArmState = 1;
+	public static int ElevatorState = 1;
 	
 	
 	// USB ADDRESSES
@@ -47,7 +47,7 @@ public class RobotMap {
 	// Analog Sensors
 	public static final int wristPot = 0;
 	public static final int armPot = 1;
-	public static final int elevatorLinearPot = 2;
+	public static final int elevatorLinearPot = 3;
 	
 	/*	ADDRESS VALUES
 	 *  

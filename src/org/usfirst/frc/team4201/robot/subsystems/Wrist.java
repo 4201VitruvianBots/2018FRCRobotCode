@@ -23,14 +23,14 @@ public class Wrist extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 	
-	public static int armLimiterLowerBound = -46;
-	public static int armLimiterUpperBound = 45;
+	public static int armLimiterLowerBound = -50;
+	public static int armLimiterUpperBound = 49;
 
-	public double angleLowerLimit = -105;												// -75
-	public double angleUpperLimit = 125;												// 50 	
+	public double angleLowerLimit = -135;												// -75
+	public double angleUpperLimit = 150;												// 50 	
 	public double sensorLowerLimit = 0;													//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
-	static double sensorOffset = 651;														// -240;
+	static double sensorOffset = 650;			// 651: Grasshopper							// -240;
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
@@ -85,6 +85,7 @@ public class Wrist extends PIDSubsystem {
 	
 	// Get the angle of the wrist at the sprocket
 	public double getAbsoluteAngle() {
+		//return 200 - (wP.getAverageVoltage() * ((123 + 106) / (1.107 - 0.282)));
 		return wristPot.get() / 2.333; // 2.333 gear ratio
 		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
@@ -187,6 +188,7 @@ public class Wrist extends PIDSubsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Wrist Angle", getRelativeAngle());
+		SmartDashboard.putNumber("Wrist Pot Voltage", wP.getAverageVoltage());
 		SmartDashboard.putBoolean("Wrist PID Enabled", getPIDController().isEnabled());
 	}
 	
