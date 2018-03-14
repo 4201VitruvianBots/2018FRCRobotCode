@@ -6,7 +6,6 @@ import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  *
@@ -62,7 +61,7 @@ public class UpdateWristSetpoint extends Command {
 	 			}
     		} else		
 				// Default to one of two setpoints if no setpoint is being actively commanded
-	 			if(Robot.arm.getAngle() < 15) 
+	 			if(Robot.arm.getAngle() < 16) 
 	 				// If the arm is in the limit range, then we always have it retracted
 	 				setpoint = 130;
 				else if(Robot.arm.getAngle() >= 0)

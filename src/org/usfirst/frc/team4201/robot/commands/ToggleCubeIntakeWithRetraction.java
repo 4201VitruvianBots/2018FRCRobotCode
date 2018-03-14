@@ -36,7 +36,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     protected void initialize() {
     	cubeFlush = false;
     	UpdateWristSetpoint.intaking = true;
-    	Robot.wrist.setSetpointRelative(Robot.wrist.convertRelativeToAbsoluteSetpoint(0));
+    	Robot.wrist.setSetpoint(0);
     	Robot.arm.setSetpoint(-59);
     	Robot.elevator.setSetpoint(2.8);
     	Robot.intake.retractIntakePistons();
@@ -74,7 +74,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		Shuffleboard.putBoolean("Intake", "Flush", cubeFlush);
 		Shuffleboard.putBoolean("Intake", "Stalled", cubeStalled);
 		
-		return (finished || Robot.oi.leftButtons[3].get() || Robot.oi.testButtons[2].get());
+		return (finished || Robot.oi.leftButtons[3].get());// || Robot.oi.testButtons[2].get());
 	}
 	
     // Called once after isFinished returns true

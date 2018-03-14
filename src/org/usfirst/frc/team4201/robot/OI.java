@@ -114,10 +114,10 @@ public class OI {
         xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
         
         // Wrist commands will be handled in the UpdateWristSetpoint function to avoid conflicts/issues with the whileHeld() functionality
-        if(RobotMap.WristState == 0) 
+        if(RobotMap.WristState != 0) 
         	setWristManualMode();
         
-        xBoxButtons[4].whenPressed(new SetArmElevatorSetpoints(-59, 3));				// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+        xBoxButtons[4].whenPressed(new SetArmElevatorHome());				// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
         xBoxButtons[4].whenPressed(new SetIntakePistonsClose());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
         
         //xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));

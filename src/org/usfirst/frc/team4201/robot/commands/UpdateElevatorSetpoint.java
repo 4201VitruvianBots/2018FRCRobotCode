@@ -40,14 +40,14 @@ public class UpdateElevatorSetpoint extends Command {
  			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
  			if(Math.abs(yAxis) > 0.05) {
  		    	// Check if new setpoint deosn't violate limits before setting
-		    	if(Robot.elevator.checkLimits(Robot.elevator.getSetpoint() + (0.5 * yAxis))) {
+		    	if(Robot.elevator.checkLimits(Robot.elevator.getHieght() + (1 * yAxis))) {
 	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
 		    		
 		    		// Move the arm to prevent catching if its angle is low and is not being moved
 		    		//if(Robot.arm.getAngle() < -55 && Robot.arm.getSetpoint() < -55 && Robot.elevator.getHieght() < 5)
 		    		//	Robot.arm.setSetpoint(-55);
 		    		
-					Robot.elevator.setSetpoint(Robot.elevator.getSetpoint() + (0.5 * yAxis));
+					Robot.elevator.setSetpoint(Robot.elevator.getHieght() + (1 * yAxis));
 		    	} else {
 					// Haptic feedback for operator
 			        Robot.oi.enableXBoxRightRumbleTimed();

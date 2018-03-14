@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 	public static Command teleOpDrive;
 	
 	SendableChooser<Command> driveMode = new SendableChooser<>();
-	SendableChooser<Command> autoModeChooser = new SendableChooser<>();
+	SendableChooser<String> autoModeChooser = new SendableChooser<>();
 
 	UsbCamera fisheyeCamera;
 	
@@ -56,8 +56,12 @@ public class Robot extends TimedRobot {
 		AutoCalibration.initializeAutoCalibration();
 		oi = new OI();
 		
-		autoModeChooser.addDefault("Auto Calibration", new AutoCalibration());
-		//autoModeChooser.addObject("Simple Center Auto", new SimpleCenterAuto());
+		autoModeChooser.addDefault("Center Auto", "Center Auto");
+		autoModeChooser.addObject("Drive Straight", "Drive Straight");
+		autoModeChooser.addObject("Left Auto Switch", "Left Auto Switch");
+		autoModeChooser.addObject("Right Auto Switch", "Right Auto Switch");
+		autoModeChooser.addObject("Left Auto Scale", "Left Auto Scale");
+		autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -125,7 +129,31 @@ public class Robot extends TimedRobot {
 		intake.retractIntakePistons();
 		
 		// schedule the autonomous command (example)
-		m_autonomousCommand = autoModeChooser.getSelected();
+		String auto = autoModeChooser.getSelected();
+		switch(auto){
+			case "Center Auto":
+				m_autonomousCommand = new CenterAuto();
+				//m_autonomousCommand = new CenterAutoManual();
+				break;
+			case "Drive Straight":
+				m_autonomousCommand = new DriveStraight();
+				break;
+			case "Left Auto Switch":
+				m_autonomousCommand = new AutoLeftStartSwitchFocus();
+				break;
+			case "Right Auto Switch":
+				m_autonomousCommand = new AutoRightStartSwitchFocus();
+				break;
+			case "Left Auto Scale":
+				m_autonomousCommand = new AutoLeftStartToScale();
+				break;
+			case "Right Auto Scale":
+				m_autonomousCommand = new AutoRightStartToScale();
+				break;
+			default:
+				m_autonomousCommand = null;
+		}
+		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}

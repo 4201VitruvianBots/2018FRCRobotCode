@@ -157,6 +157,7 @@ public class Arm extends PIDSubsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Arm Angle", getAngle());
+		SmartDashboard.putNumber("Arm Pot Voltage", aP.getAverageVoltage());
 		SmartDashboard.putBoolean("Arm PID Enabled", getPIDController().isEnabled());
 	}
 

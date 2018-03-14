@@ -187,6 +187,7 @@ public class Wrist extends PIDSubsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Wrist Angle", getRelativeAngle());
+		SmartDashboard.putNumber("Wrist Pot Voltage", wP.getAverageVoltage());
 		SmartDashboard.putBoolean("Wrist PID Enabled", getPIDController().isEnabled());
 	}
 	

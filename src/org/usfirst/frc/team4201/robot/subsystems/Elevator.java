@@ -183,6 +183,7 @@ public class Elevator extends PIDSubsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putNumber("Elevator Hieght", getHieght());
+		SmartDashboard.putNumber("Elevator Pot Voltage", eP.getAverageVoltage());
 		SmartDashboard.putBoolean("Elevator Shifters", getElevatorShiftersStatus());
 		SmartDashboard.putBoolean("Disk Brake", getDiskBrakeStatus());
 		SmartDashboard.putBoolean("Elevator PID Enabled", getPIDController().isEnabled());
