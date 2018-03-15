@@ -59,7 +59,7 @@ public class Arm extends PIDSubsystem {
 		super("Arm", kP, kI, kD, kF, period);
 		setAbsoluteTolerance(1);
 		setInputRange(angleLowerLimit, angleUpperLimit);
-		setOutputRange(-1.5, 1.5);
+		setOutputRange(-1, 1);
 		
 		for(int i = 0; i < armMotors.length; i++) {
 			armMotors[i].setNeutralMode(NeutralMode.Brake);
