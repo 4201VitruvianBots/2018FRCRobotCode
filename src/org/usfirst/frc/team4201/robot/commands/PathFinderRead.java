@@ -84,7 +84,8 @@ public class PathFinderRead extends Command {
 			}
 		} 
 		
-		// This resets the trajectory counts so you can run autos successively without redeploying the entire code.
+		// This resets the trajectory counts so you can run autos successively without redeploying the robot code.
+		// This is in a try/catch statement because the first path loaded will always be null
 		try {
 			left.reset();
 			right.reset();
