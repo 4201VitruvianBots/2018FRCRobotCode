@@ -3,6 +3,7 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
+import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
@@ -54,7 +55,6 @@ public class DriveTurnWithGyro extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	driveGyroPIDController.disable();
-    	Robot.driveTrain.spartanGyro.reset();
         stopwatch = new Timer();
         RobotMap.isTurning = true;
     	
@@ -64,15 +64,15 @@ public class DriveTurnWithGyro extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("PID Output", driveGyroPIDController.get());
-    	SmartDashboard.putNumber("Delta Setpoint", driveGyroPIDController.getDeltaSetpoint());
-    	SmartDashboard.putNumber("Setpoint", driveGyroPIDController.getSetpoint());
-    	SmartDashboard.putBoolean("On Target", driveGyroPIDController.onTarget());
-    	SmartDashboard.putBoolean("Enabled", driveGyroPIDController.isEnabled());
-    	SmartDashboard.putNumber("PIDOutput Value", driveTurnPIDOutput.getPIDOutput());
+    	Shuffleboard.putNumber("Auto", "PID Output", driveGyroPIDController.get());
+    	Shuffleboard.putNumber("Auto", "Delta Setpoint", driveGyroPIDController.getDeltaSetpoint());
+    	Shuffleboard.putNumber("Auto", "Setpoint", driveGyroPIDController.getSetpoint());
+    	Shuffleboard.putBoolean("Auto", "On Target", driveGyroPIDController.onTarget());
+    	Shuffleboard.putBoolean("Auto", "Enabled", driveGyroPIDController.isEnabled());
+    	Shuffleboard.putNumber("Auto", "PIDOutput Value", driveTurnPIDOutput.getPIDOutput());
 
-    	SmartDashboard.putNumber("Stopwatch", stopwatch.get());
-    	SmartDashboard.putBoolean("Lock Value: ", lock);
+    	Shuffleboard.putNumber("Auto", "Stopwatch", stopwatch.get());
+    	Shuffleboard.putBoolean("Auto", "Lock Value: ", lock);
         
     	DriverStation.reportError("PIDOutput Value: " + driveTurnPIDOutput.getPIDOutput(), false);
         Robot.driveTrain.setTankDrive(driveTurnPIDOutput.getPIDOutput(), -driveTurnPIDOutput.getPIDOutput());

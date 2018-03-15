@@ -15,7 +15,7 @@ public class SuperAutoLeft extends CommandGroup{
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L'){
 			// score at scale (ideal):
 			// parallel: move arm/wrist/intake to scale
-			addParallel(new SetWristArmElevatorSetpoints(0, -60, 0));
+			//addParallel(new SetWristArmElevatorSetpoints(0, -60, 0));
 			// sequential: Pathfinder - Move to scale (ideal)
 			addSequential(new PathFinderRead("leftStartToLeftScale"));
 			// sequential: score
@@ -24,20 +24,20 @@ public class SuperAutoLeft extends CommandGroup{
 			if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L'){
 				// intake and score at switch (ideal), then intake and score at scale (ideal)
 				// Parallel: move/arm/wrist/intake to intake position
-				addParallel(new SetWristArmElevatorSetpoints(0, 0, 0));
+				//addParallel(new SetWristArmElevatorSetpoints(0, 0, 0));
 				// Parallel: Activate intake motors
 				addParallel(new SetIntakeMotorOutputs(-0.75));
 				// sequential: Pathfinder - Move to cube 1
 				addSequential(new PathFinderRead("leftScaleToCubeOne"));
 				
 				// sequential: move/arm/wrist/intake to switch
-				addSequential(new SetWristArmElevatorSetpoints(0, 0, 0));
+				//addSequential(new SetWristArmElevatorSetpoints(0, 0, 0));
 				// sequential score
 				addSequential(new SetIntakeMotorOutputs(0.75));
 				addSequential(new Delay(0.1));
 				
 				// Parallel: move/arm/wrist/intake to intake position
-				addSequential(new SetWristArmElevatorSetpoints(0, 0, 0));
+				//addSequential(new SetWristArmElevatorSetpoints(0, 0, 0));
 				// Parallel: Activate intake motors
 				addParallel(new SetIntakeMotorOutputs(-0.75));
 				// sequential: Pathfinder - Move to cube 2
@@ -45,7 +45,7 @@ public class SuperAutoLeft extends CommandGroup{
 				addSequential(new PathFinderRead("backupToCubeTwo"));
 				
 				// parallel: move arm/wrist/intake to scale
-				addParallel(new SetWristArmElevatorSetpoints(0, 0, 0));
+				//addParallel(new SetWristArmElevatorSetpoints(0, 0, 0));
 				// sequential: Pathfinder - Move to scale
 				// sequential: score
 			} else {

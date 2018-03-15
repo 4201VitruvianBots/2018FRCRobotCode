@@ -73,10 +73,9 @@ public class PathFinderGen extends Command{
 		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Generating Trajectory..."); 
 		trajectory = Pathfinder.generate(points, config);
 		
-		try {
+		try {	// Generate a .csv file for later anaylsis (if needed)
 			File myfile = new File("/media/sda1/Pathfinder/PathFinderGen.csv");
 		 	Pathfinder.writeToCSV(myfile, trajectory);		
-		 
 		} catch (Exception e) {
 	    // Handle it how you want
 			DriverStation.reportError("Error: Couldn't create csv", false);

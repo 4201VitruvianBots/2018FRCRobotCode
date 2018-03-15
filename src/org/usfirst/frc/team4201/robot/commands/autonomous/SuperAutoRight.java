@@ -56,11 +56,10 @@ public class SuperAutoRight extends CommandGroup{
 				addSequential(new PathFinderRead("cubeOneToRightScale"));
 				
 				// Score at scale
-				addSequential(new HoldWristSetpoint());
-				addSequential(new SetWristRelativeSetpoint(180));
+				addSequential(new AutoSetWristRelativeSetpoint(180));
 				addSequential(new SetIntakeMotorOutputs(-0.5));
 				addSequential(new Delay(0.1));
-				addSequential(new ReleaseWristSetpoint());
+				addSequential(new AutoReleaseWristSetpoint());
 			}
 		} else if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R') {
 			// score at switch (ideal), then intake and score at scale (non-ideal) then intake

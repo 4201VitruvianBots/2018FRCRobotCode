@@ -8,7 +8,6 @@ import org.usfirst.frc.team4201.robot.interfaces.CTREPIDSource;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -76,7 +75,7 @@ public class DriveStraightFusion extends Command{
     	
         leftMotorPIDController.setSetpoint(setpoint);
         rightMotorPIDController.setSetpoint(setpoint);
-        driveGyroPIDController.setSetpoint(0);
+        driveGyroPIDController.setSetpoint(Robot.driveTrain.spartanGyro.getAngle());
         
         leftMotorPIDController.setEnabled(true);
         rightMotorPIDController.setEnabled(true);

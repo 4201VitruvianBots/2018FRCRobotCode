@@ -6,6 +6,7 @@ import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
@@ -17,7 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 /**
  *
  */
-public class PathFinderRead extends Command{
+public class PathFinderRead extends Command {
 	double max_vel = 3; // 180
 	
 	Trajectory leftTrajectory, rightTrajectory;
@@ -29,7 +30,6 @@ public class PathFinderRead extends Command{
 	
 	String filename;
 	boolean first = false;
-	
 	boolean lock = false;
 	
 	public PathFinderRead(String filename, boolean first, double maxVel) {
@@ -114,7 +114,7 @@ public class PathFinderRead extends Command{
     protected void execute() {
     	
     	Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
-    	if(!lock) {
+    	if(!lock) {	// This is used to record the time it takes for the robot to complete the given path
     		stopwatch.start();
     		lock = true;
     	}

@@ -60,7 +60,6 @@ public class OI {
 	public Button[] testButtons = new Button[10];
 	public Button xBoxLeftTrigger, xBoxRightTrigger, testLeftTrigger, testRightTrigger;
 	public boolean isQuickTurn = true;
-	public boolean complexControls = false;
 	
 	public OI(){
 		leftJoystick = new Joystick(RobotMap.leftJoystick);
@@ -102,13 +101,13 @@ public class OI {
 	        xBoxButtons[0].whileHeld(new HoldWristSetpoint());						// A Button: Set Intake to forward shoot position
 	        xBoxButtons[0].whenReleased(new ReleaseWristSetpoint());
         }
-        xBoxButtons[0].whileHeld(new SetWristRelativeSetpoint(45));					// A Button: Set Intake to forward shoot position
+        xBoxButtons[0].whileHeld(new SetWristRelativeSetpoint(180));				// A Button: Set Intake to forward shoot position
         xBoxButtons[0].whenReleased(new DisableXBoxRumble());
         xBoxButtons[1].whileHeld(new SetWristRelativeSetpoint(0));					// B Button: Set Intake to forward parallel
         xBoxButtons[1].whenReleased(new DisableXBoxRumble());
-        xBoxButtons[2].whileHeld(new SetWristRelativeSetpoint(180));				// X Button: Set Intake to reverse parallel
+        xBoxButtons[2].whileHeld(new SetWristRelativeSetpoint(135));				// X Button: Set Intake to reverse parallel
         xBoxButtons[2].whenReleased(new DisableXBoxRumble());
-        xBoxButtons[3].whileHeld(new SetWristRelativeSetpoint(135));				// Y Button: Set Intake to reverse shoot position
+        xBoxButtons[3].whileHeld(new SetWristRelativeSetpoint(45));					// Y Button: Set Intake to reverse shoot position
         xBoxButtons[3].whenReleased(new DisableXBoxRumble());
         */
         xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
@@ -133,7 +132,7 @@ public class OI {
         // Test Controller Buttons
         try {
     		testController = new Joystick(RobotMap.testController);
-    		if(!testController.getName().equals("")) {
+    		if(!testController.getName().equals("")) {	// Stops the rioLog from printing a bunch of warnings if controller is not detected
     			for(int i = 0; i < testButtons.length; i++)
     				testButtons[i] = new JoystickButton(testController, (i + 1));
 
@@ -192,7 +191,7 @@ public class OI {
 		xBoxController.setRumble(RumbleType.kRightRumble, 0);
 	}
 	
-	public void enableXBoxLeftRumbleTimed(){
+	public void enableXBoxLeftRumbleTimed() {
 		Thread t = new Thread(() -> {
 			Timer stopwatch = new Timer();
 			enableXBoxLeftRumble();

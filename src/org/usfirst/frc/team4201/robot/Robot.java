@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		AutoCalibration.initializeAutoCalibration();
+		//AutoCalibration.initializeAutoCalibration();
 		oi = new OI();
 		
 		autoModeChooser.addDefault("Center Auto", "Center Auto");
@@ -88,8 +88,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		driveTrain.setMotorsToCoast();
-		elevator.setMotorsToCoast();	// Comment this out during competitions/ change to brake
-		elevator.setElevatorShiftersHigh();
+		//elevator.setMotorsToCoast();	// Comment this out during competitions/ change to brake
+		//elevator.setElevatorShiftersHigh();
 		arm.setMotorsToCoast();
 		wrist.setMotorsToCoast();
 		intake.setMotorsToCoast();
@@ -122,7 +122,6 @@ public class Robot extends TimedRobot {
 		driveTrain.setMotorsToBrake();
 		
 		elevator.setMotorsToBrake();
-		elevator.setElevatorShiftersLow();
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
 		intake.setMotorsToBrake();
@@ -153,11 +152,13 @@ public class Robot extends TimedRobot {
 			default:
 				m_autonomousCommand = null;
 		}
+
+		if(elevator.getElevatorShiftersStatus())
+			elevator.setElevatorShiftersLow();
 		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
-		elevator.setElevatorShiftersHigh();
 	}
 
 	/**
@@ -180,10 +181,12 @@ public class Robot extends TimedRobot {
 		driveTrain.setMotorsToCoast();
 		//driveTrain.setDriveShiftLow();
 		elevator.setMotorsToBrake();
-		elevator.setElevatorShiftersLow();
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
 		intake.setMotorsToBrake();
+		
+		if(elevator.getElevatorShiftersStatus())
+			elevator.setElevatorShiftersLow();
 		
 		Scheduler.getInstance().removeAll();
 		// This makes sure that the autonomous stops running when
@@ -231,7 +234,7 @@ public class Robot extends TimedRobot {
 		//stabilizers.updateSmartDashboard();
 		controls.updateSmartDashboard();
 		//pidTuner.updateSmartDashboard();
-		AutoCalibration.updateSmartDashboard();
+		//AutoCalibration.updateSmartDashboard();
 	}
 	
 }
