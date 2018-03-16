@@ -1,24 +1,25 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class ToggleDriveShifters extends InstantCommand{
-	public ToggleDriveShifters() {
+public class SetIntakePistonsOpen extends InstantCommand {
+	
+	public SetIntakePistonsOpen() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveTrain);
+		requires(Robot.intake);
+		setInterruptible(false);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if(Robot.driveTrain.getDriveShiftStatus())
-			Robot.driveTrain.setDriveShiftLow();
-		else
-			Robot.driveTrain.setDriveShiftHigh();
+		Robot.intake.extendIntakePistons();
+		//Intake.isCubePresent = false;
 	}
-    
+	
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {

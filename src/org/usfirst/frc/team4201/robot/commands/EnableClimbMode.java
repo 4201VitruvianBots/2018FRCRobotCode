@@ -4,21 +4,23 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class ToggleDriveShifters extends InstantCommand{
-	public ToggleDriveShifters() {
+public class EnableClimbMode extends InstantCommand{
+	
+	public EnableClimbMode() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveTrain);
+		requires(Robot.elevator);
+		requires(Robot.climber);
+		//requires(Robot.wings);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if(Robot.driveTrain.getDriveShiftStatus())
-			Robot.driveTrain.setDriveShiftLow();
-		else
-			Robot.driveTrain.setDriveShiftHigh();
+		Robot.elevator.setElevatorShiftersHigh();
+		Robot.elevator.setDiskBrakeHigh();
+		Robot.climber.deployClimbers();
 	}
-    
+
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {

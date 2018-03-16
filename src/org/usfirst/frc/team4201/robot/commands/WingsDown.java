@@ -4,21 +4,21 @@ import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class ToggleDriveShifters extends InstantCommand{
-	public ToggleDriveShifters() {
+public class WingsDown extends InstantCommand{
+	public WingsDown() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveTrain);
+		//requires(Robot.wings);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		if(Robot.driveTrain.getDriveShiftStatus())
-			Robot.driveTrain.setDriveShiftLow();
-		else
-			Robot.driveTrain.setDriveShiftHigh();
+		/*
+		if(!Robot.wings.getWingStatus());
+			Robot.wings.deployWings();
+			*/
 	}
-    
+
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {

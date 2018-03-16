@@ -2,47 +2,38 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class Delay extends Command {
-    double time;
-    Timer stopwatch;
-    
-    public Delay(double timeout) {
-    	requires(Robot.driveTrain);
-    	
-    	time = timeout;
-        stopwatch = new Timer();
+public class UpdateControlState extends Command {
+
+    public UpdateControlState() {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.controls);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        stopwatch.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.controls.checkMechanismStatus();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return stopwatch.get() > time;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	stopwatch.stop();
-    	stopwatch.reset();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        this.end();
     }
 }

@@ -2,36 +2,33 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class SetSplitArcadeDrive extends Command{
-	public SetSplitArcadeDrive() {
+public class ToggleLEDs extends InstantCommand{
+	int channel;
+	
+	public ToggleLEDs(int channel) {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveTrain);
+		requires(Robot.controls);
+		this.channel = channel;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-	}
-
-	// Called repeatedly when this Command is scheduled to run
-	@Override
-	protected void execute() {
-		//Robot.driveTrain.setArcadeDrive(Robot.oi.getLeftY(), Robot.oi.getRightX());
-		Robot.driveTrain.setDriveOutput(Robot.oi.getLeftY(), Robot.oi.getRightX());
+		if(channel >= 0 && channel <= 2)
+			Robot.controls.setRGBF(channel, !Robot.controls.getRGBFStatus(channel));
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.driveTrain.setTankDrive(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same

@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,42 +28,67 @@ import org.usfirst.frc.team4201.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
-	public static Intake intake = new Intake();
 	public static Elevator elevator = new Elevator();
 	public static Arm arm = new Arm();
-	//public static Sensors sensors = new Sensors();
+	public static Wrist wrist = new Wrist();
+	public static Intake intake = new Intake();
+	public static Climber climber = new Climber();
+	//public static Wings wings = new Wings();
+	//public static Stabilizers stabilizers = new Stabilizers();
+	public static Controls controls = new Controls();
+	//public static PIDTuner pidTuner = new PIDTuner();
 	public static OI oi;
 
 	Command m_autonomousCommand;
-	Command teleOpDrive;
-	SendableChooser<Command> autoModes = new SendableChooser<>();
+	public static Command teleOpDrive;
+	
 	SendableChooser<Command> driveMode = new SendableChooser<>();
-	SendableChooser<Command> autoModeChooser = new SendableChooser<>();
+	SendableChooser<String> autoModeChooser = new SendableChooser<>();
 
+	UsbCamera fisheyeCamera;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		//AutoCalibration.initializeAutoCalibration();
 		oi = new OI();
 		
-		Robot.driveTrain.initializeLiveWindow();
-		
-		autoModeChooser.addDefault("DriveStraight", new DriveStraight());
-		autoModeChooser.addObject("Turn", new Turn());
-		autoModeChooser.addObject("CenterRobotToLeftSwitch", new CenterRobotToLeftSwitch());
-		autoModeChooser.addObject("CenterRobotToRightSwitch", new CenterRobotToRightSwitch());
-		autoModeChooser.addObject("RightRobotToRightScale", new RightRobotToRightScale());
-		autoModeChooser.addObject("Turn", new AutoTemplate());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		// If in controlled mode, then 
+		if(RobotMap.WristState == 0 && RobotMap.ArmState == 0 && RobotMap.ElevatorState == 0) {
+			autoModeChooser.addDefault("Center Auto", "Center Auto");
+			autoModeChooser.addObject("Drive Straight", "Drive Straight");
+			autoModeChooser.addObject("Left Auto Switch", "Left Auto Switch");
+			autoModeChooser.addObject("Right Auto Switch", "Right Auto Switch");
+			autoModeChooser.addObject("Left Auto Scale", "Left Auto Scale");
+			autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
+		} else {
+			if(Robot.driveTrain.spartanGyro != null) {	// May need to be put in a try/catch
+				autoModeChooser.addDefault("Center Auto Semi-Automatic", "Center Auto Semi-Automatic");
+				autoModeChooser.addObject("Drive Straight", "Drive Straight");
+			} else {
+				autoModeChooser.addDefault("Center Auto Manual", "Center Auto Manual");
+				autoModeChooser.addObject("Drive Straight Manual", "Drive Straight Manual");
+			}
+		}
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
-		
-		driveMode.addDefault("Cheesy Drive", new SetCheesyDrive());
-		driveMode.addObject("Tank Drive", new SetTankDrive());
-		driveMode.addObject("Split Arcade", new SetSplitArcadeDrive());
 
+		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
+		driveMode.addObject("Cheesy Drive", new SetCheesyDrive());
+		driveMode.addObject("Tank Drive", new SetTankDrive());
+		
+		try {
+			//fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
+		} catch(Exception e) {
+			
+		}
+		
 		SmartDashboard.putData("Drive Type", driveMode);
+
+		elevator.setElevatorShiftersHigh();
+		//pidTuner.initializeSmartDashboard();
 	}
 
 	/**
@@ -72,12 +98,21 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		driveTrain.setMotorsToCoast();
+		//elevator.setMotorsToCoast();	// Comment this out during competitions/ change to brake
+		//elevator.setElevatorShiftersHigh();
+		arm.setMotorsToCoast();
+		wrist.setMotorsToCoast();
+		intake.setMotorsToCoast();
+		
+		Robot.driveTrain.resetSensors();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
+		updateSmartDashboard();
 	}
 
 	/**
@@ -93,20 +128,54 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = autoModeChooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-		
-		// Sets drive train motors to brake.
+		driveTrain.resetSensors();
+		//driveTrain.setDriveShiftLow();
 		driveTrain.setMotorsToBrake();
-		driveTrain.resetEncoders();
-
+		
+		elevator.setMotorsToBrake();
+		arm.setMotorsToBrake();
+		wrist.setMotorsToBrake();
+		intake.setMotorsToBrake();
+		intake.retractIntakePistons();
+		
 		// schedule the autonomous command (example)
+		String auto = autoModeChooser.getSelected();
+		switch(auto){
+			case "Center Auto":
+				m_autonomousCommand = new CenterAuto();
+				//m_autonomousCommand = new CenterAutoManual();
+				break;
+			case "Drive Straight":
+				m_autonomousCommand = new DriveStraight();
+				break;
+			case "Left Auto Switch":
+				m_autonomousCommand = new AutoLeftStartSwitchFocus();
+				break;
+			case "Right Auto Switch":
+				m_autonomousCommand = new AutoRightStartSwitchFocus();
+				break;
+			case "Left Auto Scale":
+				m_autonomousCommand = new AutoLeftStartToScale();
+				break;
+			case "Right Auto Scale":
+				m_autonomousCommand = new AutoRightStartToScale();
+				break;
+			case "Center Auto Semi-Automatic":
+				m_autonomousCommand = new CenterAutoSemiAutomatic();
+				break;
+			case "Center Auto Manual":
+				m_autonomousCommand = new CenterAutoManual();
+				break;
+			case "Drive Straight Manual":
+				m_autonomousCommand = new DriveStraightManual();
+				break;
+			default:
+				m_autonomousCommand = null;
+		}
+
+		if(elevator.getElevatorShiftersStatus())
+			elevator.setElevatorShiftersLow();
+		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
@@ -118,29 +187,41 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-    	SmartDashboard.putBoolean("Turning", RobotMap.isTurning);
-
-		driveTrain.updateSmartDashboard();
+		
+		updateSmartDashboard();
 	}
 
 	@Override
 	public void teleopInit() {
-		teleOpDrive = driveMode.getSelected();
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
+		
+		elevator.setElevatorShiftersHigh();
 		
 		//Sets drive train motors to coast.
+		driveTrain.resetSensors();
 		driveTrain.setMotorsToCoast();
+		//driveTrain.setDriveShiftLow();
+		elevator.setMotorsToBrake();
+		arm.setMotorsToBrake();
+		wrist.setMotorsToBrake();
+		intake.setMotorsToBrake();
 		
+		if(elevator.getElevatorShiftersStatus())
+			elevator.setElevatorShiftersLow();
+		
+		Scheduler.getInstance().removeAll();
+		// This makes sure that the autonomous stops running when
+		// teleOp starts running. If you want the autonomous to
+		// continue until interrupted by another command, remove
+		// this line or comment it out.
 		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+			m_autonomousCommand.cancel();		// Consider commenting this out under certain conditions...
 		}
+		
+		teleOpDrive = driveMode.getSelected();
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
+			Robot.driveTrain.setDefaultCommand(teleOpDrive);			// To prevent KillAll() from switching drive modes mid-match
 		}
-		driveTrain.resetEncoders();
 	}
 
 	/**
@@ -149,10 +230,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
-		//sensors.updateSmartDashboard();
-		driveTrain.updateSmartDashboard();
-		//flipper.updateSmartDashboard();
+
+		oi.checkDriverInputs();
+		updateSmartDashboard();
 	}
 
 	/**
@@ -160,6 +240,21 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		updateSmartDashboard();
+	}
+	
+	void updateSmartDashboard(){
+		driveTrain.updateSmartDashboard();
+		wrist.updateSmartDashboard();
+		arm.updateSmartDashboard();
+		elevator.updateSmartDashboard();
+		intake.updateSmartDashboard();
+		climber.updateSmartDashboard();
+		//wings.updateSmartDashboard();
+		//stabilizers.updateSmartDashboard();
+		controls.updateSmartDashboard();
+		//pidTuner.updateSmartDashboard();
+		//AutoCalibration.updateSmartDashboard();
 	}
 	
 }
