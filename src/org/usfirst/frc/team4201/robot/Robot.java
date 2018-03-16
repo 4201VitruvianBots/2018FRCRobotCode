@@ -56,12 +56,23 @@ public class Robot extends TimedRobot {
 		//AutoCalibration.initializeAutoCalibration();
 		oi = new OI();
 		
-		autoModeChooser.addDefault("Center Auto", "Center Auto");
-		autoModeChooser.addObject("Drive Straight", "Drive Straight");
-		autoModeChooser.addObject("Left Auto Switch", "Left Auto Switch");
-		autoModeChooser.addObject("Right Auto Switch", "Right Auto Switch");
-		autoModeChooser.addObject("Left Auto Scale", "Left Auto Scale");
-		autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
+		// If in controlled mode, then 
+		if(RobotMap.WristState == 0 && RobotMap.ArmState == 0 && RobotMap.ElevatorState == 0) {
+			autoModeChooser.addDefault("Center Auto", "Center Auto");
+			autoModeChooser.addObject("Drive Straight", "Drive Straight");
+			autoModeChooser.addObject("Left Auto Switch", "Left Auto Switch");
+			autoModeChooser.addObject("Right Auto Switch", "Right Auto Switch");
+			autoModeChooser.addObject("Left Auto Scale", "Left Auto Scale");
+			autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
+		} else {
+			if(Robot.driveTrain.spartanGyro != null) {	// May need to be put in a try/catch
+				autoModeChooser.addDefault("Center Auto Semi-Automatic", "Center Auto Semi-Automatic");
+				autoModeChooser.addObject("Drive Straight", "Drive Straight");
+			} else {
+				autoModeChooser.addDefault("Center Auto Manual", "Center Auto Manual");
+				autoModeChooser.addObject("Drive Straight Manual", "Drive Straight Manual");
+			}
+		}
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -148,6 +159,15 @@ public class Robot extends TimedRobot {
 				break;
 			case "Right Auto Scale":
 				m_autonomousCommand = new AutoRightStartToScale();
+				break;
+			case "Center Auto Semi-Automatic":
+				m_autonomousCommand = new CenterAutoSemiAutomatic();
+				break;
+			case "Center Auto Manual":
+				m_autonomousCommand = new CenterAutoManual();
+				break;
+			case "Drive Straight Manual":
+				m_autonomousCommand = new DriveStraightManual();
 				break;
 			default:
 				m_autonomousCommand = null;

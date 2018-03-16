@@ -58,28 +58,34 @@ public class DriveStraightFusion extends Command{
         rightMotorPIDController.setSubsystem("Drive Train");
         rightMotorPIDController.setAbsoluteTolerance(100);
         rightMotorPIDController.setOutputRange(-0.5, 0.5);
-    	
-        driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
-        driveGyroPIDController.setName("Drive Gyro PID");
-    	driveGyroPIDController.setSubsystem("Drive Train");
-        driveGyroPIDController.setAbsoluteTolerance(2);
-        driveGyroPIDController.setOutputRange(-0.2, 0.2);
         
+    	try {
+	        driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
+	        driveGyroPIDController.setName("Drive Gyro PID");
+	    	driveGyroPIDController.setSubsystem("Drive Train");
+	        driveGyroPIDController.setAbsoluteTolerance(2);
+	        driveGyroPIDController.setOutputRange(-0.2, 0.2);
+    	} catch (Exception e){
+    		
+    	}
         this.setpoint = distance;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
         stopwatch = new Timer();
-        RobotMap.isTurning = false;
     	
         leftMotorPIDController.setSetpoint(setpoint);
         rightMotorPIDController.setSetpoint(setpoint);
-        driveGyroPIDController.setSetpoint(Robot.driveTrain.spartanGyro.getAngle());
-        
         leftMotorPIDController.setEnabled(true);
         rightMotorPIDController.setEnabled(true);
-        driveGyroPIDController.setEnabled(true);
+        
+        try {
+        	driveGyroPIDController.setSetpoint(Robot.driveTrain.spartanGyro.getAngle());
+            driveGyroPIDController.setEnabled(true);
+        } catch (Exception e) {
+        	
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -103,21 +109,35 @@ public class DriveStraightFusion extends Command{
     	//SmartDashboard.putBoolean("Lock Value: ", lock);
     	
     	//Robot.driveTrain.PIDDrive(PIDThrottleLeft.getPIDOutput(), PIDThrottleRight.getPIDOutput());
-        Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput() + driveTurnPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput() - driveTurnPIDOutput.getPIDOutput());
+    	try {
+    		Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput() + driveTurnPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput() - driveTurnPIDOutput.getPIDOutput());
+    	} catch(Exception e) {
+            Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput());
+    	}
     	//Robot.driveTrain.PIDDrive(leftMotorPIDOutput.getPIDOutput(), rightMotorPIDOutput.getPIDOutput());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(leftMotorPIDController.onTarget() && rightMotorPIDController.onTarget() && driveGyroPIDController.onTarget() && !lock) { // When you are in range && you are not locked
-    		stopwatch.start();
-    		lock = true;
-    	} else if((!leftMotorPIDController.onTarget() || !rightMotorPIDController.onTarget() || !driveGyroPIDController.onTarget()) && lock){ // When you are outside of range && you are locked
-    		stopwatch.stop();
-    		stopwatch.reset();
-    		lock = false;
+    	try {
+	    	if(leftMotorPIDController.onTarget() && rightMotorPIDController.onTarget() && driveGyroPIDController.onTarget() && !lock) { // When you are in range && you are not locked
+	    		stopwatch.start();
+	    		lock = true;
+	    	} else if((!leftMotorPIDController.onTarget() || !rightMotorPIDController.onTarget() || !driveGyroPIDController.onTarget()) && lock){ // When you are outside of range && you are locked
+	    		stopwatch.stop();
+	    		stopwatch.reset();
+	    		lock = false;
+	    	}
+    	} catch (Exception e) {
+    		if(leftMotorPIDController.onTarget() && rightMotorPIDController.onTarget() && !lock) { // When you are in range && you are not locked
+	    		stopwatch.start();
+	    		lock = true;
+	    	} else if((!leftMotorPIDController.onTarget() || !rightMotorPIDController.onTarget()) && lock){ // When you are outside of range && you are locked
+	    		stopwatch.stop();
+	    		stopwatch.reset();
+	    		lock = false;
+	    	}
     	}
-    	
     	return stopwatch.get() > 1; 
     }
 

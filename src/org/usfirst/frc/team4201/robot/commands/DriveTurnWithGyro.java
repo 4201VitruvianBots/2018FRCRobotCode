@@ -44,20 +44,23 @@ public class DriveTurnWithGyro extends Command {
         kD = SmartDashboard.getNumber("kD", kD);
         */
         driveTurnPIDOutput = new PIDOutputInterface();
-        driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
-    	driveGyroPIDController.setName("Drive Gyro PID");
-    	driveGyroPIDController.setSubsystem("Drive Train");
-    	driveGyroPIDController.setAbsoluteTolerance(1.5);
-    	driveGyroPIDController.setOutputRange(-0.8, 0.8);
+        try {
+	        driveGyroPIDController = new PIDController(kP, kI, kD, Robot.driveTrain.spartanGyro, driveTurnPIDOutput, period);
+	    	driveGyroPIDController.setName("Drive Gyro PID");
+	    	driveGyroPIDController.setSubsystem("Drive Train");
+	    	driveGyroPIDController.setAbsoluteTolerance(1.5);
+	    	driveGyroPIDController.setOutputRange(-0.8, 0.8);
+        } catch (Exception e) {
+        	DriverStation.reportError("4201 Error!: SpartanGyro was not detected. Interrupting DriveTurnWithGyro", false);
+        	interrupted();
+        }
         this.setpoint = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	driveGyroPIDController.disable();
         stopwatch = new Timer();
-        RobotMap.isTurning = true;
-    	
+
     	driveGyroPIDController.setSetpoint(setpoint);
     	driveGyroPIDController.enable();
     }

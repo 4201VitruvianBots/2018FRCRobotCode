@@ -128,7 +128,12 @@ public class PathFinderRead extends Command {
 		Shuffleboard.putNumber("Pathfinder", "PathFinder H" , Pathfinder.r2d(left.getHeading()));
 		
 		// Adjust a turn value based on the gyro's heading + the trajectory's heading. Note that we only use the left's heading, but left/right would be the same since they're following the same path, but separated by wheelbase distance.
-		double turn = 0.8 * (-1.0/80.0) * Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()) + Robot.driveTrain.spartanGyro.getAngle());
+		double turn = 0;
+		try {
+			turn = 0.8 * (-1.0/80.0) * Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()) + Robot.driveTrain.spartanGyro.getAngle());
+		} catch(Exception e) {
+			turn = 0.8 * (-1.0/80.0) * Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()));
+		}
 		//double turn = 0;
 		Shuffleboard.putNumber("Pathfinder", "PathFinder T" , turn);
 		Shuffleboard.putNumber("Pathfinder", "PathFinder L output" , l + turn);

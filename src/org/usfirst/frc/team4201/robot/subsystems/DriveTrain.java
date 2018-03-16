@@ -107,7 +107,11 @@ public class DriveTrain extends Subsystem {
 	public void resetSensors() {
 		driveMotors[0].setSelectedSensorPosition(0, 0, 0);
 		driveMotors[2].setSelectedSensorPosition(0, 0, 0);
-		spartanGyro.reset();
+		try {
+			spartanGyro.reset();
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	public void setMotorsToBrake() {
@@ -194,14 +198,14 @@ public class DriveTrain extends Subsystem {
 		// Use Shuffleboard to place things in their own tabs
 		Shuffleboard.putNumber("Drive Train", "Left Encoder Count", getLeftEncoderValue());
 		Shuffleboard.putNumber("Drive Train", "Right Encoder Count", getRightEncoderValue());
-		Shuffleboard.putNumber("Drive Train", "Gyro", spartanGyro.getAngle());
 		
 		Shuffleboard.putBoolean("Drive Train", "Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		Shuffleboard.putBoolean("Drive Train", "Drive Train Shift", getDriveShiftStatus());
 		
 		Shuffleboard.putNumber("Pathfinder", "Left Encoder Count", getLeftEncoderValue());
 		Shuffleboard.putNumber("Pathfinder", "Right Encoder Count", getRightEncoderValue());
-		Shuffleboard.putNumber("Pathfinder", "Gyro", spartanGyro.getAngle());
+		
+		
 		
 		// Use SmartDashboard to put only the important stuff for drivers
 		if(Robot.teleOpDrive.getClass() == SetCheesyDrive.class)
@@ -209,7 +213,14 @@ public class DriveTrain extends Subsystem {
 		
 		SmartDashboard.putBoolean("Drive Train Shifters", getDriveShiftStatus());
 		//SmartDashboard.putNumber("Gyro", Math.abs(spartanGyro.getAngle()) % 360); // This will now act as a compass for driver
-		SmartDashboard.putData(spartanGyro);	// Use if Gyro widget on driverstation is preferred over just a value
+		
+		try {
+			Shuffleboard.putNumber("Drive Train", "Gyro", spartanGyro.getAngle());
+			Shuffleboard.putNumber("Pathfinder", "Gyro", spartanGyro.getAngle());
+			SmartDashboard.putData(spartanGyro);	// Check if this needs to be in this loop?
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	public void initDefaultCommand() {
