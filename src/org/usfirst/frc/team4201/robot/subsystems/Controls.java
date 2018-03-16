@@ -36,7 +36,8 @@ public class Controls extends Subsystem{
 	public void updateCurrentState(){
 		if(pdp.getTotalCurrent() > 200)
 			powerState = 1;
-		else powerState = 0;
+		else 
+			powerState = 0;
 		
 		switch(powerState){
 			case 1:
@@ -134,6 +135,7 @@ public class Controls extends Subsystem{
 		//Shuffleboard.putNumber("Controls", "ArmB Current", Robot.arm.armMotors[1].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "Intake Left Current", Robot.intake.intakeMotors[0].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "Intake Right Current", Robot.intake.intakeMotors[1].getOutputCurrent());
+		
 		Shuffleboard.putNumber("Controls", "Total Current Draw", pdp.getTotalCurrent());
 		Shuffleboard.putBoolean("Controls", "Brownout", RobotController.isBrownedOut());
 		

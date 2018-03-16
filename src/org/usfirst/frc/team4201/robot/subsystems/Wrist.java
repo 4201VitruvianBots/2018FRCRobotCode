@@ -26,9 +26,9 @@ public class Wrist extends PIDSubsystem {
 	public static int armLimiterLowerBound = -46;
 	public static int armLimiterUpperBound = 45;
 
-	public double angleLowerLimit = -105;												// -75
-	public double angleUpperLimit = 125;												// 50 	
-	public double sensorLowerLimit = 0;													//-133;
+	public double angleLowerLimit = -105;													// -75
+	public double angleUpperLimit = 125;													// 50 	
+	public double sensorLowerLimit = 0;														//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
 	static double sensorOffset = 651;														// -240;
 	static double voltageLowerLimit = 0;
@@ -38,9 +38,9 @@ public class Wrist extends PIDSubsystem {
 	public AnalogInput wP = new AnalogInput(RobotMap.wristPot);
 	public AnalogPotentiometer wristPot = new AnalogPotentiometer(wP, sensorUpperLimit, sensorOffset);
 	
-	/*	Wrist LUT:
+	/*	Wrist Values:
 	 *	60 (0): Parallel to Ground 
-	 *	180 (130): Parallel to arm (I use 130 because it seems better in practice)
+	 *	180 = 120 + 60 (130): Parallel to arm (I use 130 because it seems better in practice)
 	 *	105 (45): Shoot Forward
 	 *	240 (180): Reverse Parallel
 	 *	195 (135): Reverse Shoot

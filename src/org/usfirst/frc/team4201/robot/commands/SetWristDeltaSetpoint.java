@@ -23,13 +23,14 @@ public class SetWristDeltaSetpoint extends InstantCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//SmartDashboard.putNumber("Wrist Setpoint", Robot.wrist.PIDControl.getSetpoint() + inc);
     	if(RobotMap.WristState == 0){
 	    	// Check if new setpoint deosn't violate limits before setting
     		double input = Robot.wrist.getSetpoint() + inc;
 			double checkSetpoint = Robot.wrist.getValidAngle(input);
     		if(checkSetpoint != -500)
+    			// I forget why I did this, but if you are being limited, then ??? else just move to your target
     			if(input != checkSetpoint){
+    				
     			}
 				else
     				Robot.wrist.setSetpoint(checkSetpoint);
@@ -38,9 +39,9 @@ public class SetWristDeltaSetpoint extends InstantCommand {
     	}
     	else
     		if(inc > 0)
-    			Robot.wrist.setDirectOutput(0.5);
+    			Robot.wrist.setDirectOutput(0.8);
     		else if(inc < 0)
-    			Robot.wrist.setDirectOutput(-0.5);
+    			Robot.wrist.setDirectOutput(-0.8);
     		else
     			Robot.wrist.setDirectOutput(0);
     }

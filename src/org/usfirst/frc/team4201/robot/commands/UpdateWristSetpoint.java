@@ -18,7 +18,6 @@ public class UpdateWristSetpoint extends Command {
 	public UpdateWristSetpoint() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.wrist);
-
         
         setInterruptible(true);
     }
