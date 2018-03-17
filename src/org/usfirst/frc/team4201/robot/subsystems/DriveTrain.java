@@ -208,8 +208,8 @@ public class DriveTrain extends Subsystem {
 		
 		
 		// Use SmartDashboard to put only the important stuff for drivers
-		if(Robot.teleOpDrive.getClass() == SetCheesyDrive.class)
-			SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
+		//if(Robot.teleOpDrive.getClass() == SetCheesyDrive.class)
+		//	SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		
 		SmartDashboard.putBoolean("Drive Train Shifters", getDriveShiftStatus());
 		//SmartDashboard.putNumber("Gyro", Math.abs(spartanGyro.getAngle()) % 360); // This will now act as a compass for driver

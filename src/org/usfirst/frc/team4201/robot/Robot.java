@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		//AutoCalibration.initializeAutoCalibration();
+		AutoCalibration.initializeAutoCalibration();
 		oi = new OI();
 		
 		// If in controlled mode, then 
@@ -66,13 +66,15 @@ public class Robot extends TimedRobot {
 			autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
 		} else {
 			if(Robot.driveTrain.spartanGyro != null) {	// May need to be put in a try/catch
-				autoModeChooser.addDefault("Center Auto Semi-Automatic", "Center Auto Semi-Automatic");
+				autoModeChooser.addDefault("Center Auto Manual", "Center Auto Manual");
 				autoModeChooser.addObject("Drive Straight", "Drive Straight");
 			} else {
 				autoModeChooser.addDefault("Center Auto Manual", "Center Auto Manual");
 				autoModeChooser.addObject("Drive Straight Manual", "Drive Straight Manual");
 			}
 		}
+
+		autoModeChooser.addObject("Auto Calibration", "Auto Calibration");
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -169,6 +171,9 @@ public class Robot extends TimedRobot {
 			case "Drive Straight Manual":
 				m_autonomousCommand = new DriveStraightManual();
 				break;
+			case "Auto Calibration":
+				m_autonomousCommand = new AutoCalibration();
+				break;
 			default:
 				m_autonomousCommand = null;
 		}
@@ -254,7 +259,7 @@ public class Robot extends TimedRobot {
 		//stabilizers.updateSmartDashboard();
 		controls.updateSmartDashboard();
 		//pidTuner.updateSmartDashboard();
-		//AutoCalibration.updateSmartDashboard();
+		AutoCalibration.updateSmartDashboard();
 	}
 	
 }

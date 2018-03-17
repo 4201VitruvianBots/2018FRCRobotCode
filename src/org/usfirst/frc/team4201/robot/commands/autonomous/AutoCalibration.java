@@ -2,29 +2,30 @@ package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+
+import java.util.ArrayList;
+
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 public class AutoCalibration extends CommandGroup{
-	static Command[] testCommands = new Command[10];
-	static int index = 0;
+	static ArrayList<Command> testCommands = new ArrayList<>();
+	int index = 0;
 	
 	public static void initializeAutoCalibration() {
-		/*
-		testCommands[index++] = new SetLEDs(4);
-		testCommands[index++] = new AutoSetArmElevatorSetpoints(52, 6);
-		//testCommands[i++] = new Delay(1.5);
-		
-		testCommands[index++] = new AutoSetWristRelativeSetpoint(0);
-		testCommands[index++] = new SetIntakePistonsOpen();
-		testCommands[index++] = new Delay(0.75);						// Delay to drop cube
-		testCommands[index++] = new AutoReleaseWristSetpoint(); 		
-		testCommands[index++] = new SetIntakePistonsClose();
-		testCommands[index++] = new SetLEDs(2);
-		*/
+		testCommands.add(new AutoManualElevatorControl(0.5, 1.5));
+		testCommands.add(new AutoManualWristControl(-0.5, 0.75));
+		testCommands.add(new SetIntakePistonsOpen());
+		testCommands.add(new Delay(1));
+		testCommands.add(new SetIntakePistonsClose());
 	}
 	
 	public AutoCalibration() {
+		addSequential(testCommands.get(index++));
+		addSequential(testCommands.get(index++));
+		addSequential(testCommands.get(index++));
+		addSequential(testCommands.get(index++));
+		addSequential(testCommands.get(index++));
 		// Move to Scale 
 		/*
 		Shuffleboard.putString("Auto", "Auto Status", "Step 1");
@@ -59,9 +60,9 @@ public class AutoCalibration extends CommandGroup{
 	}
 	
 	public static void updateSmartDashboard(){
-		for(int i = 0; i < index; i++) {
-			Shuffleboard.putBoolean("Auto", "Test Command " + i + " Running", testCommands[i].isRunning());
-			Shuffleboard.putBoolean("Auto", "Test Command " + i + " Finished", testCommands[i].isCompleted());
+		for(int i = 0; i < testCommands.size(); i++) {
+			Shuffleboard.putBoolean("Auto", "Test Command " + i + " Running", testCommands.get(i).isRunning());
+			Shuffleboard.putBoolean("Auto", "Test Command " + i + " Finished", testCommands.get(i).isCompleted());
 		}
 	}
 }

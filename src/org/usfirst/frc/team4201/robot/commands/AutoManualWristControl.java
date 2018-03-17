@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  *
  */
 public class AutoManualWristControl extends Command {
-	double output, time;
+	double output;
 	
     public AutoManualWristControl(double output, double time) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.wrist);
         
+        this.output = output;
         setInterruptible(true);
         setTimeout(time);
     }

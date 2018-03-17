@@ -9,7 +9,7 @@ public class CenterAuto extends CommandGroup{
 	
 	public CenterAuto() {
 		// 1a. Move the Arm/Elevator to a given scoring position, in this case, the default switch scoring setpoints
-		addParallel(new SetArmElevatorSetpoints(-45, 25));
+		addParallel(new AutoSetArmElevatorSetpoints(-45, 25));
 		
 		// 1b. At the same time, move to the correct scoring platform by reading the FMS data
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
