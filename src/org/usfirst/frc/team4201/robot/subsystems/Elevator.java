@@ -169,7 +169,7 @@ public class Elevator extends PIDSubsystem {
 		Shuffleboard.putNumber("Elevator", "Avg. Pot Voltage", eP.getAverageVoltage());
 		Shuffleboard.putNumber("Elevator", "Setpoint", getSetpoint());
 		Shuffleboard.putBoolean("Elevator", "Shifters", getElevatorShiftersStatus());
-		Shuffleboard.putBoolean("Elevator", "Disk Brake", getDiskBrakeStatus());
+		//Shuffleboard.putBoolean("Elevator", "Disk Brake", getDiskBrakeStatus());
 		Shuffleboard.putBoolean("Elevator", "PID Enabled", getPIDController().isEnabled());
 		Shuffleboard.putNumber("Elevator", "kP", getPIDController().getP());
 		Shuffleboard.putNumber("Elevator", "kI", getPIDController().getI());
@@ -185,7 +185,7 @@ public class Elevator extends PIDSubsystem {
 		SmartDashboard.putNumber("Elevator Hieght", getHieght());
 		SmartDashboard.putNumber("Elevator Pot Voltage", eP.getAverageVoltage());
 		SmartDashboard.putBoolean("Elevator Shifters", getElevatorShiftersStatus());
-		SmartDashboard.putBoolean("Disk Brake", getDiskBrakeStatus());
+		//SmartDashboard.putBoolean("Disk Brake", getDiskBrakeStatus());
 		SmartDashboard.putBoolean("Elevator PID Enabled", getPIDController().isEnabled());
 	}
 	

@@ -9,7 +9,7 @@ public class EnableClimbMode extends InstantCommand{
 	public EnableClimbMode() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.elevator);
-		requires(Robot.climber);
+		//requires(Robot.climber);
 		//requires(Robot.wings);
 	}
 
@@ -18,7 +18,7 @@ public class EnableClimbMode extends InstantCommand{
 	protected void initialize() {
 		Robot.elevator.setElevatorShiftersHigh();
 		Robot.elevator.setDiskBrakeHigh();
-		Robot.climber.deployClimbers();
+		//Robot.climber.deployClimbers();
 	}
 
 	// Called once after isFinished returns true

@@ -81,8 +81,10 @@ public class DriveTrain extends Subsystem {
 			spartanGyro.setName("Gyro");
 			spartanGyro.setSubsystem("Drive Train");
 	        LiveWindow.add(spartanGyro);
+	        SmartDashboard.putBoolean("Gyro Detected", true);
 		} catch (Exception e) {
 			DriverStation.reportError("4201 Error: Spartan Gyro not detected!", false);
+			SmartDashboard.putBoolean("Gyro Detected", false);
 		}
 		
         robotDrive.setName("Robot Drive");

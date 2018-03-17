@@ -14,7 +14,6 @@ public class AutoManualElevatorControl extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.elevator);
         
-        
         this.output = output;
         setInterruptible(true);
         setTimeout(time);
