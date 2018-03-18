@@ -60,8 +60,11 @@ public class UpdateArmSetpoint extends Command {
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)
- 				Robot.arm.setDirectOutput(yAxis * 0.8);	// Do not multiply by a fraction			
- 			else
+ 				if(yAxis > 0)
+ 					Robot.arm.setDirectOutput(yAxis);			
+ 				else
+ 					Robot.arm.setDirectOutput(yAxis * 0.8);
+			else
  				Robot.arm.setDirectOutput(0);
  		}
  	}

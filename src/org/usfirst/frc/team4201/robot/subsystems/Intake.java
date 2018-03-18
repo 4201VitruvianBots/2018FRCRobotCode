@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
+import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.commands.UpdateIntakeState;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
@@ -92,6 +93,10 @@ public class Intake extends Subsystem {
 		// Use Shuffleboard to place things in their own tabs
 		Shuffleboard.putBoolean("Intake", "Pistons", getIntakePistonStatus());
 		Shuffleboard.putNumber("Intake", "Speed", intakeMotors[0].get());
+		Shuffleboard.putNumber("Intake", " Current", Robot.wrist.wristMotor.getOutputCurrent());
+		Shuffleboard.putNumber("Intake", "Left Motor Current", intakeMotors[0].getOutputCurrent());
+		Shuffleboard.putNumber("Intake", "Right Motor Current", intakeMotors[1].getOutputCurrent());
+		Shuffleboard.putNumber("Intake", "Total Motor Current", intakeMotors[0].getOutputCurrent() + intakeMotors[1].getOutputCurrent());
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putBoolean("Intake Pistons", getIntakePistonStatus());

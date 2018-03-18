@@ -13,14 +13,15 @@ public class AutoCalibration extends CommandGroup{
 	int index = 0;
 	
 	public static void initializeAutoCalibration() {
-		testCommands.add(new AutoManualElevatorControl(0.5, 1.5));
-		testCommands.add(new AutoManualWristControl(-0.5, 0.75));
+		testCommands.add(new AutoManualElevatorControl(1, 2));
+		testCommands.add(new AutoManualWristControl(-0.75, 0.7));
 		testCommands.add(new SetIntakePistonsOpen());
 		testCommands.add(new Delay(1));
 		testCommands.add(new SetIntakePistonsClose());
 	}
 	
 	public AutoCalibration() {
+		index = 0;
 		addSequential(testCommands.get(index++));
 		addSequential(testCommands.get(index++));
 		addSequential(testCommands.get(index++));

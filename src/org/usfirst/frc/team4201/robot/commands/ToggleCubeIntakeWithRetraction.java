@@ -24,8 +24,8 @@ public class ToggleCubeIntakeWithRetraction extends Command {
         // Use requires() here to declare subsystem dependencies
         //requires(Robot.intake);
         //requires(Robot.wrist);
-        requires(Robot.arm);
-        requires(Robot.elevator);
+        //requires(Robot.arm);
+        //requires(Robot.elevator);
         
         setInterruptible(false);
         
@@ -53,8 +53,8 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
 		
-		cubeFlush = Robot.intake.intakeMotors[0].getOutputCurrent() > 15 && Robot.intake.intakeMotors[1].getOutputCurrent() > 15;
-		cubeStalled = Robot.intake.intakeMotors[0].getOutputCurrent() > 12 || Robot.intake.intakeMotors[1].getOutputCurrent() > 12;
+		cubeFlush = Robot.intake.intakeMotors[0].getOutputCurrent() + Robot.intake.intakeMotors[1].getOutputCurrent() > 40;
+		//cubeStalled = Robot.intake.intakeMotors[0].getOutputCurrent() > 12 || Robot.intake.intakeMotors[1].getOutputCurrent() > 12;
 		
 		if((cubeFlush || cubeStalled) && !lock) {
 			stopwatch.start();
@@ -74,7 +74,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		Shuffleboard.putBoolean("Intake", "Flush", cubeFlush);
 		Shuffleboard.putBoolean("Intake", "Stalled", cubeStalled);
 		
-		return (finished || Robot.oi.leftButtons[3].get());// || Robot.oi.testButtons[2].get());
+		return (Robot.oi.leftButtons[3].get());// || Robot.oi.testButtons[2].get());
 	}
 	
     // Called once after isFinished returns true
@@ -97,7 +97,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	if(RobotMap.WristState == 0)
             Robot.wrist.setSetpoint(130);
     	else {
-    		while(Robot.wrist.wristMotor.getOutputCurrent() < 10)
+    		while(Robot.wrist.wristMotor.getOutputCurrent() < 25)
     			Robot.wrist.setDirectOutput(0.75);
     		
     		Robot.wrist.setDirectOutput(0);
@@ -107,7 +107,6 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	if(finished) {
     		Intake.isCubePresent = true;
         	Robot.intake.setIntakeMotorOutput(0.1);
-    		
     	} else 
         	Robot.intake.setIntakeMotorOutput(0);
     	

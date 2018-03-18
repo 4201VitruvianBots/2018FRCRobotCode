@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
 		}
 
 		autoModeChooser.addObject("Auto Calibration", "Auto Calibration");
+		autoModeChooser.addObject("Pathfinder Test", "Pathfinder Test");
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -174,8 +175,12 @@ public class Robot extends TimedRobot {
 			case "Auto Calibration":
 				m_autonomousCommand = new AutoCalibration();
 				break;
+			case "Pathfinder Test":
+				m_autonomousCommand = new PathfinderTest();
+				break;
 			default:
 				m_autonomousCommand = null;
+				break;
 		}
 
 		if(elevator.getElevatorShiftersStatus())
