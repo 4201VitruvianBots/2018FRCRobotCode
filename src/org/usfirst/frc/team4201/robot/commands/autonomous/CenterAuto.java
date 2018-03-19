@@ -13,9 +13,9 @@ public class CenterAuto extends CommandGroup{
 		
 		// 1b. At the same time, move to the correct scoring platform by reading the FMS data
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
-			addSequential(new PathFinderRead("centerToLeftSwitch", true, 2));
+			addSequential(new PathFinderRead("centerAutoLeft", true, 2));
 		} else {
-			addSequential(new PathFinderRead("centerToRightSwitch", true, 2));
+			addSequential(new PathFinderRead("centerAutoRight", true, 2));
 		}
 
 		// 2. Sequence of actions to score by launching the cube

@@ -31,10 +31,6 @@ public class Intake extends Subsystem {
 	public Intake() {
 		super("Intake");
 		
-		// Set right motor to follow left motor
-		
-		// Set Motor Controller Feedback Device
-		
 		// Set Motor Controller Peak Output Voltages & Set Motors to Coast
 		for(int i = 0; i < intakeMotors.length; i++){	// Changed to intakeMotors.length so it adjusts to array length
 			//intakeMotors[i].configPeakOutputForward(1, 0);
@@ -93,7 +89,7 @@ public class Intake extends Subsystem {
 		// Use Shuffleboard to place things in their own tabs
 		Shuffleboard.putBoolean("Intake", "Pistons", getIntakePistonStatus());
 		Shuffleboard.putNumber("Intake", "Speed", intakeMotors[0].get());
-		Shuffleboard.putNumber("Intake", " Current", Robot.wrist.wristMotor.getOutputCurrent());
+		Shuffleboard.putNumber("Intake", "Current", Robot.wrist.wristMotor.getOutputCurrent());
 		Shuffleboard.putNumber("Intake", "Left Motor Current", intakeMotors[0].getOutputCurrent());
 		Shuffleboard.putNumber("Intake", "Right Motor Current", intakeMotors[1].getOutputCurrent());
 		Shuffleboard.putNumber("Intake", "Total Motor Current", intakeMotors[0].getOutputCurrent() + intakeMotors[1].getOutputCurrent());

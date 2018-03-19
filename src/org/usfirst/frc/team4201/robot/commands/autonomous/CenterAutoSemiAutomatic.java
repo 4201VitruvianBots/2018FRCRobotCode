@@ -8,14 +8,14 @@ public class CenterAutoSemiAutomatic extends CommandGroup{
 	
 	public CenterAutoSemiAutomatic() {
 		//addParallel(new SetWristArmElevatorSetpoints(0, 0, 0));
-		addParallel(new AutoManualElevatorControl(0.5, 1.5));
+		addParallel(new AutoManualElevatorControl(1, 2));
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L'){
-			addSequential(new PathFinderRead("centerToLeftSwitch", true, 2));
+			addSequential(new PathFinderRead("centerAutoLeft", true, 2));
 		} else {
-			addSequential(new PathFinderRead("centerToRightSwitch", true, 2));
+			addSequential(new PathFinderRead("centerAutoRight", true, 2));
 		}
 
-		addSequential(new AutoManualWristControl(-0.5, 0.75));
+		addSequential(new AutoManualWristControl(-0.75, 0.7));
 		addSequential(new SetIntakePistonsOpen());
 		addSequential(new Delay(1));
 		addSequential(new SetIntakePistonsClose());

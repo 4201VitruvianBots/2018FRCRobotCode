@@ -45,12 +45,6 @@ public class Arm extends PIDSubsystem {
 		//new WPI_TalonSRX(RobotMap.armMotor + 1); // Using test arm
 	};
 	
-	/* Dart Actuator LUT:
-	 * ??? = -60 Hard stop
-	 * ??? = 0 Horizontal
-	 * ??? = 70 Max height
-	 */
-	
 	AnalogInput aP = new AnalogInput(RobotMap.armPot);
 	public AnalogPotentiometer armPot = new AnalogPotentiometer(aP, sensorUpperLimit, sensorOffset);	// 360, -91: Triple Threat
 																										// Dart actuator physically moves 12 inches, but pot values goes only up to ~3.5v.

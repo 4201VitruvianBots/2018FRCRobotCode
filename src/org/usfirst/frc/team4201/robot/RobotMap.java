@@ -40,11 +40,11 @@ public class RobotMap {
 	public static final int redSignal = 7;
 	public static final int greenSignal = 8;
 	public static final int blueSignal = 9;
-	//public static final int flashSignal = 3;
 	
 	// Analog Sensors
 	public static final int wristPot = 0;
 	public static final int armPot = 1;
+	// Port 2 on comp bot seems to be broken (affects other sensors if values are passed through it)
 	public static final int elevatorLinearPot = 3;
 	
 	/*	ADDRESS VALUES

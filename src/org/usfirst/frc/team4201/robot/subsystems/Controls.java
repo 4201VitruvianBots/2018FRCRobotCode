@@ -38,7 +38,7 @@ public class Controls extends Subsystem{
 			powerState = 1;
 		else 
 			powerState = 0;
-		
+		/*
 		switch(powerState){
 			case 1:
 				for(int i = 0; i < Robot.driveTrain.driveMotors.length; i++) {
@@ -76,6 +76,7 @@ public class Controls extends Subsystem{
 				}
 				break;
 		}
+		*/
 	}
 	
 	public void checkMechanismStatus(){

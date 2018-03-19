@@ -85,7 +85,8 @@ public class Wrist extends PIDSubsystem {
 	
 	// Get the angle of the wrist at the sprocket
 	public double getAbsoluteAngle() {
-		return wristPot.get() / 2.333; // 2.333 gear ratio
+		// Note: Sensor noise of +/- 5 degrees seems to be okay
+		return wristPot.get() / 2.333; // 2.333:1 gear ratio
 		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
 	

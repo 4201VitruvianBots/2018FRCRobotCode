@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
 			autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
 		} else {
 			if(Robot.driveTrain.spartanGyro != null) {	// May need to be put in a try/catch
-				autoModeChooser.addDefault("Center Auto Manual", "Center Auto Manual");
+				autoModeChooser.addDefault("Center Auto Semi-Automatic", "Center Auto Semi-Automatic");
 				autoModeChooser.addObject("Drive Straight", "Drive Straight");
 			} else {
 				autoModeChooser.addDefault("Center Auto Manual", "Center Auto Manual");
@@ -146,7 +146,6 @@ public class Robot extends TimedRobot {
 		switch(auto){
 			case "Center Auto":
 				m_autonomousCommand = new CenterAuto();
-				//m_autonomousCommand = new CenterAutoManual();
 				break;
 			case "Drive Straight":
 				m_autonomousCommand = new DriveStraight();
