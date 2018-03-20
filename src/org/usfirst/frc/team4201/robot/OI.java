@@ -116,11 +116,11 @@ public class OI {
         if(RobotMap.WristState != 0) 
         	setWristManualMode();
         
-        xBoxButtons[4].whenPressed(new SetArmElevatorHome());				// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
-        xBoxButtons[4].whenPressed(new SetIntakePistonsClose());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+        xBoxButtons[4].whenPressed(new SetArmElevatorHome());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+        xBoxButtons[4].whenPressed(new SetIntakePistonsClose());					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
         
         //xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));
-        //xBoxLeftTrigger.whileHeld(new SetIntakeMotorOutputs(-0.5));					// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Parallel
+        //xBoxLeftTrigger.whileHeld(new SetIntakeMotorOutputs(-0.5));				// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Parallel
         //xBoxLeftTrigger.whenReleased(new SetIntakeMotorOutputs(0));
         
         //xBoxButtons[10].whenPressed(new KillAll());								// L3: Toggle Left Stabilizers

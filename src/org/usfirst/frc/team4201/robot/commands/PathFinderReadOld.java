@@ -18,7 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 /**
  *
  */
-public class PathFinderReadNotifier extends Command implements Runnable{
+public class PathFinderReadOld extends Command {
 	double max_vel = 2; // 180
 	
 	Trajectory leftTrajectory, rightTrajectory;
@@ -31,9 +31,8 @@ public class PathFinderReadNotifier extends Command implements Runnable{
 	String filename;
 	boolean first = false;
 	boolean lock = false;
-	Notifier periodic;
 	
-	public PathFinderReadNotifier(String filename, boolean first, double maxVel) {
+	public PathFinderReadOld(String filename, boolean first, double maxVel) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
         this.filename = filename;
@@ -41,14 +40,14 @@ public class PathFinderReadNotifier extends Command implements Runnable{
         this.max_vel = maxVel;
     }
 	
-    public PathFinderReadNotifier(String filename, boolean first) {
+    public PathFinderReadOld(String filename, boolean first) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
         this.filename = filename;
         this.first = first;
     }
 
-    public PathFinderReadNotifier(String filename) {
+    public PathFinderReadOld(String filename) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
         this.filename = filename;
@@ -104,60 +103,17 @@ public class PathFinderReadNotifier extends Command implements Runnable{
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
 		// Usually, you wont have to adjust this though.
-		left.configurePIDVA(1, 0, 0.15, 1 / max_vel, 0);
-		right.configurePIDVA(1, 0, 0.15, 1 / max_vel, 0);   
+		left.configurePIDVA(1, 0, 0, 1 / max_vel, 0);
+		right.configurePIDVA(1, 0, 0, 1 / max_vel, 0);   
 
 		stopwatch = new Timer(); 
 		lock = false;
-		
-		periodic = new Notifier(this);
-		periodic.startPeriodic(0.05);
     }
-    
+
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    }
-
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-    	return end; 
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    	periodic.stop();
-		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Command Exited");
-    	Robot.driveTrain.setDriveOutput(0, 0);
-    	stopwatch.stop();
-    	Shuffleboard.putNumber("Pathfinder", "Path Time", stopwatch.get());
-    	
-    	if(first) {
-    		try {
-	    		FileWriter writer = new FileWriter("/media/sda1/Pathfinder/calibrationFile.txt", true);
-	            BufferedWriter bufferedWriter = new BufferedWriter(writer);
-	            
-	            bufferedWriter.write("Left Enc. Count: " + Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
-	            bufferedWriter.newLine();
-	            bufferedWriter.write("Right Enc. Count: " + Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
-	 
-	            bufferedWriter.close();
-    		} catch(Exception e) {
-    			DriverStation.reportError("Error: Could not write to calibration file", false);
-    		}
-    	}
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	this.end();
-    }
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
+    	Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
     	if(!lock) {	// This is used to record the time it takes for the robot to complete the given path
     		stopwatch.start();
     		lock = true;
@@ -190,5 +146,39 @@ public class PathFinderReadNotifier extends Command implements Runnable{
 		// Continue sending output values until the path has been completely followed.
 		if(left.isFinished() && right.isFinished())
 			end = true;
-	}
+    }
+
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+    	return end; 
+    }
+
+    // Called once after isFinished returns true
+    protected void end() {
+		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Command Exited");
+    	Robot.driveTrain.setDriveOutput(0, 0);
+    	stopwatch.stop();
+    	Shuffleboard.putNumber("Pathfinder", "Path Time", stopwatch.get());
+    	
+    	if(first) {
+    		try {
+	    		FileWriter writer = new FileWriter("/media/sda1/Pathfinder/calibrationFile.txt", true);
+	            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+	            
+	            bufferedWriter.write("Left Enc. Count: " + Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
+	            bufferedWriter.newLine();
+	            bufferedWriter.write("Right Enc. Count: " + Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+	 
+	            bufferedWriter.close();
+    		} catch(Exception e) {
+    			DriverStation.reportError("Error: Could not write to calibration file", false);
+    		}
+    	}
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    protected void interrupted() {
+    	this.end();
+    }
 }

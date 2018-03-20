@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
 		AutoCalibration.initializeAutoCalibration();
 		oi = new OI();
 		
-		// If in controlled mode, then 
+		// Add autos to dashboard based on current mechanism state
 		if(RobotMap.WristState == 0 && RobotMap.ArmState == 0 && RobotMap.ElevatorState == 0) {
 			autoModeChooser.addDefault("Center Auto", "Center Auto");
 			autoModeChooser.addObject("Drive Straight", "Drive Straight");
@@ -65,15 +65,12 @@ public class Robot extends TimedRobot {
 			autoModeChooser.addObject("Left Auto Scale", "Left Auto Scale");
 			autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
 		} else {
-			if(Robot.driveTrain.spartanGyro != null) {	// May need to be put in a try/catch
+			if(Robot.driveTrain.spartanGyro != null)	// May need to be put in a try/catch
 				autoModeChooser.addDefault("Center Auto Semi-Automatic", "Center Auto Semi-Automatic");
-				autoModeChooser.addObject("Drive Straight", "Drive Straight");
-			} else {
+			else
 				autoModeChooser.addDefault("Center Auto Manual", "Center Auto Manual");
-				autoModeChooser.addObject("Drive Straight Manual", "Drive Straight Manual");
-			}
 		}
-
+		autoModeChooser.addObject("Drive Straight", "Drive Straight");
 		autoModeChooser.addObject("Auto Calibration", "Auto Calibration");
 		autoModeChooser.addObject("Pathfinder Test", "Pathfinder Test");
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
@@ -252,6 +249,7 @@ public class Robot extends TimedRobot {
 		updateSmartDashboard();
 	}
 	
+	// Update all SmartDashboard values. This is here to make it easier to enable/disable certain subsystems easier, since we always continuously update in all robot operating modes (auto, teleop, disabled, test)
 	void updateSmartDashboard(){
 		driveTrain.updateSmartDashboard();
 		wrist.updateSmartDashboard();
@@ -265,5 +263,4 @@ public class Robot extends TimedRobot {
 		//pidTuner.updateSmartDashboard();
 		AutoCalibration.updateSmartDashboard();
 	}
-	
 }

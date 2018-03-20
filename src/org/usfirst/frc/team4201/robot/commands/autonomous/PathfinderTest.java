@@ -7,7 +7,7 @@ import org.usfirst.frc.team4201.robot.commands.*;
 public class PathfinderTest extends CommandGroup{
 	
 	public PathfinderTest() {
-		addSequential(new PathFinderReadNotifier("rightStartToLeftScale", false, 1));
+		addSequential(new PathFinderRead("rightStartToLeftScale", false, 1));
 	}
 }
  

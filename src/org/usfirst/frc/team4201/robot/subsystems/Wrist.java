@@ -80,7 +80,6 @@ public class Wrist extends PIDSubsystem {
 	// Get the angle of the wrist directly from the motor
 	public double getUnscaledAngle() {
 		return wristPot.get();
-		//return (wristPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
 	
 	// Get the angle of the wrist at the sprocket
@@ -97,7 +96,7 @@ public class Wrist extends PIDSubsystem {
 	
 	// Get the angle of the wrist based off of the angle of the arm
 	public double getArmRelativeAngle() {
-		return Robot.arm.getAngle() + 60;	// Should realistically be +60?
+		return Robot.arm.getAngle() + 60;
 	}
 	
 	public double convertRelativeToAbsoluteSetpoint(double value) {

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 
-public class AutoLeftStartSwitchFocus extends CommandGroup{
+public class AutoLeftStartSwitchFocus extends CommandGroup {
 	
 	public AutoLeftStartSwitchFocus() {
 		addParallel(new SetArmElevatorSetpoints(-55, 6.25));

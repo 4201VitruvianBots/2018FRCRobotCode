@@ -9,7 +9,6 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.commands.SetCheesyDrive;
 import org.usfirst.frc.team4201.robot.commands.SetSplitArcadeDrive;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
@@ -169,6 +168,20 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setDirectDriveOutput(double leftOutput, double rightOutput) {
+		robotDrive.tankDrive(leftOutput, rightOutput);
+	}
+	
+	public void setDirectDriveScaledOutput(double leftOutput, double rightOutput) {
+		double max = Math.max(leftOutput, rightOutput);
+		
+		if(leftOutput == max) {
+			rightOutput = rightOutput/leftOutput;
+			leftOutput = 1;
+		} else {
+			leftOutput = leftOutput/rightOutput;
+			rightOutput = 1;
+		}
+		
 		robotDrive.tankDrive(leftOutput, rightOutput);
 	}
 	

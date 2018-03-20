@@ -3,13 +3,10 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
-import org.usfirst.frc.team4201.robot.subsystems.Arm;
 import org.usfirst.frc.team4201.robot.subsystems.Intake;
-import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**	This Command automatically retracts the wrist if it detects a cube.
  *	This is also done with a mutex to avoid issues with the wrist auto-retracting in certain cases.
@@ -59,13 +56,13 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		if((cubeFlush || cubeStalled) && !lock) {
 			stopwatch.start();
 			lock = true;
-		} else if(!cubeFlush && !cubeStalled) {
+		} else if(!cubeFlush && !cubeStalled && lock) {
 			stopwatch.stop();
 			stopwatch.reset();
 			lock = false;
 		}
 		
-		if(stopwatch.get() > 0.1) {
+		if(stopwatch.get() > 0.25) {
 			finished = true;
 			stopwatch.stop();
 			stopwatch.reset();
@@ -82,15 +79,15 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	if(cubeStalled){
     		Robot.intake.setIntakeMotorOutput(0);
     		stopwatch.start();
-    		while(stopwatch.get() < 0.25){
+    		while(stopwatch.get() < 0.25) {
     			// Do nothing pause
     		}
     		stopwatch.stop();
     		stopwatch.reset();
     		stopwatch.start();
-    		while(stopwatch.get() < 0.25){
+    		while(stopwatch.get() < 0.25)
             	Robot.intake.setIntakeMotorOutput(0.55, 0.5);
-    		}
+    		
     		stopwatch.stop();
     		stopwatch.reset();
     	}
@@ -102,7 +99,6 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     		
     		Robot.wrist.setDirectOutput(0);
     	}
-    	
     	
     	if(finished) {
     		Intake.isCubePresent = true;

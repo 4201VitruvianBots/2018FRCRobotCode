@@ -1,10 +1,12 @@
 package org.usfirst.frc.team4201.robot.interfaces;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
+
+/**	This is a custom interface that allows us to place NetworkTable items into separate folders so that we can organize our Shuffleboard dashboard.
+ * 	This is basically a copy/paste of the SmartDashboard functions, modified to accept an additional argument to specify where to place each piece of data.
+ */
 public class Shuffleboard {
 	private static final NetworkTable table = NetworkTableInstance.getDefault().getTable("");
 	

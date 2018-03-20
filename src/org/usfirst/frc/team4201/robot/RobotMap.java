@@ -22,7 +22,7 @@ public class RobotMap {
 	public static int WristState = 1;
 	public static int ArmState = 1;
 	public static int ElevatorState = 1;
-	
+	public static boolean testMode = true;
 	
 	// USB ADDRESSES
 	public static final int leftJoystick = 0;
@@ -35,7 +35,7 @@ public class RobotMap {
 	public static final int rightTrigger = 3;
 	
 	// DIO Ports
-	public static final int bumpSwitch = 0;
+	//public static final int bumpSwitch = 0;
 	
 	public static final int redSignal = 7;
 	public static final int greenSignal = 8;
@@ -59,7 +59,6 @@ public class RobotMap {
 	 *  +20-24(26): DriveTrain Motors
 	 */
 	
-	
 	// Electrical Modules
 	public static final int PDP = 0;
 	public static final int VRMOne = 1;
@@ -72,20 +71,19 @@ public class RobotMap {
 		public static final int elevatorShifterReverse = 3;
 		public static final int intakeForward = 4;
 		public static final int intakeReverse = 5;
-		public static final int wingsForward = 6;
-		public static final int wingsReverse = 7;
-		
-	public static final int PCMTwo = 12;
-		public static final int stabilizerDeployForward = 0;
-		public static final int stabilizerDeployReverse = 1;
-		public static final int stabilizerEngageForward = 2;
-		public static final int stabilizerEngageReverse = 3;
-		public static final int diskBrakeForward = 4;
-		public static final int diskBrakeReverse = 5;
 		public static final int climberForward = 6;
 		public static final int climberReverse = 7;
 		
-	
+	public static final int PCMTwo = 12;
+		public static final int leftStabilizerForward = 0;
+		public static final int leftStabilizerReverse = 1;
+		public static final int rightStabilizerForward = 2;
+		public static final int rightStabilizerReverse = 3;
+		public static final int diskBrakeForward = 4;
+		public static final int diskBrakeReverse = 5;
+		public static final int wingsForward = 6;
+		public static final int wingsReverse = 7;
+		
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;
 	public static final int driveTrainLeftRear = 21;
@@ -98,5 +96,4 @@ public class RobotMap {
 	public static final int intakeRight = 27;
 	public static final int armMotor = 28;
 	public static final int wristMotor = 30;
-	
 }
