@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 
-public class AutoRightStartSwitchFocus extends CommandGroup{
+public class AutoRightStartSwitchScale extends CommandGroup{
 	
-	public AutoRightStartSwitchFocus() {
+	public AutoRightStartSwitchScale() {
 		addParallel(new SetArmElevatorSetpoints(-45, 6.55));
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R') {
 			//addParallel(new AutoSetArmElevatorSetpoints(52, 12));

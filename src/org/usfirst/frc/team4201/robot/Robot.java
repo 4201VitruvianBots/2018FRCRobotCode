@@ -44,7 +44,18 @@ public class Robot extends TimedRobot {
 	
 	SendableChooser<Command> driveMode = new SendableChooser<>();
 	SendableChooser<String> autoModeChooser = new SendableChooser<>();
-
+	String[] autoRoutines = {
+		"Drive Straight",
+		"Center Auto",
+		"Center Auto Semi-Automatic",
+		"Left Auto Switch + Scale",
+		"Right Auto Switch + Scale",
+		"Left Auto Double Scale",
+		"Right Auto Double Scale",
+		"Auto Calibration",
+		"Pathfinder Test"
+	};
+	
 	UsbCamera fisheyeCamera;
 	
 	/**
@@ -58,21 +69,17 @@ public class Robot extends TimedRobot {
 		
 		// Add autos to dashboard based on current mechanism state
 		if(RobotMap.WristState == 0 && RobotMap.ArmState == 0 && RobotMap.ElevatorState == 0) {
-			autoModeChooser.addDefault("Center Auto", "Center Auto");
-			autoModeChooser.addObject("Drive Straight", "Drive Straight");
-			autoModeChooser.addObject("Left Auto Switch", "Left Auto Switch");
-			autoModeChooser.addObject("Right Auto Switch", "Right Auto Switch");
-			autoModeChooser.addObject("Left Auto Scale", "Left Auto Scale");
-			autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
+			autoModeChooser.addDefault(autoRoutines[1], autoRoutines[1]);
+			autoModeChooser.addObject(autoRoutines[3], autoRoutines[3]);
+			autoModeChooser.addObject(autoRoutines[4], autoRoutines[4]);
+			autoModeChooser.addObject(autoRoutines[5], autoRoutines[5]);
+			autoModeChooser.addObject(autoRoutines[6], autoRoutines[6]);
 		} else {
-			if(Robot.driveTrain.spartanGyro != null)	// May need to be put in a try/catch
-				autoModeChooser.addDefault("Center Auto Semi-Automatic", "Center Auto Semi-Automatic");
-			else
-				autoModeChooser.addDefault("Center Auto Manual", "Center Auto Manual");
+			autoModeChooser.addDefault(autoRoutines[2], autoRoutines[2]);
 		}
-		autoModeChooser.addObject("Drive Straight", "Drive Straight");
-		autoModeChooser.addObject("Auto Calibration", "Auto Calibration");
-		autoModeChooser.addObject("Pathfinder Test", "Pathfinder Test");
+		autoModeChooser.addObject(autoRoutines[0], autoRoutines[0]);
+		autoModeChooser.addObject(autoRoutines[7], autoRoutines[7]);
+		autoModeChooser.addObject(autoRoutines[8], autoRoutines[8]);
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -141,32 +148,26 @@ public class Robot extends TimedRobot {
 		// schedule the autonomous command (example)
 		String auto = autoModeChooser.getSelected();
 		switch(auto){
-			case "Center Auto":
+			case "Drive Straight":
 				m_autonomousCommand = new CenterAuto();
 				break;
-			case "Drive Straight":
+			case "Center Auto":
 				m_autonomousCommand = new DriveStraight();
-				break;
-			case "Left Auto Switch":
-				m_autonomousCommand = new AutoLeftStartSwitchFocus();
-				break;
-			case "Right Auto Switch":
-				m_autonomousCommand = new AutoRightStartSwitchFocus();
-				break;
-			case "Left Auto Scale":
-				m_autonomousCommand = new AutoLeftStartToScale();
-				break;
-			case "Right Auto Scale":
-				m_autonomousCommand = new AutoRightStartToScale();
 				break;
 			case "Center Auto Semi-Automatic":
 				m_autonomousCommand = new CenterAutoSemiAutomatic();
 				break;
-			case "Center Auto Manual":
-				m_autonomousCommand = new CenterAutoManual();
+			case "Left Auto Switch + Scale":
+				m_autonomousCommand = new AutoLeftStartSwitchScale();
 				break;
-			case "Drive Straight Manual":
-				m_autonomousCommand = new DriveStraightManual();
+			case "Right Auto Switch + Scale":
+				m_autonomousCommand = new AutoRightStartSwitchScale();
+				break;
+			case "Left Auto Double Scale":
+				m_autonomousCommand = new AutoLeftStartDoubleScale();
+				break;
+			case "Right Auto Double Scale":
+				m_autonomousCommand = new AutoRightStartDoubleScale();
 				break;
 			case "Auto Calibration":
 				m_autonomousCommand = new AutoCalibration();

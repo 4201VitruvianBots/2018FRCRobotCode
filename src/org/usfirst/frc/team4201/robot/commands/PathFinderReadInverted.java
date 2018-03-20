@@ -97,8 +97,8 @@ public class PathFinderReadInverted extends Command {
     	
 		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Enabling...");
 		// 1080 for Grasshopper
-		left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
+		left.configureEncoder(-Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		right.configureEncoder(-Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
 
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
@@ -120,8 +120,8 @@ public class PathFinderReadInverted extends Command {
     	}
     	
     	// Calculate the current motor outputs based on the trajectory values + encoder positions
-    	double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
-		double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+    	double l = left.calculate(-Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
+		double r = right.calculate(-Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
 		Shuffleboard.putNumber("Pathfinder", "PathFinder L" , l);
 		Shuffleboard.putNumber("Pathfinder", "PathFinder R" , r);
 		Shuffleboard.putNumber("Pathfinder", "PathFinder H" , Pathfinder.r2d(left.getHeading()));
