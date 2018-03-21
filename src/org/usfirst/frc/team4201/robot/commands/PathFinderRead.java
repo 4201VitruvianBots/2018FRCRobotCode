@@ -102,8 +102,8 @@ public class PathFinderRead extends Command {
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
 		// Usually, you wont have to adjust this though.
-		left.configurePIDVA(1, 0, 0.15, 1 / max_vel, 0);
-		right.configurePIDVA(1, 0, 0.15, 1 / max_vel, 0);   
+		left.configurePIDVA(1, 0, 0.2, 1 / max_vel, 0);
+		right.configurePIDVA(1, 0, 0.2, 1 / max_vel, 0);   
 		
 		// Initialize the timer & Notifier
 		stopwatch = new Timer(); 
@@ -137,10 +137,10 @@ public class PathFinderRead extends Command {
 			double turn = 0;
 			try {
 				angleDifference = Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()) + Robot.driveTrain.spartanGyro.getAngle());
-				turn = 0.8 * (-1.0/80.0) * angleDifference;
+				turn = 2 * (-1.0/80.0) * angleDifference;
 			} catch(Exception e) {
 				angleDifference = Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()));
-				turn = 0.8 * (-1.0/80.0) * angleDifference;
+				turn = 2 * (-1.0/80.0) * angleDifference;
 			}
 			Shuffleboard.putNumber("Pathfinder", "PathFinder T" , turn);
 			Shuffleboard.putNumber("Pathfinder", "PathFinder L output" , l + turn);

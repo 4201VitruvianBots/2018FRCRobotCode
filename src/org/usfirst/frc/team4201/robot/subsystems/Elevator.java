@@ -46,7 +46,6 @@ public class Elevator extends PIDSubsystem {
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 	
-	
 	public WPI_TalonSRX[] elevatorMotors = {
 		new WPI_TalonSRX(RobotMap.elevatorA),
 		new WPI_TalonSRX(RobotMap.elevatorB),
@@ -102,7 +101,8 @@ public class Elevator extends PIDSubsystem {
 	
 	public double getHieght(){
 		// TODO Verify this
-		return elevatorPot.get();
+		
+		return 42 - elevatorPot.get();	//Inverted on practice bot
 		//return (elevatorPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
 	

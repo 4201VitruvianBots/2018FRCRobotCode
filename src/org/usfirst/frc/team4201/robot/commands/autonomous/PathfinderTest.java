@@ -7,7 +7,12 @@ import org.usfirst.frc.team4201.robot.commands.*;
 public class PathfinderTest extends CommandGroup{
 	
 	public PathfinderTest() {
-		addSequential(new PathFinderRead("rightStartToLeftScale", false, 1));
+		addParallel(new AutoSetArmSetpoint(60));
+		addSequential(new PathFinderRead("rightStartToLeftScale", false));
+		
+		addSequential(new AutoSetWristRelativeSetpoint(45));
+		addSequential(new AutoSetIntakeMotorOutputs(-1, 2));
+		addSequential(new AutoReleaseWristSetpoint());
 	}
 }
  
