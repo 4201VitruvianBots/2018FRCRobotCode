@@ -126,8 +126,8 @@ public class PathFinderRead extends Command {
 			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
 	    	
 	    	// Calculate the current motor outputs based on the trajectory values + encoder positions
-	    	double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
-			double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+	    	double l = left.calculate(Robot.driveTrain.getLeftEncoderValue());
+			double r = right.calculate(Robot.driveTrain.getRightEncoderValue());
 			Shuffleboard.putNumber("Pathfinder", "PathFinder L" , l);
 			Shuffleboard.putNumber("Pathfinder", "PathFinder R" , r);
 			Shuffleboard.putNumber("Pathfinder", "PathFinder H" , Pathfinder.r2d(left.getHeading()));
@@ -175,9 +175,9 @@ public class PathFinderRead extends Command {
 	    		FileWriter writer = new FileWriter("/media/sda1/Pathfinder/calibrationFile.txt", true);
 	            BufferedWriter bufferedWriter = new BufferedWriter(writer);
 	            
-	            bufferedWriter.write("Left Enc. Count: " + Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
+	            bufferedWriter.write("Left Enc. Count: " + Robot.driveTrain.getLeftEncoderValue());
 	            bufferedWriter.newLine();
-	            bufferedWriter.write("Right Enc. Count: " + Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+	            bufferedWriter.write("Right Enc. Count: " + Robot.driveTrain.getRightEncoderValue());
 	 
 	            bufferedWriter.close();
     		} catch(Exception e) {

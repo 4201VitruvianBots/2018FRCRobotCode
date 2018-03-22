@@ -9,6 +9,7 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.commands.SetCheesyDrive;
 import org.usfirst.frc.team4201.robot.commands.SetSplitArcadeDrive;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
@@ -80,7 +81,10 @@ public class DriveTrain extends Subsystem {
 			spartanGyro.setName("Gyro");
 			spartanGyro.setSubsystem("Drive Train");
 	        LiveWindow.add(spartanGyro);
-	        SmartDashboard.putBoolean("Gyro Detected", true);
+	        if(spartanGyro == null)
+	        	SmartDashboard.putBoolean("Gyro Detected", false);
+	        else
+	        	SmartDashboard.putBoolean("Gyro Detected", true);
 		} catch (Exception e) {
 			DriverStation.reportError("4201 Error: Spartan Gyro not detected!", false);
 			SmartDashboard.putBoolean("Gyro Detected", false);
@@ -221,18 +225,22 @@ public class DriveTrain extends Subsystem {
 		Shuffleboard.putNumber("Pathfinder", "Right Encoder Count", getRightEncoderValue());
 		
 		// Use SmartDashboard to put only the important stuff for drivers
-		//if(Robot.teleOpDrive.getClass() == SetCheesyDrive.class)
-		//	SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
-		
 		SmartDashboard.putBoolean("Drive Train Shifters", getDriveShiftStatus());
-		//SmartDashboard.putNumber("Gyro", Math.abs(spartanGyro.getAngle()) % 360); // This will now act as a compass for driver
-		
 		try {
 			Shuffleboard.putNumber("Drive Train", "Gyro", spartanGyro.getAngle());
 			Shuffleboard.putNumber("Pathfinder", "Gyro", spartanGyro.getAngle());
 			//Shuffleboard.putData("Drive Train", "P Gyro", spartanGyro);
 			//Shuffleboard.putData("Pathfinder", "DT Gyro", spartanGyro);
 			SmartDashboard.putData(spartanGyro);	// Check if this needs to be in this loop?
+		} catch(Exception e) {
+			
+		}
+		
+		
+		try {
+			// This is in a try/catch to avoid crash when teleOpDrive is null before teleOpInit is called
+			if(Robot.teleOpDrive.getClass() == SetCheesyDrive.class)
+				SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		} catch(Exception e) {
 			
 		}

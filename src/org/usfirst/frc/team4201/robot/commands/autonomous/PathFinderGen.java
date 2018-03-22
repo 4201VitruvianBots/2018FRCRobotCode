@@ -94,8 +94,8 @@ public class PathFinderGen extends Command{
     	
 		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Enabling...");
 		
-		left.configureEncoder(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0), 1440, 0.1050);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		right.configureEncoder(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0), 1440, 0.1050);	// 0.1016 4 inches in meters - undershoot
+		left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1050);	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1440, 0.1050);	// 0.1016 4 inches in meters - undershoot
 																											// 0.1111 4 inches in years  - 5 in overshoot
 																											// 0.125 undershoot - overshoot
 		left.configurePIDVA(2.0, 0.02, 0.05, 1 / max_vel, 0);
@@ -115,8 +115,8 @@ public class PathFinderGen extends Command{
     	}
     	
     	// Calculate the current motor outputs based on the trajectory values + encoder positions
-		double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
-		double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+		double l = left.calculate(Robot.driveTrain.getLeftEncoderValue());
+		double r = right.calculate(Robot.driveTrain.getRightEncoderValue());
 		Shuffleboard.putNumber("Pathfinder", "PathFinder L" , l);
 		Shuffleboard.putNumber("Pathfinder", "PathFinder R" , r);
 		Shuffleboard.putNumber("Pathfinder", "PathFinder H" , Pathfinder.r2d(left.getHeading()));

@@ -96,8 +96,8 @@ public class PathFinderReadInverted extends Command {
 		
 		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Enabling...");
 		
-		left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
+		left.configureEncoder(-Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		right.configureEncoder(-Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
 
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
@@ -126,8 +126,8 @@ public class PathFinderReadInverted extends Command {
 			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
 	    	
 	    	// Calculate the current motor outputs based on the trajectory values + encoder positions
-	    	double l = left.calculate(Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
-			double r = right.calculate(Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+	    	double l = left.calculate(-Robot.driveTrain.getLeftEncoderValue());
+			double r = right.calculate(-Robot.driveTrain.getRightEncoderValue());
 			Shuffleboard.putNumber("Pathfinder", "PathFinder L" , l);
 			Shuffleboard.putNumber("Pathfinder", "PathFinder R" , r);
 			Shuffleboard.putNumber("Pathfinder", "PathFinder H" , Pathfinder.r2d(left.getHeading()));
@@ -149,7 +149,7 @@ public class PathFinderReadInverted extends Command {
 			Shuffleboard.putNumber("Pathfinder", "Timer", stopwatch.get());
 			
 			// Set the output to the motors
-			Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
+			Robot.driveTrain.setDirectDriveOutput(-l - turn, -r + turn);
 			
 			// Continue sending output values until the path has been completely followed.
 			if(left.isFinished() && right.isFinished() && Math.abs(angleDifference) < 2)
@@ -175,9 +175,9 @@ public class PathFinderReadInverted extends Command {
 	    		FileWriter writer = new FileWriter("/media/sda1/Pathfinder/calibrationFile.txt", true);
 	            BufferedWriter bufferedWriter = new BufferedWriter(writer);
 	            
-	            bufferedWriter.write("Left Enc. Count: " + Robot.driveTrain.driveMotors[0].getSelectedSensorPosition(0));
+	            bufferedWriter.write("Left Enc. Count: " + Robot.driveTrain.getLeftEncoderValue());
 	            bufferedWriter.newLine();
-	            bufferedWriter.write("Right Enc. Count: " + Robot.driveTrain.driveMotors[2].getSelectedSensorPosition(0));
+	            bufferedWriter.write("Right Enc. Count: " + Robot.driveTrain.getRightEncoderValue());
 	 
 	            bufferedWriter.close();
     		} catch(Exception e) {

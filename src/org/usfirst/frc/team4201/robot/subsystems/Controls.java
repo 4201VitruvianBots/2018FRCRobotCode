@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Controls extends Subsystem{
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
+	public Timer autoTimer = new Timer();
 	Timer elevatorTimeout;
 	
 	public DigitalOutput LEDS[] = {
@@ -139,6 +140,8 @@ public class Controls extends Subsystem{
 		
 		Shuffleboard.putNumber("Controls", "Total Current Draw", pdp.getTotalCurrent());
 		Shuffleboard.putBoolean("Controls", "Brownout", RobotController.isBrownedOut());
+
+		Shuffleboard.putNumber("Pathfinder", "Total Auto Time", autoTimer.get());
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Total Current Draw", pdp.getTotalCurrent());

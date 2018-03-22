@@ -225,6 +225,7 @@ public class Robot extends TimedRobot {
 		}
 		
 		teleOpDrive = driveMode.getSelected();
+		
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
 			Robot.driveTrain.setDefaultCommand(teleOpDrive);			// To prevent KillAll() from switching drive modes mid-match
