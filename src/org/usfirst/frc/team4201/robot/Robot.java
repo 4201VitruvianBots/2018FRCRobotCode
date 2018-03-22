@@ -16,16 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
-import org.usfirst.frc.team4201.robot.commands.autonomous.*;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.RightAutoSwitchScale;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.AutoTesting;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.CenterAuto;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.CenterAutoSemiAutomatic;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.DriveStraight;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.LeftAutoDoubleScale;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.LeftAutoSwitchScale;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.PathfinderTest;
-import org.usfirst.frc.team4201.robot.commands.autonomous.routines.RightAutoDoubleScale;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.*;
 import org.usfirst.frc.team4201.robot.subsystems.*;
 
 /**
@@ -121,7 +112,7 @@ public class Robot extends TimedRobot {
 		wrist.setMotorsToCoast();
 		intake.setMotorsToCoast();
 		
-		Robot.driveTrain.resetSensors();
+		//Robot.driveTrain.resetSensors();
 	}
 
 	@Override

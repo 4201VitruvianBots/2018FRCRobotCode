@@ -1,11 +1,16 @@
 package org.usfirst.frc.team4201.robot.interfaces;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.wpi.first.networktables.NetworkTable;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 
 /**	This is a custom interface that allows us to place NetworkTable items into separate folders so that we can organize our Shuffleboard dashboard.
- * 	This is basically a copy/paste of the SmartDashboard functions, modified to accept an additional argument to specify where to place each piece of data.
+ * 	This is basically a shameless copy/paste of the SmartDashboard functions, modified to accept an additional argument to specify where to place each piece of data.
  */
 public class Shuffleboard {
 	private static final NetworkTable table = NetworkTableInstance.getDefault().getTable("");
@@ -22,7 +27,22 @@ public class Shuffleboard {
 	public static boolean getBoolean(String tabName, String key, boolean defaultValue) {
 		return table.getSubTable(tabName).getEntry(key).getBoolean(defaultValue);
 	}
-	
+	/**
+	 * Returns the value at the specified key.
+	 *
+	 * @param key the key
+	 * @return the value
+	 * @throws IllegalArgumentException  if the key is null
+	 */
+	public static synchronized Sendable getData(String tabName, String key) {
+		Data data = tablesToData.get(key);
+	    if (data == null) {
+	      throw new IllegalArgumentException("Shuffleboard data does not exist: " + key);
+	    } else {
+	      return data.m_sendable;
+	    }
+	}
+	  
 	/**
 	 * Returns the number the key maps to. If the key does not exist or is of
 	 *     different type, it will return the default value.
@@ -74,6 +94,45 @@ public class Shuffleboard {
 	}
 	
 	/**
+	   * Maps the specified key to the specified value in this table. The key can not be null. The value
+	   * can be retrieved by calling the get method with a key that is equal to the original key.
+	   *
+	   * @param tabName the Shuffleboard tab the key is under
+	   * @param key  the key
+	   * @param data the value
+	   * @throws IllegalArgumentException If key is null
+	   */
+	public static synchronized void putData(String tabName, String key, Sendable data) {
+		Data sddata = tablesToData.get(key);
+		if (sddata == null || sddata.m_sendable != data) {
+			if (sddata != null) {
+				sddata.m_builder.stopListeners();
+			}
+			sddata = new Data(data);
+			tablesToData.put(key, sddata);
+			NetworkTable dataTable = table.getSubTable(tabName).getSubTable(key);
+			sddata.m_builder.setTable(dataTable);
+			data.initSendable(sddata.m_builder);
+			sddata.m_builder.updateTable();
+			sddata.m_builder.startListeners();
+	      	dataTable.getSubTable(tabName).getEntry(".name").setString(key);
+		}
+	}
+
+	/**
+	 * Maps the specified key (where the key is the name of the {@link NamedSendable}
+	 * to the specified value in this table. The value can be retrieved by
+	 * calling the get method with a key that is equal to the original key.
+	 *
+	 * @param tabName the Shuffleboard tab the key is under
+	 * @param value the value
+	 * @throws IllegalArgumentException If key is null
+	 */
+	public static void putData(String tabName, Sendable value) {
+		putData(tabName, value.getName(), value);
+	}
+	
+	/**
 	 * Put a number in the table.
 	 * @param tabName the Shuffleboard tab the key is under
 	 * @param key the key to be assigned to
@@ -104,7 +163,18 @@ public class Shuffleboard {
 	   * @param value the value that will be assigned
 	   * @return False if the table key already exists with a different type
 	   */
-	  public static boolean putString(String tabName, String key, String value) {
-	    return table.getSubTable(tabName).getEntry(key).setString(value);
-	  }
+	public static boolean putString(String tabName, String key, String value) {
+		return table.getSubTable(tabName).getEntry(key).setString(value);
+	}
+	  
+	private static class Data {
+		Data(Sendable sendable) {
+			m_sendable = sendable;
+	    }
+
+	    final Sendable m_sendable;
+	    final SendableBuilderImpl m_builder = new SendableBuilderImpl();
+	}
+
+	private static final Map<String, Data> tablesToData = new HashMap<>();
 }

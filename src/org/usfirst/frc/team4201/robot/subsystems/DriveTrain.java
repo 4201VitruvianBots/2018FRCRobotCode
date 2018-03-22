@@ -220,8 +220,6 @@ public class DriveTrain extends Subsystem {
 		Shuffleboard.putNumber("Pathfinder", "Left Encoder Count", getLeftEncoderValue());
 		Shuffleboard.putNumber("Pathfinder", "Right Encoder Count", getRightEncoderValue());
 		
-		
-		
 		// Use SmartDashboard to put only the important stuff for drivers
 		//if(Robot.teleOpDrive.getClass() == SetCheesyDrive.class)
 		//	SmartDashboard.putBoolean("Cheesy Quick Turn", Robot.oi.isQuickTurn);
@@ -232,6 +230,8 @@ public class DriveTrain extends Subsystem {
 		try {
 			Shuffleboard.putNumber("Drive Train", "Gyro", spartanGyro.getAngle());
 			Shuffleboard.putNumber("Pathfinder", "Gyro", spartanGyro.getAngle());
+			//Shuffleboard.putData("Drive Train", "P Gyro", spartanGyro);
+			//Shuffleboard.putData("Pathfinder", "DT Gyro", spartanGyro);
 			SmartDashboard.putData(spartanGyro);	// Check if this needs to be in this loop?
 		} catch(Exception e) {
 			

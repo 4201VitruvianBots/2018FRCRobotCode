@@ -4,9 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc.team4201.robot.commands.*;
-import org.usfirst.frc.team4201.robot.commands.autonomous.AutoReleaseWristSetpoint;
-import org.usfirst.frc.team4201.robot.commands.autonomous.AutoSetWristRelativeSetpoint;
-import org.usfirst.frc.team4201.robot.commands.autonomous.PathFinderRead;
+import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 
 public class LeftAutoSwitchScale extends CommandGroup {
 	

@@ -2,9 +2,9 @@ package org.usfirst.frc.team4201.robot.commands.autonomous.routines;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+
 import org.usfirst.frc.team4201.robot.commands.*;
-import org.usfirst.frc.team4201.robot.commands.autonomous.AutoManualElevatorControl;
-import org.usfirst.frc.team4201.robot.commands.autonomous.AutoManualWristControl;
+import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 
 public class CenterAutoManual extends CommandGroup{
 	
