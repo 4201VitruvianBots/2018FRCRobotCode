@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4201.robot.commands;
+package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
@@ -68,8 +68,6 @@ public class AutoIntakeControl extends Command {
     		
 			Robot.wrist.setDirectOutput(0);
     	}
-    	
-        Robot.intake.setIntakeMotorOutput(0.1);
     }
 
     // Called when another command which requires one or more of the same

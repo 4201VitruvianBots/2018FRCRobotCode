@@ -17,6 +17,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.commands.autonomous.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.RightAutoSwitchScale;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.AutoTesting;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.CenterAuto;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.CenterAutoSemiAutomatic;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.DriveStraight;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.LeftAutoDoubleScale;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.LeftAutoSwitchScale;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.PathfinderTest;
+import org.usfirst.frc.team4201.robot.commands.autonomous.routines.RightAutoDoubleScale;
 import org.usfirst.frc.team4201.robot.subsystems.*;
 
 /**
@@ -64,7 +73,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		AutoCalibration.initializeAutoCalibration();
+		AutoTesting.initializeAutoCalibration();
 		oi = new OI();
 		
 		// Add autos to dashboard based on current mechanism state
@@ -158,19 +167,19 @@ public class Robot extends TimedRobot {
 				m_autonomousCommand = new CenterAutoSemiAutomatic();
 				break;
 			case "Left Auto Switch + Scale":
-				m_autonomousCommand = new AutoLeftStartSwitchScale();
+				m_autonomousCommand = new LeftAutoSwitchScale();
 				break;
 			case "Right Auto Switch + Scale":
-				m_autonomousCommand = new AutoRightStartSwitchScale();
+				m_autonomousCommand = new RightAutoSwitchScale();
 				break;
 			case "Left Auto Double Scale":
-				m_autonomousCommand = new AutoLeftStartDoubleScale();
+				m_autonomousCommand = new LeftAutoDoubleScale();
 				break;
 			case "Right Auto Double Scale":
-				m_autonomousCommand = new AutoRightStartDoubleScale();
+				m_autonomousCommand = new RightAutoDoubleScale();
 				break;
 			case "Auto Calibration":
-				m_autonomousCommand = new AutoCalibration();
+				m_autonomousCommand = new AutoTesting();
 				break;
 			case "Pathfinder Test":
 				m_autonomousCommand = new PathfinderTest();
@@ -262,6 +271,6 @@ public class Robot extends TimedRobot {
 		//stabilizers.updateSmartDashboard();
 		controls.updateSmartDashboard();
 		//pidTuner.updateSmartDashboard();
-		AutoCalibration.updateSmartDashboard();
+		AutoTesting.updateSmartDashboard();
 	}
 }

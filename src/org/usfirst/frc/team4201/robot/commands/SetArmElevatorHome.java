@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4201.robot.commands;
 
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoSetArmSetpoint;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoSetElevatorSetpoint;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4201.robot.commands;
+package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import java.io.*;
 
@@ -18,7 +18,7 @@ import jaci.pathfinder.followers.EncoderFollower;
 /**
  *
  */
-public class PathFinderRead extends Command {
+public class PathFinderReadInverted extends Command {
 	double max_vel = 2; // 180
 	
 	Trajectory leftTrajectory, rightTrajectory;
@@ -31,7 +31,7 @@ public class PathFinderRead extends Command {
 	boolean first = false;
 	Notifier periodicRunnable;
 	
-	public PathFinderRead(String filename, boolean first, double maxVel) {
+	public PathFinderReadInverted(String filename, boolean first, double maxVel) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
         this.filename = filename;
@@ -39,14 +39,14 @@ public class PathFinderRead extends Command {
         this.max_vel = maxVel;
     }
 	
-    public PathFinderRead(String filename, boolean first) {
+    public PathFinderReadInverted(String filename, boolean first) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
         this.filename = filename;
         this.first = first;
     }
 
-    public PathFinderRead(String filename) {
+    public PathFinderReadInverted(String filename) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
         this.filename = filename;

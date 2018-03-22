@@ -1,13 +1,17 @@
-package org.usfirst.frc.team4201.robot.commands.autonomous;
+package org.usfirst.frc.team4201.robot.commands.autonomous.routines;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoReleaseWristSetpoint;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoSetArmElevatorSetpoints;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoSetWristRelativeSetpoint;
+import org.usfirst.frc.team4201.robot.commands.autonomous.PathFinderRead;
 
-public class AutoLeftStartDoubleScale extends CommandGroup{
+public class LeftAutoDoubleScale extends CommandGroup{
 	
-	public AutoLeftStartDoubleScale() {
+	public LeftAutoDoubleScale() {
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L') {
 			addParallel(new AutoSetArmElevatorSetpoints(46, 12));
 			addSequential(new PathFinderRead("leftStartToLeftScale", true));

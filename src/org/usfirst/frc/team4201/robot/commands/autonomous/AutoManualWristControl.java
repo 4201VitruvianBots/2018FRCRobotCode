@@ -1,18 +1,19 @@
-package org.usfirst.frc.team4201.robot.commands;
+package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**	This command must be an InstantCommand because of how we're using it.
  *
  */
-public class AutoManualElevatorControl extends Command {
+public class AutoManualWristControl extends Command {
 	double output;
 	
-    public AutoManualElevatorControl(double output, double time) {
+    public AutoManualWristControl(double output, double time) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.elevator);
+        requires(Robot.wrist);
         
         this.output = output;
         setInterruptible(true);
@@ -26,7 +27,7 @@ public class AutoManualElevatorControl extends Command {
 
     @Override
 	protected void execute() {
-    	Robot.elevator.setDirectOutput(output);
+    	Robot.wrist.setDirectOutput(output);
     }
 	@Override
 	protected boolean isFinished() {
@@ -35,7 +36,7 @@ public class AutoManualElevatorControl extends Command {
 	
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.elevator.setDirectOutput(0);
+    	Robot.wrist.setDirectOutput(0.1);
     }
 
     // Called when another command which requires one or more of the same

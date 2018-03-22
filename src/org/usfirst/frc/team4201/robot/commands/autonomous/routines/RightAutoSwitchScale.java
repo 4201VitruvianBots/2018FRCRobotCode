@@ -1,13 +1,16 @@
-package org.usfirst.frc.team4201.robot.commands.autonomous;
+package org.usfirst.frc.team4201.robot.commands.autonomous.routines;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoReleaseWristSetpoint;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoSetWristRelativeSetpoint;
+import org.usfirst.frc.team4201.robot.commands.autonomous.PathFinderRead;
 
-public class AutoRightStartSwitchScale extends CommandGroup{
+public class RightAutoSwitchScale extends CommandGroup{
 	
-	public AutoRightStartSwitchScale() {
+	public RightAutoSwitchScale() {
 		addParallel(new SetArmElevatorSetpoints(-45, 6.55));
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R') {
 			//addParallel(new AutoSetArmElevatorSetpoints(52, 12));

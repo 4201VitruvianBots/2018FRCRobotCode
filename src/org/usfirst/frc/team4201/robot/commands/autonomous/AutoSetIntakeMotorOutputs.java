@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4201.robot.commands;
+package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
@@ -35,7 +35,7 @@ public class AutoSetIntakeMotorOutputs extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.intake.setIntakeMotorOutput(0.1);
+		Robot.intake.setIntakeMotorOutput(0);
 	}
 
 	// Called when another command which requires one or more of the same

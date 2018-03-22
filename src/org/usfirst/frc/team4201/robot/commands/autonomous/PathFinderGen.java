@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4201.robot.commands;
+package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4201.robot.commands.autonomous;
+package org.usfirst.frc.team4201.robot.commands.autonomous.routines;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -6,9 +6,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoManualElevatorControl;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoManualWristControl;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
-public class AutoCalibration extends CommandGroup{
+public class AutoTesting extends CommandGroup{
 	static ArrayList<Command> testCommands = new ArrayList<>();
 	int index = 0;
 	
@@ -20,7 +22,7 @@ public class AutoCalibration extends CommandGroup{
 		testCommands.add(new SetIntakePistonsClose());
 	}
 	
-	public AutoCalibration() {
+	public AutoTesting() {
 		index = 0;
 		addSequential(testCommands.get(index++));
 		addSequential(testCommands.get(index++));

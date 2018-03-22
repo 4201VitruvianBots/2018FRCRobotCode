@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="org/usfirst/frc/team4201/robot/commands/SetArmDeltaSetpoint.java|org/usfirst/frc/team4201/robot/commands/SetElevatorDeltaSetpoint.java|org/usfirst/frc/team4201/robot/subsystems/PIDTuner.java|org/usfirst/frc/team4201/robot/commands/PathFinderReadOld.java" kind="src" path="src"/>
+	<classpathentry excluding="org/usfirst/frc/team4201/robot/commands/SetArmDeltaSetpoint.java|org/usfirst/frc/team4201/robot/commands/SetElevatorDeltaSetpoint.java|org/usfirst/frc/team4201/robot/subsystems/PIDTuner.java|org/usfirst/frc/team4201/robot/commands/PathFinderReadOld.java|org/usfirst/frc/team4201/robot/commands/autonomous/PathFinderReadOld.java" kind="src" path="src"/>
 	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
 	<classpathentry kind="var" path="networktables" sourcepath="ntcore.sources"/>
 	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>

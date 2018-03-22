@@ -1,13 +1,16 @@
-package org.usfirst.frc.team4201.robot.commands.autonomous;
+package org.usfirst.frc.team4201.robot.commands.autonomous.routines;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoReleaseWristSetpoint;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoSetWristRelativeSetpoint;
+import org.usfirst.frc.team4201.robot.commands.autonomous.PathFinderRead;
 
-public class AutoLeftStartSwitchScale extends CommandGroup {
+public class LeftAutoSwitchScale extends CommandGroup {
 	
-	public AutoLeftStartSwitchScale() {
+	public LeftAutoSwitchScale() {
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
 			// 1a. Score at the left switch platform if it is in front of you
 			addParallel(new SetArmElevatorSetpoints(-55, 6.25));

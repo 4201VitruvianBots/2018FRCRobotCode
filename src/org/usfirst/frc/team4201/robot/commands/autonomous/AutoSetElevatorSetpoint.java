@@ -1,16 +1,17 @@
-package org.usfirst.frc.team4201.robot.commands;
+package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**	This command must be an InstantCommand because of how we're using it.
  *
  */
 public class AutoSetElevatorSetpoint extends Command {
+	double setpoint, delay;
+	Timer stopwatch;
 	
-	double setpoint;
     public AutoSetElevatorSetpoint(double setpoint) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.elevator);
@@ -18,9 +19,29 @@ public class AutoSetElevatorSetpoint extends Command {
         
         setInterruptible(true);
     }
+    
+    public AutoSetElevatorSetpoint(double setpoint, double delay) {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.elevator);
+        this.setpoint = setpoint;
+        this.delay = delay;
+        
+        setInterruptible(true);
+    }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if(delay > 0) {
+    		stopwatch = new Timer();
+    		stopwatch.start();
+    		
+    		while(stopwatch.get() < delay) {
+    			
+    		}
+    		
+    		stopwatch.stop();
+    	}
+    	
     	// Check if new setpoint deosn't violate limits before setting
     	if(Robot.elevator.checkLimits(setpoint))
 			Robot.elevator.setSetpoint(setpoint);
