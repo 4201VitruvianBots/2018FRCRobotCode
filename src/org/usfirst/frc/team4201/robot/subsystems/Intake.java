@@ -24,7 +24,7 @@ public class Intake extends Subsystem {
 	};
 	
 	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward + 1, RobotMap.intakeReverse - 1);
-	DigitalInput bumpSwitch = new DigitalInput(0);
+	//DigitalInput bumpSwitch = new DigitalInput(0);
 	
 	public static boolean isCubePresent = false;
 	

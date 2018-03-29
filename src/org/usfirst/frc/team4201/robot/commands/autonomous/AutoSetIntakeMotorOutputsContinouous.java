@@ -1,24 +1,24 @@
-package org.usfirst.frc.team4201.robot.commands;
+package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import org.usfirst.frc.team4201.robot.Robot;
-import org.usfirst.frc.team4201.robot.subsystems.Intake;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class SetIntakePistonsOpen extends InstantCommand {
+public class AutoSetIntakeMotorOutputsContinouous extends InstantCommand {
+	double output;
 	
-	public SetIntakePistonsOpen() {
+	public AutoSetIntakeMotorOutputsContinouous(double output) {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.intake);
+		this.output = output;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.intake.extendIntakePistons();
-		//Intake.isCubePresent = false;
+		Robot.intake.setIntakeMotorOutput(output);
 	}
-	
+
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
@@ -31,3 +31,4 @@ public class SetIntakePistonsOpen extends InstantCommand {
 		end();
 	}
 }
+

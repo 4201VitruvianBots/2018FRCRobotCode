@@ -110,6 +110,7 @@ public class OI {
         xBoxButtons[3].whileHeld(new SetWristRelativeSetpoint(45));					// Y Button: Set Intake to reverse shoot position
         xBoxButtons[3].whenReleased(new DisableXBoxRumble());
         */
+        xBoxButtons[6].whenPressed(new KillElevator());								// Select: Kill elevator PIDController (Check button assignment)
         xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
         
         // Wrist commands will be handled in the UpdateWristSetpoint function to avoid conflicts/issues with the whileHeld() functionality

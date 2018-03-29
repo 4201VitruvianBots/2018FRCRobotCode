@@ -19,7 +19,7 @@ import jaci.pathfinder.followers.EncoderFollower;
  *
  */
 public class PathFinderRead extends Command {
-	double max_vel = 2; // 180
+	double max_vel = 2.5; // 180
 	
 	Trajectory leftTrajectory, rightTrajectory;
 	EncoderFollower left, right;
@@ -66,7 +66,9 @@ public class PathFinderRead extends Command {
 			Trajectory rT = Pathfinder.readFromCSV(rightFile);
 			rightTrajectory =  rT;
 			Shuffleboard.putString("Pathfinder", "PathFinder Read" , "Trajectory Read Success!");
-		} catch (Exception e) {
+			
+			this.setTimeout(lT.segments.length * 0.05 * 1.2);
+ 		} catch (Exception e) {
 			// Handle it how you want
 			/*
 			if(first){
@@ -120,11 +122,13 @@ public class PathFinderRead extends Command {
     }
     
     class PeriodicRunnable implements Runnable {
+    	int segment = 0;
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
 			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
-	    	
+
+			Shuffleboard.putNumber("Pathfinder", "Segment" , segment++);
 	    	// Calculate the current motor outputs based on the trajectory values + encoder positions
 	    	double l = left.calculate(Robot.driveTrain.getLeftEncoderValue());
 			double r = right.calculate(Robot.driveTrain.getRightEncoderValue());
@@ -152,14 +156,14 @@ public class PathFinderRead extends Command {
 			Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
 			
 			// Continue sending output values until the path has been completely followed.
-			if(left.isFinished() && right.isFinished() && Math.abs(angleDifference) < 2)
+			if(left.isFinished() && right.isFinished() && Math.abs(angleDifference) < 3)
 				end = true;
 		}
     }
     
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return end; 
+    	return end || isTimedOut();  
     }
 
     // Called once after isFinished returns true

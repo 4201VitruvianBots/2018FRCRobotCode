@@ -49,7 +49,7 @@ public class Wrist extends PIDSubsystem {
 	
 	public Wrist() {
 		super("Wrist", kP, kI, kD, kF, period);
-		setAbsoluteTolerance(1);
+		setAbsoluteTolerance(25);
 		//setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
@@ -166,6 +166,7 @@ public class Wrist extends PIDSubsystem {
 		Shuffleboard.putNumber("Wrist", "Pot Avg. Voltage", wP.getAverageVoltage());
 		Shuffleboard.putNumber("Wrist", "Arm Angle", Robot.arm.getAngle());
 		Shuffleboard.putBoolean("Wrist", "PID Enabled", getPIDController().isEnabled());
+		Shuffleboard.putBoolean("Wrist", "On Target", onTarget());
 		
 		try {
 			Shuffleboard.putNumber("Wrist", "Wrist Limit Angle", Math.abs(Robot.arm.getAngle()) >= armLimiterLowerBound && Robot.arm.getAngle() <= armLimiterUpperBound ? LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - armLimiterLowerBound] : 0);

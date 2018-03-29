@@ -172,18 +172,27 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setDirectDriveOutput(double leftOutput, double rightOutput) {
+		
 		robotDrive.tankDrive(leftOutput, rightOutput);
+	}
+	
+	
+	
+	public void setDirectDriveOutputInverted(double leftOutput, double rightOutput) {
+		robotDrive.tankDrive(rightOutput, leftOutput);
 	}
 	
 	public void setDirectDriveScaledOutput(double leftOutput, double rightOutput) {
 		double max = Math.max(leftOutput, rightOutput);
 		
-		if(leftOutput == max) {
-			rightOutput = rightOutput/leftOutput;
-			leftOutput = 1;
-		} else {
-			leftOutput = leftOutput/rightOutput;
-			rightOutput = 1;
+		if(max > 1) {
+			if(leftOutput == max) {
+				rightOutput = rightOutput/leftOutput;
+				leftOutput = 1;
+			} else {
+				leftOutput = leftOutput/rightOutput;
+				rightOutput = 1;
+			}
 		}
 		
 		robotDrive.tankDrive(leftOutput, rightOutput);

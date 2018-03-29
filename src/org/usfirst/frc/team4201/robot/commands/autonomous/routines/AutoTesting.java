@@ -14,20 +14,43 @@ public class AutoTesting extends CommandGroup{
 	int index = 0;
 	
 	public static void initializeAutoCalibration() {
-		testCommands.add(new AutoManualElevatorControl(1, 2));
-		testCommands.add(new AutoManualWristControl(-0.75, 0.7));
-		testCommands.add(new SetIntakePistonsOpen());
-		testCommands.add(new Delay(1));
-		testCommands.add(new SetIntakePistonsClose());
+		//testCommands.add(new SetIntakePistonsOpen());
+		testCommands.add(new AutoSetArmSetpoint(-58));
+		testCommands.add(new AutoSetWristAbsoluteSetpoint(0));
+		//testCommands.add(new AutoSetIntakeMotorOutputsContinouous(1));
+		testCommands.add(new PathFinderRead("rightScaleToCubeOneReverse", false));
+		//testCommands.add(new SetIntakePistonsClose());
+
+		testCommands.add(new AutoReleaseWristSetpoint());
+		//testCommands.add(new AutoSetIntakeMotorOutputsContinouous(0.1));
+		testCommands.add(new AutoSetArmSetpoint(60));
+		testCommands.add(new PathFinderReadInverted("cubeOneToRightScaleReverse", false));
+
+		//testCommands.add(new AutoSetWristRelativeSetpoint(135));
+		//testCommands.add(new AutoSetIntakeMotorOutputsContinouous(0));
+		//testCommands.add(new AutoSetIntakeMotorOutputs(-0.75, 0.65));
+		//testCommands.add(new AutoReleaseWristSetpoint());
 	}
 	
 	public AutoTesting() {
 		index = 0;
+		//addParallel(testCommands.get(index++));
+		addSequential(testCommands.get(index++));
+		//addParallel(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
 		addSequential(testCommands.get(index++));
 		addSequential(testCommands.get(index++));
 		addSequential(testCommands.get(index++));
+		
+		//addParallel(testCommands.get(index++));
+		addParallel(testCommands.get(index++));
 		addSequential(testCommands.get(index++));
-		addSequential(testCommands.get(index++));
+
+		//addSequential(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
+		
 		// Move to Scale 
 		/*
 		Shuffleboard.putString("Auto", "Auto Status", "Step 1");

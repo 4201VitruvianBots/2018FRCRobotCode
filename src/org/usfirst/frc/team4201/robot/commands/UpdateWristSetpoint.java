@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class UpdateWristSetpoint extends Command {
 	public static boolean intaking, autoCommand;
-	public static double autoSetpoint;
+	public static double autoSetpoint, armTargetSetpoint;
 	double setpoint, setpointLimit;
 	
 	public UpdateWristSetpoint() {
@@ -43,7 +43,7 @@ public class UpdateWristSetpoint extends Command {
 				else if(Robot.oi.xBoxButtons[0].get())
 	    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(180);	// 45
 				else if(autoCommand)
-					setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(autoSetpoint);
+					setpoint = autoSetpoint;
 	 			//else if(Robot.oi.xBoxButtons[2].get())
 	    		//	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(180));
 				//else if(Robot.oi.xBoxButtons[3].get())

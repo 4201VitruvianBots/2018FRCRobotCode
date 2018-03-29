@@ -19,7 +19,7 @@ import jaci.pathfinder.followers.EncoderFollower;
  *
  */
 public class PathFinderReadInverted extends Command {
-	double max_vel = 2; // 180
+	double max_vel = 2.5, kP = 1, kD = 0.2;
 	
 	Trajectory leftTrajectory, rightTrajectory;
 	EncoderFollower left, right;
@@ -30,6 +30,27 @@ public class PathFinderReadInverted extends Command {
 	String filename;
 	boolean first = false;
 	Notifier periodicRunnable;
+	
+	public PathFinderReadInverted(String filename, boolean first, double maxVel, double kP, double kD) {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.driveTrain);
+        
+        this.filename = filename;
+        this.first = first;
+        this.max_vel = maxVel;
+        this.kP = kP;
+        this.kD = kD;
+    }
+	
+	public PathFinderReadInverted(String filename, boolean first, double maxVel, double kP) {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.driveTrain);
+
+        this.filename = filename;
+        this.first = first;
+        this.max_vel = maxVel;
+        this.kP = kP;
+    }
 	
 	public PathFinderReadInverted(String filename, boolean first, double maxVel) {
         // Use requires() here to declare subsystem dependencies
@@ -66,6 +87,8 @@ public class PathFinderReadInverted extends Command {
 			Trajectory rT = Pathfinder.readFromCSV(rightFile);
 			rightTrajectory =  rT;
 			Shuffleboard.putString("Pathfinder", "PathFinder Read" , "Trajectory Read Success!");
+
+			this.setTimeout(lT.segments.length * 0.05 * 1.2);
 		} catch (Exception e) {
 			// Handle it how you want
 			/*
@@ -96,14 +119,14 @@ public class PathFinderReadInverted extends Command {
 		
 		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Enabling...");
 		
-		left.configureEncoder(-Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-		right.configureEncoder(-Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
+		left.configureEncoder(-Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667);	//0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+		right.configureEncoder(-Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667);	//0.1823	// 0.1016 4 inches in meters - undershoot
 
 		// The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
 		// Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
 		// Usually, you wont have to adjust this though.
-		left.configurePIDVA(1, 0, 0.2, 1 / max_vel, 0);
-		right.configurePIDVA(1, 0, 0.2, 1 / max_vel, 0);   
+		left.configurePIDVA(kP, 0, kD, 1 / max_vel, 0);
+		right.configurePIDVA(kP, 0, kD, 1 / max_vel, 0);   
 		
 		// Initialize the timer & Notifier
 		stopwatch = new Timer(); 
@@ -120,14 +143,16 @@ public class PathFinderReadInverted extends Command {
     }
     
     class PeriodicRunnable implements Runnable {
+    	int segment = 0;
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
 			Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Running...");
 	    	
 	    	// Calculate the current motor outputs based on the trajectory values + encoder positions
-	    	double l = left.calculate(-Robot.driveTrain.getLeftEncoderValue());
-			double r = right.calculate(-Robot.driveTrain.getRightEncoderValue());
+	    	double l = left.calculate(-Robot.driveTrain.getRightEncoderValue());
+			double r = right.calculate(-Robot.driveTrain.getLeftEncoderValue());
+			
 			Shuffleboard.putNumber("Pathfinder", "PathFinder L" , l);
 			Shuffleboard.putNumber("Pathfinder", "PathFinder R" , r);
 			Shuffleboard.putNumber("Pathfinder", "PathFinder H" , Pathfinder.r2d(left.getHeading()));
@@ -149,17 +174,17 @@ public class PathFinderReadInverted extends Command {
 			Shuffleboard.putNumber("Pathfinder", "Timer", stopwatch.get());
 			
 			// Set the output to the motors
-			Robot.driveTrain.setDirectDriveOutput(-l - turn, -r + turn);
+			Robot.driveTrain.setDirectDriveOutput(-(r - turn), -(l + turn));
 			
 			// Continue sending output values until the path has been completely followed.
-			if(left.isFinished() && right.isFinished() && Math.abs(angleDifference) < 2)
+			if(left.isFinished() && right.isFinished() && Math.abs(angleDifference) < 3)
 				end = true;
 		}
     }
     
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return end; 
+    	return end || isTimedOut(); 
     }
 
     // Called once after isFinished returns true
