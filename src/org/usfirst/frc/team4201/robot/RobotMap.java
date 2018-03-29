@@ -19,8 +19,8 @@ package org.usfirst.frc.team4201.robot;
 
 public class RobotMap {
 	// Global Variables
-	public static int WristState = 0;
-	public static int ArmState = 0;
+	public static int WristState = 1;
+	public static int ArmState = 1;
 	public static int ElevatorState = 1;
 	public static boolean testMode = true;
 	
@@ -35,7 +35,8 @@ public class RobotMap {
 	public static final int rightTrigger = 3;
 	
 	// DIO Ports
-	//public static final int bumpSwitch = 0;
+	public static final int elevatorLowerLimitSwitch = 0;
+	public static final int elevatorUpperLimitSwitch = 1;
 	
 	public static final int redSignal = 7;
 	public static final int greenSignal = 8;

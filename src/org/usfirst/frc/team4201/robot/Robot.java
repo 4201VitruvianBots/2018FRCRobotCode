@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.ReverseTankDrive;
 import org.usfirst.frc.team4201.robot.commands.autonomous.routines.*;
 import org.usfirst.frc.team4201.robot.subsystems.*;
 
@@ -85,6 +86,7 @@ public class Robot extends TimedRobot {
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
 		driveMode.addObject("Cheesy Drive", new SetCheesyDrive());
 		driveMode.addObject("Tank Drive", new SetTankDrive());
+		driveMode.addObject("Reverse Tank Drive", new ReverseTankDrive());
 		
 		try {
 			//fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
@@ -105,6 +107,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		Scheduler.getInstance().removeAll();
+		
 		driveTrain.setMotorsToCoast();
 		//elevator.setMotorsToCoast();	// Comment this out during competitions/ change to brake
 		//elevator.setElevatorShiftersHigh();
@@ -200,6 +204,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		Scheduler.getInstance().removeAll();
+    	UpdateWristSetpoint.autoCommand = false;
 		
 		elevator.setElevatorShiftersHigh();
 		
@@ -215,7 +221,6 @@ public class Robot extends TimedRobot {
 		if(elevator.getElevatorShiftersStatus())
 			elevator.setElevatorShiftersLow();
 		
-		Scheduler.getInstance().removeAll();
 		// This makes sure that the autonomous stops running when
 		// teleOp starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove

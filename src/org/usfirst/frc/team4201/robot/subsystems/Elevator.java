@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -57,6 +58,8 @@ public class Elevator extends PIDSubsystem {
 	AnalogInput eP = new AnalogInput(RobotMap.elevatorLinearPot);
 	public AnalogPotentiometer elevatorPot = new AnalogPotentiometer(eP, sensorUpperLimit, sensorOffset);
 	
+	public DigitalInput lowerLimitSwitch = new DigitalInput(RobotMap.elevatorLowerLimitSwitch);
+	//public DigitalInput upperLimitSwitch = new DigitalInput(RobotMap.elevatorUpperLimitSwitch);
 	
 	public Elevator() {
 		super("Elevator", kP, kI, kD, kF, period);
@@ -180,6 +183,9 @@ public class Elevator extends PIDSubsystem {
 		Shuffleboard.putNumber("Elevator", "Elevator B Current", elevatorMotors[1].getOutputCurrent());
 		Shuffleboard.putNumber("Elevator", "Elevator A Voltage", elevatorMotors[0].getBusVoltage());
 		Shuffleboard.putNumber("Elevator", "Elevator B Voltage", elevatorMotors[1].getBusVoltage());
+		
+		Shuffleboard.putBoolean("Elevator", "Lower Limit Switch", lowerLimitSwitch.get());
+		//Shuffleboard.putBoolean("Elevator", "Upper Limit Switch", upperLimitSwitch.get());
 		
 		// Use SmartDashboard to put only the important stuff for drivers
 		SmartDashboard.putNumber("Elevator Hieght", getHieght());

@@ -10,7 +10,6 @@ public class SetIntakePistonsClose extends InstantCommand {
 	public SetIntakePistonsClose() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.intake);
-		setInterruptible(false);
 	}
 
 	// Called just before this Command runs the first time

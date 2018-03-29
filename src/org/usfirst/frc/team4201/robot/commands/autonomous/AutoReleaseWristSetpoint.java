@@ -13,11 +13,13 @@ public class AutoReleaseWristSetpoint extends InstantCommand {
     public AutoReleaseWristSetpoint() {
     	requires(Robot.wrist);
     	
+    	setInterruptible(false);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	UpdateWristSetpoint.autoCommand = false;
+    	UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(90);
     	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
     }
 

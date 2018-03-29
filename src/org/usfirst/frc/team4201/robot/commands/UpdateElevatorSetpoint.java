@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class UpdateElevatorSetpoint extends Command {
+	public static double setpoint;
 	
     public UpdateElevatorSetpoint() {
         // Use requires() here to declare subsystem dependencies
@@ -28,13 +29,20 @@ public class UpdateElevatorSetpoint extends Command {
  		// Inverted
  		double yAxis = -Robot.oi.xBoxController.getRawAxis(5);
  		
+ 		// If the limit switch is pressed and the elevator wants to continue to go down, reset the setpoint to its current height (even if its incorrect) to stop it from moving
+ 		if(Robot.elevator.lowerLimitSwitch.get()) {
+ 			if(Robot.elevator.getPIDController().getError() < -0.2)
+ 				Robot.elevator.setSetpoint(Robot.elevator.getHieght());
+ 		} /* else if(Robot.elevator.upperLimitSwitch.get()){
+ 			if(Robot.elevator.getPIDController().getError > 0.2)
+ 				Robot.elevator.setSetpoint(Robot.elevator.getHieght());
+ 		}
+ 		//*/
  		if(RobotMap.ElevatorState == 0){
- 			// If the elevator somehow gets out of range, pull it back in range automatically.
+			// If the elevator somehow gets out of range, pull it back in range automatically.
  			// If this isn't done, then there is a chance the elevator can become uncontrollable due to the increment not being able to set the setpoint in range.
  			if(Robot.elevator.getHieght() > Robot.elevator.hieghtUpperLimit)
  				Robot.elevator.setSetpoint(Robot.elevator.hieghtUpperLimit - 0.5);
- 			//else if(Robot.elevator.getHieght() < Robot.elevator.hieghtLowerLimit)		// This does not apply to the elevator because it has an actual hard-stop. 
- 				//Robot.elevator.setSetpoint(Robot.elevator.hieghtLowerLimit + 0.5);	// Disabled due to issues with this overriding user input.
  			
  			// We do this check to make sure co-driver is actually commanding the elevator and not due to minor movement of the joystick.
  			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
