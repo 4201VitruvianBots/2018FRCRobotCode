@@ -39,6 +39,30 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	Robot.intake.retractIntakePistons();
     	finished = false;
     	UpdateArmSetpoint.lock = true;
+    	
+    	// Depressurize the intake pistons if they were on high pressure
+		Robot.intake.retractIntakePressure();
+		
+		// Actuate intake pistons to remove excess pressure from high pressure mode
+		Thread t = new Thread(() -> {
+			if(Robot.intake.getIntakePistonStatus()) {
+    			Robot.intake.retractIntakePistons();
+    			try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+				}
+    			Robot.intake.extendIntakePistons();
+			} else {
+				Robot.intake.extendIntakePistons();
+    			try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+				}
+    			Robot.intake.retractIntakePistons();
+			}
+		});
+		t.start();
+    		
     }
     
     @Override
@@ -105,6 +129,16 @@ public class ToggleCubeIntakeWithRetraction extends Command {
         	Robot.intake.setIntakeMotorOutput(0.1);
     	} else 
         	Robot.intake.setIntakeMotorOutput(0);
+
+    	Robot.intake.extendIntakePistons();
+    	Robot.intake.extendIntakePressure();
+    	
+		stopwatch.stop();
+		stopwatch.reset();
+		stopwatch.start();
+		while(stopwatch.get() < 0.1) {
+			
+		}
     	
     	UpdateWristSetpoint.intaking = false;
     	UpdateArmSetpoint.lock = false;

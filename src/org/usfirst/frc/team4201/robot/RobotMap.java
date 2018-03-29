@@ -71,12 +71,14 @@ public class RobotMap {
 		public static final int elevatorShifterReverse = 3;
 		public static final int intakeForward = 4;
 		public static final int intakeReverse = 5;
-		public static final int climberForward = 6;
-		public static final int climberReverse = 7;
+		public static final int intakePressureForward = 6;
+		public static final int intakePressureReverse = 7;
 		
 	public static final int PCMTwo = 12;
-		public static final int leftStabilizerForward = 0;
-		public static final int leftStabilizerReverse = 1;
+		public static final int climberForward = 0;
+		public static final int climberReverse = 1;
+		//public static final int leftStabilizerForward = 0;
+		//public static final int leftStabilizerReverse = 1;
 		public static final int rightStabilizerForward = 2;
 		public static final int rightStabilizerReverse = 3;
 		public static final int diskBrakeForward = 4;

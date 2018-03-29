@@ -52,11 +52,17 @@ public class UpdateArmSetpoint extends Command {
  			}
  			
  			// Set different PID values depending on arm is going up/down
- 			if(Robot.arm.getPIDController().get() > 0){
+ 			if(Robot.arm.getPIDController().get() > 0) {
 				Robot.arm.getPIDController().setP(Arm.kPUp);
 			} else {
 				Robot.arm.getPIDController().setP(Arm.kPDown);
 			}
+ 			
+ 			// When the arm is low, lower the lower output range to prevent slamming to the hardstop that can cause damage
+ 			if(Robot.arm.getAngle() < -50)
+ 				Robot.arm.setOutputRange(-0.5, 1);
+ 			else
+ 				Robot.arm.setOutputRange(-1, 1);
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)

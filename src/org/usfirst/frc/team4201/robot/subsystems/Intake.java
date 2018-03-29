@@ -24,6 +24,7 @@ public class Intake extends Subsystem {
 	};
 	
 	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward + 1, RobotMap.intakeReverse - 1);
+	DoubleSolenoid intakePressure = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakePressureForward, RobotMap.intakePressureReverse);
 	DigitalInput bumpSwitch = new DigitalInput(0);
 	
 	public static boolean isCubePresent = false;
@@ -75,6 +76,18 @@ public class Intake extends Subsystem {
 		intakePistons.set(Value.kReverse);
 	}
 	
+	public boolean getIntakePressureStatus() {
+		return intakePressure.get() == Value.kForward ? true : false;
+	}
+	
+	public void extendIntakePressure() {
+		intakePressure.set(Value.kForward);
+	}
+	
+	public void retractIntakePressure() {
+		intakePressure.set(Value.kReverse);
+	}
+	
 	public void setMotorsToBrake(){
 		for(int i = 0; i < intakeMotors.length; i++)
 			intakeMotors[i].setNeutralMode(NeutralMode.Brake);
@@ -88,6 +101,7 @@ public class Intake extends Subsystem {
 	public void updateSmartDashboard(){
 		// Use Shuffleboard to place things in their own tabs
 		Shuffleboard.putBoolean("Intake", "Pistons", getIntakePistonStatus());
+		Shuffleboard.putBoolean("Intake", "Pressure", getIntakePressureStatus());
 		Shuffleboard.putNumber("Intake", "Speed", intakeMotors[0].get());
 		Shuffleboard.putNumber("Intake", "Current", Robot.wrist.wristMotor.getOutputCurrent());
 		Shuffleboard.putNumber("Intake", "Left Motor Current", intakeMotors[0].getOutputCurrent());
@@ -96,6 +110,7 @@ public class Intake extends Subsystem {
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putBoolean("Intake Pistons", getIntakePistonStatus());
+		SmartDashboard.putBoolean("Intake Pressure", getIntakePressureStatus());
 	}
 	
 	@Override
