@@ -10,7 +10,7 @@ public class RightAutoDoubleScale extends CommandGroup{
 	
 	public RightAutoDoubleScale() {
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'R') {
-			addParallel(new AutoSetArmElevatorSetpoints(46, 12));
+			//addParallel(new AutoSetArmElevatorSetpoints(46, 12));
 			addSequential(new PathFinderRead("rightStartToRightScale", true));
 
 			addSequential(new AutoSetWristRelativeSetpoint(0));
@@ -35,7 +35,7 @@ public class RightAutoDoubleScale extends CommandGroup{
 			addSequential(new SetIntakePistonsClose());
 			*/
 		} else {
-			addParallel(new AutoSetArmElevatorSetpoints(4, 25));
+			//addParallel(new AutoSetArmElevatorSetpoints(4, 25));
 			addSequential(new PathFinderRead("rightStartToLeftScale", true));
 
 			/*

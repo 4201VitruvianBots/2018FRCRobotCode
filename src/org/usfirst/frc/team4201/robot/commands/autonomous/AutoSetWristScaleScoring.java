@@ -3,35 +3,40 @@ package org.usfirst.frc.team4201.robot.commands.autonomous;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.commands.UpdateWristSetpoint;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**	This command must be an InstantCommand because of how we're using it.
  *
  */
-public class AutoSetWristAbsoluteSetpoint extends Command {
+public class AutoSetWristScaleScoring extends Command {
 	double setpoint;
+	boolean check = false;
 	
-    public AutoSetWristAbsoluteSetpoint(double setpoint) {
+    public AutoSetWristScaleScoring(double setpoint) {
     	requires(Robot.wrist);
     	
     	this.setpoint = setpoint;
-    	setTimeout(0.25);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	UpdateWristSetpoint.autoCommand = true;
+    	UpdateWristSetpoint.autoSetpoint = 130;
+    	Robot.wrist.setSetpoint(130);
+    	check = false;
     }
     
     @Override
    	protected void execute() {
-    	UpdateWristSetpoint.autoCommand = true;
-    	UpdateWristSetpoint.autoSetpoint = setpoint;
-    	Robot.wrist.setSetpoint(setpoint);
+    	if(Robot.arm.getAngle() > 45) {
+	    	UpdateWristSetpoint.autoSetpoint = setpoint;
+	    	Robot.wrist.setSetpoint(setpoint);
+	    	check = true;
+    	}
     }       
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.wrist.onTarget() || isTimedOut();
+    	return check && Robot.wrist.onTarget();
     }
 
     // Called once after isFinished returns true

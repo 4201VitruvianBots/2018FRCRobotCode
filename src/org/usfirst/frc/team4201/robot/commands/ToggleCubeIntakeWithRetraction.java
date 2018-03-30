@@ -136,7 +136,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		stopwatch.stop();
 		stopwatch.reset();
 		stopwatch.start();
-		while(stopwatch.get() < 0.1) {
+		while(stopwatch.get() < 0.2) {
 			
 		}
     	

@@ -80,8 +80,8 @@ public class RobotMap {
 		public static final int climberReverse = 1;
 		//public static final int leftStabilizerForward = 0;
 		//public static final int leftStabilizerReverse = 1;
-		public static final int rightStabilizerForward = 2;
-		public static final int rightStabilizerReverse = 3;
+		//public static final int rightStabilizerForward = 2;
+		//public static final int rightStabilizerReverse = 3;
 		public static final int diskBrakeForward = 4;
 		public static final int diskBrakeReverse = 5;
 		public static final int wingsForward = 6;

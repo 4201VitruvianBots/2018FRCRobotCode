@@ -3,7 +3,6 @@ package org.usfirst.frc.team4201.robot.commands.autonomous;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.commands.UpdateWristSetpoint;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**	This command must be an InstantCommand because of how we're using it.
@@ -11,19 +10,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoSetWristRelativeSetpoint extends Command {
 	double setpoint;
-	boolean awaitArm = false;
 	
     public AutoSetWristRelativeSetpoint(double setpoint) {
     	requires(Robot.wrist);
     	
     	this.setpoint = setpoint;
-    }
-    
-    public AutoSetWristRelativeSetpoint(double setpoint, boolean awaitArm) {
-    	requires(Robot.wrist);
-    	
-    	this.setpoint = setpoint;
-    	this.awaitArm = awaitArm;
     	setTimeout(0.25);
     }
 
@@ -33,15 +24,10 @@ public class AutoSetWristRelativeSetpoint extends Command {
     
     @Override
    	protected void execute() {
-    	if(Robot.arm.onTarget() && awaitArm){
-        	UpdateWristSetpoint.autoCommand = true;
-        	UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint);
-        	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint));
-    	} else {
-        	UpdateWristSetpoint.autoCommand = true;
-        	UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint);
-        	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint));
-    	}
+    	UpdateWristSetpoint.autoCommand = true;
+    	UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint);
+    	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint));
+
     }       
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

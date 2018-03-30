@@ -10,7 +10,7 @@ public class LeftAutoDoubleScale extends CommandGroup{
 	
 	public LeftAutoDoubleScale() {
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L') {
-			addParallel(new AutoSetArmElevatorSetpoints(46, 12));
+			//addParallel(new AutoSetArmElevatorSetpoints(46, 12));
 			addSequential(new PathFinderRead("leftStartToLeftScale", true));
 
 			addSequential(new AutoSetWristRelativeSetpoint(0));
@@ -35,7 +35,7 @@ public class LeftAutoDoubleScale extends CommandGroup{
 			addSequential(new SetIntakePistonsClose());
 			*/
 		} else {
-			addParallel(new AutoSetArmElevatorSetpoints(4, 25));
+			//addParallel(new AutoSetArmElevatorSetpoints(4, 25));
 			addSequential(new PathFinderRead("leftStartToRightScale", true));
 
 			/*

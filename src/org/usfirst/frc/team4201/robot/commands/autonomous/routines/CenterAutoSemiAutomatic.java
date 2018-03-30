@@ -9,7 +9,6 @@ import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 public class CenterAutoSemiAutomatic extends CommandGroup{
 	
 	public CenterAutoSemiAutomatic() {
-		//addParallel(new SetWristArmElevatorSetpoints(0, 0, 0));
 		addParallel(new AutoManualElevatorControl(1, 2));
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L'){
 			addSequential(new PathFinderRead("centerAutoLeft", true, 2));

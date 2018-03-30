@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
-import org.usfirst.frc.team4201.robot.commands.autonomous.ReverseTankDrive;
 import org.usfirst.frc.team4201.robot.commands.autonomous.routines.*;
 import org.usfirst.frc.team4201.robot.subsystems.*;
 
@@ -86,7 +85,6 @@ public class Robot extends TimedRobot {
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
 		driveMode.addObject("Cheesy Drive", new SetCheesyDrive());
 		driveMode.addObject("Tank Drive", new SetTankDrive());
-		driveMode.addObject("Reverse Tank Drive", new ReverseTankDrive());
 		
 		try {
 			//fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
@@ -142,6 +140,9 @@ public class Robot extends TimedRobot {
 		driveTrain.resetSensors();
 		//driveTrain.setDriveShiftLow();
 		driveTrain.setMotorsToBrake();
+		
+		arm.setSetpoint(arm.getAngle());
+		elevator.setSetpoint(elevator.getHieght());
 		
 		elevator.setMotorsToBrake();
 		arm.setMotorsToBrake();
@@ -207,7 +208,9 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().removeAll();
     	UpdateWristSetpoint.autoCommand = false;
 		
-		elevator.setElevatorShiftersHigh();
+		//elevator.setElevatorShiftersHigh();
+		arm.setSetpoint(arm.getAngle());
+		elevator.setSetpoint(elevator.getHieght());
 		
 		//Sets drive train motors to coast.
 		driveTrain.resetSensors();
