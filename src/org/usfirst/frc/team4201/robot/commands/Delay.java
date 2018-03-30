@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Delay extends Command {
     
     public Delay(double timeout) {
-    	this.setTimeout(timeout);
+    	setTimeout(timeout);
     }
 
     // Called just before this Command runs the first time

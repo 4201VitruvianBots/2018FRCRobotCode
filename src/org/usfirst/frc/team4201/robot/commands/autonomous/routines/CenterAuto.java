@@ -19,7 +19,8 @@ public class CenterAuto extends CommandGroup{
 
 		// 2. Sequence of actions to score by dropping the cube 
 		addSequential(new AutoDropCube());
-		
+
+		addSequential(new AutoReleaseWristSetpoint());
 		// Additional actions to add
 	}
 }

@@ -19,8 +19,15 @@ public class AutoReleaseWristSetpoint extends InstantCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	UpdateWristSetpoint.autoCommand = false;
-    	UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(90);
-    	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
+    	
+    	if(Robot.arm.getAngle() > 16) {
+	    	UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(90);
+	    	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
+    	} else {
+        	UpdateWristSetpoint.autoSetpoint = 130;
+        	Robot.wrist.setSetpoint(130);
+    		
+    	}
     }
 
     // Called once after isFinished returns true
