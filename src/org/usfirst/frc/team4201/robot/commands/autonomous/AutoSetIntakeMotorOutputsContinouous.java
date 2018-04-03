@@ -2,7 +2,6 @@ package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import org.usfirst.frc.team4201.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
 public class AutoSetIntakeMotorOutputsContinouous extends InstantCommand {

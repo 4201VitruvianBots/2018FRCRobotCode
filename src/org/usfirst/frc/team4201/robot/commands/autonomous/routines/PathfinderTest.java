@@ -15,6 +15,7 @@ public class PathfinderTest extends CommandGroup{
 		/*
 		addSequential(new SetIntakePistonsClose());
 		addSequential(new SetIntakePressureHigh());
+		
 		addSequential(new AutoPathFinderInvertedToScaleClose("leftStartToRightScale", false, 2));
 		addSequential(new AutoShootCube(-0.8, 0.6));
 		/*

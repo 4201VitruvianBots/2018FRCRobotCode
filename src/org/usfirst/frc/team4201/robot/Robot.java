@@ -52,6 +52,10 @@ public class Robot extends TimedRobot {
 		"Right Auto Switch + Scale",
 		"Left Auto Double Scale",
 		"Right Auto Double Scale",
+		"Left Switch Auto Near",
+		"Left Switch Auto Far",
+		"Right Switch Auto Near",
+		"Right Switch Auto Far",
 		"Auto Calibration",
 		"Pathfinder Test"
 	};
@@ -68,18 +72,24 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		
 		// Add autos to dashboard based on current mechanism state
-		if(RobotMap.WristState == 0 && RobotMap.ArmState == 0 && RobotMap.ElevatorState == 0) {
-			autoModeChooser.addDefault(autoRoutines[1], autoRoutines[1]);
-			autoModeChooser.addObject(autoRoutines[3], autoRoutines[3]);
-			autoModeChooser.addObject(autoRoutines[4], autoRoutines[4]);
+		if(RobotMap.WristState == 0 && RobotMap.ArmState == 0) {
+			if(RobotMap.ElevatorState == 0) {
+				autoModeChooser.addDefault(autoRoutines[1], autoRoutines[1]);
+				autoModeChooser.addObject(autoRoutines[3], autoRoutines[3]);
+				autoModeChooser.addObject(autoRoutines[4], autoRoutines[4]);
+				autoModeChooser.addObject(autoRoutines[7], autoRoutines[7]);
+				autoModeChooser.addObject(autoRoutines[8], autoRoutines[8]);
+				autoModeChooser.addObject(autoRoutines[9], autoRoutines[9]);
+				autoModeChooser.addObject(autoRoutines[10], autoRoutines[10]);
+			} else {
+				autoModeChooser.addDefault(autoRoutines[2], autoRoutines[2]);
+			}
 			autoModeChooser.addObject(autoRoutines[5], autoRoutines[5]);
 			autoModeChooser.addObject(autoRoutines[6], autoRoutines[6]);
-		} else {
-			autoModeChooser.addDefault(autoRoutines[2], autoRoutines[2]);
 		}
 		autoModeChooser.addObject(autoRoutines[0], autoRoutines[0]);
-		autoModeChooser.addObject(autoRoutines[7], autoRoutines[7]);
-		autoModeChooser.addObject(autoRoutines[8], autoRoutines[8]);
+		autoModeChooser.addObject(autoRoutines[11], autoRoutines[11]);
+		autoModeChooser.addObject(autoRoutines[12], autoRoutines[12]);
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());

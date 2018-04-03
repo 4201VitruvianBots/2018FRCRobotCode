@@ -6,7 +6,7 @@ import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 public class DriveStraight extends CommandGroup{
 	
 	public DriveStraight() {
-		addSequential(new PathFinderRead("driveStraight", true, 2));
+		addSequential(new PathFinderRead("driveStraight", true));
 	}
 }
  

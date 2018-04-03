@@ -15,13 +15,14 @@ public class AutoSetWristIntakePosition extends Command {
     public AutoSetWristIntakePosition() {
     	requires(Robot.wrist);
     	
+    	setTimeout(0.5);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	UpdateWristSetpoint.autoCommand = true;
-    	UpdateWristSetpoint.autoSetpoint = 130;
-    	Robot.wrist.setSetpoint(130);
+    	//UpdateWristSetpoint.autoSetpoint = 130;
+    	//Robot.wrist.setSetpoint(130);
     	check = false;
     }
     
@@ -35,7 +36,7 @@ public class AutoSetWristIntakePosition extends Command {
     }       
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return check && Robot.wrist.onTarget();
+    	return check && Robot.wrist.onTarget() || isTimedOut();
     }
 
     // Called once after isFinished returns true

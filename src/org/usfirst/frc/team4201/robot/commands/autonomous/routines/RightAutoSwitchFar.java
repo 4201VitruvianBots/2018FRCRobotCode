@@ -9,19 +9,19 @@ import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 public class RightAutoSwitchFar extends CommandGroup{
 	
 	public RightAutoSwitchFar() {
-		addParallel(new SetArmElevatorSetpoints(-45, 6.55));
+		addSequential(new SetIntakePistonsClose());
+		addSequential(new SetIntakePressureHigh());
+		
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R') {
-			//addParallel(new AutoSetArmElevatorSetpoints(52, 12));
-			addSequential(new PathFinderRead("rightStartToRightSwitch", true));
-
-			addSequential(new AutoSetWristRelativeSetpoint(0));
-			addSequential(new SetIntakePistonsOpen());
-			addSequential(new Delay(1));
-			addSequential(new AutoReleaseWristSetpoint());
-			addSequential(new SetIntakePistonsClose());
+			addSequential(new AutoPathFinderInvertedToSwitch("rightStartToRightSwitchReverseOne", true));
+			addSequential(new PathFinderRead("rightStartToRightSwitchReverseTwo"));
 		} else {
-			//addParallel(new AutoSetArmElevatorSetpoints(52, 12));
-			addSequential(new PathFinderRead("driveStraight", true));
+			addSequential(new PathFinderReadInverted("rightStartToLeftSwitchFarReverseOne", true));
+			addSequential(new AutoPathFinderToSwitch("rightStartToLeftSwitchFarReverseTwo"));
 		}
+		
+		addSequential(new AutoDropCube());
+		
+		addSequential(new AutoReleaseWristSetpoint());
 	}
 }

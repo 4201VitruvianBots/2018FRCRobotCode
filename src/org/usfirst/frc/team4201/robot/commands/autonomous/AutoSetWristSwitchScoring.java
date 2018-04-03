@@ -10,33 +10,43 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoSetWristSwitchScoring extends Command {
 	double setpoint;
-	boolean check = false;
+	boolean check = false, relative = false;
+	
+	public AutoSetWristSwitchScoring(double setpoint, boolean relative) {
+    	requires(Robot.wrist);
+    	
+    	this.setpoint = setpoint;
+    	this.relative = relative;
+    	setTimeout(0.5);
+    }
 	
     public AutoSetWristSwitchScoring(double setpoint) {
     	requires(Robot.wrist);
     	
     	this.setpoint = setpoint;
+    	setTimeout(0.5);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	UpdateWristSetpoint.autoCommand = true;
-    	UpdateWristSetpoint.autoSetpoint = 130;
-    	Robot.wrist.setSetpoint(130);
+    	//UpdateWristSetpoint.autoSetpoint = 130;
+    	//Robot.wrist.setSetpoint(130);
     	check = false;
     }
     
     @Override
    	protected void execute() {
-    	if(Robot.elevator.onTarget() && Robot.elevator.getHieght() > 2) {
-	    	UpdateWristSetpoint.autoSetpoint = setpoint;
-	    	Robot.wrist.setSetpoint(setpoint);
+    	if(Robot.elevator.onTarget()) {
+    		double tempSet = relative ? Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint) : setpoint;
+	    	UpdateWristSetpoint.autoSetpoint = tempSet;
+	    	Robot.wrist.setSetpoint(tempSet);
 	    	check = true;
     	}
     }       
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return check && Robot.wrist.onTarget();
+    	return check && Robot.wrist.onTarget() || isTimedOut();
     }
 
     // Called once after isFinished returns true

@@ -24,18 +24,14 @@ public class AutoSetArmSetpoint extends Command {
     	// Check if new setpoint deosn't violate limits before setting
 		if(Robot.arm.checkLimits(setpoint))
     		Robot.arm.setSetpoint(setpoint);
-		else
-			Robot.oi.enableXBoxLeftRumbleTimed();
-		
     }
     
     protected void execute() {
+    	UpdateWristSetpoint.autoCommand = true;
     	if(Robot.arm.getAngle() > 16 && initialPosition <= 16) {
-        	UpdateWristSetpoint.autoCommand = true;
 			UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(90);
 			Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
 		} else if(Robot.arm.getAngle() > 16 && initialPosition > 16) {
-	    	UpdateWristSetpoint.autoCommand = true;
 			UpdateWristSetpoint.autoSetpoint = 130;
 			Robot.wrist.setSetpoint(130);
 		}
@@ -49,7 +45,6 @@ public class AutoSetArmSetpoint extends Command {
     
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.oi.disableXBoxLeftRumble();
     }
 
     // Called when another command which requires one or more of the same

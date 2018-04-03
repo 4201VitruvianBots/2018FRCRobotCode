@@ -17,6 +17,14 @@ public class AutoSetWristScaleScoring extends Command {
     	
     	this.setpoint = setpoint;
     	this.relative = relative;
+    	setTimeout(0.5);
+    }
+    
+    public AutoSetWristScaleScoring(double setpoint) {
+    	requires(Robot.wrist);
+    	
+    	this.setpoint = setpoint;
+    	setTimeout(0.5);
     }
 
     // Called just before this Command runs the first time
@@ -38,7 +46,7 @@ public class AutoSetWristScaleScoring extends Command {
     }       
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return check && Robot.wrist.onTarget();
+    	return check && Robot.wrist.onTarget() || isTimedOut();
     }
 
     // Called once after isFinished returns true

@@ -18,6 +18,7 @@ public class AutoSetElevatorSetpoint extends Command {
         this.setpoint = setpoint;
         
         setInterruptible(true);
+        setTimeout(3);
     }
     
     public AutoSetElevatorSetpoint(double setpoint, double delay) {
@@ -27,6 +28,7 @@ public class AutoSetElevatorSetpoint extends Command {
         this.delay = delay;
         
         setInterruptible(true);
+        setTimeout(3 + delay);
     }
 
     // Called just before this Command runs the first time
