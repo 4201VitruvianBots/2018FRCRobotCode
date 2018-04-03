@@ -79,10 +79,10 @@ public class OI {
 		
         leftButtons[0].whileHeld(new SetIntakeMotorOutputs(-0.75));					// Left Joystick Trigger: Eject cube
         leftButtons[0].whenReleased(new SetIntakeMotorOutputs(0));					// Left Joystick Trigger: Eject cube
-        //leftButtons[1].toggleWhenPressed(new BurnTest());							// Left Center Thumb Button: N/A
-        //leftButtons[2].whenPressed(new SetDriveShiftersLow());					// Left Left Thumb Button Up: N/A
-        //leftButtons[4].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Left Thumb Button Down: N/A
-        //leftButtons[3].whenPressed(new EnableClimbMode());						// Left Right Thumb Button Up: Retract Intake
+        //leftButtons[1].whenPressed(new ToggleElevatorShifters());					// Left Center Thumb Button: N/A
+        //leftButtons[2].whenPressed(new ToggleIntakePistons());					// Left Left Thumb Button Up: N/A
+        leftButtons[4].whenPressed(new ToggleIntakePressure());						// Left Left Thumb Button Down: N/A
+        //leftButtons[3].whenPressed();												// Left Right Thumb Button Up: Retract Intake
         leftButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Right Thumb Button Down: Deploy Intake
         //leftButtons[6].whenPressed(new SetPIDTunerValues());						// Forward Button: N/A
         

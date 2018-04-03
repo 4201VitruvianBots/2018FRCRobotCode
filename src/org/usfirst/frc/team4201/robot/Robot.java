@@ -141,6 +141,7 @@ public class Robot extends TimedRobot {
 		//driveTrain.setDriveShiftLow();
 		driveTrain.setMotorsToBrake();
 		
+		arm.setOutputRange(-1, 1);
 		arm.setSetpoint(arm.getAngle());
 		elevator.setSetpoint(elevator.getHieght());
 		

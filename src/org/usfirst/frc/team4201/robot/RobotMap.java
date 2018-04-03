@@ -19,9 +19,9 @@ package org.usfirst.frc.team4201.robot;
 
 public class RobotMap {
 	// Global Variables
-	public static int WristState = 1;
-	public static int ArmState = 1;
-	public static int ElevatorState = 1;
+	public static int WristState = 0;
+	public static int ArmState = 0;
+	public static int ElevatorState = 0;
 	public static boolean testMode = true;
 	
 	// USB ADDRESSES
@@ -37,6 +37,7 @@ public class RobotMap {
 	// DIO Ports
 	public static final int elevatorLowerLimitSwitch = 0;
 	public static final int elevatorUpperLimitSwitch = 1;
+	public static final int intakeBumpSwitch = 3;
 	
 	public static final int redSignal = 7;
 	public static final int greenSignal = 8;
@@ -70,14 +71,14 @@ public class RobotMap {
 		public static final int driveTrainShifterReverse = 1;
 		public static final int elevatorShifterForward = 2;
 		public static final int elevatorShifterReverse = 3;
-		public static final int intakeForward = 4;
-		public static final int intakeReverse = 5;
-		public static final int intakePressureForward = 6;
-		public static final int intakePressureReverse = 7;
-		
+		public static final int intakePressureForward = 4;
+		public static final int intakePressureReverse = 5;
+		public static final int climberForward = 6;
+		public static final int climberReverse = 7;
+				
 	public static final int PCMTwo = 12;
-		public static final int climberForward = 0;
-		public static final int climberReverse = 1;
+		public static final int intakeForward = 0;
+		public static final int intakeReverse = 1;
 		//public static final int leftStabilizerForward = 0;
 		//public static final int leftStabilizerReverse = 1;
 		//public static final int rightStabilizerForward = 2;

@@ -19,18 +19,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
 	public static double kPLowUp = 0.3;
-	public static double kPLowDown = 0.3;
-	public static double kILowUp = 0.005;
-	public static double kILowDown = 0.005;
-	public static double kDLowUp = 0;	
-	public static double kDLowDown = 0.1;	
+	public static double kPLowDown = kPLowUp;
+	public static double kILowUp = 0;
+	public static double kILowDown = kILowUp;
+	public static double kDLowUp = 0.005;	
+	public static double kDLowDown = kDLowUp;	
 	
-	public static double kPHighUp = 2;
-	public static double kPHighDown = 2;
+	public static double kPHighUp = 0.5;
+	public static double kPHighDown = kPHighUp;
 	public static double kIHighUp = 0;
-	public static double kIHighDown = 0;
-	public static double kDHighUp = 0;	
-	public static double kDHighDown = 0;	
+	public static double kIHighDown = kIHighUp;
+	public static double kDHighUp = 0.0005;	
+	public static double kDHighDown = kDHighUp;	
 	
 	// Default values
 	static double kP = 0.1;	
@@ -39,8 +39,8 @@ public class Elevator extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double hieghtLowerLimit = 2.9;			// -33
-	public double hieghtUpperLimit = 26;			//26.3			// 60
+	public double hieghtLowerLimit = 2.2;			// -33
+	public double hieghtUpperLimit = 18;			//26.3			// 60
 	public double sensorLowerLimit = 0;
 	public double sensorUpperLimit = 52.6464;		// Adjusted, ideal is 50
 	static double sensorOffset = 0;
@@ -105,7 +105,7 @@ public class Elevator extends PIDSubsystem {
 	public double getHieght(){
 		// TODO Verify this
 		
-		return 42 - elevatorPot.get();	//Inverted on practice bot
+		return elevatorPot.get();	//Inverted on practice bot
 		//return (elevatorPot.getAverageVoltage() * ((sensorUpperLimit - sensorLowerLimit)/(voltageUpperLimit - voltageLowerLimit))) + sensorOffset;
 	}
 	

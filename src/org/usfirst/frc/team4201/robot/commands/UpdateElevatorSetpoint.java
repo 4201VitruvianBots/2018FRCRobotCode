@@ -29,15 +29,6 @@ public class UpdateElevatorSetpoint extends Command {
  		// Inverted
  		double yAxis = -Robot.oi.xBoxController.getRawAxis(5);
  		
- 		// If the limit switch is pressed and the elevator wants to continue to go down, reset the setpoint to its current height (even if its incorrect) to stop it from moving
- 		if(Robot.elevator.lowerLimitSwitch.get()) {
- 			if(Robot.elevator.getPIDController().getError() < -0.2)
- 				Robot.elevator.setSetpoint(Robot.elevator.getHieght());
- 		} /* else if(Robot.elevator.upperLimitSwitch.get()){
- 			if(Robot.elevator.getPIDController().getError > 0.2)
- 				Robot.elevator.setSetpoint(Robot.elevator.getHieght());
- 		}
- 		//*/
  		if(RobotMap.ElevatorState == 0){
 			// If the elevator somehow gets out of range, pull it back in range automatically.
  			// If this isn't done, then there is a chance the elevator can become uncontrollable due to the increment not being able to set the setpoint in range.
@@ -64,7 +55,7 @@ public class UpdateElevatorSetpoint extends Command {
  			
  			// Set different PID values depending on elevator shifter status and whether the elevator is going up/down
 			if(Robot.elevator.getElevatorShiftersStatus()) {
- 				Robot.elevator.setOutputRange(-1, 1);
+ 				Robot.elevator.setOutputRange(-0.8, 1);
 				if(Robot.elevator.getPIDController().get() > 0){
 					Robot.elevator.getPIDController().setP(Elevator.kPHighUp);
 					Robot.elevator.getPIDController().setI(Elevator.kIHighUp);
@@ -91,7 +82,7 @@ public class UpdateElevatorSetpoint extends Command {
  			if(Math.abs(yAxis) > 0.05)
  				Robot.elevator.setDirectOutput(yAxis * 0.75);
  			else { // Provide constant motor output to prevent backdrive. This depends if the elevator is on high/low gear (high gear has enough torque to prevent backdrive)
-				Robot.elevator.setDirectOutput(0);		
+				Robot.elevator.setDirectOutput(0.1);		
 				// No longer needed due to addition of back rope (?)
  				
  				/*
@@ -100,6 +91,21 @@ public class UpdateElevatorSetpoint extends Command {
 				else
  					Robot.elevator.setDirectOutput(0.05);		
 				*/
+ 			}
+ 		}
+ 		// If the limit switch is pressed and the elevator wants to continue to go down, reset the setpoint to its current height (even if its incorrect) to stop it from moving
+ 		
+ 		if(!Robot.elevator.lowerLimitSwitch.get()) {
+ 			if(RobotMap.ElevatorState == 0) {
+	 			if(Robot.elevator.getPIDController().getError() < -0.2)
+		 				Robot.elevator.setSetpoint(Robot.elevator.getHieght());
+		 		} /* else if(Robot.elevator.upperLimitSwitch.get()){
+		 			if(Robot.elevator.getPIDController().getError > 0.2)
+		 				Robot.elevator.setSetpoint(Robot.elevator.getHieght());
+		 		}
+		 		//*/
+ 			else {
+				Robot.elevator.setDirectOutput(0);
  			}
  		}
  	}

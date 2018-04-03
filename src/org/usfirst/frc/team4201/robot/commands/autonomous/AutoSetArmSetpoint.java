@@ -15,8 +15,6 @@ public class AutoSetArmSetpoint extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.arm);
         this.setpoint = setpoint;
-        
-        setTimeout(3);
     }
 
     // Called just before this Command runs the first time
@@ -46,7 +44,7 @@ public class AutoSetArmSetpoint extends Command {
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return Robot.arm.onTarget() || isTimedOut();
+		return Robot.arm.onTarget();
 	}
     
     // Called once after isFinished returns true

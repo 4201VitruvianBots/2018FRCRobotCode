@@ -2,7 +2,6 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.commands.UpdateIntakeState;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -23,9 +22,9 @@ public class Intake extends Subsystem {
 		new WPI_TalonSRX(RobotMap.intakeRight)
 	};
 	
-	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakeForward + 1, RobotMap.intakeReverse - 1);
+	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.intakeForward, RobotMap.intakeReverse);
 	DoubleSolenoid intakePressure = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakePressureForward, RobotMap.intakePressureReverse);
-	DigitalInput bumpSwitch = new DigitalInput(0);
+	DigitalInput bumpSwitch = new DigitalInput(RobotMap.intakeBumpSwitch);
 	
 	public static boolean isCubePresent = false;
 	
@@ -39,7 +38,7 @@ public class Intake extends Subsystem {
 			intakeMotors[i].setNeutralMode(NeutralMode.Brake);	// Brake is probably preferred for this game, due to the 1 cube control limit
 		}
 		intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
-		intakeMotors[0].setInverted(true);
+		intakeMotors[1].setInverted(true);
 		
 		intakePistons.setName("Pistons");
 		intakePistons.setSubsystem("Intake");

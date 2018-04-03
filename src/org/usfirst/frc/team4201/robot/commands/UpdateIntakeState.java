@@ -56,7 +56,7 @@ public class UpdateIntakeState extends Command {
  				break;
  			case 0:	// 
 			default:
-	 			Robot.intake.setIntakeMotorOutput(0.1);		
+	 			Robot.intake.setIntakeMotorOutput(0);		
  		}
  	}
 

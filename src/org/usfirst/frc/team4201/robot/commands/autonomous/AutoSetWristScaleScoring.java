@@ -10,29 +10,31 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoSetWristScaleScoring extends Command {
 	double setpoint;
-	boolean check = false;
+	boolean check = false, relative = false;
 	
-    public AutoSetWristScaleScoring(double setpoint) {
+    public AutoSetWristScaleScoring(double setpoint, boolean relative) {
     	requires(Robot.wrist);
     	
     	this.setpoint = setpoint;
+    	this.relative = relative;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	UpdateWristSetpoint.autoCommand = true;
-    	UpdateWristSetpoint.autoSetpoint = 130;
-    	Robot.wrist.setSetpoint(130);
+    	//UpdateWristSetpoint.autoSetpoint = 130;
+    	//Robot.wrist.setSetpoint(130);
     	check = false;
     }
     
     @Override
    	protected void execute() {
-    	if(Robot.arm.getAngle() > 45) {
-	    	UpdateWristSetpoint.autoSetpoint = setpoint;
-	    	Robot.wrist.setSetpoint(setpoint);
+		if(Robot.arm.onTarget()){
+			double tempSet = relative ? Robot.wrist.convertRelativeToAbsoluteSetpoint(setpoint) : setpoint;
+	    	UpdateWristSetpoint.autoSetpoint = tempSet;
+	    	Robot.wrist.setSetpoint(tempSet);
 	    	check = true;
-    	}
+		}
     }       
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

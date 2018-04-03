@@ -1,37 +1,29 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
-import org.usfirst.frc.team4201.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class SetIntakeMotorIndividualOutputs extends InstantCommand {
-	double leftOutput, rightOutput;
+public class ToggleIntakePressure extends InstantCommand {
 	
-	public SetIntakeMotorIndividualOutputs(double leftOutput, double rightOutput) {
+	public ToggleIntakePressure() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.intake);
-
-		this.leftOutput = leftOutput;
-		this.rightOutput = rightOutput;
-		
-		setInterruptible(true);
+		setInterruptible(false);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-			Robot.intake.setIntakeMotorOutput(leftOutput, rightOutput);
-		
+		if (Robot.intake.getIntakePressureStatus())
+			Robot.intake.retractIntakePressure();
+		else
+			Robot.intake.extendIntakePressure();
 	}
-
+	
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		if(leftOutput < 0 && rightOutput < 0)
-			Intake.isCubePresent = false;
-
-		Robot.intake.setIntakeMotorOutput(0);
 	}
 
 	// Called when another command which requires one or more of the same
@@ -41,4 +33,3 @@ public class SetIntakeMotorIndividualOutputs extends InstantCommand {
 		end();
 	}
 }
-

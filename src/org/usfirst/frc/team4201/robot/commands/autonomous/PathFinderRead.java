@@ -19,7 +19,7 @@ import jaci.pathfinder.followers.EncoderFollower;
  *
  */
 public class PathFinderRead extends Command {
-	double max_vel = 2.5; // 180
+	double max_vel = 2; // 180
 	
 	Trajectory leftTrajectory, rightTrajectory;
 	EncoderFollower left, right;

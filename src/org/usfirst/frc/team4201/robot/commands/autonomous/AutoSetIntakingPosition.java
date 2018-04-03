@@ -7,8 +7,8 @@ import org.usfirst.frc.team4201.robot.commands.*;
 public class AutoSetIntakingPosition extends CommandGroup{
 	
 	public AutoSetIntakingPosition() {
-		addParallel(new SetIntakePistonsOpen());
 		addParallel(new SetIntakePressureLow());
+		addParallel(new SetIntakePistonsOpen());
 		addParallel(new AutoSetArmSetpoint(-58));
 		addParallel(new AutoSetWristIntakePosition());
 	}

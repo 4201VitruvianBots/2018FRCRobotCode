@@ -19,7 +19,7 @@ import jaci.pathfinder.followers.EncoderFollower;
  *
  */
 public class PathFinderReadInverted extends Command {
-	double max_vel = 2.5, kP = 1, kD = 0.2;
+	double max_vel = 2, kP = 1, kD = 0.2;
 	
 	Trajectory leftTrajectory, rightTrajectory;
 	EncoderFollower left, right;

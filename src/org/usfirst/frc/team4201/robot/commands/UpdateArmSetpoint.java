@@ -5,6 +5,7 @@ import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.subsystems.Arm;
 import org.usfirst.frc.team4201.robot.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**	This command must be an InstantCommand because of how we're using it.
@@ -59,10 +60,12 @@ public class UpdateArmSetpoint extends Command {
 			}
  			
  			// When the arm is low, lower the lower output range to prevent slamming to the hardstop that can cause damage
- 			if(Robot.arm.getAngle() < -50)
- 				Robot.arm.setOutputRange(-0.5, 1);
- 			else
- 				Robot.arm.setOutputRange(-1, 1);
+ 			if(!DriverStation.getInstance().isAutonomous()) {
+	 			if(Robot.arm.getAngle() < -40)
+	 				Robot.arm.setOutputRange(-0.33, 1);
+	 			else
+	 				Robot.arm.setOutputRange(-0.75, 1);
+ 			}
  		}
  		else {	// Manual Mode
  			if(Math.abs(yAxis) > 0.05)

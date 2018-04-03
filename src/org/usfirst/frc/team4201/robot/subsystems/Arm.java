@@ -16,17 +16,18 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends PIDSubsystem {
-	public static double kPUp = 0.9;	
-	public static double kDUp = 0;
-	public static double kPDown = 0.25;
-	public static double kDDown = 0;
 	
-	public static double kP = 0.25;		// Test values for Triple Threat
+	public static double kP = 0.2;		// Test values for Triple Threat
 	public static double kI = 0;
-	public static double kD = 0.1;
+	public static double kD = 0;
 	public static double kF = 0;
 	public static double period = 0.01;
 
+	public static double kPUp = 0.2;	
+	public static double kDUp = kD;
+	public static double kPDown = 0.2;
+	public static double kDDown = kD;
+	
 	public double angleLowerLimit = -60;																									// 1.5		
 	public double angleUpperLimit = 62;		// Physical limit is closer to 64, but 62 is to prevent DART from getting stuck at max extension	//11.5;		
 	public double angleOffset = 80;		
@@ -51,7 +52,7 @@ public class Arm extends PIDSubsystem {
 																										// Using rations 12:3.5v = ~17.15:5v
 	public Arm() {
 		super("Arm", kP, kI, kD, kF, period);
-		setAbsoluteTolerance(1);
+		setAbsoluteTolerance(1.5);
 		setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
@@ -139,10 +140,12 @@ public class Arm extends PIDSubsystem {
 		Shuffleboard.putNumber("Arm", "Pot Avg. Voltage", aP.getAverageVoltage());
 		Shuffleboard.putNumber("Arm", "Setpoint", getSetpoint());
 		Shuffleboard.putNumber("Arm", "Motor Output", armMotors[0].get());
+		Shuffleboard.putNumber("Arm", "PID Output", getPIDController().get());
 		Shuffleboard.putBoolean("Arm", "PID Enabled", getPIDController().isEnabled());
 		Shuffleboard.putNumber("Arm", "kP", getPIDController().getP());
 		Shuffleboard.putNumber("Arm", "kI", getPIDController().getI());
 		Shuffleboard.putNumber("Arm", "kD", getPIDController().getD());
+		Shuffleboard.putNumber("Arm", "PID Output", getPIDController().get());
 		
 		// For TripleThreat Testbed
 		//Shuffleboard.putNumber("Triple Threat", "Arm Angle", getAngle());
