@@ -229,6 +229,8 @@ public class DriveTrain extends Subsystem {
 		
 		Shuffleboard.putBoolean("Drive Train", "Cheesy Quick Turn", Robot.oi.isQuickTurn);
 		Shuffleboard.putBoolean("Drive Train", "Drive Train Shift", getDriveShiftStatus());
+
+		Shuffleboard.putNumber("Drive Train", "Match Time Test", DriverStation.getInstance().getMatchTime());
 		
 		Shuffleboard.putNumber("Pathfinder", "Left Encoder Count", getLeftEncoderValue());
 		Shuffleboard.putNumber("Pathfinder", "Right Encoder Count", getRightEncoderValue());

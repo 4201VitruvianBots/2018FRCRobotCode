@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**	This command must be an InstantCommand because of how we're using it.
  *
  */
-public class AutoSetWristIntakePosition extends Command {
+public class AutoSetWristToAbsoluteZero extends Command {
 	double setpoint;
 	boolean check = false;
 	
-    public AutoSetWristIntakePosition() {
+    public AutoSetWristToAbsoluteZero() {
     	requires(Robot.wrist);
     	
     	setTimeout(0.5);

@@ -10,6 +10,6 @@ public class AutoSetIntakingPosition extends CommandGroup{
 		addParallel(new SetIntakePressureLow());
 		addParallel(new SetIntakePistonsOpen());
 		addParallel(new AutoSetArmSetpoint(-58));
-		addParallel(new AutoSetWristIntakePosition());
+		addParallel(new AutoSetWristToAbsoluteZero());
 	}
 }

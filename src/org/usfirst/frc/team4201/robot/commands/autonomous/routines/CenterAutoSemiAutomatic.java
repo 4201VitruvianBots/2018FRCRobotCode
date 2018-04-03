@@ -17,7 +17,7 @@ public class CenterAutoSemiAutomatic extends CommandGroup{
 			addSequential(new PathFinderRead("centerAutoRight", true));
 		}
 		if(RobotMap.WristState == 0)
-			addSequential(new AutoSetWristIntakePosition());
+			addSequential(new AutoSetWristToAbsoluteZero());
 		else
 			addSequential(new AutoManualWristControl(-0.5, 0.75));
 			

@@ -281,7 +281,6 @@ public class Robot extends TimedRobot {
 		//wings.updateSmartDashboard();
 		//stabilizers.updateSmartDashboard();
 		controls.updateSmartDashboard();
-		//pidTuner.updateSmartDashboard();
 		AutoTesting.updateSmartDashboard();
 	}
 }

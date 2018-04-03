@@ -2,10 +2,6 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.subsystems.Arm;
-import org.usfirst.frc.team4201.robot.subsystems.Elevator;
-import org.usfirst.frc.team4201.robot.subsystems.Intake;
-import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
