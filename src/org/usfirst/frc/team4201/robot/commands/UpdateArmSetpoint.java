@@ -62,7 +62,7 @@ public class UpdateArmSetpoint extends Command {
  			// When the arm is low, lower the lower output range to prevent slamming to the hardstop that can cause damage
  			if(!DriverStation.getInstance().isAutonomous()) {
 	 			if(Robot.arm.getAngle() < -40)
-	 				Robot.arm.setOutputRange(-0.33, 1);
+	 				Robot.arm.setOutputRange(-0.5, 1);
 	 			else
 	 				Robot.arm.setOutputRange(-0.75, 1);
  			}

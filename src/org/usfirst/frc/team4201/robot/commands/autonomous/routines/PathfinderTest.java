@@ -10,18 +10,17 @@ public class PathfinderTest extends CommandGroup{
 	public PathfinderTest() {
 		//addSequential(new PathFinderReadInverted("leftStartToRightSwitchFarReverseOne", false));
 		//addSequential(new PathFinderReadInverted("leftStartToRightScale", false));
-		addSequential(new PathFinderReadInverted("rightStartToLeftScale", false));
-		
-		/*
 		addSequential(new SetIntakePistonsClose());
 		addSequential(new SetIntakePressureHigh());
 		
-		addSequential(new AutoPathFinderInvertedToScaleClose("leftStartToRightScale", false, 2));
-		addSequential(new AutoShootCube(-0.8, 0.6));
-		/*
+		addSequential(new AutoPathFinderInvertedToScaleClose("leftStartToLeftScale", true));
+		addSequential(new AutoSetWristScaleScoring(120, true));
+		addSequential(new Delay(0.25));
+		addSequential(new AutoShootCube(-1, 0.75));
+		
 		addSequential(new AutoSetIntakingPosition());
 		addParallel(new AutoSetIntakeMotorOutputsContinouous(1));
-		addSequential(new PathFinderRead("leftScaleToCubeOneReverse", false, 2));
+		addSequential(new PathFinderRead("leftScaleToCubeOneReverse", false, 4));
 		
 		/*
 		//addSequential(new AutoPathFinderInvertedToScaleClose("rightStartToRightScaleReverse", false, 2));

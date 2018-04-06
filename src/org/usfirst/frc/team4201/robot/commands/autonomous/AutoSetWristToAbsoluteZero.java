@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class AutoSetWristToAbsoluteZero extends Command {
-	double setpoint;
+	double setpoint = -10;
 	boolean check = false;
 	
     public AutoSetWristToAbsoluteZero() {
@@ -30,7 +30,7 @@ public class AutoSetWristToAbsoluteZero extends Command {
    	protected void execute() {
     	if(Robot.arm.onTarget() && Robot.arm.getAngle() < -46) {
 	    	UpdateWristSetpoint.autoSetpoint = setpoint;
-	    	Robot.wrist.setSetpoint(0);
+	    	Robot.wrist.setSetpoint(setpoint);
 	    	check = true;
     	}
     }       

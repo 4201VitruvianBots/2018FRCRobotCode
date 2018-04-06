@@ -82,7 +82,7 @@ public class UpdateElevatorSetpoint extends Command {
  			if(Math.abs(yAxis) > 0.05)
  				Robot.elevator.setDirectOutput(yAxis * 0.75);
  			else { // Provide constant motor output to prevent backdrive. This depends if the elevator is on high/low gear (high gear has enough torque to prevent backdrive)
-				Robot.elevator.setDirectOutput(0.1);		
+				Robot.elevator.setDirectOutput(0);		
 				// No longer needed due to addition of back rope (?)
  				
  				/*

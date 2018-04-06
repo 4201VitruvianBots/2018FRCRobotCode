@@ -6,30 +6,25 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class AutoPathFinderInvertedToScaleFar extends CommandGroup {
-	double armSetpoint = 0, armDelay = 3, wristSetpoint = 135;
-	boolean wristRelative = true;
+	double armSetpoint = 30, armDelay = 3.5;
 	
     public AutoPathFinderInvertedToScaleFar(String filename, boolean first, double maxVel, double kP) {
 		addParallel(new AutoSetArmSetpointDelayed(armSetpoint, armDelay));	
 		addParallel(new PathFinderReadInverted(filename, first, maxVel, kP));
-		addParallel(new AutoSetWristScaleScoring(wristSetpoint, wristRelative));
     }
     
     public AutoPathFinderInvertedToScaleFar(String filename, boolean first, double maxVel) {
     	addParallel(new AutoSetArmSetpointDelayed(armSetpoint, armDelay));	
 		addParallel(new PathFinderReadInverted(filename, first, maxVel));
-		addParallel(new AutoSetWristScaleScoring(wristSetpoint, wristRelative));
     }
     
     public AutoPathFinderInvertedToScaleFar(String filename, boolean first) {
     	addParallel(new AutoSetArmSetpointDelayed(armSetpoint, armDelay));	
 		addParallel(new PathFinderReadInverted(filename, first));
-		addParallel(new AutoSetWristScaleScoring(wristSetpoint, wristRelative));
     }
     
     public AutoPathFinderInvertedToScaleFar(String filename) {
     	addParallel(new AutoSetArmSetpointDelayed(armSetpoint, armDelay));	
 		addParallel(new PathFinderReadInverted(filename));
-		addParallel(new AutoSetWristScaleScoring(wristSetpoint, wristRelative));;
     }
 }

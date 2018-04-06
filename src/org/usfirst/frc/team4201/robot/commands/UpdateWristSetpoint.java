@@ -38,25 +38,33 @@ public class UpdateWristSetpoint extends Command {
  			
     		if(intaking || Robot.oi.xBoxButtons[0].get() || Robot.oi.xBoxButtons[1].get() || autoCommand){
     			
-	 			if(Robot.oi.xBoxButtons[1].get() || intaking)
+	 			if(Robot.oi.xBoxButtons[1].get())
 	    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(0);
 				else if(Robot.oi.xBoxButtons[0].get())
 	    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(180);	// 45
 				else if(autoCommand)
 					setpoint = autoSetpoint;
+				else if(intaking) {
+					if(Robot.arm.getAngle() < -45)
+						setpoint = 0;
+					else
+						setpoint = 130;
+				}
 	 			//else if(Robot.oi.xBoxButtons[2].get())
 	    		//	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(180));
 				//else if(Robot.oi.xBoxButtons[3].get())
 	    		//	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(135));
-	 			if(Robot.arm.getAngle() >= Wrist.armLimiterLowerBound && Robot.arm.getAngle() <= Wrist.armLimiterUpperBound) {
-	 				try { 
-	 					setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - Wrist.armLimiterLowerBound];
-	 					setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpointLimit);
-	 					//if(setpoint < setpointLimit)
-	 					//	setpoint = setpoint >= 0 ? setpointLimit : -setpointLimit;
-	 				} catch (Exception e){
-	 					
-	 				}
+	 			if(!intaking) {
+		 			if(Robot.arm.getAngle() >= Wrist.armLimiterLowerBound && Robot.arm.getAngle() <= Wrist.armLimiterUpperBound) {
+		 				try { 
+		 					setpointLimit = LUTs.wristLimits[(int)Math.ceil(Robot.arm.getAngle()) - Wrist.armLimiterLowerBound];
+		 					setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(setpointLimit);
+		 					//if(setpoint < setpointLimit)
+		 					//	setpoint = setpoint >= 0 ? setpointLimit : -setpointLimit;
+		 				} catch (Exception e){
+		 					
+		 				}
+		 			}
 	 			}
     		} else		
 				// Default to one of two setpoints if no setpoint is being actively commanded

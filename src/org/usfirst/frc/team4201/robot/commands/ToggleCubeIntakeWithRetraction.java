@@ -15,7 +15,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 	boolean cubeFlush, cubeStalled, finished;
 	
 	Timer stopwatch;
-	boolean lock;
+	boolean lock, wristLock = false;
 	
     public ToggleCubeIntakeWithRetraction() {
         // Use requires() here to declare subsystem dependencies
@@ -33,7 +33,6 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     protected void initialize() {
     	cubeFlush = false;
     	UpdateWristSetpoint.intaking = true;
-    	Robot.wrist.setSetpoint(0);
     	Robot.arm.setSetpoint(-59);
     	Robot.elevator.setSetpoint(2.8);
     	finished = false;
@@ -72,7 +71,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     
     @Override
 	protected void execute() {
-    	Robot.intake.setIntakeMotorOutput(0.95);
+		Robot.intake.setIntakeMotorOutput(0.75);
     }
 
 	@Override
@@ -109,7 +108,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	Robot.intake.retractIntakePistons();
 
     	stopwatch.start();
-		while(stopwatch.get() < (Robot.intake.getIntakePistonStatus() ? 0.25 : 0.1)){
+		while(stopwatch.get() < (Robot.intake.getIntakePistonStatus() ? 0.35 : 0.15)){
     		
     	}
     	stopwatch.stop();
@@ -146,7 +145,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	} else 
         	Robot.intake.setIntakeMotorOutput(0);
 
-    	
+    	UpdateWristSetpoint.autoSetpoint = 0;
     	UpdateWristSetpoint.intaking = false;
     	UpdateArmSetpoint.lock = false;
     }

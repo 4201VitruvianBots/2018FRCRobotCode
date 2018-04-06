@@ -6,38 +6,55 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 
-public class LeftAutoDoubleScale extends CommandGroup{
+public class AutoDoubleScale extends CommandGroup{
+	String[] leftPaths = {
+		"leftStartToLeftScale",
+		"scaleToEdgeCube",
+		"edgeCubeToScaleShoot",
+		"leftStartToRightScale",
+		"rightScaleToEdgeCubeFar",
+		"edgeCubeFarToScale"
+	}, rightPaths = {
+		"rightStartToLeftScale",
+		"leftScaleToEdgeCubeFar",
+		"edgeCubeFarToScale",
+		"rightStartToRightScale",
+		"scaleToEdgeCube",
+		"edgeCubeToScaleShoot"
+	};
 	
-	public LeftAutoDoubleScale() {
+	public AutoDoubleScale(boolean path) {
 		addSequential(new SetIntakePistonsClose());
 		addSequential(new SetIntakePressureHigh());
 		
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L') {		
-			addSequential(new AutoPathFinderInvertedToScaleClose("leftStartToLeftScale", true));
+			addSequential(new AutoPathFinderInvertedToScaleClose(path ? leftPaths[0] : rightPaths[0], true));
 			
 			addSequential(new AutoSetWristScaleScoring(120, true));
 			addSequential(new Delay(0.2));
 			addSequential(new AutoShootCube(-1, 0.5));
+			
 			addParallel(new AutoSetIntakeMotorOutputsContinouous(1));
-			addSequential(new AutoIntakeCube("scaleToEdgeCube", false, 1.75));
+			addSequential(new AutoIntakeCube(path ? leftPaths[1] : rightPaths[1], false, 1.75));
 			addSequential(new AutoGrabCube());
 			addSequential(new AutoSetIntakeMotorOutputsContinouous(0));
 				
-			addSequential(new AutoPathFinderInvertedToScaleCloseHigher("edgeCubeToScaleShoot", false, 4));
+			addSequential(new AutoPathFinderInvertedToScaleCloseHigher(path ? leftPaths[2] : rightPaths[2], false, 4));
 			addSequential(new AutoSetWristScaleScoring(135, true));
 			addSequential(new AutoShootCube(-1, 0.5));
 		} else {
-			addSequential(new AutoPathFinderInvertedToScaleFar("leftStartToRightScale", true));
+			addSequential(new AutoPathFinderInvertedToScaleFar(path ? leftPaths[3] : rightPaths[3], true));
 		
 			addSequential(new AutoSetWristScaleScoring(120, true));
 			addSequential(new Delay(0.2));
 			addSequential(new AutoShootCube(-1, 0.5));
+			
 			addParallel(new AutoSetIntakeMotorOutputsContinouous(1));
-			addSequential(new AutoIntakeCube("scaleToEdgeCubeFar", false, 1));
+			addSequential(new AutoIntakeCube(path ? leftPaths[4] : rightPaths[4], false, 1));
 			addSequential(new AutoGrabCube());
 			addSequential(new AutoSetIntakeMotorOutputsContinouous(0));
 				
-			addSequential(new AutoPathFinderInvertedToScaleCloseHigher("edgeCubeFarToScale", false, 4));
+			addSequential(new AutoPathFinderInvertedToScaleCloseHigher(path ? leftPaths[5] : rightPaths[5], false, 4));
 			addSequential(new AutoSetWristScaleScoring(135, true));
 			addSequential(new AutoShootCube(-1, 0.5));
 		}

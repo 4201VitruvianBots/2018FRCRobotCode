@@ -48,8 +48,8 @@ public class Robot extends TimedRobot {
 		"Drive Straight",
 		"Center Auto",
 		"Center Auto Semi-Automatic",
-		"Left Auto Switch + Scale",
-		"Right Auto Switch + Scale",
+		"Left Auto Scale + Switch",
+		"Right Auto Scale + Switch",
 		"Left Auto Double Scale",
 		"Right Auto Double Scale",
 		"Left Switch Auto Near",
@@ -173,17 +173,29 @@ public class Robot extends TimedRobot {
 			case "Center Auto Semi-Automatic":
 				m_autonomousCommand = new CenterAutoSemiAutomatic();
 				break;
-			case "Left Auto Switch + Scale":
-				m_autonomousCommand = new LeftAutoSwitchScale();
+			case "Left Auto Scale + Switch":
+				m_autonomousCommand = new AutoScaleSwitchLeft();
 				break;
-			case "Right Auto Switch + Scale":
-				m_autonomousCommand = new RightAutoSwitchScale();
+			case "Right Auto Scale + Switch":
+				m_autonomousCommand = new AutoScaleSwitchRight();
 				break;
 			case "Left Auto Double Scale":
-				m_autonomousCommand = new LeftAutoDoubleScale();
+				m_autonomousCommand = new AutoDoubleScale(true);
 				break;
 			case "Right Auto Double Scale":
-				m_autonomousCommand = new RightAutoDoubleScale();
+				m_autonomousCommand = new AutoDoubleScale(false);
+				break;
+			case "Left Switch Auto Near":
+				m_autonomousCommand = new AutoSwitchSidesLeft(true);
+				break;
+			case "Left Switch Auto Far":
+				m_autonomousCommand = new AutoSwitchSidesLeft(false);
+				break;
+			case "Right Switch Auto Near":
+				m_autonomousCommand = new AutoSwitchSidesRight(true);
+				break;
+			case "Right Switch Auto Far":
+				m_autonomousCommand = new AutoSwitchSidesRight(false);
 				break;
 			case "Auto Calibration":
 				m_autonomousCommand = new AutoTesting();

@@ -28,6 +28,7 @@ public class AutoSetArmSetpoint extends Command {
     
     protected void execute() {
     	UpdateWristSetpoint.autoCommand = true;
+    	/*
     	if(Robot.arm.getAngle() > 16 && initialPosition <= 16) {
 			UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(90);
 			Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
