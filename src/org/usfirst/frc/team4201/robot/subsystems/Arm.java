@@ -28,8 +28,8 @@ public class Arm extends PIDSubsystem {
 	public static double kPDown = 0.2;
 	public static double kDDown = kD;
 	
-	public double angleLowerLimit = -60;																									// 1.5		
-	public double angleUpperLimit = 62;		// Physical limit is closer to 64, but 62 is to prevent DART from getting stuck at max extension	//11.5;		
+	public double angleLowerLimit = -62;																									// 1.5		
+	public double angleUpperLimit = 58;		// Physical limit is closer to 64, but 62 is to prevent DART from getting stuck at max extension	//11.5;		
 	public double angleOffset = 80;		
 	public double sensorLowerLimit = 0;																														
 	public double sensorUpperLimit = 105;																														
@@ -41,7 +41,7 @@ public class Arm extends PIDSubsystem {
 	
 	public WPI_TalonSRX[] armMotors = {
 		new WPI_TalonSRX(RobotMap.armMotor),
-		//new WPI_TalonSRX(RobotMap.elevatorB)
+		//new WPI_TalonSRX(RobotMap.armMotorB)
 		//new WPI_TalonSRX(RobotMap.armMotor),
 		//new WPI_TalonSRX(RobotMap.armMotor + 1); // Using test arm
 	};
@@ -60,12 +60,14 @@ public class Arm extends PIDSubsystem {
 			armMotors[i].setNeutralMode(NeutralMode.Brake);
 			armMotors[i].configPeakOutputForward(1, 0);
 			armMotors[i].configPeakOutputReverse(-1, 0);
+			//armMotors[i].setInverted(true);
 			//armMotors[i].setSafetyEnabled(true);
 			//armMotors[i].configContinuousCurrentLimit(40, 0);
 			//armMotors[i].configPeakCurrentLimit(80, 0);
 			//armMotors[i].configPeakCurrentDuration(100, 0);
 		}
 		//armMotors[1].set(ControlMode.Follower, armMotors[0].getDeviceID());
+		//armMotors[1].setInverted(true);
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
 		setSetpoint(getAngle());

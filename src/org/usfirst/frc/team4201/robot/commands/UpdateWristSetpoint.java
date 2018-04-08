@@ -68,7 +68,7 @@ public class UpdateWristSetpoint extends Command {
 	 			}
     		} else		
 				// Default to one of two setpoints if no setpoint is being actively commanded
-	 			if(Robot.arm.getAngle() < 16) 
+	 			if(Robot.arm.getAngle() < 13) 
 	 				// If the arm is in the limit range, then we always have it retracted
 	 				setpoint = 130;
 				else if(Robot.arm.getAngle() >= 0)

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
-	public static double kPLowUp = 0.3;
+	public static double kPLowUp = 0.9;
 	public static double kPLowDown = kPLowUp;
 	public static double kILowUp = 0;
 	public static double kILowDown = kILowUp;
@@ -39,8 +39,8 @@ public class Elevator extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double hieghtLowerLimit = 2.2;			// -33
-	public double hieghtUpperLimit = 18;			//26.3			// 60
+	public double hieghtLowerLimit = 3.8;			// -33
+	public double hieghtUpperLimit = 25;			//26.3			// 60
 	public double sensorLowerLimit = 0;
 	public double sensorUpperLimit = 52.6464;		// Adjusted, ideal is 50
 	static double sensorOffset = 0;

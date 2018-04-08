@@ -9,7 +9,7 @@ import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 public class AutoDoubleScale extends CommandGroup{
 	String[] leftPaths = {
 		"leftStartToLeftScale",
-		"scaleToEdgeCube",
+		"scaleToEdgeCubeLeft",
 		"edgeCubeToScaleShoot",
 		"leftStartToRightScale",
 		"rightScaleToEdgeCubeFar",
@@ -19,7 +19,7 @@ public class AutoDoubleScale extends CommandGroup{
 		"leftScaleToEdgeCubeFar",
 		"edgeCubeFarToScale",
 		"rightStartToRightScale",
-		"scaleToEdgeCube",
+		"scaleToEdgeCubeRight",
 		"edgeCubeToScaleShoot"
 	};
 	

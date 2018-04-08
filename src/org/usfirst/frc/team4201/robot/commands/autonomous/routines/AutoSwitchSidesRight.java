@@ -21,10 +21,14 @@ public class AutoSwitchSidesRight extends CommandGroup {
 		addSequential(new SetIntakePressureHigh());
 		
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R') {
+			addParallel(new AutoSetArmSetpointDelayed(-55, 0.5));
 			addSequential(new AutoPathFinderInvertedToSwitch(rightPaths[0], true));
+			addParallel(new AutoSetWristScaleScoring(0, false));
 			addSequential(new PathFinderRead(rightPaths[1]));
 		} else {
+			addParallel(new AutoSetArmSetpointDelayed(-55, 0.5));
 			addSequential(new PathFinderReadInverted(near ? rightPaths[2] : rightPaths[4], true));
+			addParallel(new AutoSetWristScaleScoring(0, false));
 			addSequential(new AutoPathFinderToSwitch(near ? rightPaths[3] : rightPaths[5]));
 		}
 		

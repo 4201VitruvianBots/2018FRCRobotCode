@@ -53,6 +53,9 @@ public class AutoScaleSwitchLeft extends CommandGroup {
 		addSequential(new AutoSetIntakeMotorOutputsContinouous(0));
 		
 		addSequential(new AutoPathFinderToSwitchClose("edgeCubeToSwitch", false, 4));
+		addSequential(new AutoSetArmSetpoint(-55));
+		addSequential(new AutoSetWristScaleScoring(0, false));
+		addSequential(new Delay(0.1));
 		addSequential(new AutoDropCube());
 		
 		addSequential(new AutoReleaseWristSetpoint());

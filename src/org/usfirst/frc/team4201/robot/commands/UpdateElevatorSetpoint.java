@@ -66,7 +66,7 @@ public class UpdateElevatorSetpoint extends Command {
 					Robot.elevator.getPIDController().setD(Elevator.kDHighDown);
 				}
  			} else {
- 				Robot.elevator.setOutputRange(-0.2, 1);
+ 				Robot.elevator.setOutputRange(-0.25, 1);
 				if(Robot.elevator.getPIDController().get() > 0){
 					Robot.elevator.getPIDController().setP(Elevator.kPLowUp);
 					Robot.elevator.getPIDController().setI(Elevator.kILowUp);

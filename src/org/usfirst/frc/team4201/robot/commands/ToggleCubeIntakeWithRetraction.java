@@ -33,26 +33,15 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     protected void initialize() {
     	cubeFlush = false;
     	UpdateWristSetpoint.intaking = true;
-    	Robot.arm.setSetpoint(-59);
+    	Robot.arm.setSetpoint(-61);
     	Robot.elevator.setSetpoint(2.8);
     	finished = false;
     	UpdateArmSetpoint.lock = true;
     	
     	// Depressurize the intake pistons
-		Robot.intake.retractIntakePistons();
-    	Robot.intake.retractIntakePressure();
+		Robot.intake.extendIntakePressure();
+		Robot.intake.extendIntakePistons();
     	
-    	Thread t = new Thread(() -> {
-    		Robot.intake.extendIntakePistons();
-			stopwatch.start();
-			while(stopwatch.get() < 0.2){
-				
-			}
-			Robot.intake.retractIntakePistons();
-			stopwatch.stop();
-			stopwatch.reset();
-		});
-    	t.start();
     	
 		/*
 		if(Robot.intake.getIntakePistonStatus()) {
@@ -108,12 +97,13 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	Robot.intake.retractIntakePistons();
 
     	stopwatch.start();
-		while(stopwatch.get() < (Robot.intake.getIntakePistonStatus() ? 0.35 : 0.15)){
-    		
+		while(stopwatch.get() < (Robot.intake.getIntakePistonStatus() ? 1 : 0.2)){
+    		Shuffleboard.putString("Intake", "Waiting to Retract", "Waiting...");
     	}
+		Shuffleboard.putString("Intake", "Retracting", "Retracting...");
     	stopwatch.stop();
     	stopwatch.reset();
-    	
+    	/*
     	if(cubeStalled){
     		Robot.intake.setIntakeMotorOutput(0);
     		stopwatch.start();
@@ -129,7 +119,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     		stopwatch.stop();
     		stopwatch.reset();
     	}
-
+    	//*/
     	if(RobotMap.WristState == 0)
             Robot.wrist.setSetpoint(130);
     	else {
