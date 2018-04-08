@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoSetArmSetpointDelayed extends CommandGroup {
+public class AutoSetElevatorSetpointDelayed extends CommandGroup {
 	
-	public AutoSetArmSetpointDelayed(double setpoint, double delay) {
+	public AutoSetElevatorSetpointDelayed(double setpoint, double delay) {
 		addSequential(new Delay(delay));
-		addSequential(new AutoSetElevatorSetpoint(setpoint));
+		addSequential(new AutoSetArmSetpoint(setpoint));
     }
 }
