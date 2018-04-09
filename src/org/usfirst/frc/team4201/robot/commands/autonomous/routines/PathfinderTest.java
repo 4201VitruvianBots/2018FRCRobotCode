@@ -20,7 +20,7 @@ public class PathfinderTest extends CommandGroup{
 		
 		addSequential(new AutoSetIntakingPosition());
 		addParallel(new AutoSetIntakeMotorOutputsContinouous(1));
-		addSequential(new PathFinderRead("leftScaleToCubeOneReverse", false, 4));
+		addSequential(new SensorRecalibation("leftScaleToCubeOneReverse", false, 4));
 		
 		/*
 		//addSequential(new AutoPathFinderInvertedToScaleClose("rightStartToRightScaleReverse", false, 2));

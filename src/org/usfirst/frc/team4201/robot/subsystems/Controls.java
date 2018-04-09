@@ -2,6 +2,7 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.commands.PotentiometerRecalibration;
 import org.usfirst.frc.team4201.robot.commands.UpdateControlState;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
@@ -146,6 +147,9 @@ public class Controls extends Subsystem{
 		// Use SmartDashboard to put only the important stuff for drivers;
 		SmartDashboard.putNumber("Total Current Draw", pdp.getTotalCurrent());
 		SmartDashboard.putBoolean("Brownout", RobotController.isBrownedOut());
+		
+		Shuffleboard.putData("Controls", new PotentiometerRecalibration(Robot.wrist.wristPot));
+		Shuffleboard.putData("Controls", new PotentiometerRecalibration(Robot.elevator.elevatorPot));
 	}
 	
 	
