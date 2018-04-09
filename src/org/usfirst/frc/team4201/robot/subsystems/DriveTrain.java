@@ -247,7 +247,6 @@ public class DriveTrain extends Subsystem {
 			
 		}
 		
-		
 		try {
 			// This is in a try/catch to avoid crash when teleOpDrive is null before teleOpInit is called
 			if(Robot.teleOpDrive.getClass() == SetCheesyDrive.class)

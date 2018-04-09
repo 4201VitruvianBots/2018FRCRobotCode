@@ -35,9 +35,10 @@ public class Shuffleboard {
 	 * @throws IllegalArgumentException  if the key is null
 	 */
 	public static synchronized Sendable getData(String tabName, String key) {
-		Data data = tablesToData.get(key);
+		String tableKey = tabName + "-" + key;
+		Data data = tablesToData.get(tableKey);
 	    if (data == null) {
-	      throw new IllegalArgumentException("Shuffleboard data does not exist: " + key);
+	      throw new IllegalArgumentException("Shuffleboard data does not exist: " + tableKey);
 	    } else {
 	      return data.m_sendable;
 	    }
@@ -103,14 +104,15 @@ public class Shuffleboard {
 	   * @throws IllegalArgumentException If key is null
 	   */
 	public static synchronized void putData(String tabName, String key, Sendable data) {
-		Data sddata = tablesToData.get(key);
+		String tableKey = tabName + "-" + key;
+		Data sddata = tablesToData.get(tableKey);
 		if (sddata == null || sddata.m_sendable != data) {
 			if (sddata != null) {
 				sddata.m_builder.stopListeners();
 			}
 			sddata = new Data(data);
-			tablesToData.put(key, sddata);
-			NetworkTable dataTable = table.getSubTable(tabName).getSubTable(key);
+			tablesToData.put(tableKey, sddata);
+			NetworkTable dataTable = table.getSubTable(tabName).getSubTable(tableKey);
 			sddata.m_builder.setTable(dataTable);
 			data.initSendable(sddata.m_builder);
 			sddata.m_builder.updateTable();

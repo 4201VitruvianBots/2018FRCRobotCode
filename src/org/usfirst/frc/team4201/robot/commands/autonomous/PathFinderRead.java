@@ -83,24 +83,20 @@ public class PathFinderRead extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         // Used to print status to dashboard for debugging
-        Shuffleboard.putString("Pathfinder", "PathFinder Status",
-            "Initializing...");
+        Shuffleboard.putString("Pathfinder", "PathFinder Status", "Initializing...");
 
         try {
             // Try to read the .csv files
-            File leftFile = new File("/media/sda1/Pathfinder/" + filename +
-                    "_Left.csv");
+            File leftFile = new File("/media/sda1/Pathfinder/" + filename + "_Left.csv");
             Trajectory lT = Pathfinder.readFromCSV(leftFile);
             leftTrajectory = lT;
 
-            File rightFile = new File("/media/sda1/Pathfinder/" + filename +
-                    "_Right.csv");
+            File rightFile = new File("/media/sda1/Pathfinder/" + filename + "_Right.csv");
             Trajectory rT = Pathfinder.readFromCSV(rightFile);
             rightTrajectory = rT;
-            Shuffleboard.putString("Pathfinder", "PathFinder Read",
-                "Trajectory Read Success!");
+            Shuffleboard.putString("Pathfinder", "PathFinder Read", "Trajectory Read Success!");
 
-            this.setTimeout(lT.segments.length * 0.05 * 1.2);
+            this.setTimeout(lT.segments.length * 0.05 * 1.1);
         } catch (Exception e) {
             // Handle it how you want
             /*
@@ -131,10 +127,8 @@ public class PathFinderRead extends Command {
 
         Shuffleboard.putString("Pathfinder", "PathFinder Status", "Enabling...");
 
-        left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1440,
-            0.1667); //0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
-        right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1440,
-            0.1667); //0.1823	// 0.1016 4 inches in meters - undershoot
+        left.configureEncoder(Robot.driveTrain.getLeftEncoderValue(), 1440, 0.1667); //0.1823	// 360 enc ticks per rev * 4x quad enc ?  0.1016
+        right.configureEncoder(Robot.driveTrain.getRightEncoderValue(), 1440, 0.1667); //0.1823	// 0.1016 4 inches in meters - undershoot
 
         // The A value here != max_accel. A here is an acceleration gain (adjusting acceleration to go faster/slower), while max_accel is the max acceleration of the robot.
         // Leave A here alone until robot is reaching its target, then adjust to get it to go faster/slower (typically a small value like ~0.03 is used).
@@ -166,26 +160,21 @@ public class PathFinderRead extends Command {
         periodicRunnable.stop();
         stopwatch.stop();
         Robot.driveTrain.setDriveOutput(0, 0);
-        Shuffleboard.putString("Pathfinder", "PathFinder Status",
-            "Command Exited");
+        Shuffleboard.putString("Pathfinder", "PathFinder Status", "Command Exited");
         Shuffleboard.putNumber("Pathfinder", "Path Time", stopwatch.get());
 
         if (first) {
             try {
-                FileWriter writer = new FileWriter("/media/sda1/Pathfinder/calibrationFile.txt",
-                        true);
+                FileWriter writer = new FileWriter("/media/sda1/Pathfinder/calibrationFile.txt", true);
                 BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-                bufferedWriter.write("Left Enc. Count: " +
-                    Robot.driveTrain.getLeftEncoderValue());
+                bufferedWriter.write("Left Enc. Count: " + Robot.driveTrain.getLeftEncoderValue());
                 bufferedWriter.newLine();
-                bufferedWriter.write("Right Enc. Count: " +
-                    Robot.driveTrain.getRightEncoderValue());
+                bufferedWriter.write("Right Enc. Count: " + Robot.driveTrain.getRightEncoderValue());
 
                 bufferedWriter.close();
             } catch (Exception e) {
-                DriverStation.reportError("Error: Could not write to calibration file",
-                    false);
+                DriverStation.reportError("Error: Could not write to calibration file", false);
             }
         }
     }
@@ -202,8 +191,7 @@ public class PathFinderRead extends Command {
         @Override
         public void run() {
             // TODO Auto-generated method stub
-            Shuffleboard.putString("Pathfinder", "PathFinder Status",
-                "Running...");
+            Shuffleboard.putString("Pathfinder", "PathFinder Status", "Running...");
 
             Shuffleboard.putNumber("Pathfinder", "Segment", segment++);
 
@@ -212,29 +200,23 @@ public class PathFinderRead extends Command {
             double r = right.calculate(Robot.driveTrain.getRightEncoderValue());
             Shuffleboard.putNumber("Pathfinder", "PathFinder L", l);
             Shuffleboard.putNumber("Pathfinder", "PathFinder R", r);
-            Shuffleboard.putNumber("Pathfinder", "PathFinder H",
-                Pathfinder.r2d(left.getHeading()));
+            Shuffleboard.putNumber("Pathfinder", "PathFinder H", Pathfinder.r2d(left.getHeading()));
 
             // Adjust a turn value based on the gyro's heading + the trajectory's heading. Note that we only use the left's heading, but left/right would be the same since they're following the same path, but separated by wheelbase distance.
             double angleDifference = 0;
             double turn = 0;
 
             try {
-                angleDifference = Pathfinder.boundHalfDegrees(Pathfinder.r2d(
-                            left.getHeading()) +
-                        Robot.driveTrain.spartanGyro.getAngle());
+                angleDifference = Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()) + Robot.driveTrain.spartanGyro.getAngle());
                 turn = 2 * (-1.0 / 80.0) * angleDifference;
             } catch (Exception e) {
-                angleDifference = Pathfinder.boundHalfDegrees(Pathfinder.r2d(
-                            left.getHeading()));
+                angleDifference = Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getHeading()));
                 turn = 2 * (-1.0 / 80.0) * angleDifference;
             }
 
             Shuffleboard.putNumber("Pathfinder", "PathFinder T", turn);
-            Shuffleboard.putNumber("Pathfinder", "PathFinder L output", l +
-                turn);
-            Shuffleboard.putNumber("Pathfinder", "PathFinder R output", r -
-                turn);
+            Shuffleboard.putNumber("Pathfinder", "PathFinder L output", l + turn);
+            Shuffleboard.putNumber("Pathfinder", "PathFinder R output", r - turn);
 
             Shuffleboard.putNumber("Pathfinder", "Timer", stopwatch.get());
 
@@ -242,8 +224,7 @@ public class PathFinderRead extends Command {
             Robot.driveTrain.setDirectDriveOutput(l + turn, r - turn);
 
             // Continue sending output values until the path has been completely followed.
-            if (left.isFinished() && right.isFinished() &&
-                    (Math.abs(angleDifference) < 3)) {
+            if (left.isFinished() && right.isFinished() && (Math.abs(angleDifference) < 4)) {
                 end = true;
             }
         }
