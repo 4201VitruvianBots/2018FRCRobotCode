@@ -14,6 +14,7 @@ public class PathfinderTest extends CommandGroup{
 		addSequential(new SetIntakePressureHigh());
 		
 		addSequential(new AutoPathFinderInvertedToScaleClose("leftStartToLeftScale", true));
+		/*
 		addSequential(new AutoSetWristScaleScoring(120, true));
 		addSequential(new Delay(0.25));
 		addSequential(new AutoShootCube(-1, 0.75));

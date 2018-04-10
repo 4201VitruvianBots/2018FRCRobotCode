@@ -18,6 +18,7 @@ public class SetWristRelativeSetpoint extends InstantCommand {
 	static int state = 0;
 	static int adjustment = 0;
 	Button thisButton;
+	
     public SetWristRelativeSetpoint(double setpoint) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.wrist);

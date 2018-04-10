@@ -30,7 +30,7 @@ public class Wrist extends PIDSubsystem {
 	public double angleUpperLimit = 140;													// 50 	
 	public double sensorLowerLimit = 0;														//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
-	static double sensorOffset = 431; //563;	//356														// -240;
+	static double sensorOffset = 431; 			//431	//563;	//356								
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 

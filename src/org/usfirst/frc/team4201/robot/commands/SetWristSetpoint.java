@@ -37,7 +37,6 @@ public class SetWristSetpoint extends Command {
     	}
     }
     
-
     @Override
 	protected void execute() {
     	
