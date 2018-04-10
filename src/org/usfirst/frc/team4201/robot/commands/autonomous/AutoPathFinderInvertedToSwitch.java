@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class AutoPathFinderInvertedToSwitch extends CommandGroup {
-	double elevatorSetpoint = 25, wristSetpoint = 0;
+	double elevatorSetpoint = 24.5, wristSetpoint = 0;
 
     public AutoPathFinderInvertedToSwitch(String filename, boolean first, double maxVel, double kP) {
 		addParallel(new PathFinderReadInverted(filename, first, maxVel, kP));

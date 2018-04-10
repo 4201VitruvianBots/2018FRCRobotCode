@@ -23,7 +23,7 @@ public class Intake extends Subsystem {
 	};
 	
 	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.intakeForward, RobotMap.intakeReverse);
-	DoubleSolenoid intakePressure = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakePressureForward, RobotMap.intakePressureReverse);
+	DoubleSolenoid intakePressure = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakePressureForward + 1, RobotMap.intakePressureReverse - 1);
 	DigitalInput bumpSwitch = new DigitalInput(RobotMap.intakeBumpSwitch);
 	
 	public static boolean isCubePresent = false;

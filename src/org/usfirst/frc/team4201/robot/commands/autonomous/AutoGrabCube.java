@@ -12,6 +12,6 @@ public class AutoGrabCube extends CommandGroup {
     public AutoGrabCube() {
 		addSequential(new SetIntakePistonsClose());
 		addSequential(new SetIntakePressureHigh());
-		addSequential(new Delay(0.2));		
+		addSequential(new Delay(0.1));		
     }
 }

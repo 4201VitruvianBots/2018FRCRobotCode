@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
 		// Add autos to dashboard based on current mechanism state
 		if(RobotMap.WristState == 0 && RobotMap.ArmState == 0) {
 			if(RobotMap.ElevatorState == 0) {
-				autoModeChooser.addDefault(autoRoutines[1], autoRoutines[1]);
+				autoModeChooser.addObject(autoRoutines[1], autoRoutines[1]);	// Default
 				autoModeChooser.addObject(autoRoutines[3], autoRoutines[3]);
 				autoModeChooser.addObject(autoRoutines[4], autoRoutines[4]);
 				autoModeChooser.addObject(autoRoutines[7], autoRoutines[7]);
@@ -82,11 +82,15 @@ public class Robot extends TimedRobot {
 				autoModeChooser.addObject(autoRoutines[9], autoRoutines[9]);
 				autoModeChooser.addObject(autoRoutines[10], autoRoutines[10]);
 			} else {
-				autoModeChooser.addDefault(autoRoutines[2], autoRoutines[2]);
+				// Center Auto Semi-Manual
+				//autoModeChooser.addDefault(autoRoutines[2], autoRoutines[2]);	// Default
 			}
-			autoModeChooser.addObject(autoRoutines[5], autoRoutines[5]);
-			autoModeChooser.addObject(autoRoutines[6], autoRoutines[6]);
+			// Double Scale Autos
+			autoModeChooser.addDefault(autoRoutines[5], autoRoutines[5]);		// Left
+			autoModeChooser.addObject(autoRoutines[6], autoRoutines[6]);		// Right
 		}
+		// Drive Straight/Test Autos
+		
 		autoModeChooser.addObject(autoRoutines[0], autoRoutines[0]);
 		autoModeChooser.addObject(autoRoutines[11], autoRoutines[11]);
 		autoModeChooser.addObject(autoRoutines[12], autoRoutines[12]);
@@ -152,8 +156,8 @@ public class Robot extends TimedRobot {
 		driveTrain.setMotorsToBrake();
 		
 		arm.setOutputRange(-1, 1);
-		arm.setSetpoint(arm.getAngle());
-		elevator.setSetpoint(elevator.getHieght());
+		//arm.setSetpoint(arm.getAngle());
+		//elevator.setSetpoint(elevator.getHieght());
 		
 		elevator.setMotorsToBrake();
 		arm.setMotorsToBrake();
@@ -165,10 +169,10 @@ public class Robot extends TimedRobot {
 		String auto = autoModeChooser.getSelected();
 		switch(auto){
 			case "Drive Straight":
-				m_autonomousCommand = new CenterAuto();
+				m_autonomousCommand = new DriveStraight();
 				break;
 			case "Center Auto":
-				m_autonomousCommand = new DriveStraight();
+				m_autonomousCommand = new CenterAuto();
 				break;
 			case "Center Auto Semi-Automatic":
 				m_autonomousCommand = new CenterAutoSemiAutomatic();
@@ -243,9 +247,9 @@ public class Robot extends TimedRobot {
 		arm.setMotorsToBrake();
 		wrist.setMotorsToBrake();
 		intake.setMotorsToBrake();
-		
-		if(elevator.getElevatorShiftersStatus())
-			elevator.setElevatorShiftersLow();
+		intake.extendIntakePressure();
+		//if(elevator.getElevatorShiftersStatus())
+		elevator.setElevatorShiftersLow();
 		
 		// This makes sure that the autonomous stops running when
 		// teleOp starts running. If you want the autonomous to

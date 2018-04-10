@@ -17,20 +17,20 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Wrist extends PIDSubsystem {
-	static double kP = 0.01;		// Test values for Triple Threat
+	static double kP = 0.03;		// Test values for Triple Threat
 	static double kI = 0;
 	static double kD = 0.00;
 	static double kF = 0;
 	static double period = 0.01;
 	
 	public static int armLimiterLowerBound = -46;
-	public static int armLimiterUpperBound = 45;
+	public static int armLimiterUpperBound = 46;
 
-	public double angleLowerLimit = -105;													// -75
-	public double angleUpperLimit = 125;													// 50 	
+	public double angleLowerLimit = -50;													// -75
+	public double angleUpperLimit = 140;													// 50 	
 	public double sensorLowerLimit = 0;														//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
-	static double sensorOffset = 358; //563;	//356														// -240;
+	static double sensorOffset = 431; //563;	//356														// -240;
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 

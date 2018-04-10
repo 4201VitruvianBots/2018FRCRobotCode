@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class AutoPathFinderToSwitchClose extends CommandGroup {
-	double elevatorSetpoint = 25, wristSetpoint = 0;
+	double elevatorSetpoint = 24.5, wristSetpoint = 0;
 	
     public AutoPathFinderToSwitchClose(String filename, boolean first, double maxVel, double kP) {
 		addSequential(new AutoSetElevatorWristSetpoints(elevatorSetpoint, wristSetpoint));

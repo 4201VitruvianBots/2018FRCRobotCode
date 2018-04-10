@@ -17,8 +17,10 @@ public class Controls extends Subsystem{
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
 	public Timer autoTimer = new Timer();
-	Timer elevatorTimeout;
-	
+	Timer elevatorTimeout, wristTimer;
+	boolean wLock = false, aLock = false, eLock = false;
+	boolean wCheck = true, aCheck = true, eCheck = true;
+	int wristCheck = 1;
 	public DigitalOutput LEDS[] = {
 		new DigitalOutput(RobotMap.redSignal),
 		new DigitalOutput(RobotMap.greenSignal),
@@ -32,6 +34,8 @@ public class Controls extends Subsystem{
 		super("Controls");
 		
 		elevatorTimeout = new Timer();
+		wristTimer = new Timer();
+		
 	}
 	
 	public void updateCurrentState(){
@@ -81,7 +85,30 @@ public class Controls extends Subsystem{
 	}
 	
 	public void checkMechanismStatus(){
-		
+		/*
+		if(Robot.wrist.wristMotor.getOutputCurrent() >= 25 && wLock == false && wCheck){
+			wristTimer.start();
+			wLock = true;
+			wristCheck = 1;
+		} else if(Robot.wrist.wristMotor.getOutputCurrent() >= 40 && wLock == false && wCheck){
+			wristTimer.start();
+			wLock = true;
+			wristCheck = 0;
+		} 
+		if(Robot.wrist.wristMotor.getOutputCurrent() < 25 && wLock && wCheck){
+			wristTimer.stop();
+			wristTimer.reset();
+			wLock = false;
+		}
+		if(wristTimer.get() > 5 && wCheck){
+			Robot.wrist.disable();
+			RobotMap.WristState = 1;
+			Robot.oi.enableXBoxLeftRumbleTimed();
+			Robot.oi.enableXBoxRightRumbleTimed();
+			Scheduler.getInstance().add(new FlashDriver("Wrist"));
+			wCheck = false;
+		}
+		//*/
 		if(Robot.elevator.elevatorMotors[0].getOutputCurrent() + Robot.elevator.elevatorMotors[1].getOutputCurrent() > 130){
 			elevatorTimeout.start();
 		} else {
@@ -135,6 +162,7 @@ public class Controls extends Subsystem{
 		Shuffleboard.putNumber("Controls", "ElevatorB Current", Robot.elevator.elevatorMotors[1].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "Arm Current", Robot.arm.armMotors[0].getOutputCurrent());
 		//Shuffleboard.putNumber("Controls", "ArmB Current", Robot.arm.armMotors[1].getOutputCurrent());
+		Shuffleboard.putNumber("Controls", "Wrist Current", Robot.wrist.wristMotor.getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "Intake Left Current", Robot.intake.intakeMotors[0].getOutputCurrent());
 		Shuffleboard.putNumber("Controls", "Intake Right Current", Robot.intake.intakeMotors[1].getOutputCurrent());
 		
