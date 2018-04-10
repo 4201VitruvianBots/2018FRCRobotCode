@@ -69,6 +69,8 @@ public class DriveTrain extends Subsystem {
 			driveMotors[i].configPeakOutputForward(1, 0);
 			driveMotors[i].configPeakOutputReverse(-1, 0);
 			driveMotors[i].setInverted(true);
+			driveMotors[i].enableVoltageCompensation(true);
+			driveMotors[i].configVoltageCompSaturation(12, 0);
 			//driveMotors[i].setSafetyEnabled(true);
 			//driveMotors[i].configContinuousCurrentLimit(40, 0);
 			//driveMotors[i].configPeakCurrentLimit(80, 0);

@@ -57,6 +57,10 @@ public class Wrist extends PIDSubsystem {
 		wristMotor.configPeakOutputForward(1, 0);
 		wristMotor.configPeakOutputReverse(-1, 0);
 		//wristMotor.setSafetyEnabled(true);
+		wristMotor.configContinuousCurrentLimit(25, 0);
+		wristMotor.configPeakCurrentLimit(50, 0);
+		wristMotor.configPeakCurrentDuration(100, 0);
+		//wristMotor.enableCurrentLimit(true);
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
 		setSetpoint(getAbsoluteAngle());
