@@ -19,38 +19,49 @@ public class CenterAuto extends CommandGroup{
 		}
 
 		addSequential(new AutoSetWristScaleScoring(0, false));
-		addSequential(new Delay(0.1));
+		addSequential(new Delay(0.05));
 		// 2. Sequence of actions to score by dropping the cube 
 		addSequential(new AutoDropCube());
+
+		addSequential(new AutoReleaseWristSetpoint());
 		
 		addParallel(new AutoResetArmElevatorSequence());
 		
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
-			addSequential(new PathFinderReadInverted("switchLeftBack", false, 1.75));
+			addSequential(new PathFinderReadInverted("switchBackLeft", false, 1.8));
 		} else {
-			addSequential(new PathFinderReadInverted("switchRightBack", false, 1.75));
+			addSequential(new PathFinderReadInverted("switchBackRight", false, 1.8));
 		}
 		addSequential(new AutoSetWristScaleScoring(0, false));
 		
 		addParallel(new AutoSetIntakeMotorOutputsContinouous(1));
-		addSequential(new PathFinderRead("centerAutoGrabCube", false, 1.75));
+		addSequential(new PathFinderRead("centerAutoGrabCube", false, 2));
 		addSequential(new AutoGrabCube());
 		addSequential(new AutoSetIntakeMotorOutputsContinouous(0));
 		
-		addSequential(new PathFinderReadInverted("centerAutoGrabCubeReverse", false, 1.75));
+		addSequential(new PathFinderReadInverted("centerAutoGrabCubeReverse", false, 1.8));
 		
 		addParallel(new AutoSetArmSetpoint(-55));
-		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
-			addSequential(new AutoPathFinderToSwitch("centerAutoLeftFaster", false, 1.75));
-		} else {
-			addSequential(new AutoPathFinderToSwitch("centerAutoRightFaster", false, 1.75));
-		}
-
-		addSequential(new AutoSetWristScaleScoring(0, false));
-		addSequential(new Delay(0.1));
-		addSequential(new AutoDropCube());
 
 		addSequential(new AutoReleaseWristSetpoint());
+		
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L') {
+			addSequential(new PathFinderRead("centerAutoLeftFaster", false, 1.8));
+		} else {
+			addSequential(new PathFinderRead("centerAutoRightFaster", false, 1.8));
+		}
+		
+		/*
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
+			addSequential(new AutoPathFinderToSwitch("centerAutoLeftFaster", false, 1.8));
+		} else {
+			addSequential(new AutoPathFinderToSwitch("centerAutoRightFaster", false, 1.8));
+		}
+		/*
+		addSequential(new AutoSetWristScaleScoring(0, false));
+		addSequential(new Delay(0.05));
+		addSequential(new AutoDropCube());
+		 */
 	}
 }
  

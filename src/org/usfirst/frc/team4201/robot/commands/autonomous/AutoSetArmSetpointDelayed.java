@@ -11,6 +11,6 @@ public class AutoSetArmSetpointDelayed extends CommandGroup {
 	
 	public AutoSetArmSetpointDelayed(double setpoint, double delay) {
 		addSequential(new Delay(delay));
-		addSequential(new AutoSetElevatorSetpoint(setpoint));
+		addSequential(new AutoSetArmSetpoint(setpoint));
     }
 }

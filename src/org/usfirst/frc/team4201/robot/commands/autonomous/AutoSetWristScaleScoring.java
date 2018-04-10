@@ -17,14 +17,14 @@ public class AutoSetWristScaleScoring extends Command {
     	
     	this.setpoint = setpoint;
     	this.relative = relative;
-    	setTimeout(0.4);
+    	setTimeout(0.2);
     }
     
     public AutoSetWristScaleScoring(double setpoint) {
     	requires(Robot.wrist);
     	
     	this.setpoint = setpoint;
-    	setTimeout(0.4);
+    	setTimeout(0.2);
     }
 
     // Called just before this Command runs the first time

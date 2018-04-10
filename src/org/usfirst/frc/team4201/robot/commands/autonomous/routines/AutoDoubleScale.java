@@ -31,7 +31,7 @@ public class AutoDoubleScale extends CommandGroup{
 			addSequential(new AutoPathFinderInvertedToScaleClose(path ? leftPaths[0] : rightPaths[0], true));
 			
 			addSequential(new AutoSetWristScaleScoring(120, true));
-			addSequential(new Delay(0.2));
+			addSequential(new Delay(0.1));
 			addSequential(new AutoShootCube(-1, 0.5));
 			
 			addParallel(new AutoSetIntakeMotorOutputsContinouous(1));
@@ -46,7 +46,7 @@ public class AutoDoubleScale extends CommandGroup{
 			addSequential(new AutoPathFinderInvertedToScaleFar(path ? leftPaths[3] : rightPaths[3], true));
 		
 			addSequential(new AutoSetWristScaleScoring(120, true));
-			addSequential(new Delay(0.2));
+			addSequential(new Delay(0.1));
 			addSequential(new AutoShootCube(-1, 0.5));
 			
 			addParallel(new AutoSetIntakeMotorOutputsContinouous(1));

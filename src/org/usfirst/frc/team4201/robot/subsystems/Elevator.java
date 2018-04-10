@@ -39,7 +39,7 @@ public class Elevator extends PIDSubsystem {
 	static double kF = 0;
 	static double period = 0.01;
 
-	public double hieghtLowerLimit = 3.8;			// -33
+	public double hieghtLowerLimit = 3.775;			// -33
 	public double hieghtUpperLimit = 25;			//26.3			// 60
 	public double sensorLowerLimit = 0;
 	public double sensorUpperLimit = 52.6464;		// Adjusted, ideal is 50
