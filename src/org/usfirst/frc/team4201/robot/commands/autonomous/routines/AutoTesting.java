@@ -18,7 +18,7 @@ public class AutoTesting extends CommandGroup{
 		testCommands.add(new AutoSetArmSetpoint(-58));
 		//testCommands.add(new AutoSetWristAbsoluteSetpoint(0));
 		//testCommands.add(new AutoSetIntakeMotorOutputsContinouous(1));
-		testCommands.add(new SensorRecalibation("rightScaleToCubeOneReverse", false));
+		testCommands.add(new PathFinderReadInverted("rightScaleToCubeOneReverse", false));
 		//testCommands.add(new SetIntakePistonsClose());
 
 		testCommands.add(new AutoReleaseWristSetpoint());

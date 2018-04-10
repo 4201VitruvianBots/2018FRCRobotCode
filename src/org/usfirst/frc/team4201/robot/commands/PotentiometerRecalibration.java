@@ -80,7 +80,7 @@ public class PotentiometerRecalibration extends Command {
         		upperValue = value;
         	
         	maxDelta = upperValue - lowerValue;
-        	midValue = (upperValue - lowerValue) / 2;
+        	midValue = maxDelta / 2;
         	
         	Shuffleboard.putNumber("Controls", "Pot Lowest Value", lowerValue);
         	Shuffleboard.putNumber("Controls", "Pot Highest Value", upperValue);

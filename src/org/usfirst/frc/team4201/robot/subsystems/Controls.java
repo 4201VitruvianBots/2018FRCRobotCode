@@ -2,8 +2,7 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.commands.PotentiometerRecalibration;
-import org.usfirst.frc.team4201.robot.commands.UpdateControlState;
+import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
