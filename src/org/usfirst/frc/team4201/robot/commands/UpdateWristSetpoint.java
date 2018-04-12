@@ -74,7 +74,7 @@ public class UpdateWristSetpoint extends Command {
 				else if(Robot.arm.getAngle() >= 0)
 	 				setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(90);
  			
-			Robot.wrist.setSetpoint(setpoint);
+			Robot.wrist.setSetpoint(setpoint > Robot.wrist.angleUpperLimit ? Robot.wrist.angleUpperLimit - 1: setpoint < Robot.wrist.angleLowerLimit ? Robot.wrist.angleLowerLimit + 1: setpoint);
     	} else {
     		if(!Robot.oi.xBoxButtons[5].get() && !Robot.oi.xBoxRightTrigger.get())
     			Robot.wrist.setDirectOutput(0.1); // Prevent backdrive in manual mode (Wrist can still move a bit after a certain point)

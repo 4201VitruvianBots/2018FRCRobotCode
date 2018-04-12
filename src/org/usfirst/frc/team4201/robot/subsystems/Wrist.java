@@ -50,7 +50,7 @@ public class Wrist extends PIDSubsystem {
 	public Wrist() {
 		super("Wrist", kP, kI, kD, kF, period);
 		setAbsoluteTolerance(1);
-		//setInputRange(angleLowerLimit, angleUpperLimit);
+		setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
 		wristMotor.setNeutralMode(NeutralMode.Brake);
