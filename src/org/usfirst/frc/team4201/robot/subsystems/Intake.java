@@ -23,7 +23,7 @@ public class Intake extends Subsystem {
 	};
 	
 	DoubleSolenoid intakePistons = new DoubleSolenoid(RobotMap.PCMTwo, RobotMap.intakeForward, RobotMap.intakeReverse);
-	DoubleSolenoid intakePressure = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakePressureForward + 1, RobotMap.intakePressureReverse - 1);
+	DoubleSolenoid intakePressure = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.intakePressureForward, RobotMap.intakePressureReverse);
 	DigitalInput bumpSwitch = new DigitalInput(RobotMap.intakeBumpSwitch);
 	
 	public static boolean isCubePresent = false;
@@ -36,6 +36,10 @@ public class Intake extends Subsystem {
 			//intakeMotors[i].configPeakOutputForward(1, 0);
 			//intakeMotors[i].configPeakOutputReverse(-1, 0);
 			intakeMotors[i].setNeutralMode(NeutralMode.Brake);	// Brake is probably preferred for this game, due to the 1 cube control limit
+			intakeMotors[i].configContinuousCurrentLimit(25, 0);
+			intakeMotors[i].configPeakCurrentLimit(40, 0);
+			intakeMotors[i].configPeakCurrentDuration(500, 0);
+			intakeMotors[i].enableCurrentLimit(false);
 		}
 		intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
 		intakeMotors[1].setInverted(true);

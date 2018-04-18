@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4201.robot.commands.autonomous;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.commands.UpdateWristSetpoint;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -24,9 +25,8 @@ public class AutoReleaseWristSetpoint extends InstantCommand {
 	    	UpdateWristSetpoint.autoSetpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(90);
 	    	Robot.wrist.setSetpoint(Robot.wrist.convertRelativeToAbsoluteSetpoint(90));
     	} else {
-        	UpdateWristSetpoint.autoSetpoint = 130;
-        	Robot.wrist.setSetpoint(130);
-    		
+        	UpdateWristSetpoint.autoSetpoint = RobotMap.wristRetractedAngle;
+        	Robot.wrist.setSetpoint(RobotMap.wristRetractedAngle);
     	}
     }
 

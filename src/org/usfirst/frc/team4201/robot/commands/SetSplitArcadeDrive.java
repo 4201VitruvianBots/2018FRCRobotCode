@@ -5,6 +5,8 @@ import org.usfirst.frc.team4201.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SetSplitArcadeDrive extends Command{
+	boolean limit = false;
+	
 	public SetSplitArcadeDrive() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
@@ -18,8 +20,12 @@ public class SetSplitArcadeDrive extends Command{
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		//Robot.driveTrain.setArcadeDrive(Robot.oi.getLeftY(), Robot.oi.getRightX());
-		Robot.driveTrain.setDriveOutput(Robot.oi.getLeftY(), Robot.oi.getRightX());
+		double throttle = Robot.oi.getLeftY();
+		
+		if(limit && throttle < 0)
+			throttle = Math.max(throttle, -0.5);
+		
+		Robot.driveTrain.setDriveOutput(throttle, Robot.oi.getRightX());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

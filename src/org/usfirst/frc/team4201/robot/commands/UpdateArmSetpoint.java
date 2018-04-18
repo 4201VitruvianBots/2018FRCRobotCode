@@ -43,7 +43,7 @@ public class UpdateArmSetpoint extends Command {
  			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
  			else if(Math.abs(yAxis) > 0.05 && !lock) {
  		    	// Check if new setpoint deosn't violate limits before setting
-	 			if(Robot.arm.checkLimits(Robot.arm.getAngle() + (10 * yAxis) + 1)){	// Add 1 to prevent going past upper limit
+	 			if(Robot.arm.checkLimits(Robot.arm.getAngle() + (10 * yAxis))){	// Add 1 to prevent going past upper limit
 	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force
 		    		Robot.arm.setSetpoint(Robot.arm.getAngle() + (10 * yAxis));	// try this (?)
 		    	} else {

@@ -25,11 +25,11 @@ public class Arm extends PIDSubsystem {
 
 	public static double kPUp = 0.2;	
 	public static double kDUp = kD;
-	public static double kPDown = 0.2;
+	public static double kPDown = kPUp;
 	public static double kDDown = kD;
 	
 	public double angleLowerLimit = -62;																									// 1.5		
-	public double angleUpperLimit = 58;		// Physical limit is closer to 64, but 62 is to prevent DART from getting stuck at max extension	//11.5;		
+	public double angleUpperLimit = 60;		// Physical limit is closer to 64, but 62 is to prevent DART from getting stuck at max extension	//11.5;		
 	public double angleOffset = 80;		
 	public double sensorLowerLimit = 0;																														
 	public double sensorUpperLimit = 105;																														
@@ -54,7 +54,7 @@ public class Arm extends PIDSubsystem {
 		super("Arm", kP, kI, kD, kF, period);
 		setAbsoluteTolerance(1.5);
 		setInputRange(angleLowerLimit, angleUpperLimit);
-		setOutputRange(-1, 1);
+		setOutputRange(-0.75, 1);
 		
 		for(int i = 0; i < armMotors.length; i++) {
 			armMotors[i].setNeutralMode(NeutralMode.Brake);
@@ -93,7 +93,7 @@ public class Arm extends PIDSubsystem {
 	
 	public double getAngle() {
 		try { 
-			previousAngle = LUTs.armAngle[(int)Math.round(aP.getAverageVoltage() * 50)];	// Need a try/catch to avoid rounding to a value outside of 0-5v
+			previousAngle = LUTs.armAngle[(int)Math.round((aP.getAverageVoltage()) * 50)];	// Need a try/catch to avoid rounding to a value outside of 0-5v
 			return previousAngle;
 		} catch(Exception e) {
 			return previousAngle;

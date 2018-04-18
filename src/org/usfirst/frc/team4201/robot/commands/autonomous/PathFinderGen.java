@@ -42,12 +42,12 @@ public class PathFinderGen extends Command{
         
         // +/- X is forward/backwards, +/- Y is left/right, +/- angle is left/right (unlike gyro, which is +/- right/left).
      	// Keep all units in terms of yards for consistency, unless otherwise stated.
-        /*this.points = new Waypoint[] {		// Temp
+        this.points = new Waypoint[] {		// Temp
 			new Waypoint(0, 0, 0),                 
 			//new Waypoint(2, -2, Pathfinder.d2r(-45)),          
 			new Waypoint(3, 0, 0),
 			
-		};*/
+		};
     }
     
     
@@ -67,7 +67,7 @@ public class PathFinderGen extends Command{
 		// Max Acceleration:    2.0 m/s/s
 		// Max Jerk:            60.0 m/s/s/s
 		this.max_vel = 2 * 1.09361;
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.005, max_vel, 200, (800 * 1.09361));
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.05, max_vel, 200, (800 * 1.09361));
 
 		// Generate the trajectory
 		Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Generating Trajectory..."); 

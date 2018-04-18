@@ -26,11 +26,11 @@ public class Wrist extends PIDSubsystem {
 	public static int armLimiterLowerBound = -46;
 	public static int armLimiterUpperBound = 46;
 
-	public double angleLowerLimit = -50;													// -75
+	public double angleLowerLimit = -90;													// -75
 	public double angleUpperLimit = 140;													// 50 	
 	public double sensorLowerLimit = 0;														//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
-	static double sensorOffset = 431; 			//431	//563;	//356								
+	static double sensorOffset = 450; 			//431	//563;	//356								
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
@@ -49,7 +49,7 @@ public class Wrist extends PIDSubsystem {
 	
 	public Wrist() {
 		super("Wrist", kP, kI, kD, kF, period);
-		setAbsoluteTolerance(1);
+		setAbsoluteTolerance(8);
 		setInputRange(angleLowerLimit, angleUpperLimit);
 		setOutputRange(-1, 1);
 		
@@ -57,10 +57,10 @@ public class Wrist extends PIDSubsystem {
 		wristMotor.configPeakOutputForward(1, 0);
 		wristMotor.configPeakOutputReverse(-1, 0);
 		//wristMotor.setSafetyEnabled(true);
-		wristMotor.configContinuousCurrentLimit(25, 0);
-		wristMotor.configPeakCurrentLimit(50, 0);
+		wristMotor.configContinuousCurrentLimit(20, 0);
+		wristMotor.configPeakCurrentLimit(45, 0);
 		wristMotor.configPeakCurrentDuration(100, 0);
-		//wristMotor.enableCurrentLimit(true);
+		wristMotor.enableCurrentLimit(true);
 		
 		// Initialize the setpoint to where the wrist starts so it doesn't move
 		setSetpoint(getAbsoluteAngle());

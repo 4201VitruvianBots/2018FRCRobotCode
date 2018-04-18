@@ -8,6 +8,7 @@
 package org.usfirst.frc.team4201.robot;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -57,10 +58,11 @@ public class Robot extends TimedRobot {
 		"Right Switch Auto Near",
 		"Right Switch Auto Far",
 		"Auto Calibration",
-		"Pathfinder Test"
+		"Pathfinder Test",
+		"Do Nothing"
 	};
 	
-	UsbCamera fisheyeCamera;
+	UsbCamera camera;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -94,6 +96,8 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addObject(autoRoutines[0], autoRoutines[0]);
 		autoModeChooser.addObject(autoRoutines[11], autoRoutines[11]);
 		autoModeChooser.addObject(autoRoutines[12], autoRoutines[12]);
+		autoModeChooser.addDefault(autoRoutines[13], autoRoutines[13]);			// Do nothing. Remove for competition
+		
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
@@ -101,7 +105,8 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Tank Drive", new SetTankDrive());
 		
 		try {
-			//fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
+			camera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
+			camera.setVideoMode(PixelFormat.kMJPEG, 320, 200, 30);
 		} catch(Exception e) {
 			
 		}
@@ -207,8 +212,9 @@ public class Robot extends TimedRobot {
 			case "Pathfinder Test":
 				m_autonomousCommand = new PathfinderTest();
 				break;
+			case "Do Nothing":
 			default:
-				m_autonomousCommand = null;
+				m_autonomousCommand = new DoNothing();
 				break;
 		}
 

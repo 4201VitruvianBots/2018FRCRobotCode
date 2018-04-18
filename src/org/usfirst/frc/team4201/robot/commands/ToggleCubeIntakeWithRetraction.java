@@ -3,7 +3,6 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
-import org.usfirst.frc.team4201.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,7 +14,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 	boolean cubeFlush, cubeStalled, finished;
 	
 	Timer stopwatch;
-	boolean lock, wristLock = false;
+	boolean lock, wristLock = false, lockHighPressure = false, delayRetraction = false;
 	
     public ToggleCubeIntakeWithRetraction() {
         // Use requires() here to declare subsystem dependencies
@@ -37,30 +36,36 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	Robot.elevator.setSetpoint(2.8);
     	finished = false;
     	UpdateArmSetpoint.lock = true;
-    	
+    	lockHighPressure = false;
+    			
     	// Depressurize the intake pistons
-		Robot.intake.extendIntakePressure();
-		Robot.intake.extendIntakePistons();
-    	
-    	
-		/*
-		if(Robot.intake.getIntakePistonStatus()) {
-			Robot.intake.retractIntakePistons();
+		//Robot.intake.retractIntakePressure();
+		//Robot.intake.extendIntakePistons();
+
+		Robot.intake.retractIntakePressure();
+		//Thread t = new Thread(()->{
 			Robot.intake.extendIntakePistons();
-		} else {
-			Robot.intake.extendIntakePistons();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
+			stopwatch.start();
+			while(stopwatch.get() < 0.2){
+				
 			}
 			Robot.intake.retractIntakePistons();
-		}
-    		//*/
+    	//});
+    	//t.start();
+    	//Robot.intake.retractIntakePistons();
     }
     
     @Override
 	protected void execute() {
-		Robot.intake.setIntakeMotorOutput(0.75);
+		if(Robot.intake.getIntakePistonStatus())
+			Robot.intake.setIntakeMotorOutput(0.75);
+		else
+			Robot.intake.setIntakeMotorOutput(0.9);
+		
+		if(Robot.oi.rightButtons[0].get() && !lockHighPressure) {
+			Robot.intake.extendIntakePressure();
+			lockHighPressure = true;
+		}
     }
 
 	@Override
@@ -93,14 +98,14 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 	
     // Called once after isFinished returns true
     protected void end() {
+    	delayRetraction = Robot.intake.getIntakePistonStatus();
     	Robot.intake.extendIntakePressure();
     	Robot.intake.retractIntakePistons();
 
     	stopwatch.start();
-		while(stopwatch.get() < (Robot.intake.getIntakePistonStatus() ? 1 : 0.2)){
-    		Shuffleboard.putString("Intake", "Waiting to Retract", "Waiting...");
+		while(stopwatch.get() < (delayRetraction ? 0.3 : 0.05)){
+    		
     	}
-		Shuffleboard.putString("Intake", "Retracting", "Retracting...");
     	stopwatch.stop();
     	stopwatch.reset();
     	/*
@@ -121,31 +126,31 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	}
     	//*/
     	if(RobotMap.WristState == 0)
-            Robot.wrist.setSetpoint(130);
+            Robot.wrist.setSetpoint(RobotMap.wristRetractedAngle);
     	else {
     		//while(Robot.wrist.wristMotor.getOutputCurrent() < 25)
     			//Robot.wrist.setDirectOutput(0.75);
-    		
     		Robot.wrist.setDirectOutput(0);
     	}
     	
-    	if(finished) {
-    		Intake.isCubePresent = true;
-        	Robot.intake.setIntakeMotorOutput(0);
-    	} else 
-        	Robot.intake.setIntakeMotorOutput(0);
+		Robot.intake.setIntakeMotorOutput(0);
+    	/*
+    	Thread T = new Thread(()->{
+    		while(Robot.wrist.getAbsoluteAngle() > 120)
+        		Robot.intake.setIntakeMotorOutput(0.5);
 
+    		Robot.intake.setIntakeMotorOutput(0);
+    	});
+    	T.start();
+    	//*/
     	UpdateWristSetpoint.autoSetpoint = 0;
     	UpdateWristSetpoint.intaking = false;
     	UpdateArmSetpoint.lock = false;
     }
 
-    
-    
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	end();
     }
-
 }

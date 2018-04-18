@@ -30,8 +30,8 @@ public class AutoSetWristScaleScoring extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	UpdateWristSetpoint.autoCommand = true;
-    	//UpdateWristSetpoint.autoSetpoint = 130;
-    	//Robot.wrist.setSetpoint(130);
+    	//UpdateWristSetpoint.autoSetpoint = RobotMap.wristRetractedAngle;
+    	//Robot.wrist.setSetpoint(RobotMap.wristRetractedAngle);
     	check = false;
     }
     
