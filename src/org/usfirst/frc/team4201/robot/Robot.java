@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.AutoReleaseWristSetpoint;
 import org.usfirst.frc.team4201.robot.commands.autonomous.routines.*;
 import org.usfirst.frc.team4201.robot.subsystems.*;
 
@@ -59,7 +60,9 @@ public class Robot extends TimedRobot {
 		"Right Switch Auto Far",
 		"Auto Calibration",
 		"Pathfinder Test",
-		"Do Nothing"
+		"Do Nothing",
+		"Partner Auto Left",
+		"Partner Auto Right"
 	};
 	
 	UsbCamera camera;
@@ -76,19 +79,21 @@ public class Robot extends TimedRobot {
 		// Add autos to dashboard based on current mechanism state
 		if(RobotMap.WristState == 0 && RobotMap.ArmState == 0) {
 			if(RobotMap.ElevatorState == 0) {
-				autoModeChooser.addObject(autoRoutines[1], autoRoutines[1]);	// Default
+				autoModeChooser.addDefault(autoRoutines[1], autoRoutines[1]);	// Default
 				autoModeChooser.addObject(autoRoutines[3], autoRoutines[3]);
 				autoModeChooser.addObject(autoRoutines[4], autoRoutines[4]);
 				autoModeChooser.addObject(autoRoutines[7], autoRoutines[7]);
 				autoModeChooser.addObject(autoRoutines[8], autoRoutines[8]);
 				autoModeChooser.addObject(autoRoutines[9], autoRoutines[9]);
 				autoModeChooser.addObject(autoRoutines[10], autoRoutines[10]);
+				autoModeChooser.addObject(autoRoutines[14], autoRoutines[14]);
+				autoModeChooser.addObject(autoRoutines[15], autoRoutines[15]);
 			} else {
 				// Center Auto Semi-Manual
 				//autoModeChooser.addDefault(autoRoutines[2], autoRoutines[2]);	// Default
 			}
 			// Double Scale Autos
-			autoModeChooser.addDefault(autoRoutines[5], autoRoutines[5]);		// Left
+			autoModeChooser.addObject(autoRoutines[5], autoRoutines[5]);		// Left
 			autoModeChooser.addObject(autoRoutines[6], autoRoutines[6]);		// Right
 		}
 		// Drive Straight/Test Autos
@@ -96,7 +101,7 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addObject(autoRoutines[0], autoRoutines[0]);
 		autoModeChooser.addObject(autoRoutines[11], autoRoutines[11]);
 		autoModeChooser.addObject(autoRoutines[12], autoRoutines[12]);
-		autoModeChooser.addDefault(autoRoutines[13], autoRoutines[13]);			// Do nothing. Remove for competition
+		autoModeChooser.addObject(autoRoutines[13], autoRoutines[13]);			// Do nothing. Remove for competition
 		
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 
@@ -105,15 +110,14 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Tank Drive", new SetTankDrive());
 		
 		try {
-			camera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
-			camera.setVideoMode(PixelFormat.kMJPEG, 320, 200, 30);
+			//camera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
+			//camera.setVideoMode(PixelFormat.kMJPEG, 320, 200, 30);
 		} catch(Exception e) {
 			
 		}
 		
 		SmartDashboard.putData("Drive Type", driveMode);
 
-		elevator.setElevatorShiftersHigh();
 		//pidTuner.initializeSmartDashboard();
 	}
 
@@ -134,6 +138,7 @@ public class Robot extends TimedRobot {
 		intake.setMotorsToCoast();
 		
 		//Robot.driveTrain.resetSensors();
+		Scheduler.getInstance().add(new AutoReleaseWristSetpoint());
 	}
 
 	@Override
@@ -206,6 +211,12 @@ public class Robot extends TimedRobot {
 			case "Right Switch Auto Far":
 				m_autonomousCommand = new AutoSwitchSidesRight(false);
 				break;
+			case "Partner Auto Left":
+				m_autonomousCommand = new AutoPartnerLeft();
+				break;
+			case "Partner Auto Right":
+				m_autonomousCommand = new AutoPartnerRight();
+				break;
 			case "Auto Calibration":
 				m_autonomousCommand = new AutoTesting();
 				break;
@@ -219,7 +230,7 @@ public class Robot extends TimedRobot {
 		}
 
 		if(elevator.getElevatorShiftersStatus())
-			elevator.setElevatorShiftersLow();
+			elevator.setElevatorShiftersHigh();
 		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
@@ -248,6 +259,8 @@ public class Robot extends TimedRobot {
 		//Sets drive train motors to coast.
 		driveTrain.resetSensors();
 		driveTrain.setMotorsToCoast();
+		for(int i = 0; i < 4; i++)
+			driveTrain.driveMotors[i].enableVoltageCompensation(false);
 		//driveTrain.setDriveShiftLow();
 		elevator.setMotorsToBrake();
 		arm.setMotorsToBrake();
@@ -255,7 +268,7 @@ public class Robot extends TimedRobot {
 		intake.setMotorsToBrake();
 		intake.extendIntakePressure();
 		//if(elevator.getElevatorShiftersStatus())
-		elevator.setElevatorShiftersLow();
+		//elevator.setElevatorShiftersLow();
 		
 		// This makes sure that the autonomous stops running when
 		// teleOp starts running. If you want the autonomous to

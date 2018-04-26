@@ -28,8 +28,8 @@ public class Arm extends PIDSubsystem {
 	public static double kPDown = kPUp;
 	public static double kDDown = kD;
 	
-	public double angleLowerLimit = -62;																									// 1.5		
-	public double angleUpperLimit = 60;		// Physical limit is closer to 64, but 62 is to prevent DART from getting stuck at max extension	//11.5;		
+	public double angleLowerLimit = -61;																									// 1.5		
+	public double angleUpperLimit = 61;		// Physical limit is closer to 64, but 62 is to prevent DART from getting stuck at max extension	//11.5;		
 	public double angleOffset = 80;		
 	public double sensorLowerLimit = 0;																														
 	public double sensorUpperLimit = 105;																														

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+	/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -21,7 +21,7 @@ public class RobotMap {
 	// Global Variables
 	public static int WristState = 0;
 	public static int ArmState = 0;
-	public static int ElevatorState = 1;
+	public static int ElevatorState = 0;
 	public static boolean testMode = true;
 	
 	public static int wristRetractedAngle = 120;

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *	This is also done with a mutex to avoid issues with the wrist auto-retracting in certain cases.
  */
 public class ToggleCubeIntakeWithRetraction extends Command {
+	public static int intakeState = 0;
 	boolean cubeFlush, cubeStalled, finished;
 	
 	Timer stopwatch;
@@ -65,6 +66,22 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		if(Robot.oi.rightButtons[0].get() && !lockHighPressure) {
 			Robot.intake.extendIntakePressure();
 			lockHighPressure = true;
+		}
+		
+		switch(intakeState){
+			case 2:
+				Robot.elevator.setSetpoint(24.5);
+				Robot.arm.setSetpoint(-55);
+				break;
+			case 1:
+				Robot.elevator.setSetpoint(14);
+				Robot.arm.setSetpoint(-55);
+				break;
+			case 0:
+			default:
+				Robot.elevator.setSetpoint(3.8);
+				Robot.arm.setSetpoint(-60);
+				break;
 		}
     }
 

@@ -15,6 +15,7 @@ public class AutoReleaseWristSetpoint extends InstantCommand {
     	requires(Robot.wrist);
     	
     	setInterruptible(false);
+    	setRunWhenDisabled(true);
     }
 
     // Called just before this Command runs the first time

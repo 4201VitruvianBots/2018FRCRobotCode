@@ -1,0 +1,44 @@
+package org.usfirst.frc.team4201.robot.commands.autonomous.routines;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
+import org.usfirst.frc.team4201.robot.commands.*;
+import org.usfirst.frc.team4201.robot.commands.autonomous.*;
+
+public class AutoPartnerLeft extends CommandGroup{
+
+	public AutoPartnerLeft() {
+		addSequential(new SetIntakePistonsClose());
+		addSequential(new SetIntakePressureHigh());
+		
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L') {		
+			addSequential(new AutoPathFinderInvertedToScaleClose("leftStartToLeftScalePartnerOne", true, 1.5));
+			
+			addSequential(new AutoSetWristScaleScoring(135, true));
+			addSequential(new Delay(0.1));
+			addSequential(new AutoShootCube(-1, 0.5));
+				
+			addSequential(new AutoReleaseWristSetpoint());
+			
+			addParallel(new AutoResetArmElevatorSequence());
+		} else if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L'){
+			addSequential(new PathFinderReadInverted("leftStartToLeftSwitchReverseOne", true, 1.5));
+			addSequential(new PathFinderRead("leftStartToLeftSwitchReverseTwo", false, 1.25));
+
+			addSequential(new AutoSetWristScaleScoring(64, false));
+			addSequential(new Delay(0.05));
+			// 2. Sequence of actions to score by dropping the cube
+			addSequential(new AutoShootCube(-1, 0.4));
+
+			addSequential(new AutoReleaseWristSetpoint());
+			
+			addParallel(new AutoResetArmElevatorSequence());
+		} else {
+			addSequential(new PathFinderReadInverted("leftStartToRightScalePartner", true, 1.5));
+			addSequential(new DriveTurnWithGyro(-90));
+		}
+		
+		addSequential(new AutoReleaseWristSetpoint());
+	}
+}

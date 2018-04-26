@@ -22,7 +22,7 @@ public class SetSplitArcadeDrive extends Command{
 	protected void execute() {
 		double throttle = Robot.oi.getLeftY();
 		
-		if(limit && throttle < 0)
+		if(Robot.arm.getAngle() > 30 && throttle < 0)
 			throttle = Math.max(throttle, -0.5);
 		
 		Robot.driveTrain.setDriveOutput(throttle, Robot.oi.getRightX());

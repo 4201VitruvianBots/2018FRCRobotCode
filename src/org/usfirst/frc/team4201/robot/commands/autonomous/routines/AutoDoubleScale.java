@@ -30,7 +30,7 @@ public class AutoDoubleScale extends CommandGroup{
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L') {		
 			addSequential(new AutoPathFinderInvertedToScaleClose(path ? leftPaths[0] : rightPaths[0], true));
 			
-			addSequential(new AutoSetWristScaleScoring(120, true));
+			addSequential(new AutoSetWristScaleScoring(135, true));
 			addSequential(new Delay(0.1));
 			addSequential(new AutoShootCube(-1, 0.5));
 			
@@ -45,7 +45,7 @@ public class AutoDoubleScale extends CommandGroup{
 		} else {
 			addSequential(new AutoPathFinderInvertedToScaleFar(path ? leftPaths[3] : rightPaths[3], true));
 		
-			addSequential(new AutoSetWristScaleScoring(120, true));
+			addSequential(new AutoSetWristScaleScoring(135, true));
 			addSequential(new Delay(0.1));
 			addSequential(new AutoShootCube(-1, 0.5));
 			

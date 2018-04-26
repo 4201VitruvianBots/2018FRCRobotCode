@@ -9,8 +9,8 @@ public class AutoIntakeCube extends CommandGroup{
 	public AutoIntakeCube(String filename, boolean first, double maxVel) {
 		addParallel(new SetIntakePressureLow());
 		addParallel(new SetIntakePistonsOpen());
-		addParallel(new AutoSetArmSetpoint(-61));
-		addParallel(new AutoSetWristToAbsoluteZero());
+		addParallel(new AutoSetArmSetpoint(-60));
+		addSequential(new AutoSetWristScaleScoring(0, false));
 		addParallel(new PathFinderRead(filename, first, maxVel));
 	}
 }
