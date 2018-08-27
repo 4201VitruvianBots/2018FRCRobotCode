@@ -82,6 +82,19 @@ public class DriveTrain extends Subsystem {
 		return enc.get();
 	}
 	
+	public int getLeftEncoderValue(){
+		return driveMotors[0].getSelectedSensorPosition(0);
+	}
+	
+	public int getRightEncoderValue(){
+		return driveMotors[2].getSelectedSensorPosition(0);
+	}
+	
+	public void setDirectDriveOutput(double leftOutput, double rightOutput) {
+		driveMotors[0].set(ControlMode.PercentOutput, leftOutput);
+		driveMotors[2].set(ControlMode.PercentOutput, rightOutput);
+	}
+	
 	public void setHighGear() {
 		driveTrainShifters.set(Value.kForward);
 	}
