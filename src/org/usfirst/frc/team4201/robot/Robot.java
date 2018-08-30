@@ -109,10 +109,22 @@ public class Robot extends TimedRobot {
 		driveMode.addObject("Cheesy Drive", new SetCheesyDrive());
 		driveMode.addObject("Tank Drive", new SetTankDrive());
 		
-		try {
-			//camera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
-			//camera.setVideoMode(PixelFormat.kMJPEG, 320, 200, 30);
-		} catch(Exception e) {
+		try{
+			UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+			SmartDashboard.putString("Cam 1", cam1.enumerateProperties().toString());
+			//cam1.setPixelFormat(PixelFormat.kYUYV);
+			cam1.setResolution(160, 120);
+			cam1.setFPS(60);
+		} catch(Exception e){
+			
+		}
+		try{	
+			UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+			SmartDashboard.putString("Cam2", cam2.enumerateProperties().toString());
+			cam2.setPixelFormat(PixelFormat.kYUYV);
+			cam2.setResolution(640, 480);
+			cam2.setFPS(48);
+		} catch(Exception e){
 			
 		}
 		
