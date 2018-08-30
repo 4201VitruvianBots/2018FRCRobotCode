@@ -10,25 +10,38 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Test extends Subsystem {
+public class DriveTrain extends Subsystem {
 	
-	public BaseMotorController[] testMotors = {
-		new WPI_TalonSRX(RobotMap.driveTrainLeftFront)
+	public WPI_TalonSRX[] driveMotors = {
+			new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
+			new WPI_TalonSRX(RobotMap.driveTrainRightFront),
+		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),
+		new WPI_TalonSRX(RobotMap.driveTrainRightRear)
 	};
 	
-	public Test() {
-		super();
-        for(int i = 0; i < 1; i++){
-        testMotors[i].configPeakOutputForward(1, 0);
-        testMotors[i].configPeakOutputReverse(-1, 0);
-        testMotors[i].setNeutralMode(NeutralMode.Brake);
+	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0],driveMotors[2]);
+
+	public DriveTrain() {
+		super("DriveTrain");
+
+		//set Motor Controller Control Mode
+		driveMotors[1].set(ControlMode.Follower, driveMotors[0].getDeviceID());
+		driveMotors[3].set(ControlMode.Follower, driveMotors[2].getDeviceID());
+		
+        for(int i = 0; i < 4; i++){
+        driveMotors[i].configPeakOutputForward(1, 0);
+        driveMotors[i].configPeakOutputReverse(-1, 0);
+        driveMotors[i].enableVoltageCompensation(true);
+        driveMotors[i].configVoltageCompSaturation(12, 0);
+        driveMotors[i].setNeutralMode(NeutralMode.Coast);
         }
 	}
 	
-	public void setTestMotorOutput(double output) {
-		testMotors[1].set(ControlMode.PercentOutput, output);
+	public void setDirectDriveOutput(double leftOutput, double rightOutput) {
+		robotDrive.tankDrive(leftOutput, rightOutput);
 	}
 	
 	
