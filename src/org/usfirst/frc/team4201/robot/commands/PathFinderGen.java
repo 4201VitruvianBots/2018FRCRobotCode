@@ -23,7 +23,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  *
  */
 public class PathFinderGen extends Command{
-	double max_vel;
+	double max_vel = 0.5;
 	Trajectory trajectory;
 	TankModifier modifier;
 	EncoderFollower left, right;

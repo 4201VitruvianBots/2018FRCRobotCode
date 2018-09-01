@@ -22,7 +22,7 @@ import java.io.*;
  *
  */
 public class PathFinderReadInverted extends Command {
-    double max_vel = 2;
+    double max_vel = 0.5;
     double kP = 1;
     double kD = 0.2;
     Trajectory leftTrajectory;
