@@ -111,10 +111,10 @@ public class Robot extends TimedRobot {
 		
 		try{
 			UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-			SmartDashboard.putString("Cam 1", cam1.enumerateProperties().toString());
+			SmartDashboard.putString("Cam1", cam1.enumerateProperties().toString());
 			//cam1.setPixelFormat(PixelFormat.kYUYV);
-			cam1.setResolution(160, 120);
-			cam1.setFPS(60);
+			cam1.setResolution(1024, 576);
+			cam1.setFPS(120);
 		} catch(Exception e){
 			
 		}
