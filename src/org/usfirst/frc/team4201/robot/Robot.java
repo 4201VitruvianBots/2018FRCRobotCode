@@ -94,6 +94,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		driveTrain.updateSmartDashboard();
 	}
 
 	/**
@@ -130,6 +131,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		driveTrain.updateSmartDashboard();
 	}
 
 	@Override
@@ -145,6 +147,8 @@ public class Robot extends TimedRobot {
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
 		}
+		
+		driveTrain.clearEncoderValues();
 	}
 
 	/**

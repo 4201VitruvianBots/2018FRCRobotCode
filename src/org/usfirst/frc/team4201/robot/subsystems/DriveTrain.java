@@ -83,11 +83,16 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public int getLeftEncoderValue(){
-		return driveMotors[0].getSelectedSensorPosition(0);
+		return driveMotors[2].getSelectedSensorPosition(0);
 	}
 	
 	public int getRightEncoderValue(){
-		return driveMotors[2].getSelectedSensorPosition(0);
+		return driveMotors[0].getSelectedSensorPosition(0);
+	}
+	
+	public void clearEncoderValues() {
+		driveMotors[0].setSelectedSensorPosition(0, 0, 0);
+		driveMotors[2].setSelectedSensorPosition(0, 0, 0);
 	}
 	
 	public void setDirectDriveOutput(double leftOutput, double rightOutput) {
@@ -143,8 +148,8 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Front Right Current", driveMotors[2].getOutputCurrent());
 		SmartDashboard.putNumber("Rear Right Current", driveMotors[3].getOutputCurrent());
 		
-		SmartDashboard.putNumber("DT Left Enc", driveMotors[0].getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("DT Right Enc", driveMotors[2].getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("DT Left Enc", getLeftEncoderValue());
+		SmartDashboard.putNumber("DT Right Enc", getRightEncoderValue());
 		SmartDashboard.putNumber("Spartan Gyro", spartanGyro.getAngle());
 		SmartDashboard.putNumber("Encoder Count", getEncoderCount());
 		
