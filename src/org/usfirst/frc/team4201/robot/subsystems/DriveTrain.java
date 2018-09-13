@@ -16,20 +16,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain extends Subsystem {
 	
 	public WPI_TalonSRX[] driveMotors = {
-			new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
-			new WPI_TalonSRX(RobotMap.driveTrainRightFront),
+		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
+		new WPI_TalonSRX(RobotMap.driveTrainRightFront),
 		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),
 		new WPI_TalonSRX(RobotMap.driveTrainRightRear)
 	};
 	
-	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0],driveMotors[2]);
+	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0],driveMotors[1]);
 
 	public DriveTrain() {
 		super("DriveTrain");
 
 		//set Motor Controller Control Mode
-		driveMotors[1].set(ControlMode.Follower, driveMotors[0].getDeviceID());
-		driveMotors[3].set(ControlMode.Follower, driveMotors[2].getDeviceID());
+		driveMotors[0].set(ControlMode.Follower, driveMotors[2].getDeviceID());
+		driveMotors[1].set(ControlMode.Follower, driveMotors[3].getDeviceID());
 		
         for(int i = 0; i < 4; i++){
         driveMotors[i].configPeakOutputForward(1, 0);
@@ -42,6 +42,29 @@ public class DriveTrain extends Subsystem {
 	
 	public void setDirectDriveOutput(double leftOutput, double rightOutput) {
 		robotDrive.tankDrive(leftOutput, rightOutput);
+	}
+	
+	public void setArcadeDrive(double leftOutput, double rightOutput) {
+		double leftReturn;
+	 	double rightReturn;
+	 	
+	 	leftReturn = leftOutput + rightOutput;
+	 	rightReturn = leftOutput - rightOutput;
+	 	
+	 	if(leftReturn < -1) {
+	 		leftReturn = -1;
+	 	}
+	 	if(leftReturn > 1) {
+	 		leftReturn = 1;
+	 	}
+		if(rightReturn < -1) {
+			rightReturn = -1;
+		}
+	 	if(rightReturn > 1) {
+	 		rightReturn = 1;
+	 	}
+	 	
+	 	robotDrive.tankDrive(leftReturn, rightReturn);
 	}
 	
 	
