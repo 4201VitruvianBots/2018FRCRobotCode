@@ -56,7 +56,6 @@ public class OI {
 	public OI(){
 		leftJoystick = new Joystick(RobotMap.leftJoystick);
 		rightJoystick = new Joystick(RobotMap.rightJoystick);
-		xBoxController = new Joystick(RobotMap.xBoxController);
 	
 		for(int i = 0; i < leftButtons.length; i++)
 			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
@@ -79,15 +78,5 @@ public class OI {
 	public double getRightX(){
 		return rightJoystick.getX();
 		
-	}
-	public double getXBoxLeftY() {
-		return -xBoxController.getRawAxis(1);
-	}
-	public double getXBoxRightY() {
-		return -xBoxController.getRawAxis(5);
-	}
-
-	public double getXBoxRightX() {
-		return -xBoxController.getRawAxis(4);
 	}
 }
