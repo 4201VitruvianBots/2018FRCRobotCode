@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4201.robot.interfaces;
+package org.usfirst.frc.team4201.lib;
 
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;

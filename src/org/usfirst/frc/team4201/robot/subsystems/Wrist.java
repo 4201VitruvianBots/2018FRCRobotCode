@@ -2,9 +2,9 @@ package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.lib.Shuffleboard;
 import org.usfirst.frc.team4201.robot.LUTs;
 import org.usfirst.frc.team4201.robot.commands.UpdateWristSetpoint;
-import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;

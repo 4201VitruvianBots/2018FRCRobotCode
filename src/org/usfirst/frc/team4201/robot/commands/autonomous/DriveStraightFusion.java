@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4201.robot.commands.autonomous;
 
+import org.usfirst.frc.team4201.lib.CTREPIDSource;
+import org.usfirst.frc.team4201.lib.PIDOutputInterface;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
-import org.usfirst.frc.team4201.robot.interfaces.CTREPIDSource;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;

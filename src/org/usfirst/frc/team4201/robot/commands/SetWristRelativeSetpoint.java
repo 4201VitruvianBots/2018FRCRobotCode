@@ -2,7 +2,7 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
+import org.usfirst.frc.team4201.lib.Shuffleboard;
 import org.usfirst.frc.team4201.robot.LUTs;
 import org.usfirst.frc.team4201.robot.subsystems.Wrist;
 

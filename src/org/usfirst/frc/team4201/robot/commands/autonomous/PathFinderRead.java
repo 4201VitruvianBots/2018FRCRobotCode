@@ -11,8 +11,8 @@ import jaci.pathfinder.Waypoint;
 
 import jaci.pathfinder.followers.EncoderFollower;
 
+import org.usfirst.frc.team4201.lib.Shuffleboard;
 import org.usfirst.frc.team4201.robot.Robot;
-import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import java.io.*;
 
@@ -21,7 +21,7 @@ import java.io.*;
  *
  */
 public class PathFinderRead extends Command {
-    double max_vel = 2;
+    double max_vel = 1;
     double kP = 1;
     double kD = 0.2;
     Trajectory leftTrajectory;

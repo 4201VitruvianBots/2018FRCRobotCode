@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4201.robot.commands.autonomous;
 
+import org.usfirst.frc.team4201.lib.PIDOutputInterface;
+import org.usfirst.frc.team4201.lib.Shuffleboard;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
-import org.usfirst.frc.team4201.robot.interfaces.PIDOutputInterface;
-import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;

@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team4201.lib.Shuffleboard;
 import org.usfirst.frc.team4201.robot.commands.*;
 import org.usfirst.frc.team4201.robot.commands.autonomous.*;
-import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 public class AutoTesting extends CommandGroup{
 	static ArrayList<Command> testCommands = new ArrayList<>();

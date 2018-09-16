@@ -8,8 +8,8 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import org.usfirst.frc.team4201.lib.XBoxTrigger;
 import org.usfirst.frc.team4201.robot.commands.*;
-import org.usfirst.frc.team4201.robot.interfaces.XBoxTrigger;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;

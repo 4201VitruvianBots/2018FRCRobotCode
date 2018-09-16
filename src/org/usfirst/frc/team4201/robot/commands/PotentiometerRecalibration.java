@@ -13,8 +13,8 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.DistanceFollower;
 import jaci.pathfinder.followers.EncoderFollower;
 
+import org.usfirst.frc.team4201.lib.Shuffleboard;
 import org.usfirst.frc.team4201.robot.Robot;
-import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
 import java.io.*;
 

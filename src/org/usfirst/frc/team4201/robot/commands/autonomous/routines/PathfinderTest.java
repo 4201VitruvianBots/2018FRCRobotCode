@@ -8,12 +8,14 @@ import org.usfirst.frc.team4201.robot.commands.autonomous.*;
 public class PathfinderTest extends CommandGroup{
 	
 	public PathfinderTest() {
+		addSequential(new PathFinderRead("obsticleCourse", true));
+		
 		//addSequential(new PathFinderReadInverted("leftStartToRightSwitchFarReverseOne", false));
 		//addSequential(new PathFinderReadInverted("leftStartToRightScale", false));
-		addSequential(new SetIntakePistonsClose());
-		addSequential(new SetIntakePressureHigh());
+		//addSequential(new SetIntakePistonsClose());
+		//addSequential(new SetIntakePressureHigh());
 		
-		addSequential(new AutoPathFinderInvertedToScaleClose("leftStartToLeftScale", true));
+		//addSequential(new AutoPathFinderInvertedToScaleClose("leftStartToLeftScale", true));
 		/*
 		addSequential(new AutoSetWristScaleScoring(120, true));
 		addSequential(new Delay(0.25));
