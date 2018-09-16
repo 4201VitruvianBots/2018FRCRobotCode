@@ -19,7 +19,7 @@ public class SetTankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.setDirectDriveOutput(Robot.oi.getLeftY(),Robot.oi.getRightY());
+    	Robot.driveTrain.setDirectDriveOutput(Robot.oi.getXBoxLeftY(),Robot.oi.getXBoxRightY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
