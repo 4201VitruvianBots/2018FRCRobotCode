@@ -28,8 +28,8 @@ public class DriveTrain extends Subsystem {
 		super("DriveTrain");
 
 		//set Motor Controller Control Mode
-		driveMotors[0].set(ControlMode.Follower, driveMotors[2].getDeviceID());
-		driveMotors[1].set(ControlMode.Follower, driveMotors[3].getDeviceID());
+		driveMotors[2].set(ControlMode.Follower, driveMotors[0].getDeviceID());
+		driveMotors[3].set(ControlMode.Follower, driveMotors[1].getDeviceID());
 		
         for(int i = 0; i < 4; i++){
         driveMotors[i].configPeakOutputForward(1, 0);
@@ -45,26 +45,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setArcadeDrive(double leftOutput, double rightOutput) {
-		double leftReturn;
-	 	double rightReturn;
-	 	
-	 	leftReturn = leftOutput + rightOutput;
-	 	rightReturn = leftOutput - rightOutput;
-	 	
-	 	if(leftReturn < -1) {
-	 		leftReturn = -1;
-	 	}
-	 	if(leftReturn > 1) {
-	 		leftReturn = 1;
-	 	}
-		if(rightReturn < -1) {
-			rightReturn = -1;
-		}
-	 	if(rightReturn > 1) {
-	 		rightReturn = 1;
-	 	}
-	 	
-	 	robotDrive.tankDrive(leftReturn, rightReturn);
+	 	robotDrive.arcadeDrive(leftOutput, rightOutput);
 	}
 	
 	

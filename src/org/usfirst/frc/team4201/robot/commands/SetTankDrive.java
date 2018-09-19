@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetTankDrive extends Command {
 	
+	int x=1;
+	
+	
 	public SetTankDrive() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);

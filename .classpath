@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="org/usfirst/frc/team4201/robot/commands/DriveStraightFusion.java" kind="src" path="src"/>
-	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
+	<classpathentry exported="true" kind="var" path="wpilib" sourcepath="wpilib.sources"/>
 	<classpathentry kind="var" path="networktables" sourcepath="ntcore.sources"/>
 	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
 	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>

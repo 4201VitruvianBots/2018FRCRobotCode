@@ -9,6 +9,9 @@ package org.usfirst.frc.team4201.robot;
 
 import org.usfirst.frc.team4201.robot.commands.*;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -41,6 +44,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		driveTrain = new DriveTrain();
 		oi = new OI();
 		//autoModeChooser.addDefault("Default Auto", new AutoDriveStraightThenTurn());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -50,6 +54,25 @@ public class Robot extends TimedRobot {
 		//driveMode.addObject("Tank Drive", new TankDrive());
 		//driveMode.addObject("Split Arcade", new SplitArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
+		
+		try{
+			UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+			SmartDashboard.putString("Cam1", cam1.enumerateProperties().toString());
+			cam1.setPixelFormat(PixelFormat.kYUYV);
+			cam1.setResolution(1024, 576);
+			cam1.setFPS(120);
+		} catch(Exception e){
+			
+		}
+		try{	
+			UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+			SmartDashboard.putString("Cam2", cam2.enumerateProperties().toString());
+			cam2.setPixelFormat(PixelFormat.kYUYV);
+			cam2.setResolution(640, 480);
+			cam2.setFPS(48);
+		} catch(Exception e){
+			
+		}
 		
 	}
 
@@ -107,7 +130,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		teleOpDrive = new SetArcadeDrive();
+		teleOpDrive = new SetTankDrive();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
