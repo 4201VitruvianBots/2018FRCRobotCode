@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team4201.robot;
 
+import org.usfirst.frc.team4201.robot.commands.*;
+
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -16,8 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4201.robot.commands.*;
-import org.usfirst.frc.team4201.robot.commands.autonomous.*;
-import org.usfirst.frc.team4201.robot.subsystems.*;
+import org.usfirst.frc.team4201.robot.subsystems.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,56 +30,50 @@ import org.usfirst.frc.team4201.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
-	public static Elevator elevator = new Elevator();
-	public static Arm arm = new Arm();
-	public static Wrist wrist = new Wrist();
-	public static Intake intake = new Intake();
-	public static Climber climber = new Climber();
-	//public static Wings wings = new Wings();
-	//public static Stabilizers stabilizers = new Stabilizers();
-	public static Controls controls = new Controls();
-	//public static PIDTuner pidTuner = new PIDTuner();
 	public static OI oi;
 
 	Command m_autonomousCommand;
-	public static Command teleOpDrive;
-	
+	Command teleOpDrive;
+	SendableChooser<Command> autoModes = new SendableChooser<>();
 	SendableChooser<Command> driveMode = new SendableChooser<>();
-	SendableChooser<String> autoModeChooser = new SendableChooser<>();
+	SendableChooser<Command> autoModeChooser = new SendableChooser<>();
 
-	UsbCamera fisheyeCamera;
-	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		AutoCalibration.initializeAutoCalibration();
+		driveTrain = new DriveTrain();
 		oi = new OI();
-		
-		autoModeChooser.addDefault("Center Auto", "Center Auto");
-		autoModeChooser.addObject("Drive Straight", "Drive Straight");
-		autoModeChooser.addObject("Left Auto Switch", "Left Auto Switch");
-		autoModeChooser.addObject("Right Auto Switch", "Right Auto Switch");
-		autoModeChooser.addObject("Left Auto Scale", "Left Auto Scale");
-		autoModeChooser.addObject("Right Auto Scale", "Right Auto Scale");
+		//autoModeChooser.addDefault("Default Auto", new AutoDriveStraightThenTurn());
+		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
-
-		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
-		driveMode.addObject("Cheesy Drive", new SetCheesyDrive());
-		driveMode.addObject("Tank Drive", new SetTankDrive());
 		
-		try {
-			//fisheyeCamera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
-		} catch(Exception e) {
+		//driveMode.addDefault("Cheesy Drive", new CheesyDrive());
+		//driveMode.addObject("Tank Drive", new TankDrive());
+		//driveMode.addObject("Split Arcade", new SplitArcadeDrive());
+		SmartDashboard.putData("Drive Type", driveMode);
+		
+		try{
+			UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+			SmartDashboard.putString("Cam1", cam1.enumerateProperties().toString());
+			cam1.setPixelFormat(PixelFormat.kYUYV);
+			cam1.setResolution(1024, 576);
+			cam1.setFPS(120);
+		} catch(Exception e){
+			
+		}
+		try{	
+			UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+			SmartDashboard.putString("Cam2", cam2.enumerateProperties().toString());
+			cam2.setPixelFormat(PixelFormat.kYUYV);
+			cam2.setResolution(640, 480);
+			cam2.setFPS(48);
+		} catch(Exception e){
 			
 		}
 		
-		SmartDashboard.putData("Drive Type", driveMode);
-
-		elevator.setElevatorShiftersHigh();
-		//pidTuner.initializeSmartDashboard();
 	}
 
 	/**
@@ -87,21 +83,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		driveTrain.setMotorsToCoast();
-		elevator.setMotorsToCoast();	// Comment this out during competitions/ change to brake
-		elevator.setElevatorShiftersHigh();
-		arm.setMotorsToCoast();
-		wrist.setMotorsToCoast();
-		intake.setMotorsToCoast();
-		
-		Robot.driveTrain.resetSensors();
+
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		
-		updateSmartDashboard();
 	}
 
 	/**
@@ -117,47 +104,19 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		driveTrain.resetSensors();
-		//driveTrain.setDriveShiftLow();
-		driveTrain.setMotorsToBrake();
-		
-		elevator.setMotorsToBrake();
-		elevator.setElevatorShiftersLow();
-		arm.setMotorsToBrake();
-		wrist.setMotorsToBrake();
-		intake.setMotorsToBrake();
-		intake.retractIntakePistons();
-		
+		m_autonomousCommand = autoModeChooser.getSelected();
+
+		/*
+		 * String autoSelected = SmartDashboard.getString("Auto Selector",
+		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+		 * = new MyAutoCommand(); break; case "Default Auto": default:
+		 * autonomousCommand = new ExampleCommand(); break; }
+		 */
+
 		// schedule the autonomous command (example)
-		String auto = autoModeChooser.getSelected();
-		switch(auto){
-			case "Center Auto":
-				m_autonomousCommand = new CenterAuto();
-				//m_autonomousCommand = new CenterAutoManual();
-				break;
-			case "Drive Straight":
-				m_autonomousCommand = new DriveStraight();
-				break;
-			case "Left Auto Switch":
-				m_autonomousCommand = new AutoLeftStartSwitchFocus();
-				break;
-			case "Right Auto Switch":
-				m_autonomousCommand = new AutoRightStartSwitchFocus();
-				break;
-			case "Left Auto Scale":
-				m_autonomousCommand = new AutoLeftStartToScale();
-				break;
-			case "Right Auto Scale":
-				m_autonomousCommand = new AutoRightStartToScale();
-				break;
-			default:
-				m_autonomousCommand = null;
-		}
-		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
-		elevator.setElevatorShiftersHigh();
 	}
 
 	/**
@@ -166,39 +125,25 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		
-		updateSmartDashboard();
+
 	}
 
 	@Override
 	public void teleopInit() {
-		
-		elevator.setElevatorShiftersHigh();
-		
-		//Sets drive train motors to coast.
-		driveTrain.resetSensors();
-		driveTrain.setMotorsToCoast();
-		//driveTrain.setDriveShiftLow();
-		elevator.setMotorsToBrake();
-		elevator.setElevatorShiftersLow();
-		arm.setMotorsToBrake();
-		wrist.setMotorsToBrake();
-		intake.setMotorsToBrake();
-		
-		Scheduler.getInstance().removeAll();
+		teleOpDrive = new SetTankDrive();
 		// This makes sure that the autonomous stops running when
-		// teleOp starts running. If you want the autonomous to
+		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();		// Consider commenting this out under certain conditions...
-		}
 		
-		teleOpDrive = driveMode.getSelected();
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.cancel();
+		}
 		if (teleOpDrive != null) {
 			teleOpDrive.start();
-			Robot.driveTrain.setDefaultCommand(teleOpDrive);			// To prevent KillAll() from switching drive modes mid-match
+			Robot.driveTrain.setDefaultCommand(teleOpDrive);
 		}
+		//test.updateSmartDashboard();
 	}
 
 	/**
@@ -208,8 +153,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 
-		oi.checkDriverInputs();
-		updateSmartDashboard();
+		new SetTankDrive();
 	}
 
 	/**
@@ -217,21 +161,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		updateSmartDashboard();
 	}
-	
-	void updateSmartDashboard(){
-		driveTrain.updateSmartDashboard();
-		wrist.updateSmartDashboard();
-		arm.updateSmartDashboard();
-		elevator.updateSmartDashboard();
-		intake.updateSmartDashboard();
-		climber.updateSmartDashboard();
-		//wings.updateSmartDashboard();
-		//stabilizers.updateSmartDashboard();
-		controls.updateSmartDashboard();
-		//pidTuner.updateSmartDashboard();
-		AutoCalibration.updateSmartDashboard();
-	}
-	
 }
+

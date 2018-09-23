@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="org/usfirst/frc/team4201/robot/commands/SetArmDeltaSetpoint.java|org/usfirst/frc/team4201/robot/commands/SetElevatorDeltaSetpoint.java" kind="src" path="src"/>
 	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
 	<classpathentry kind="var" path="networktables" sourcepath="ntcore.sources"/>
 	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
@@ -14,5 +13,6 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8-javadoc.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
+	<classpathentry excluding="org/usfirst/frc/team4201/robot/commands/DriveStraightFusion.java" kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
