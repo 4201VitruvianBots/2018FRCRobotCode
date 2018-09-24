@@ -1,11 +1,12 @@
 package org.usfirst.frc.team4201.robot.commands;
 
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TankDrive extends Command{
-	public TankDrive() {
+public class SetTankDrive extends Command{
+	public SetTankDrive() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
 	}
@@ -18,7 +19,10 @@ public class TankDrive extends Command{
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.driveTrain.setTankDrive(-Robot.oi.getRightY(), -Robot.oi.getLeftY());
+		double leftYValue = -Math.pow(Robot.oi.getLeftY(), DriveTrain.drivePowerExponent);
+		double rightYValue = -Math.pow(Robot.oi.getRightY(), DriveTrain.drivePowerExponent);
+		
+		Robot.driveTrain.setTankDrive(rightYValue, leftYValue);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -9,6 +9,7 @@ package org.usfirst.frc.team4201.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team4201.robot.Robot;
+import org.usfirst.frc.team4201.robot.subsystems.DriveTrain;
 
 /**
  * An example command.  You can replace me with your own command.
@@ -27,7 +28,10 @@ public class SplitArcadeDrive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.driveTrain.setDriveOutput(Robot.oi.leftJoystick.getRawAxis(1), Robot.oi.getRightX());
+		double leftYValue = Math.pow(Robot.oi.leftJoystick.getRawAxis(1), DriveTrain.drivePowerExponent);
+		double rightXValue = Math.pow(Robot.oi.getRightX(), DriveTrain.drivePowerExponent);
+		
+		Robot.driveTrain.setTeleOpDriveOutput(Robot.oi.leftJoystick.getRawAxis(1), rightXValue);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -39,7 +43,7 @@ public class SplitArcadeDrive extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.driveTrain.setDriveOutput(0, 0);
+		Robot.driveTrain.setTeleOpDriveOutput(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same

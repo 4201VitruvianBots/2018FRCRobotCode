@@ -153,7 +153,7 @@ public class PathFinderGen extends Command{
     // Called once after isFinished returns true
     protected void end() {
 		//Shuffleboard.putString("Pathfinder", "PathFinder Status" , "Command Exited");
-    	Robot.driveTrain.setDriveOutput(0, 0);
+    	Robot.driveTrain.setTeleOpDriveOutput(0, 0);
     	stopwatch.stop();
     	//Shuffleboard.putNumber("Pathfinder", "Path Time", stopwatch.get());
     }

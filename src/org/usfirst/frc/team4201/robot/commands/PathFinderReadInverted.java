@@ -159,7 +159,7 @@ public class PathFinderReadInverted extends Command {
     protected void end() {
         periodicRunnable.stop();
         stopwatch.stop();
-        Robot.driveTrain.setDriveOutput(0, 0);
+        Robot.driveTrain.setTeleOpDriveOutput(0, 0);
         //Shuffleboard.putString("Pathfinder", "PathFinder Status", "Command Exited");
         //Shuffleboard.putNumber("Pathfinder", "Path Time", stopwatch.get());
 

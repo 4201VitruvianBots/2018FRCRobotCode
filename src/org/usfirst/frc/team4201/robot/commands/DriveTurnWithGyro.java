@@ -36,7 +36,7 @@ public class DriveTurnWithGyro extends PIDCommand{
     protected void usePIDOutput(double output) {
         // TODO Auto-generated method stub
         SmartDashboard.putNumber("PID Output", output); // is this an angle value, or a percentage? Output may need to be negative
-        Robot.driveTrain.setDriveOutput(throttle, output);
+        Robot.driveTrain.setTeleOpDriveOutput(throttle, output);
     }
     
     // Called just before this Command runs the first time
@@ -79,7 +79,7 @@ public class DriveTurnWithGyro extends PIDCommand{
     
     // Called once after isFinished returns true
     protected void end() {
-        Robot.driveTrain.setDriveOutput(0, 0);
+        Robot.driveTrain.setTeleOpDriveOutput(0, 0);
     }
     
     // Called when another command which requires one or more of the same

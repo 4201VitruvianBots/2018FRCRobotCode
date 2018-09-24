@@ -41,11 +41,14 @@ public class DriveTrain extends Subsystem {
 	//RobotDrive robotDrive = new RobotDrive(driveMotors[0], driveMotors[1], driveMotors[2], driveMotors[3]);
 	DifferentialDrive robotDrive = new DifferentialDrive((WPI_TalonSRX)driveMotors[0], (WPI_TalonSRX)driveMotors[2]);
 	
+	public static int drivePowerExponent = 3;
+	
 	DoubleSolenoid driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
 	
 	public ADXRS450_Gyro spartanGyro;
-	
 	public Encoder enc = new Encoder(10, 11, false, Encoder.EncodingType.k1X);
+	
+	
 	
 	public DriveTrain(){
 		super("Drive Train");
@@ -112,9 +115,11 @@ public class DriveTrain extends Subsystem {
 		return driveTrainShifters.get();
 	}
 	
-	public void setDriveOutput(double throttle, double angularPower){
+	public void setTeleOpDriveOutput(double throttle, double angularPower){
 		double leftPWM = throttle + angularPower;
 		double rightPWM = throttle - angularPower;
+		
+		
 		
 		if(rightPWM > 1.0){
 			leftPWM -= (rightPWM - 1.0);

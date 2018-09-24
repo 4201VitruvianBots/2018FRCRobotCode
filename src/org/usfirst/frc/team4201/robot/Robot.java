@@ -56,10 +56,12 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		
-		driveMode.addDefault("Tank Drive", new TankDrive());
+		driveMode.addDefault("Tank Drive", new SetTankDrive());
 		driveMode.addObject("Cheesy Drive", new CheesyDrive());
 		driveMode.addObject("Split Arcade", new SplitArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
+		
+		//SmartDashboard.putNumber("Drive Power", autoModeChooser);
 		
 		try{
 			UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
