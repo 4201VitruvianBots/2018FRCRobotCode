@@ -95,13 +95,13 @@ public class Wrist extends PIDSubsystem {
 	
 	// Get the angle of the wrist based off of the angle of the arm
 	public double getRelativeAngle() {
-		return getAbsoluteAngle() + Robot.arm.getAngle() + 60;
-	}
+		return getAbsoluteAngle() + Robot.arm.getAngle() + 35;
+	}  ///////////////////////////////////////////////////^^^^^/////////////////
 	
 	// Get the angle of the wrist based off of the angle of the arm
 	public double getArmRelativeAngle() {
-		return Robot.arm.getAngle() + 60;
-	}
+		return Robot.arm.getAngle() + 90;
+	}/////////////////////////////////^^^////////
 	
 	public double convertRelativeToAbsoluteSetpoint(double value) {
 		return value - getArmRelativeAngle();
