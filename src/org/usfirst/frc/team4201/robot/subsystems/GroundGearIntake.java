@@ -19,7 +19,7 @@ public class GroundGearIntake extends Subsystem {
     // here. Call these from Commands.
 	WPI_TalonSRX intakeMotor = new WPI_TalonSRX(RobotMap.gearIntakeMotor);
 	//DoubleSolenoid gearIntakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.gearIntakePistonForward, RobotMap.gearIntakePistonReverse);
-	DoubleSolenoid gearClampPistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.gearClampPistionForward, RobotMap.gearClampPistionReverse);
+	DoubleSolenoid gearClampPistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.gearClampPistonForward, RobotMap.gearClampPistonReverse);
 	DoubleSolenoid gearIntakePistons = new DoubleSolenoid(RobotMap.PCMOne, RobotMap.gearIntakePistonForward, RobotMap.gearIntakePistonReverse);
 	
 	public GroundGearIntake() {

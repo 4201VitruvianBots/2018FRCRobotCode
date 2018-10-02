@@ -12,7 +12,7 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8-javadoc.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8-sources.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix_WPIAPI-sources.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix_WPIAPI.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

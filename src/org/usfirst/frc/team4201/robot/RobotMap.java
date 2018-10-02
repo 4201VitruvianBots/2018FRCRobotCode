@@ -52,8 +52,8 @@ public class RobotMap {
 	public static final int PCMOne = 11;
 		public static final int driveTrainShifterForward = 1;
 		public static final int driveTrainShifterReverse = 0;	
-		public static final int gearClampPistionForward = 4;
-		public static final int gearClampPistionReverse = 5;
+		public static final int gearClampPistonForward = 4;
+		public static final int gearClampPistonReverse = 5;
 		public static final int gearIntakePistonForward = 3;
 		public static final int gearIntakePistonReverse = 2;
 		public static final int hopperWallForward = 7;
