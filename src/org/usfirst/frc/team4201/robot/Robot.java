@@ -45,7 +45,11 @@ public class Robot extends TimedRobot {
 	public static Command teleOpDrive;
 	
 	SendableChooser<Command> driveMode = new SendableChooser<>();
+	SendableChooser<Command> brakeMode = new SendableChooser<>();
+	public static SendableChooser<String> driverControls = new SendableChooser<>();
+	public static SendableChooser<String> operatorControls = new SendableChooser<>();
 	SendableChooser<String> autoModeChooser = new SendableChooser<>();
+	
 	String[] autoRoutines = {
 		"Drive Straight",
 		"Center Auto",
@@ -104,10 +108,21 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addObject(autoRoutines[13], autoRoutines[13]);			// Do nothing. Remove for competition
 		
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
+		
 
+		SmartDashboard.putData("Reset Max Current Draw", new ResetMaxCurrentDraw());
+		
 		driveMode.addDefault("Split Arcade", new SetSplitArcadeDrive());
 		driveMode.addObject("Cheesy Drive", new SetCheesyDrive());
 		driveMode.addObject("Tank Drive", new SetTankDrive());
+		
+		DriverMapping.InitDriverMapping();
+		SmartDashboard.putData("Driver Controls", driverControls);
+		SmartDashboard.putData("Operator Controls", operatorControls);
+		SmartDashboard.putData("Set Control Mapping", new SetControlMapping());
+		
+		DriverMapping.DEFAULT_DRIVER();
+		DriverMapping.DEFAULT_OPERATOR();
 		
 		try {
 			//camera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
@@ -117,7 +132,9 @@ public class Robot extends TimedRobot {
 		}
 		
 		SmartDashboard.putData("Drive Type", driveMode);
-
+		
+		wrist.initializeSmartDashboard();
+		SmartDashboard.putData(new UpdateWristOffset());
 		//pidTuner.initializeSmartDashboard();
 	}
 
@@ -317,5 +334,7 @@ public class Robot extends TimedRobot {
 		//stabilizers.updateSmartDashboard();
 		controls.updateSmartDashboard();
 		AutoTesting.updateSmartDashboard();
+		
+		controls.setMaxCurrentDraw();
 	}
 }

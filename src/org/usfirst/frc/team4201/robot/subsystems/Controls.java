@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Controls extends Subsystem{
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
+	public static double maxCurrentDraw = 0;
 	
 	public Timer autoTimer = new Timer();
 	Timer elevatorTimeout, wristTimer;
@@ -167,6 +168,10 @@ public class Controls extends Subsystem{
 		Shuffleboard.putNumber("Controls", "Intake Right Current", Robot.intake.intakeMotors[1].getOutputCurrent());
 		
 		Shuffleboard.putNumber("Controls", "Total Current Draw", pdp.getTotalCurrent());
+		
+		// TO-DO: Need to replace with shuffleboard implementation when finished
+		SmartDashboard.putNumber("Max Current Draw", getMaxCurrentDraw());
+		
 		Shuffleboard.putBoolean("Controls", "Brownout", RobotController.isBrownedOut());
 
 		Shuffleboard.putNumber("Pathfinder", "Total Auto Time", autoTimer.get());
@@ -179,7 +184,14 @@ public class Controls extends Subsystem{
 		Shuffleboard.putData("Controls", new PotentiometerRecalibration(Robot.elevator.elevatorPot));
 	}
 	
+	public void setMaxCurrentDraw() {
+		if(maxCurrentDraw < pdp.getTotalCurrent())
+			maxCurrentDraw = pdp.getTotalCurrent();
+	}
 	
+	public double getMaxCurrentDraw() {
+		return maxCurrentDraw;
+	}
 
 	@Override
 	protected void initDefaultCommand() {

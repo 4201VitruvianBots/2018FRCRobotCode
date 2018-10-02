@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -60,95 +61,24 @@ public class OI {
 	public Button xBoxLeftTrigger, xBoxRightTrigger, testLeftTrigger, testRightTrigger;
 	public boolean isQuickTurn = true;
 	
+	public static int driverControlSet = 0;
+	public static int operatorControlSet = 0;
+	
 	public OI(){
 		leftJoystick = new Joystick(RobotMap.leftJoystick);
 		rightJoystick = new Joystick(RobotMap.rightJoystick);
 		xBoxController = new Joystick(RobotMap.xBoxController);
 		
-		for(int i = 0; i < leftButtons.length; i++)
-			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
-		for(int i = 0; i < rightButtons.length; i++)
-			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
-		for(int i = 0; i < xBoxButtons.length; i++)
-			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
-		
-		xBoxLeftTrigger = new XBoxTrigger(xBoxController, RobotMap.leftTrigger);
-		xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
-		
-		
-        leftButtons[0].whileHeld(new SetIntakeMotorOutputs(-0.6));					// Left Joystick Trigger: Eject cube
-        leftButtons[0].whenReleased(new SetIntakeMotorOutputs(0));					// Left Joystick Trigger: Eject cube
-        //leftButtons[1].whenPressed(new ToggleElevatorShifters());					// Left Center Thumb Button: N/A
-        //leftButtons[2].whenPressed(new ToggleIntakePistons());					// Left Left Thumb Button Up: N/A
-        //leftButtons[4].whenPressed(new ToggleIntakePressure());					// Left Left Thumb Button Down: N/A
-        //leftButtons[3].whenPressed();												// Left Right Thumb Button Up: Retract Intake
-        leftButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Right Thumb Button Down: Deploy Intake
-        //leftButtons[6].whenPressed(new SetPIDTunerValues());						// Forward Button: N/A
-        
-        rightButtons[0].toggleWhenPressed(new ToggleIntakePistons());				// Right Joystick Trigger: Toggle Intake Pistons
-        //rightButtons[1].whenPressed(new ToggleElevatorShifters());				// Left Center Thumb Button: N/A                     
-        //rightButtons[2].whenPressed(new SetDriveShiftersLow());						// Left Left Thumb Button Up:                        
-        //rightButtons[4].whenPressed(new SetDriveShiftersHigh());					// Left Left Thumb Button Down:                      
-        //rightButtons[3].whenPressed(new EnableClimbMode());						// Left Right Thumb Button Up: N/A   
-        //rightButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());		// Left Right Thumb Button Down: N/A       
-        //rightButtons[6].whenPressed(new SetPIDTunerValues());				        // Forward Button: Broken                                    
+		initializeButtons();									
+		//DriverMapping.DEFAULT_DRIVER();
+		//DriverMapping.DEFAULT_OPERATOR();
 
-        xBoxButtons[2].whenPressed(new SetElevatorShiftersLow());		
-        xBoxButtons[3].whenPressed(new SetElevatorShiftersHigh());			
-        /*
-        for(int i = 0; i < 3; i++) {
-	        xBoxButtons[0].whileHeld(new HoldWristSetpoint());						// A Button: Set Intake to forward shoot position
-	        xBoxButtons[0].whenReleased(new ReleaseWristSetpoint());
-        }
-        xBoxButtons[0].whileHeld(new SetWristRelativeSetpoint(180));				// A Button: Set Intake to forward shoot position
-        xBoxButtons[0].whenReleased(new DisableXBoxRumble());
-        xBoxButtons[1].whileHeld(new SetWristRelativeSetpoint(0));					// B Button: Set Intake to forward parallel
-        xBoxButtons[1].whenReleased(new DisableXBoxRumble());
-        xBoxButtons[2].whileHeld(new SetWristRelativeSetpoint(135));				// X Button: Set Intake to reverse parallel
-        xBoxButtons[2].whenReleased(new DisableXBoxRumble());
-        xBoxButtons[3].whileHeld(new SetWristRelativeSetpoint(45));					// Y Button: Set Intake to reverse shoot position
-        xBoxButtons[3].whenReleased(new DisableXBoxRumble());
-        */
-        xBoxButtons[6].whenPressed(new KillElevator());								// Select: Kill elevator PIDController (Check button assignment)
-        xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
-        
-        // Wrist commands will be handled in the UpdateWristSetpoint function to avoid conflicts/issues with the whileHeld() functionality
-        if(RobotMap.WristState != 0) 
-        	setWristManualMode();
-        
-        xBoxButtons[4].whenPressed(new SetArmElevatorHome());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
-        xBoxButtons[4].whenPressed(new SetIntakePistonsClose());					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
-        
         //xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));
         //xBoxLeftTrigger.whileHeld(new SetIntakeMotorOutputs(-0.5));				// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Parallel
         //xBoxLeftTrigger.whenReleased(new SetIntakeMotorOutputs(0));
         
         //xBoxButtons[10].whenPressed(new KillAll());								// L3: Toggle Left Stabilizers
-        //xBoxButtons[11].whenPressed(new KillAll());								// R3: Toggle Right Stabilizers
-        
-        // xBoxLeftJoystickY: Adjust Arm angle up/down
-        // xBoxRightJoystickY: Adjust Elevator height up/down 
-        
-        // Test Controller Buttons
-        try {
-    		testController = new Joystick(RobotMap.testController);
-    		if(!testController.getName().equals("")) {	// Stops the rioLog from printing a bunch of warnings if controller is not detected
-    			for(int i = 0; i < testButtons.length; i++)
-    				testButtons[i] = new JoystickButton(testController, (i + 1));
-
-	    		testLeftTrigger = new XBoxTrigger(testController, RobotMap.leftTrigger);
-	    		testRightTrigger = new XBoxTrigger(testController, RobotMap.rightTrigger);
-	    		
-		        testButtons[0].whenPressed(new ToggleCubeIntakeWithRetraction());
-		        //testButtons[1].whenPressed(new SetLEDs(2));
-		        //testButtons[3].whenPressed(new SetLEDs(4));
-		        
-		        //testButtons[1].whenPressed();
-		        //testButtons[2].whenPressed(new ToggleElevatorShifters());
-    		}
-        } catch(Exception e) {
-        	
-        }
+        //xBoxButtons[11].whenPressed(new KillAll());								// R3: Toggle Right Stabilizers  
 	}
 	
 	public double getLeftY(){
@@ -247,6 +177,64 @@ public class OI {
         xBoxButtons[5].whenReleased(new SetWristDeltaSetpoint(0));				// Right Button: Disable (This is needed due to how whileHeld() functions)
         xBoxRightTrigger.whileHeld(new SetWristDeltaSetpoint(-5));				// Right Trigger: Adjust wrist down
         xBoxRightTrigger.whenReleased(new SetWristDeltaSetpoint(0));			// Right Trigger: Disable (This is needed due to how whileHeld() functions)
+	}
+	
+	public void initializeDriverOperatorControls() {
+		String driverOption = Robot.driverControls.getSelected();
+		String operatorOption = Robot.driverControls.getSelected();
+		
+		if(driverOption == null)
+			driverOption = "Default";
+		if(operatorOption == null)
+			operatorOption = "Default";
+
+		System.out.println("Driver: " + driverOption);
+		System.out.println("Operator: " + operatorOption);
+		
+		switch(driverOption) {
+			case "Joy":
+				DriverMapping.JOY_DRIVER();
+			case "MILES":
+				DriverMapping.MILES_DRIVER();
+			default:
+			case "Default":
+				DriverMapping.DEFAULT_DRIVER();
+		}
+		
+		switch(operatorOption) {
+			case "Melita":
+				DriverMapping.MELITA_OPERATOR();
+			default:
+			case "Default":
+				DriverMapping.DEFAULT_OPERATOR();
+		}
+	};
+	
+	public void initializeButtons() {
+		leftButtons = null;
+		rightButtons = null;
+		xBoxButtons = null;
+		leftButtons = new Button[7];
+		rightButtons = new Button[7];
+		xBoxButtons = new Button[10];
+		
+		for(int i = 0; i < leftButtons.length; i++) {
+			leftButtons[i] = null;
+			leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
+		}
+		for(int i = 0; i < rightButtons.length; i++) {
+			rightButtons[i] = null;
+			rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
+		}
+		for(int i = 0; i < xBoxButtons.length; i++) {
+			xBoxButtons[i] = null;
+			xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
+		}
+		xBoxLeftTrigger = new XBoxTrigger(xBoxController, RobotMap.leftTrigger);
+		xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
+		
+
+		xBoxButtons[9].whenPressed(new SetControlMapping());	
 	}
 }
 

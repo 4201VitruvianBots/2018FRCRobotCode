@@ -32,7 +32,7 @@ public class Climber extends Subsystem{
 		Shuffleboard.putBoolean("Climber", "Climber Deployed", getClimberStatus());
 		
 		// Use SmartDashboard to put only the important stuff for drivers;
-		SmartDashboard.putBoolean("Climber", getClimberStatus());
+		//SmartDashboard.putBoolean("Climber", getClimberStatus());
 	}
 	
 	@Override

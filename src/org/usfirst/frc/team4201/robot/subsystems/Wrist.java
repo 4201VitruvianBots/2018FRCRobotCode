@@ -30,7 +30,7 @@ public class Wrist extends PIDSubsystem {
 	public double angleUpperLimit = 150;													// 50 	
 	public double sensorLowerLimit = 0;														//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
-	static double sensorOffset = 726; 			//431	//563;	//356								
+	static double sensorOffset = 800; 			// 726 //431	//563;	//356								
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
@@ -159,6 +159,20 @@ public class Wrist extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		// TODO Auto-generated method stub
 		wristMotor.set(ControlMode.PercentOutput, output);
+	}
+	
+	public double getSensorOffset() {
+		return Wrist.sensorOffset;
+	}
+	
+	public void setSensorOffset(double sensorOffset) {
+		Wrist.sensorOffset = sensorOffset;
+		wristPot.free();
+		wristPot = new AnalogPotentiometer(wP, sensorUpperLimit, sensorOffset);
+	}
+	
+	public void initializeSmartDashboard() {
+		SmartDashboard.putNumber("Wrist Sensor Offset", Wrist.sensorOffset);
 	}
 	
 	public void updateSmartDashboard() {
