@@ -38,6 +38,9 @@ public class UpdateElevatorSetpoint extends Command {
  			// We do this check to make sure co-driver is actually commanding the elevator and not due to minor movement of the joystick.
  			// This also prevent an issue where setSetpoint(getSetpoint() + yAxis == 0) continually adds to the setpoint (floating point rounding?)
  			if(Math.abs(yAxis) > 0.05) {
+ 				if(Robot.elevator.getHieght() < 4.5 && Robot.arm.getAngle() < -50 && yAxis > 0)
+ 					Robot.arm.setSetpoint(-50);
+ 					
  		    	// Check if new setpoint deosn't violate limits before setting
 		    	if(Robot.elevator.checkLimits(Robot.elevator.getHieght() + (1 * yAxis))) {
 	 				// Change kP value for the PIDController when going up/down, to prevent wobbling when going down due to excessive force

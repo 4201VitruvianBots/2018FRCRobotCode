@@ -1,7 +1,9 @@
 package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.LUTs;
+import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
+import org.usfirst.frc.team4201.robot.commands.ManualArmControl;
 import org.usfirst.frc.team4201.robot.commands.UpdateArmSetpoint;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
 
@@ -38,6 +40,8 @@ public class Arm extends PIDSubsystem {
 	static double voltageUpperLimit = 4.5;
 
 	double previousAngle = -60;
+	
+	public static boolean lock = false;
 	
 	public WPI_TalonSRX[] armMotors = {
 		new WPI_TalonSRX(RobotMap.armMotor),
@@ -124,6 +128,32 @@ public class Arm extends PIDSubsystem {
 		armMotors[0].set(ControlMode.PercentOutput, output);
 	}
 	
+	public void manualArmControl() {
+		double yAxis = Robot.oi.xBoxController.getRawAxis(1);
+		double armOutput = -Math.pow(yAxis, 3);
+		
+		//if(Robot.arm.getAngle() > Robot.arm.angleUpperLimit)
+		//	Robot.arm.setSetpoint(Robot.arm.angleUpperLimit - 2);
+		//else 
+		if(Math.abs(yAxis) > 0.05 && !lock) {
+	    	disable();
+			// Check if new setpoint deosn't violate limits before setting
+ 			if(Robot.arm.checkLimits(Robot.arm.getAngle() + armOutput)){	
+ 				if(Robot.arm.getAngle() < -40 && armOutput < 0)
+ 					setDirectOutput(Math.max(armOutput, -0.1));
+ 				else
+ 					setDirectOutput(armOutput);
+ 				
+	    	} else {
+				// Haptic feedback for operator
+		        Robot.oi.enableXBoxLeftRumbleTimed();
+			}
+		} else if(!getPIDController().isEnabled() && RobotMap.ArmState == 0) {
+			setSetpoint(returnPIDInput());
+			enable();
+		}
+	}
+	
 	@Override
 	protected double returnPIDInput() {
 		// TODO Auto-generated method stub
@@ -163,6 +193,6 @@ public class Arm extends PIDSubsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		setDefaultCommand(new UpdateArmSetpoint());
+		setDefaultCommand(new ManualArmControl());
 	}
 }

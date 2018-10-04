@@ -14,6 +14,7 @@ public class SetControlMapping extends InstantCommand {
         super();
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
+        this.setRunWhenDisabled(true);
     }
 
     // Called once when the command executes

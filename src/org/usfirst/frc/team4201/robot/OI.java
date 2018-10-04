@@ -157,7 +157,8 @@ public class OI {
 			else if (xBoxController.getPOV() == 180) 	// 180 degrees, Down Button: Set  Wrist/Arm/Elevator to Forward Scale Low Position
 				Scheduler.getInstance().add(new SetArmElevatorSetpoints(55, 5));	// (55, 5)
 			else if (xBoxController.getPOV() == 270) 	// 270 degrees, Left Button: Set Wrist/Arm/Elevator to Switch Position
-				Scheduler.getInstance().add(new SetArmElevatorSetpoints(-56, 24.5));	// (-56, 25)
+				System.out.println("Disabled");
+				//Scheduler.getInstance().add(new SetArmElevatorSetpoints(-56, 24.5));	// (-56, 25)
 		} else{
 			if(xBoxController.getPOV() == 0){
 				if(ToggleCubeIntakeWithRetraction.intakeState < 2)
@@ -181,7 +182,7 @@ public class OI {
 	
 	public void initializeDriverOperatorControls() {
 		String driverOption = Robot.driverControls.getSelected();
-		String operatorOption = Robot.driverControls.getSelected();
+		String operatorOption = Robot.operatorControls.getSelected();
 		
 		if(driverOption == null)
 			driverOption = "Default";
@@ -194,19 +195,24 @@ public class OI {
 		switch(driverOption) {
 			case "Joy":
 				DriverMapping.JOY_DRIVER();
+				break;
 			case "MILES":
 				DriverMapping.MILES_DRIVER();
+				break;
 			default:
 			case "Default":
 				DriverMapping.DEFAULT_DRIVER();
+				break;
 		}
 		
 		switch(operatorOption) {
 			case "Melita":
 				DriverMapping.MELITA_OPERATOR();
+				break;
 			default:
 			case "Default":
 				DriverMapping.DEFAULT_OPERATOR();
+				break;
 		}
 	};
 	
@@ -232,9 +238,6 @@ public class OI {
 		}
 		xBoxLeftTrigger = new XBoxTrigger(xBoxController, RobotMap.leftTrigger);
 		xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
-		
-
-		xBoxButtons[9].whenPressed(new SetControlMapping());	
 	}
 }
 

@@ -82,19 +82,26 @@ public class DriverMapping {
 	}
 	
 	public static void DEFAULT_OPERATOR() {
-		Robot.oi.xBoxButtons[2].whenPressed(new SetElevatorShiftersLow());		
-		Robot.oi.xBoxButtons[3].whenPressed(new SetElevatorShiftersHigh());			
+		//Robot.oi.xBoxButtons[2].whenPressed(new SetElevatorShiftersLow());		
+		//Robot.oi.xBoxButtons[3].whenPressed(new SetElevatorShiftersHigh());			
         
 		Robot.oi.xBoxButtons[6].whenPressed(new KillElevator());							// Select: Kill elevator PIDController (Check button assignment)
 		Robot.oi.xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
         
         
-		Robot.oi.xBoxButtons[4].whenPressed(new SetArmElevatorHome());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+		//Robot.oi.xBoxButtons[4].whenPressed(new SetArmElevatorHome());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
 		Robot.oi.xBoxButtons[4].whenPressed(new SetIntakePistonsClose());					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
         
-		// Must be xBox controller mapping
-		UpdateWristSetpoint.WRIST_FORWARD = 0;
-		UpdateWristSetpoint.WRIST_BACKWARDS = 1;
+		
+
+		if(RobotMap.WristState != 0)
+			Robot.oi.setWristManualMode();
+		else {
+			// Must be xBox controller mapping
+			UpdateWristSetpoint.WRIST_FORWARD = 0;
+			UpdateWristSetpoint.WRIST_BACKWARDS = 1;
+		}
+		
 		
         //Robot.oi.xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));
         //Robot.oi.xBoxLeftTrigger.whileHeld(new SetIntakeMotorOutputs(-0.5));						// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Parallel
@@ -105,19 +112,22 @@ public class DriverMapping {
 	}
 	
 	public static void MELITA_OPERATOR() {
-		Robot.oi.xBoxButtons[2].whenPressed(new SetElevatorShiftersLow());		
-		Robot.oi.xBoxButtons[3].whenPressed(new SetElevatorShiftersHigh());			
+		//Robot.oi.xBoxButtons[2].whenPressed(new SetElevatorShiftersLow());		
+		//Robot.oi.xBoxButtons[3].whenPressed(new SetElevatorShiftersHigh());			
         
 		Robot.oi.xBoxButtons[6].whenPressed(new KillElevator());							// Select: Kill elevator PIDController (Check button assignment)
 		Robot.oi.xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
         
-		Robot.oi.xBoxButtons[4].whenPressed(new SetArmElevatorHome());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+		//Robot.oi.xBoxButtons[4].whenPressed(new SetArmElevatorHome());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
 		Robot.oi.xBoxButtons[4].whenPressed(new SetIntakePistonsClose());					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
-        
-		// Must be xBox controller mapping
-		UpdateWristSetpoint.WRIST_FORWARD = 1;
-		UpdateWristSetpoint.WRIST_BACKWARDS = 0;
-		
+
+		if(RobotMap.WristState != 0)
+			Robot.oi.setWristManualMode();
+		else {
+			// Must be xBox controller mapping
+			UpdateWristSetpoint.WRIST_FORWARD = 1;
+			UpdateWristSetpoint.WRIST_BACKWARDS = 0;
+		}
         //Robot.oi.xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));
         //Robot.oi.xBoxLeftTrigger.whileHeld(new SetIntakeMotorOutputs(-0.5));						// Left Trigger: Set Wrist/Arm/Elevator to reverse Scale Parallel
         //Robot.oi.xBoxLeftTrigger.whenReleased(new SetIntakeMotorOutputs(0));

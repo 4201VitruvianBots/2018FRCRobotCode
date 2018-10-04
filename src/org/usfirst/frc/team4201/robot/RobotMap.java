@@ -19,7 +19,7 @@ package org.usfirst.frc.team4201.robot;
 
 public class RobotMap {
 	// Global Variables
-	public static int WristState = 0;
+	public static int WristState = 1;
 	public static int ArmState = 0;
 	public static int ElevatorState = 0;
 	public static boolean testMode = true;

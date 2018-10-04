@@ -30,7 +30,11 @@ public class Wrist extends PIDSubsystem {
 	public double angleUpperLimit = 150;													// 50 	
 	public double sensorLowerLimit = 0;														//-133;
 	public double sensorUpperLimit = -1080; 	// Negative value to 'invert' sensor		// 80; 
-	static double sensorOffset = 800; 			// 726 //431	//563;	//356								
+	// To recalibrate wrist pot:
+	// 1. Look at wrist vavlue on Shuffleboard when wrist is parallel to ground
+	// 2. Determine adjustment value (Shuffleboard value * 2.33)
+	// 3. Add this to sensor offset
+	static double sensorOffset = 775; 			// 726 //431	//563;	//356								
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 

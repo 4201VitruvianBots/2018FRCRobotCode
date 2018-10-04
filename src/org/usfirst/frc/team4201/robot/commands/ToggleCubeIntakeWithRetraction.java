@@ -3,6 +3,7 @@ package org.usfirst.frc.team4201.robot.commands;
 import org.usfirst.frc.team4201.robot.Robot;
 import org.usfirst.frc.team4201.robot.RobotMap;
 import org.usfirst.frc.team4201.robot.interfaces.Shuffleboard;
+import org.usfirst.frc.team4201.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -36,7 +37,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	Robot.arm.setSetpoint(-61);
     	Robot.elevator.setSetpoint(2.8);
     	finished = false;
-    	UpdateArmSetpoint.lock = true;
+    	Arm.lock = true;
     	lockHighPressure = false;
     			
     	// Depressurize the intake pistons
@@ -162,7 +163,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
     	//*/
     	UpdateWristSetpoint.autoSetpoint = 0;
     	UpdateWristSetpoint.intaking = false;
-    	UpdateArmSetpoint.lock = false;
+    	Arm.lock = false;
     }
 
     // Called when another command which requires one or more of the same
