@@ -213,7 +213,7 @@ public class OI {
 			case "Default":
 				DriverMapping.DEFAULT_OPERATOR();
 				break;
-		}
+		}	
 	};
 	
 	public void initializeButtons() {

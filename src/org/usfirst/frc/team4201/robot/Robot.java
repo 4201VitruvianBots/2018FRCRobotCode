@@ -66,7 +66,8 @@ public class Robot extends TimedRobot {
 		"Pathfinder Test",
 		"Do Nothing",
 		"Partner Auto Left",
-		"Partner Auto Right"
+		"Partner Auto Right",
+		"Center Auto Test"
 	};
 	
 	UsbCamera camera;
@@ -106,6 +107,7 @@ public class Robot extends TimedRobot {
 		autoModeChooser.addObject(autoRoutines[11], autoRoutines[11]);
 		autoModeChooser.addObject(autoRoutines[12], autoRoutines[12]);
 		autoModeChooser.addObject(autoRoutines[13], autoRoutines[13]);			// Do nothing. Remove for competition
+		autoModeChooser.addObject(autoRoutines[16], autoRoutines[16]);			// Center Auto Test
 		
 		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		
@@ -203,6 +205,9 @@ public class Robot extends TimedRobot {
 				break;
 			case "Center Auto Semi-Automatic":
 				m_autonomousCommand = new CenterAutoSemiAutomatic();
+				break;
+			case "Center Auto Test":
+				m_autonomousCommand = new CenterAutoTest();
 				break;
 			case "Left Auto Scale + Switch":
 				m_autonomousCommand = new AutoScaleSwitchLeft();

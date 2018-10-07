@@ -38,8 +38,10 @@ public class Arm extends PIDSubsystem {
 	static double sensorOffset = -75.5;																														
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 4.5;
-
+	
+	
 	double previousAngle = -60;
+	double previousArmOutput = 0;
 	
 	public static boolean lock = false;
 	
@@ -129,19 +131,28 @@ public class Arm extends PIDSubsystem {
 	}
 	
 	public void manualArmControl() {
-		double yAxis = Robot.oi.xBoxController.getRawAxis(1);
-		double armOutput = -Math.pow(yAxis, 3);
+		double yAxis = -Robot.oi.xBoxController.getRawAxis(1);
+		
+		double alpha = 0.875;
+		
+		// Low-Pass Filter
+		double armOutput = alpha * yAxis + previousArmOutput * (1-alpha);
 		
 		//if(Robot.arm.getAngle() > Robot.arm.angleUpperLimit)
 		//	Robot.arm.setSetpoint(Robot.arm.angleUpperLimit - 2);
 		//else 
 		if(Math.abs(yAxis) > 0.05 && !lock) {
 	    	disable();
+			if(RobotMap.ArmState != 0)
+				setDirectOutput(armOutput);
 			// Check if new setpoint deosn't violate limits before setting
- 			if(Robot.arm.checkLimits(Robot.arm.getAngle() + armOutput)){	
- 				if(Robot.arm.getAngle() < -40 && armOutput < 0)
- 					setDirectOutput(Math.max(armOutput, -0.1));
- 				else
+			else if(Robot.arm.checkLimits(Robot.arm.getAngle() + armOutput)){	
+ 				
+ 				if(Robot.arm.getAngle() < -45 && armOutput < 0)
+ 					setDirectOutput(Math.max(armOutput, -0.4));
+ 				else if (armOutput < 0) 
+ 					setDirectOutput(armOutput * 0.75);
+				else
  					setDirectOutput(armOutput);
  				
 	    	} else {
@@ -152,6 +163,8 @@ public class Arm extends PIDSubsystem {
 			setSetpoint(returnPIDInput());
 			enable();
 		}
+		
+		previousArmOutput = armOutput;
 	}
 	
 	@Override

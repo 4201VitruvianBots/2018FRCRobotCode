@@ -33,18 +33,20 @@ public class AutoTesting extends CommandGroup{
 	}
 	
 	public AutoTesting() {
-		index = 0;
-		//addParallel(testCommands.get(index++));
-		addSequential(testCommands.get(index++));
+		addSequential(new PathFinderRead("driveCalibration"));
+		
+		//index = 0;
 		//addParallel(testCommands.get(index++));
 		//addSequential(testCommands.get(index++));
-		addSequential(testCommands.get(index++));
-		addSequential(testCommands.get(index++));
-		addSequential(testCommands.get(index++));
+		//addParallel(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
 		
 		//addParallel(testCommands.get(index++));
-		addParallel(testCommands.get(index++));
-		addSequential(testCommands.get(index++));
+		//addParallel(testCommands.get(index++));
+		//addSequential(testCommands.get(index++));
 
 		//addSequential(testCommands.get(index++));
 		//addSequential(testCommands.get(index++));
