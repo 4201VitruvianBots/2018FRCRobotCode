@@ -48,24 +48,15 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		
 		driveMode.addObject("Tank Drive", new SetTankDrive());
-		driveMode.addObject("Split Arcade", new SetArcadeDrive());
+		driveMode.addDefault("Split Arcade", new SetArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
 		
 		try{
-			UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-			SmartDashboard.putString("Cam1", cam1.enumerateProperties().toString());
-			cam1.setPixelFormat(PixelFormat.kYUYV);
-			cam1.setResolution(1024, 576);
-			cam1.setFPS(120);
-		} catch(Exception e){
-			
-		}
-		try{	
-			UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
-			SmartDashboard.putString("Cam2", cam2.enumerateProperties().toString());
-			cam2.setPixelFormat(PixelFormat.kYUYV);
-			cam2.setResolution(640, 480);
-			cam2.setFPS(48);
+			UsbCamera cam = CameraServer.getInstance().startAutomaticCapture(0);
+			SmartDashboard.putString("Cam", cam.enumerateProperties().toString());
+			cam.setPixelFormat(PixelFormat.kYUYV);
+			cam.setResolution(1024, 576);
+			cam.setFPS(120);
 		} catch(Exception e){
 			
 		}
@@ -126,7 +117,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		//teleOpDrive = SmartDashboard.getData('driveMode');
+		teleOpDrive = driveMode.getSelected();
+		
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
