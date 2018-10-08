@@ -22,6 +22,8 @@ public class DriveTrain extends Subsystem {
 		new WPI_TalonSRX(RobotMap.driveTrainRightRear)
 	};
 	
+	DoubleSolenoid driveShifters = new DoubleSolenoid(RobotMap.leftDriveShifters, RobotMap.rightDriveShifters);
+	
 	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0],driveMotors[1]);
 
 	public DriveTrain() {
@@ -48,7 +50,17 @@ public class DriveTrain extends Subsystem {
 	 	robotDrive.arcadeDrive(leftOutput, rightOutput);
 	}
 	
+	public void setDriveShiftersHigh() {
+		driveShifters.set(DoubleSolenoid.Value.kForward);
+	}
 	
+	public void setDriveShiftersLow() {
+		driveShifters.set(DoubleSolenoid.Value.kReverse);
+	}
+	
+	public Value getDriveShiftersValue() {
+		return driveShifters.get();
+	}
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

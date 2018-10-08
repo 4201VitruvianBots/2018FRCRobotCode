@@ -77,6 +77,5 @@ public class OI {
 	
 	public double getRightX(){
 		return rightJoystick.getX();
-		
 	}
 }

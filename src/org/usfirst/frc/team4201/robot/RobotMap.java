@@ -38,21 +38,13 @@ public class RobotMap {
 	
 	// Pneumatic Modules & their devices
 	public static final int PCMOne = 11;
-		public static final int testShifters1a = 0;
-		public static final int testShifters1b = 1;
-		
-		public static final int testShifters2a = 2;
-		public static final int testShifters2b = 3;
-		
-		public static final int testShifters3a = 4;
-		public static final int testShifters3b = 5;
+		public static final int leftDriveShifters = 0;
+		public static final int rightDriveShifters = 1;
 	
 	// Motor Controllers
 	public static final int driveTrainLeftFront = 20;
 	public static final int driveTrainLeftRear = 21;
-	public static final int driveTrainRightFront = 23;
-	public static final int driveTrainRightRear = 22;
-	public static final int intakeLeft = 24;
-	public static final int intakeRight = 25;
+	public static final int driveTrainRightFront = 22;
+	public static final int driveTrainRightRear = 23;
 	
 }

@@ -46,13 +46,9 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		driveTrain = new DriveTrain();
 		oi = new OI();
-		//autoModeChooser.addDefault("Default Auto", new AutoDriveStraightThenTurn());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto Selector", autoModeChooser);
 		
-		//driveMode.addDefault("Cheesy Drive", new CheesyDrive());
-		//driveMode.addObject("Tank Drive", new TankDrive());
-		//driveMode.addObject("Split Arcade", new SplitArcadeDrive());
+		driveMode.addObject("Tank Drive", new SetTankDrive());
+		driveMode.addObject("Split Arcade", new SetArcadeDrive());
 		SmartDashboard.putData("Drive Type", driveMode);
 		
 		try{
@@ -130,7 +126,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		teleOpDrive = new SetTankDrive();
+		//teleOpDrive = SmartDashboard.getData('driveMode');
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
