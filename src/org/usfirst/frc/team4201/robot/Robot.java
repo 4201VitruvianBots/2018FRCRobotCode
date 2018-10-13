@@ -124,7 +124,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Set Control Mapping", new SetControlMapping());
 		
 		DriverMapping.DEFAULT_DRIVER();
-		DriverMapping.DEFAULT_OPERATOR();
+		DriverMapping.MELITA_OPERATOR();
 		
 		try {
 			//camera = CameraServer.getInstance().startAutomaticCapture();	// Commented out for now to remove rioLog prints
@@ -274,7 +274,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().removeAll();
     	UpdateWristSetpoint.autoCommand = false;
 		
-		//elevator.setElevatorShiftersHigh();
+		elevator.setElevatorShiftersLow();
 		arm.setSetpoint(arm.getAngle());
 		elevator.setSetpoint(elevator.getHieght());
 		

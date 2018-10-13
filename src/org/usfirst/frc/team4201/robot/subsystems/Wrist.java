@@ -34,7 +34,7 @@ public class Wrist extends PIDSubsystem {
 	// 1. Look at wrist vavlue on Shuffleboard when wrist is parallel to ground
 	// 2. Determine adjustment value (Shuffleboard value * 2.33)
 	// 3. Add this to sensor offset
-	static double sensorOffset = 485; 			// 726 //431	//563;	//356								
+	static double sensorOffset = 505; 			// 726 //431	//563;	//356								
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 

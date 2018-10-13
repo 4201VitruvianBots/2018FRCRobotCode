@@ -36,10 +36,9 @@ public class Intake extends Subsystem {
 			//intakeMotors[i].configPeakOutputForward(1, 0);
 			//intakeMotors[i].configPeakOutputReverse(-1, 0);
 			intakeMotors[i].setNeutralMode(NeutralMode.Brake);	// Brake is probably preferred for this game, due to the 1 cube control limit
-			intakeMotors[i].configContinuousCurrentLimit(25, 0);
-			intakeMotors[i].configPeakCurrentLimit(40, 0);
-			intakeMotors[i].configPeakCurrentDuration(500, 0);
-			intakeMotors[i].enableCurrentLimit(false);
+			intakeMotors[i].configContinuousCurrentLimit(20, 0);
+			intakeMotors[i].configPeakCurrentLimit(0, 0);
+			intakeMotors[i].enableCurrentLimit(true);
 		}
 		intakeMotors[1].set(ControlMode.Follower, intakeMotors[0].getDeviceID());
 		intakeMotors[1].setInverted(true);

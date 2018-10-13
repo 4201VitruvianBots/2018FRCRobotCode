@@ -10,8 +10,8 @@ public class DriverMapping {
 	};
 	
 	public static String[] operatorOptions = {
-		"Default",
-		"Melita"
+		"Melita",
+		"Default"
 	};
 	
 	public static void InitDriverMapping() {
@@ -38,6 +38,8 @@ public class DriverMapping {
         //Robot.oi.rightButtons[1].whenPressed(new ToggleElevatorShifters());				// Left Center Thumb Button: N/A                     
         Robot.oi.rightButtons[2].whenPressed(new SetDriveShiftersLow());					// Left Left Thumb Button Up:                        
         Robot.oi.rightButtons[4].whenPressed(new SetDriveShiftersHigh());					// Left Left Thumb Button Down:                      
+        Robot.oi.rightButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Right Thumb Button Down: Deploy Intake
+        
         //Robot.oi.rightButtons[3].whenPressed(new EnableClimbMode());						// Left Right Thumb Button Up: N/A   
         //Robot.oi.rightButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());		// Left Right Thumb Button Down: N/A       
         //Robot.oi.rightButtons[6].whenPressed(new SetPIDTunerValues());				    // Forward Button: Broken                                    
@@ -90,8 +92,9 @@ public class DriverMapping {
         
         
 		//Robot.oi.xBoxButtons[4].whenPressed(new SetArmElevatorHome());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
-		Robot.oi.xBoxButtons[4].whenPressed(new SetIntakePistonsClose());					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
-        
+		//Robot.oi.xBoxButtons[4].whenPressed(new SetIntakePistonsClose());					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+		Robot.oi.xBoxButtons[4].whileHeld(new SetIntakeMotorOutputs(0.75));					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+		Robot.oi.xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
 		
 
 		if(RobotMap.WristState != 0)
@@ -119,7 +122,8 @@ public class DriverMapping {
 		Robot.oi.xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
         
 		//Robot.oi.xBoxButtons[4].whenPressed(new SetArmElevatorHome());						// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
-		Robot.oi.xBoxButtons[4].whenPressed(new SetIntakePistonsClose());					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+		Robot.oi.xBoxButtons[4].whileHeld(new SetIntakeMotorOutputs(0.75));					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
+		Robot.oi.xBoxButtons[4].whenReleased(new SetIntakeMotorOutputs(0));					// Left Button: Set Wrist/Arm/Elevator to reverse Scale Shoot Position
 
 		if(RobotMap.WristState != 0)
 			Robot.oi.setWristManualMode();
