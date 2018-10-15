@@ -14,8 +14,8 @@ public class CenterAuto extends CommandGroup{
 		// 1b. At the same time, move to the correct scoring platform by reading the FMS data
 		
 		// Remove Toast's bad idea if necessary
-		addParallel(new AutoSetArmSetpoint(-55));
-		addParallel(new AutoSetElevatorSetpoint(8));
+		addParallel(new AutoSetArmSetpoint(-25));
+		//addParallel(new AutoSetElevatorSetpoint(8));
 		
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
 			addSequential(new PathFinderRead("centerAutoLeft", true, 1.6));
@@ -26,11 +26,11 @@ public class CenterAuto extends CommandGroup{
 		addSequential(new AutoSetWristScaleScoring(45, true));
 		addSequential(new Delay(0.05));
 		// 2. Sequence of actions to score by dropping the cube
-		addSequential(new AutoShootCube(-1, 0.4));
+		addSequential(new AutoShootCube(-0.5, 0.4));
 
 		addSequential(new AutoReleaseWristSetpoint());
 		
-		addParallel(new AutoSetElevatorSetpoint(3.8));
+		//addParallel(new AutoSetElevatorSetpoint(3.8));
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
 			addSequential(new PathFinderReadInverted("switchBackLeft", false, 2));
 		} else {
@@ -51,8 +51,8 @@ public class CenterAuto extends CommandGroup{
 		addSequential(new AutoReleaseWristSetpoint());
 		
 		// Remove Toast's bad idea if necessary
-		addParallel(new AutoSetArmSetpoint(-55));
-		addParallel(new AutoSetElevatorSetpoint(8));
+		addParallel(new AutoSetArmSetpoint(-25));
+		//addParallel(new AutoSetElevatorSetpoint(8));
 				
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
 			addSequential(new PathFinderRead("centerAutoLeftFaster", false, 1.6));

@@ -58,9 +58,9 @@ public class Robot extends TimedRobot {
 		"Right Auto Scale + Switch",
 		"Left Auto Double Scale",
 		"Right Auto Double Scale",
-		"Left Switch Auto Near",
+		"Left Switch Auto",
 		"Left Switch Auto Far",
-		"Right Switch Auto Near",
+		"Right Switch Auto",
 		"Right Switch Auto Far",
 		"Auto Calibration",
 		"Pathfinder Test",
@@ -88,9 +88,9 @@ public class Robot extends TimedRobot {
 				autoModeChooser.addObject(autoRoutines[3], autoRoutines[3]);
 				autoModeChooser.addObject(autoRoutines[4], autoRoutines[4]);
 				autoModeChooser.addObject(autoRoutines[7], autoRoutines[7]);
-				autoModeChooser.addObject(autoRoutines[8], autoRoutines[8]);
+				//autoModeChooser.addObject(autoRoutines[8], autoRoutines[8]);
 				autoModeChooser.addObject(autoRoutines[9], autoRoutines[9]);
-				autoModeChooser.addObject(autoRoutines[10], autoRoutines[10]);
+				//autoModeChooser.addObject(autoRoutines[10], autoRoutines[10]);
 				autoModeChooser.addObject(autoRoutines[14], autoRoutines[14]);
 				autoModeChooser.addObject(autoRoutines[15], autoRoutines[15]);
 			} else {
@@ -196,59 +196,61 @@ public class Robot extends TimedRobot {
 		
 		// schedule the autonomous command (example)
 		String auto = autoModeChooser.getSelected();
-		switch(auto){
-			case "Drive Straight":
-				m_autonomousCommand = new DriveStraight();
-				break;
-			case "Center Auto":
-				m_autonomousCommand = new CenterAuto();
-				break;
-			case "Center Auto Semi-Automatic":
-				m_autonomousCommand = new CenterAutoSemiAutomatic();
-				break;
-			case "Center Auto Test":
-				m_autonomousCommand = new CenterAutoTest();
-				break;
-			case "Left Auto Scale + Switch":
-				m_autonomousCommand = new AutoScaleSwitchLeft();
-				break;
-			case "Right Auto Scale + Switch":
-				m_autonomousCommand = new AutoScaleSwitchRight();
-				break;
-			case "Left Auto Double Scale":
-				m_autonomousCommand = new AutoDoubleScale(true);
-				break;
-			case "Right Auto Double Scale":
-				m_autonomousCommand = new AutoDoubleScale(false);
-				break;
-			case "Left Switch Auto Near":
-				m_autonomousCommand = new AutoSwitchSidesLeft(true);
-				break;
-			case "Left Switch Auto Far":
-				m_autonomousCommand = new AutoSwitchSidesLeft(false);
-				break;
-			case "Right Switch Auto Near":
-				m_autonomousCommand = new AutoSwitchSidesRight(true);
-				break;
-			case "Right Switch Auto Far":
-				m_autonomousCommand = new AutoSwitchSidesRight(false);
-				break;
-			case "Partner Auto Left":
-				m_autonomousCommand = new AutoPartnerLeft();
-				break;
-			case "Partner Auto Right":
-				m_autonomousCommand = new AutoPartnerRight();
-				break;
-			case "Auto Calibration":
-				m_autonomousCommand = new AutoTesting();
-				break;
-			case "Pathfinder Test":
-				m_autonomousCommand = new PathfinderTest();
-				break;
-			case "Do Nothing":
-			default:
-				m_autonomousCommand = new DoNothing();
-				break;
+		if(auto!=null){
+			switch(auto){
+				case "Drive Straight":
+					m_autonomousCommand = new DriveStraight();
+					break;
+				case "Center Auto":
+					m_autonomousCommand = new CenterAuto();
+					break;
+				case "Center Auto Semi-Automatic":
+					m_autonomousCommand = new CenterAutoSemiAutomatic();
+					break;
+				case "Center Auto Test":
+					m_autonomousCommand = new CenterAutoTest();
+					break;
+				case "Left Auto Scale + Switch":
+					m_autonomousCommand = new AutoScaleSwitchLeft();
+					break;
+				case "Right Auto Scale + Switch":
+					m_autonomousCommand = new AutoScaleSwitchRight();
+					break;
+				case "Left Auto Double Scale":
+					m_autonomousCommand = new AutoDoubleScale(true);
+					break;
+				case "Right Auto Double Scale":
+					m_autonomousCommand = new AutoDoubleScale(false);
+					break;
+				case "Left Switch Auto":
+					m_autonomousCommand = new AutoSwitchSidesLeft(true);
+					break;
+				//case "Left Switch Auto Far":
+				//	m_autonomousCommand = new AutoSwitchSidesLeft(false);
+				//	break;
+				case "Right Switch Auto":
+					m_autonomousCommand = new AutoSwitchSidesRight(true);
+					break;
+				//case "Right Switch Auto Far":
+				//	m_autonomousCommand = new AutoSwitchSidesRight(false);
+				//	break;
+				case "Partner Auto Left":
+					m_autonomousCommand = new AutoPartnerLeft();
+					break;
+				case "Partner Auto Right":
+					m_autonomousCommand = new AutoPartnerRight();
+					break;
+				case "Auto Calibration":
+					m_autonomousCommand = new AutoTesting();
+					break;
+				case "Pathfinder Test":
+					m_autonomousCommand = new PathfinderTest();
+					break;
+				case "Do Nothing":
+				default:
+					m_autonomousCommand = new DoNothing();
+					break;
+			}
 		}
 
 		if(elevator.getElevatorShiftersStatus())
@@ -274,7 +276,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().removeAll();
     	UpdateWristSetpoint.autoCommand = false;
 		
-		elevator.setElevatorShiftersLow();
+		//elevator.setElevatorShiftersLow();
 		arm.setSetpoint(arm.getAngle());
 		elevator.setSetpoint(elevator.getHieght());
 		

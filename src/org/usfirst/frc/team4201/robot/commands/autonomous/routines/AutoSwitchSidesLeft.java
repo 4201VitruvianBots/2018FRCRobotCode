@@ -13,7 +13,8 @@ public class AutoSwitchSidesLeft extends CommandGroup {
 		"leftStartToRightSwitchNearReverseOne",
 		"leftStartToRightSwitchNearReverseTwo",
 		"leftStartToRightSwitchFarReverseOne",
-		"leftStartToRightSwitchFarReverseTwo"
+		"leftStartToRightSwitchFarReverseTwo",
+		"driveStraight"
 	};
 	
 	public AutoSwitchSidesLeft(boolean near) {
@@ -22,18 +23,15 @@ public class AutoSwitchSidesLeft extends CommandGroup {
 		
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
 			addParallel(new AutoSetArmSetpointDelayed(-55, 0.5));
-			addSequential(new AutoPathFinderInvertedToSwitch(leftPaths[0], true));
-			addParallel(new AutoSetWristScaleScoring(0, false));
-			addSequential(new PathFinderRead(leftPaths[1]));
-		} else {
-			addParallel(new AutoSetArmSetpointDelayed(-55, 0.5));
-			addSequential(new PathFinderReadInverted(near ? leftPaths[2] : leftPaths[4], true));
-			addParallel(new AutoSetWristScaleScoring(0, false));
-			addSequential(new AutoPathFinderToSwitch(near ? leftPaths[3] : leftPaths[5]));
+			addSequential(new PathFinderReadInverted(leftPaths[0], true, 1.8));
+			addSequential(new PathFinderRead(leftPaths[1], false, 1.8));
+			addSequential(new AutoSetWristScaleScoring(0, false));
+			addSequential(new Delay(0.1));
+			addSequential(new AutoDropCube());
+			addSequential(new AutoReleaseWristSetpoint());
+		} else{
+			addSequential(new PathFinderReadInverted(leftPaths[0], true, 1.8));
 		}
 		
-		addSequential(new AutoDropCube());
-		
-		addSequential(new AutoReleaseWristSetpoint());
 	}
 }

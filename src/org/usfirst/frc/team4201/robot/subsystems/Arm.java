@@ -141,7 +141,16 @@ public class Arm extends PIDSubsystem {
 		//if(Robot.arm.getAngle() > Robot.arm.angleUpperLimit)
 		//	Robot.arm.setSetpoint(Robot.arm.angleUpperLimit - 2);
 		//else 
-		if(Math.abs(yAxis) > 0.05 && !lock) {
+
+		if (RobotMap.ArmState != 0)
+			if (Math.abs(yAxis) > 0.05)
+				if(yAxis > 0)
+					setDirectOutput(armOutput);
+				else
+					setDirectOutput(armOutput * 0.75);
+			else
+				setDirectOutput(0);
+		else if(Math.abs(yAxis) > 0.05 && !lock) {
 	    	disable();
 			if(RobotMap.ArmState != 0)
 				setDirectOutput(armOutput);
@@ -164,6 +173,7 @@ public class Arm extends PIDSubsystem {
 			enable();
 		}
 		
+			
 		previousArmOutput = armOutput;
 	}
 	

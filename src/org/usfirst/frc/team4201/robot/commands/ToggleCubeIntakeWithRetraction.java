@@ -111,7 +111,7 @@ public class ToggleCubeIntakeWithRetraction extends Command {
 		Shuffleboard.putBoolean("Intake", "Flush", cubeFlush);
 		Shuffleboard.putBoolean("Intake", "Stalled", cubeStalled);
 		
-		return (Robot.oi.leftButtons[3].get());// || Robot.oi.testButtons[2].get());
+		return (Robot.oi.leftButtons[3].get() || Robot.oi.rightButtons[5].get());// || Robot.oi.testButtons[2].get());
 	}
 	
     // Called once after isFinished returns true

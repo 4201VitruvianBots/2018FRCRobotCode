@@ -71,7 +71,7 @@ public class DriverMapping {
         //Robot.oi.leftButtons[2].whenPressed(new ToggleIntakePistons());					// Left Left Thumb Button Up: N/A
         //Robot.oi.leftButtons[4].whenPressed(new ToggleIntakePressure());					// Left Left Thumb Button Down: N/A
         //Robot.oi.leftButtons[3].whenPressed();											// Left Right Thumb Button Up: Retract Intake
-		Robot.oi.leftButtons[5].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Right Thumb Button Down: Deploy Intake
+		Robot.oi.leftButtons[3].whenPressed(new ToggleCubeIntakeWithRetraction());			// Left Right Thumb Button Down: Deploy Intake
         //Robot.oi.leftButtons[6].whenPressed(new SetPIDTunerValues());						// Forward Button: N/A
         
 		Robot.oi.rightButtons[0].toggleWhenPressed(new ToggleIntakePistons());				// Right Joystick Trigger: Toggle Intake Pistons
@@ -117,7 +117,6 @@ public class DriverMapping {
 	public static void MELITA_OPERATOR() {
 		//Robot.oi.xBoxButtons[2].whenPressed(new SetElevatorShiftersLow());		
 		//Robot.oi.xBoxButtons[3].whenPressed(new SetElevatorShiftersHigh());			
-        
 		Robot.oi.xBoxButtons[6].whenPressed(new KillElevator());							// Select: Kill elevator PIDController (Check button assignment)
 		Robot.oi.xBoxButtons[7].whenPressed(new KillAll());									// Start: Kill all PIDControllers (Check button assignment)
         

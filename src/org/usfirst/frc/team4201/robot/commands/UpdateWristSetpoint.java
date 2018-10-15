@@ -39,12 +39,16 @@ public class UpdateWristSetpoint extends Command {
  			else if(Robot.wrist.getAbsoluteAngle() < Robot.wrist.angleLowerLimit)
  				Robot.wrist.setSetpoint(Robot.wrist.angleLowerLimit + 2);
  			
-    		if(intaking || Robot.oi.xBoxButtons[WRIST_FORWARD].get() || Robot.oi.xBoxButtons[WRIST_BACKWARDS].get() || autoCommand){
+    		if(intaking || Robot.oi.xBoxButtons[WRIST_FORWARD].get() || Robot.oi.xBoxButtons[WRIST_BACKWARDS].get() || Robot.oi.xBoxButtons[2].get() || Robot.oi.xBoxButtons[3].get() || autoCommand){
     			
 	 			if(Robot.oi.xBoxButtons[WRIST_BACKWARDS].get())
 	    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(0);
 				else if(Robot.oi.xBoxButtons[WRIST_FORWARD].get())
 	    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(180);	// 45
+				else if(Robot.oi.xBoxButtons[2].get())
+	    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(45);
+				else if(Robot.oi.xBoxButtons[3].get())
+	    			setpoint = Robot.wrist.convertRelativeToAbsoluteSetpoint(135);
 				else if(autoCommand)
 					setpoint = autoSetpoint;
 				else if(intaking) {

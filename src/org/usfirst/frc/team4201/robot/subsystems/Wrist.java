@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team4201.robot.subsystems;
 
 import org.usfirst.frc.team4201.robot.Robot;
@@ -24,7 +25,7 @@ public class Wrist extends PIDSubsystem {
 	static double period = 0.01;
 	
 	public static int armLimiterLowerBound = -46;
-	public static int armLimiterUpperBound = 46;
+	public static int armLimiterUpperBound = 46;	
 
 	public double angleLowerLimit = -125;													// -75
 	public double angleUpperLimit = 150;													// 50 	
@@ -34,7 +35,7 @@ public class Wrist extends PIDSubsystem {
 	// 1. Look at wrist vavlue on Shuffleboard when wrist is parallel to ground
 	// 2. Determine adjustment value (Shuffleboard value * 2.33)
 	// 3. Add this to sensor offset
-	static double sensorOffset = 505; 			// 726 //431	//563;	//356								
+	static double sensorOffset = 462; 			// 726 //431	//563;	//356								
 	static double voltageLowerLimit = 0;
 	static double voltageUpperLimit = 5;
 
